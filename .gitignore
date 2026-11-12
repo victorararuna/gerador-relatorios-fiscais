@@ -1,0 +1,39 @@
+# Dados e saídas — nunca subir
+dados/
+saida/
+!dados/.gitkeep
+!saida/.gitkeep
+
+# Manuais e acervo da STN
+MDF_STN/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Excel — travas temporárias
+~$*.xlsx
+~$*.xls
+
+# Arquivos grandes e temporários
+*.zip
+*.7z
+*.tmp
+*.log

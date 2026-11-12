@@ -1,0 +1,6 @@
+# Dependências do gerador de relatórios fiscais
+#
+# O leitor de .xls (CFB/OLE2 + BIFF) e o extrator de PDF são implementados em
+# Python puro no próprio projeto — não há dependência de xlrd, pandas, PyPDF2
+# ou qualquer biblioteca de leitura binária.
+openpyxl>=3.1

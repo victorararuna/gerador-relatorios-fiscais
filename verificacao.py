@@ -275,6 +275,38 @@ def anexo14_2026() -> list[dict]:
             for k in rotulos]
 
 
+def rgf_anexo3_2026() -> list[dict]:
+    """RGF Anexo 3 de 2026: os limites saem da RCL ajustada do RREO Anexo 3.
+
+    Limite definido pelo Senado = 22% da RCL ajustada para endividamento;
+    limite de alerta = 90% dele. Confere o cruzamento RREO -> RGF.
+    """
+    base = os.path.join(SICONFI)
+    p_rreo = os.path.join(base, "rreo", "RREO_RREO-Anexo_03_24_2026_p4.csv")
+    p_rgf = os.path.join(base, "rgf", "RGF_RGF-Anexo_03_24_2026_p2.csv")
+    if not (os.path.exists(p_rreo) and os.path.exists(p_rgf)):
+        return []
+    rcl = None
+    for r in csv.DictReader(open(p_rreo, encoding="utf-8-sig"), delimiter=";"):
+        if (r["coluna"] == "TOTAL (ÚLTIMOS 12 MESES)"
+                and "AJUSTADA" in r["conta"].upper()
+                and "ENDIVIDAMENTO" in r["conta"].upper()):
+            rcl = float(r["valor"])
+    oficial = {}
+    for r in csv.DictReader(open(p_rgf, encoding="utf-8-sig"), delimiter=";"):
+        if r["coluna"] == "Até o 2º Quadrimestre":
+            oficial[r["conta"].strip()] = float(r["valor"])
+    if rcl is None:
+        return []
+    limite = rcl * 0.22
+    return [
+        _linha("2026 Q2 — limite do Senado (22% da RCL)",
+               limite, oficial.get("LIMITE DEFINIDO POR RESOLUÇÃO DO SENADO FEDERAL", 0.0)),
+        _linha("2026 Q2 — limite de alerta (90% do limite)",
+               limite * 0.9, oficial.get("LIMITE DE ALERTA (inciso III § 1º do art. 59 da LRF)", 0.0)),
+    ]
+
+
 def anexo2_rgf_2026() -> list[dict]:
     """RGF Anexo 2 de 2026, 2o quadrimestre (fechamento em agosto)."""
     import rgf_anexo2_dcl as D
@@ -403,6 +435,7 @@ FONTES = OrderedDict((
     ("RGF Anexo 1 - por Poder", anexo1_poder),
     ("RREO Anexo 2 - 2026", anexo2_rreo_2026),
     ("RGF Anexo 2 - 2026", anexo2_rgf_2026),
+    ("RGF Anexo 3 - 2026", rgf_anexo3_2026),
     ("RREO Anexo 7 - 2026", anexo7_2026),
     ("RREO Anexo 14 - 2026", anexo14_2026),
     ("RREO Anexo 4", anexo4),

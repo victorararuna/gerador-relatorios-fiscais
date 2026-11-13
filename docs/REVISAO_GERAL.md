@@ -1448,3 +1448,22 @@ mesmos argumentos.
 
 O erro não era de dado nem de regra: era de **calendário**. Um quadrimestre não é
 um bimestre, e o fechamento é em abril, agosto e dezembro — não em junho.
+
+
+### 17.33 RGF Anexo 3 de 2026 — o cruzamento RREO → RGF
+
+Os limites do RGF Anexo 3 não são apurados à parte: saem da RCL ajustada do
+RREO Anexo 3.
+
+```
+RCL ajustada para endividamento (RREO Anexo 3, 2026 Q2) ... 20.961.883.945,10
+x 22% .....................................................  4.611.614.467,92
+limite publicado no RGF Anexo 3 ...........................  4.611.614.467,92
+limite de alerta (90%) ....................................  4.150.453.021,13
+publicado .................................................  4.150.453.021,13
+```
+
+É uma conferência de **dois documentos**: a RCL vem do RREO, o limite do RGF, e o
+que os liga é uma constante legal (22%).
+
+**Livro: 306 células, 303 exatas (99,0%).**

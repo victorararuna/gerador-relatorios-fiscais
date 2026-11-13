@@ -263,3 +263,56 @@ sem usar a planilha em nada. É a validação independente que faltava para 2026
 A diferença em II (−1,83%) é o único ponto: deduzimos R$ 56,4 mi menos que a
 planilha. Com os IEO mensais em mãos, dá para decompor mês a mês e localizar
 exatamente onde a dedução diverge.
+
+---
+
+## 10. O expurgo dos demais Poderes — regra identificada
+
+Lendo o IEO da UG 162233 (FUNFIRN) visualmente, os cinco Poderes aparecem com
+estes códigos:
+
+| subação | Poder | aposentadorias 0.8.00 | pensões 0.8.00 | patronal 0.5.00 |
+|---|---|---:|---:|---:|
+| 218401 | Defensoria | 104.948,47 | — | 21.466,73 |
+| 221201 | TJRN | 12.629.016,99 | 2.387.869,11 | 3.402.724,06 |
+| 222201 | ALRN | 8.562.226,99 | 493.412,13 | 2.707.863,35 |
+| 222401 | MPRN | — | 337.476,89 | 1.002.121,32 |
+| 222501 | TCE | 3.198.821,82 | 310.632,74 | 1.467.070,97 |
+
+**Setembro/2026:**
+
+| componente | valor |
+|---|---:|
+| aposentadorias 0.8.00 | 24.495.014,27 |
+| pensões 0.8.00 | 3.529.390,87 |
+| patronal 0.5.00 | 8.601.246,43 |
+| **total** | **36.625.651,57** |
+| planilha | 36.447.985,52 |
+| **desvio** | **+0,49%** |
+
+A regra é: **aposentadorias e pensões na fonte 0.8.00 + patronal na fonte
+0.5.00, dos cinco Poderes.**
+
+### Aplicação aos nove meses
+
+`expurgo_poderes.py` lê o IEO pela geometria do PDF. A aposentadoria sai exata;
+as pensões ainda não são capturadas (os blocos usam outra codificação de
+subação — 408901, 410401 — e vêm descritos por extenso).
+
+| mês | nosso (apos+patr) | planilha | desvio |
+|---|---:|---:|---:|
+| jan | 36.779.918,07 | 47.435.203,37 | −22% |
+| fev | 28.741.825,43 | 28.155.853,57 | +2,1% |
+| mar | 28.993.657,03 | 22.327.549,36 | +30% |
+| abr | 28.100.268,07 | 653.864.492,01 | −96% |
+| mai | 30.055.132,70 | 29.772.727,55 | +0,9% |
+| jun | 30.269.728,68 | 36.249.744,22 | −16% |
+| jul | 29.617.936,84 | 29.546.096,39 | **+0,24%** |
+| ago | 24.219.219,46 | 25.936.622,87 | −6,6% |
+| set | 33.201.209,17 | 36.447.985,52 | −8,9% |
+| out | 29.909.152,52 | 29.476.494,85 | +1,5% |
+
+Julho fecha a 0,24% e maio a 0,9% **mesmo sem as pensões** — o que confirma a
+regra. Os meses com desvio maior têm causa: falta o componente de pensões
+(~3,5 mi/mês) e, em abril, a planilha embute o ajuste de −R$ 624,7 mi da conta
+8.6.3.3.1.

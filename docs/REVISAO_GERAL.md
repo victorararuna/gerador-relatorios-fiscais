@@ -1227,3 +1227,32 @@ Mesmo tratamento do Anexo 7: parametrizado por ano, mês e caminho do Anexo 3.
 
 Os três anexos do RREO de 2026 agora conferidos — 2, 7 e 14 — compartilham o
 mesmo padrão de parametrização, e o 3º quadrimestre usará os mesmos argumentos.
+
+
+### 17.24 A RCL — até onde a matriz alcança
+
+`app/anexo3_msc.py::ler_rcl()` **lê** a RCL do CSV do Siconfi; não a calcula. Isso
+é uma dependência real, e testei se a matriz a reproduz.
+
+**RECEITAS CORRENTES (I)** — sim, quase:
+
+| | valor |
+|---|---:|
+| MSC: 6.2.1.2 com natureza de receita prefixo "1", 12 meses de 2025 | 26.659.603.708,77 |
+| publicado (Anexo 3, 2025) | 26.656.696.864,94 |
+| diferença | **+2.906.843,83 (0,011%)** |
+
+**DEDUÇÕES (II)** — não fecha:
+
+| | valor |
+|---|---:|
+| MSC: 6.2.1.3 (sinal invertido, é conta redutora) | 5.943.961.755,92 |
+| publicado | 7.142.850.204,96 |
+| diferença | **−1.198.888.449,04** |
+
+A diferença deve estar na **dedução do FUNDEB** (R$ 3.175.469.290,58), que pode
+ser registrada em outra conta ou natureza.
+
+**Situação:** a RCL é o último item do projeto que ainda é lido em vez de
+apurado. As receitas correntes — 73% do caminho — já se reproduzem; falta o
+mapeamento das deduções.

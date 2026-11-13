@@ -460,3 +460,26 @@ prefixo.
 
 Isso explica por que a MSC deu (b) = 473.512.832,93 (+0,11%) e o balancete deu
 947.025.665,86 — mesmo dado, níveis diferentes.
+
+### 14.2 Casando pelo código de 9 dígitos
+
+A correção é casar a conta do balancete com a da MSC **pelos 9 primeiros dígitos**
+(`6.3.2.1.0.00.00.00` → `632100000`), que é o nível em que a matriz trabalha.
+Resultado:
+
+| coluna | nosso | oficial | desvio |
+|---|---:|---:|---:|
+| (b) RP liquidados de exercícios anteriores | 473.512.832,93 | 472.988.715,32 | **+0,11%** |
+| (c) RP liquidados do exercício | 1.416.358.378,77 | 1.405.948.478,02 | +0,74% |
+| (d) RP empenhados e não liquidados | 14.171.905,15 | 11.871.954,46 | +19% |
+| (a) Disponibilidade bruta | 1.560.981.070,85 | 1.088.399.547,00 | +472,6 mi |
+| (e) Demais obrigações | 1.064.354.511,09 | 2.230.614.991,10 | −52% |
+
+**(a) − (b) = 1.087.468.237,92** contra 1.088.399.547,00 oficiais → **0,09%**.
+
+Isso confirma o achado da seção anterior: a disponibilidade do anexo é apurada
+**líquida** dos RP liquidados de exercícios anteriores, apesar do nome "bruta".
+
+**(e)** ficou agora abaixo do oficial porque o casamento por 9 dígitos descarta
+as contas que a MSC não possui nesse nível (`218910105`, `218910108`). É o mesmo
+tipo de limitação do Anexo 2 — resolvível com a conta exata de 8 segmentos.

@@ -22,6 +22,9 @@ sys.path.insert(0, os.path.join(AQUI, "app"))
 
 BASE = r"C:\Users\victo\Downloads\Arquivos etonjones"
 NUM = r"-?\d{1,3}(?:\.\d{3})*,\d{2}"
+RE_PAR = re.compile(
+    r"(\d\d\.\d\d\.\d\d\.\d\d)\s+(\d\.\d\.\d\d\.\d{6})\s+[A-Za-zÀ-ÿ]"
+    r".*?\s+(" + NUM + r") (?:" + NUM + r" ){6}")
 RE_LINHA = re.compile(
     r"(\d\d\.\d\d\.\d\d\.\d\d)\s+([A-Za-zÀ-ÿ].*?)\s+(" + NUM + r") (?:" + NUM + r" ){6}")
 
@@ -76,12 +79,18 @@ def ler_comparativo(mes: str, ano: int = 2026) -> dict:
     cabecalho = re.sub(r"\s+", " ", paginas[0].texto())
     validar(*ler_cabecalho(cabecalho), ano, mes, os.path.basename(arquivo))
     valores = {}
+    pares = {}
     for pagina in paginas:
         texto = re.sub(r"\s+", " ", pagina.texto())
         for m in RE_LINHA.finditer(texto):
             nums = re.findall(NUM, m.group(0))
             if len(nums) >= 3:
                 valores[m.group(1)] = _num(nums[2])
+        for m in RE_PAR.finditer(texto):
+            nums = re.findall(NUM, m.group(0))
+            if len(nums) >= 3:
+                pares[(m.group(1), m.group(2))] = _num(nums[2])
+    valores["__pares__"] = pares
     return valores
 
 
@@ -121,6 +130,64 @@ def secoes(mes: str) -> dict:
         "nao_executada": nao_exec,
         "despesa_bruta": (vencimentos + patronal + (bruto_apos - ded_apos)
                           + (bruto_pens - ded_pens) + terceirizacao + nao_exec),
+    }
+
+
+#: fontes vinculadas ao RPPS (MAPA linhas 288 a 328)
+def _rpps(fonte: str) -> bool:
+    return fonte[2:6] in ("8.00", "8.01", "8.02", "8.03", "8.04")
+
+
+def quadro_ii(mes: str) -> dict:
+    """Despesas Não Computadas (MAPA L252 -> QUADRO L26)."""
+    import expurgo_poderes as E
+    import nao_executada as NE
+
+    c = ler_comparativo(mes)
+    pares = c.pop("__pares__", {})
+
+    indenizacoes = c.get("31.90.94.00", 0.0) + c.get("31.91.94.00", 0.0)
+    judicial = c.get("31.90.91.00", 0.0) + c.get("31.91.91.00", 0.0)
+    # DEA só é deduzida em dezembro (Nota Explicativa nº 4). A parcela
+    # executada na fonte 0.8.00 já entra deduzida no mês (MAPA linha 276).
+    dea_800 = sum(v for (nd, f), v in pares.items()
+                  if nd == "31.90.92.00" and f[2:6] == "8.00")
+    dea = dea_800
+
+    apos_rpps = sum(v for (nd, f), v in pares.items()
+                    if nd == "31.90.01.00" and _rpps(f))
+    pens_rpps = sum(v for (nd, f), v in pares.items()
+                    if nd == "31.90.03.00" and _rpps(f))
+    ieo = E.total(E.ler_periodo(mes))
+    # dedução dos demais Poderes: apenas as fontes vinculadas
+    ded_apos = ieo["aposentadorias"]
+    ded_pens = ieo["pensoes_rpps"]
+    inativos = (apos_rpps - ded_apos) + (pens_rpps - ded_pens)
+
+    # usa-se a linha agregada do grupo 31 em cada fonte (as linhas filhas
+    # repetem o mesmo valor e somá-las duplicaria)
+    acs = sum(v for (nd, f), v in pares.items()
+              if f[2:6] == "6.04" and nd in ("31.00.00.00", "33.90.34.00",
+                                             "33.90.91.34", "33.90.92.34"))
+    enfermagem_base = sum(v for (nd, f), v in pares.items()
+                          if f[2:6] == "6.05" and nd in ("31.00.00.00", "33.90.34.00",
+                                                         "33.90.91.34", "33.90.92.34"))
+    enfermagem = round(enfermagem_base * 0.72, 2)
+
+    return {
+        "indenizacoes": indenizacoes,
+        "judicial": judicial,
+        "dea": dea,
+        "inativos": inativos,
+        "apos_rpps": apos_rpps,
+        "pens_rpps": pens_rpps,
+        "ded_apos": ded_apos,
+        "ded_pens": ded_pens,
+        "acs": acs,
+        "enfermagem_base": enfermagem_base,
+        "enfermagem": enfermagem,
+        "total": indenizacoes + judicial + dea + inativos + acs + enfermagem,
+        "nao_executada": NE.valores().get(mes, 0.0),
     }
 
 

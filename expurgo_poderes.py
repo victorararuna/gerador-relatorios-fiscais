@@ -69,7 +69,7 @@ def ler_mes(arquivo: str) -> dict:
     import leitor_pdf as LP
 
     saida = {p: {"aposentadorias": 0.0, "pensoes": 0.0, "patronal": 0.0,
-                 "exerc_ant": 0.0, "indeniz": 0.0, "apos_tesouro": 0.0}
+                 "exerc_ant": 0.0, "indeniz": 0.0, "apos_tesouro": 0.0, "pensoes_rpps": 0.0}
              for p in PODERES}
     for pagina in LP.ler_pdf(arquivo):
         x_liq = next((it.x for it in pagina.itens
@@ -136,11 +136,15 @@ def ler_mes(arquivo: str) -> dict:
                     # pensões especiais e montepio do IPERN: Tesouro + RPPS
                     if elemento == "31.90.03" and (fonte or "").startswith(("0.5.00", "0.8.04")):
                         saida[poder]["pensoes"] += valor
+                        if (fonte or "").startswith("0.8.04"):
+                            saida[poder]["pensoes_rpps"] += valor
                     elif elemento == "31.90.92":
                         # DEA de pensões (MAPA linhas 234, 239 e 244)
                         saida[poder]["pensoes"] += valor
                 elif elemento == "31.90.03" and (fonte or "").startswith(("0.5.00", "0.8.00", "0.8.04")):
                     saida[poder]["pensoes"] += valor
+                    if (fonte or "").startswith(("0.8.00", "0.8.04")):
+                        saida[poder]["pensoes_rpps"] += valor
                 elif elemento == "31.90.92" and origem == "texto":
                     # DEA de pensões nos blocos da UG 162233 (linhas 234 e 244)
                     saida[poder]["pensoes"] += valor
@@ -161,7 +165,7 @@ ESTORNOS = {("Fevereiro", "MPRN"): -17144.40}
 def ler_periodo(mes: str) -> dict:
     """Soma as duas UGs do RPPS: 162233 (FUNFIRN) e 162011 (IPERN)."""
     somado = {p: {"aposentadorias": 0.0, "pensoes": 0.0, "patronal": 0.0,
-                  "exerc_ant": 0.0, "indeniz": 0.0, "apos_tesouro": 0.0}
+                  "exerc_ant": 0.0, "indeniz": 0.0, "apos_tesouro": 0.0, "pensoes_rpps": 0.0}
               for p in PODERES}
     for ug in ("162233", "162011"):
         arq = os.path.join(BASE, f"Imprimir Execução Orçamentária - IEO_{ug}_{mes}.pdf")
@@ -178,7 +182,7 @@ def ler_periodo(mes: str) -> dict:
 
 def total(dados: dict) -> dict:
     return {k: sum(d[k] for d in dados.values())
-            for k in ("aposentadorias", "pensoes", "patronal", "exerc_ant", "indeniz", "apos_tesouro")}
+            for k in ("aposentadorias", "pensoes", "patronal", "exerc_ant", "indeniz", "apos_tesouro", "pensoes_rpps")}
 
 
 def main() -> int:

@@ -613,3 +613,44 @@ O IEO imprime o valor do MPRN em fevereiro como **positivo** (17.144,40), mas
 é um **cancelamento de empenho**: o "Disponível" (46.343.855,60) é maior que o
 "Atualizado" (46.361.000,00). O manual registra o caso expressamente. Sem
 tratá-lo, a despesa bruta de fevereiro ficava R$ 34.288,80 acima.
+
+---
+
+## 15. ANEXO 1 APURADO DO ZERO — I, II e III exatos nos dez meses
+
+Com o Quadro II montado, a despesa líquida (III = I − II) fecha em todos os
+meses.
+
+### Despesas Não Computadas (II) — composição
+
+| componente | linhas | regra |
+|---|---|---|
+| Indenizações | 253-261 | 31.XX.94.00 bruto |
+| Decisão judicial | 262-273 | 31.XX.91.00 bruto |
+| Exercícios anteriores | 274-285 | **só em dezembro**; no mês entra apenas a parcela da FR 0.8.00 |
+| Inativos vinculados | 286-328 | 31.XX.01.00 e 03.00 nas fontes 8.00-8.04, menos os demais Poderes |
+| ACS (FR 604) | 329-333 | 100% do liquidado |
+| Enfermagem (FR 605) | 334-338 | **72% em 2026** |
+
+### Resultado
+
+| mês | Despesa Líquida (III) | diferença |
+|---|---:|---:|
+| janeiro | 1.449.033.494,41 | **0,00** |
+| fevereiro | 904.030.766,32 | **0,00** |
+| março | 872.968.664,12 | **0,00** |
+| abril | 303.562.294,70 | **0,00** |
+| maio | 934.354.741,80 | **0,00** |
+| junho | 929.475.861,77 | **0,00** |
+| julho | 905.691.808,26 | **0,00** |
+| agosto | 1.072.483.241,96 | **0,00** |
+| setembro | 1.095.755.711,68 | **0,00** |
+| outubro | 879.576.307,01 | **0,00** |
+
+**I, II e III exatos ao centavo nos dez meses de 2026.**
+
+### O detalhe da fonte 0.8.00
+
+A DEA (elemento 92) é deduzida apenas em dezembro, mas a parcela executada na
+**fonte 0.8.00** entra deduzida no próprio mês (MAPA linha 276): R$ 1.681,65 em
+janeiro e R$ 2.509,77 em junho — exatamente os valores que o manual registra.

@@ -153,7 +153,14 @@ ANEXO2 = {
     ],
 }
 
+#: exercício a que os valores de REFERENCIA pertencem
+EXERCICIO_REFERENCIA = 2024
+
 # referencia do RGF 2024 Q3 homologado
+#
+# ATENÇÃO: são valores FIXOS de 2024. Não servem para gerar outro exercício —
+# a RCL, as emendas e a DTP mudam a cada período. Para gerar um período novo,
+# apure pelo Anexo 3 do RREO (app/anexo3_msc.py) e pelo Anexo 1 (mapa_anexo1.py).
 REFERENCIA = {
     "Anexo 1": {
         "bruta": 13809083609.68, "vencimentos": 5727095551.73,
@@ -448,3 +455,15 @@ REFERENCIA["Anexo 6"] = {
     "a6_aro": 0.0, "a6_aro_limite": 1207856270.43,
     "a6_rp": 344186947.20, "a6_disp": -2451355160.94,
 }
+
+
+def referencia(exercicio: int) -> dict:
+    """Devolve os valores de referência, só para o exercício de 2024.
+
+    Existe para impedir o uso silencioso de valores fixos em outro período.
+    """
+    if exercicio != EXERCICIO_REFERENCIA:
+        raise ValueError(
+            f"REFERENCIA é do exercício {EXERCICIO_REFERENCIA}; "
+            f"para {exercicio} apure do Anexo 3 do RREO e do Anexo 1 do RGF")
+    return REFERENCIA

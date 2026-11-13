@@ -654,3 +654,55 @@ meses.
 A DEA (elemento 92) é deduzida apenas em dezembro, mas a parcela executada na
 **fonte 0.8.00** entra deduzida no próprio mês (MAPA linha 276): R$ 1.681,65 em
 janeiro e R$ 2.509,77 em junho — exatamente os valores que o manual registra.
+
+---
+
+## 16. Ajustes aplicados em 13/11/2026 (sem depender de dado novo)
+
+| anexo | antes | depois |
+|---|---|---|
+| **RGF Anexo 5** | 48 de 54 células | **90 de 90 exatas** |
+| **RREO Anexo 9 — receita** | não implementada | **exata** (2.491.012,67) |
+| **RGF Anexo 2** | 8 de 14 linhas | **9 de 14** (empréstimos internos) |
+| **RCL fixa no código** | valores de 2024 sem aviso | **trava que impede o uso em outro exercício** |
+
+### RGF Anexo 5
+
+Três correções em `rgf_anexo5_vinculacao.py`:
+
+1. filtro de Poder (`po` começando por "10") — a causa das 6 células residuais;
+2. coluna (e) pela **classe 8** (`821130200`/`821130300`) mais `863310000` na
+   linha de não vinculados;
+3. coluna (a) pela classe 1 com sinal D−C, excluindo a conta-espelho `111120000`.
+
+Resultado: **90 de 90 células exatas** (2025 Q3).
+
+### RREO Anexo 9 — receita
+
+O módulo não tinha o lado da receita. Implementado com a natureza de receita
+(prefixo "21" e "81") sobre `6.2.1.2` + `6.2.1.3`, separando refinanciamento
+pelos códigos `211102/211255/212102/212255`. Realizado: **2.491.012,67**, igual
+ao homologado; refinanciamento zero.
+
+### RGF Anexo 2
+
+`USAR_PAI` restrito a `2.1.2.1.1.02` e `2.1.2.1.3.02`: usa a conta-pai de nível 7
+em vez do filho terminal. Em 31/12/2025, Empréstimos Internos fecha em
+**849.909.956,58** — exato. As outras linhas não foram afetadas.
+
+A primeira tentativa aplicou o pai a todas as contas e **quebrou três linhas**
+(Contribuições Previdenciárias, Instituição Não Financeira, Demais Haveres) —
+por isso a regra ficou restrita.
+
+### Trava da RCL
+
+`app/layout_stn.py` tinha a cadeia da RCL fixa para 2024 (`17.259.989.216,73`).
+Agora há `EXERCICIO_REFERENCIA = 2024` e `referencia(exercicio)`, que **levanta
+erro** para qualquer outro exercício. Teste em `tests/test_layout_stn.py`.
+
+### O que continua pendente
+
+- RGF Anexo 2: as 5 linhas por Poder (disponibilidade, depósitos, haveres) e os
+  RP processados dependem do relatório por fonte.
+- Anexo 13: módulo ainda não criado.
+- RCL/limites: ligar o Anexo 3 ao bloco de limites.

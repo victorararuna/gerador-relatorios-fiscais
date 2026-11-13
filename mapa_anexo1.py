@@ -27,7 +27,9 @@ RE_LINHA = re.compile(
 
 #: aposentadorias — naturezas da parte bruta (MAPA linhas 183 a 202)
 APOSENTADORIAS = [
-    "31.90.01.01", "31.90.01.21", "31.90.01.26", "31.90.86.00",
+    # usa-se o agregado 31.90.01.00 no lugar dos subelementos: em janeiro/2026
+    # ele traz R$ 52.409.610,36 que a abertura por subelemento não evidencia
+    "31.90.01.00", "31.90.86.00",
     "31.90.91.03", "31.90.91.09", "31.90.91.12", "31.90.91.15",
     "31.90.91.18", "31.90.91.23", "31.90.91.24", "31.90.91.28",
     "31.90.91.29", "31.90.92.01", "31.90.92.02", "31.90.92.50",
@@ -114,3 +116,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

@@ -540,3 +540,37 @@ códigos próprios: 412301 (ALRN), 412401 (MPRN), 412501 (TCE), 412601 e 412701
 O desvio caiu de R$ 5,9 mi para **R$ 102.500,00 constantes** em quatro meses —
 um item fixo que ainda não é capturado. Janeiro continua fora da curva
 (−20,17 mi), provavelmente pelo mesmo subelemento que afetou as aposentadorias.
+
+### 13.2 Os R$ 102.500 eram DEA de pensões
+
+O desvio constante de R$ 102.500,00 por mês tinha endereço exato na aba MAPA:
+as linhas de **DEA de pensões (31.90.92.03)** — R$ 23.000,00 no MPRN (linha
+234) e R$ 79.500,00 no TJRN (linha 244).
+
+Conferindo a soma das dez linhas de dedução da MAPA em maio:
+
+| linha | Poder | natureza | valor |
+|---|---|---|---:|
+| 228 | ALRN | 31.90.03.01 | 960.076,62 |
+| 229 | ALRN | 31.90.03.05 | 479.198,94 |
+| 232 | MPRN | 31.90.03.01 | 662.939,10 |
+| 233 | MPRN | 31.90.03.05 | 382.276,58 |
+| 234 | MPRN | 31.90.92.03 | 23.000,00 |
+| 237 | TCE | 31.90.03.01 | 605.907,80 |
+| 238 | TCE | 31.90.03.05 | 185.511,48 |
+| 240 | TJRN | 31.90.03.01 | 3.702.290,56 |
+| 241 | TJRN | 31.90.03.05 | 2.122.761,12 |
+| 244 | TJRN | 31.90.92.03 | 79.500,00 |
+| | | **total** | **9.203.462,20** |
+
+Idêntico à dedução da planilha.
+
+### Placar das pensões
+
+| mês | diferença |
+|---|---:|
+| janeiro | −20.427.820,81 |
+| fevereiro a outubro | **0,00** (9 meses) |
+
+**9 de 10 exatos.** O único desvio é janeiro, o mesmo mês que resiste nas
+aposentadorias.

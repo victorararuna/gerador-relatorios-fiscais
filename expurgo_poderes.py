@@ -136,7 +136,13 @@ def ler_mes(arquivo: str) -> dict:
                     # pensões especiais e montepio do IPERN: Tesouro + RPPS
                     if elemento == "31.90.03" and (fonte or "").startswith(("0.5.00", "0.8.04")):
                         saida[poder]["pensoes"] += valor
+                    elif elemento == "31.90.92":
+                        # DEA de pensões (MAPA linhas 234, 239 e 244)
+                        saida[poder]["pensoes"] += valor
                 elif elemento == "31.90.03" and (fonte or "").startswith(("0.5.00", "0.8.00", "0.8.04")):
+                    saida[poder]["pensoes"] += valor
+                elif elemento == "31.90.92" and origem == "texto":
+                    # DEA de pensões nos blocos da UG 162233 (linhas 234 e 244)
                     saida[poder]["pensoes"] += valor
             saida[poder]["patronal"] += patr_050
             # na fonte 0.5.00 o total da fonte é a soma dos elementos: o que não
@@ -187,6 +193,7 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
 
 
 

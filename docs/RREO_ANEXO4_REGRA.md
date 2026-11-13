@@ -483,3 +483,34 @@ Isso confirma o achado da seção anterior: a disponibilidade do anexo é apurad
 **(e)** ficou agora abaixo do oficial porque o casamento por 9 dígitos descarta
 as contas que a MSC não possui nesse nível (`218910105`, `218910108`). É o mesmo
 tipo de limitação do Anexo 2 — resolvível com a conta exata de 8 segmentos.
+
+### 14.3 A descoberta: as colunas usam contas da classe 8
+
+As abas `COLUNA (A)` e `COLUNA (E)` do arquivo de trabalho revelam o critério
+real, que o MAPEAMENTO não detalha:
+
+```
+COLUNA (A): 8.2.1.7.4.01 + 1.1.1.1.1.01.00.00
+COLUNA (E): CC 8.2.1.1.3.02 e 03
+```
+
+**A coluna (e) — Demais Obrigações Financeiras — é apurada em contas da classe
+8**, não em contas patrimoniais. E elas existem na matriz:
+
+| conta | saldo dez/2025 |
+|---|---:|
+| 821130200 (8.2.1.1.3.02) | 958.735.119,08 |
+| 821130300 (8.2.1.1.3.03) | 665.604.500,18 |
+| **soma** | **1.624.339.619,26** |
+
+A aba mostra 1.636.013.145,19 para os recursos não vinculados — 0,7% de
+distância.
+
+Isso derruba uma conclusão anterior deste documento: eu havia registrado que
+"a classe 8 não serve para o Anexo 5 porque não há de-para FR → categoria".
+**Há.** As contas de controle da classe 8 carregam a fonte, e é delas que a
+coluna (e) sai.
+
+Para a coluna (a), o critério cita `8.2.1.7.4.01`, que não existe com esse
+código na matriz de 2025; a conta equivalente é `821110100` (8.2.1.1.1.01),
+com saldo de 1.583.591.750,07.

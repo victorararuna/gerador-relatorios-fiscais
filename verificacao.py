@@ -320,6 +320,69 @@ def gerar(caminho: str | None = None) -> str:
     return destino
 
 
+#: causa documentada de cada divergencia conhecida (prefixo do item -> texto)
+CAUSAS = (
+    ("Abril — I", "Empenho de marco liquidado em abril sem complemento. O "
+                  "homologado segue o SIGEF; a planilha e o motor mantem o liquidado."),
+    ("Abril — III", "Idem: decorre da mesma diferenca em I."),
+    ("Demais Dívidas Contratuais", "O RN publica zero nessa linha e aloca o valor em "
+                                   "'Outras Dividas' - decisao de classificacao do ente."),
+    ("Disponibilidade de Caixa Bruta", "Exige os blocos por Poder (abas Disponibilidade "
+                                       "da planilha); o balancete e consolidado do Executivo."),
+    ("Restos a Pagar Processados", "Exige o relatorio 'Execucao Orcamentaria por Fonte' "
+                                   "(bloco de RP) por Poder, com a dimensao fonte de recursos."),
+    ("Depósitos Restitu", "Exige os blocos por Poder (aba Depositos)."),
+    ("Demais Haveres", "Exige os blocos por Poder (aba D+ Haveres)."),
+    ("Aposentadorias civis", "Desvio de 0,02%: diferenca de classificacao nas naturezas "
+                             "de aposentadoria civil; em investigacao."),
+    ("Pensões por morte civis", "Desvio de 0,15%: diferenca de classificacao nas naturezas "
+                                "de pensao civil; em investigacao."),
+)
+
+
+def _causa(item: str) -> str:
+    for prefixo, texto in CAUSAS:
+        if item.startswith(prefixo) or prefixo in item:
+            return texto
+    return "sem causa identificada"
+
+
+def relatorio_divergencias(destino: str | None = None) -> str:
+    """Escreve docs/DIVERGENCIAS.md a partir do que a verificacao aponta."""
+    linhas = ["# Divergências conhecidas", "",
+              "Gerado por `verificacao.relatorio_divergencias()`. Não editar à mão.", "",
+              "| anexo | item | apurado | referência | desvio | causa |",
+              "|---|---|---:|---:|---:|---|"]
+    total = exatas = 0
+    for nome, funcao in FONTES.items():
+        for l in funcao():
+            total += 1
+            exatas += bool(l["ok"])
+            if l["ok"]:
+                continue
+            linhas.append(
+                f"| {nome} | {l['item'][:52]} | {l['apurado']:,.2f} | "
+                f"{l['referencia']:,.2f} | {l['desvio']:,.2f} | {_causa(l['item'])} |")
+    grupos = motor()
+    for anexo, itens in grupos.items():
+        if anexo in FONTES:
+            continue
+        for l in itens:
+            total += 1
+            exatas += bool(l["ok"])
+            if l["ok"]:
+                continue
+            linhas.append(
+                f"| {anexo} | {l['item'][:52]} | {l['apurado']:,.2f} | "
+                f"{l['referencia']:,.2f} | {l['desvio']:,.2f} | {_causa(l['item'])} |")
+    linhas += ["", f"**{exatas} de {total} células exatas** "
+                   f"({total - exatas} divergentes, todas acima com causa).", ""]
+    caminho = destino or os.path.join(AQUI, "docs", "DIVERGENCIAS.md")
+    with open(caminho, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(linhas))
+    return caminho
+
+
 def main() -> int:
     destino = gerar()
     print(f"planilha gerada: {destino}\n")
@@ -337,6 +400,7 @@ def main() -> int:
         total += len(linhas); exatas_total += exatas
         print(f"{anexo:<22}{len(linhas):>9}{exatas:>8}{len(linhas) - exatas:>13}")
     print(f"\n{exatas_total} de {total} células exatas")
+    print("relatorio de divergencias:", relatorio_divergencias())
     return 0
 
 

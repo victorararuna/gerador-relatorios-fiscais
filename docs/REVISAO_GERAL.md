@@ -825,3 +825,24 @@ publicado é **250.915.256,72**, e é ele que o motor apura.
 Duas exatas, duas com desvio documentado abaixo de 0,15%.
 
 O livro de verificação passou a **276 células, 267 exatas**.
+
+
+### 17.6 Relatório de divergências gerado do livro
+
+`verificacao.relatorio_divergencias()` escreve `docs/DIVERGENCIAS.md` a partir do
+próprio livro de verificação. Não é escrito à mão: se o livro mudar, o relatório
+muda junto — e não há como um divergência "desaparecer" da documentação.
+
+Estado atual: **267 de 276 células exatas**; as 9 divergentes estão listadas com
+valor, referência, desvio e causa.
+
+| anexo | divergentes | situação |
+|---|---:|---|
+| RGF Anexo 1 | 2 | abril: empenho de março liquidado em abril (−5.241,65) |
+| RGF Anexo 2 | 5 | blocos por Poder e RP por fonte — depende de extração |
+| RREO Anexo 4 | 2 | 0,02% e 0,15% — classificação fina de naturezas, em investigação |
+
+Sobre as duas do Anexo 4: testei o mapeamento por sufixo de natureza e o desvio
+**não** corresponde a uma natureza isolada (o sufixo 9403 vale 926.078,43 e o
+desvio das pensões é 929.796,71). É diferença de classificação dentro do
+conjunto, não uma linha trocada.

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Testes do de-para do Anexo 1 (app/anexo1_msc.py)."""
 from __future__ import annotations
 
@@ -160,12 +160,14 @@ class TestApuracao(unittest.TestCase):
         ])
         d = deducoes(Acervo(self.pasta), [(2025, 1)])
         self.assertEqual(d["vinculados"], 200.0)
-        self.assertEqual(d["enfermagem_percentual"], 0.80)  # ADCT, exercício de 2025
-        self.assertAlmostEqual(d["enfermagem"], 80.0)
+        self.assertEqual(d["enfermagem_percentual"], 0.81)  # EC 127/2022: 2026 = 72%, logo 2025 = 81%
+        self.assertAlmostEqual(d["enfermagem"], 81.0)   # 100 x 0,81
 
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
 
 
 

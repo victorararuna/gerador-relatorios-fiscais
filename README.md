@@ -4,8 +4,8 @@ Ferramenta que apura os demonstrativos fiscais do **Rio Grande do Norte** a
 partir das **Matrizes de Saldos Contábeis (MSC)** do Siconfi e dos relatórios do
 **SIGEF/RN**, e confere cada célula contra o arquivo homologado.
 
-Estado em **13/11/2026**: **272 de 281 células exatas** (95,9%), em 18 abas de
-verificação. As 9 divergências estão em
+Estado em **13/11/2026**: **288 de 293 células exatas** (98,3%), em 24 abas de
+verificação (23 de anexo e uma de resumo). As 5 divergências estão em
 [`docs/DIVERGENCIAS.md`](docs/DIVERGENCIAS.md), cada uma com valor, referência e
 causa.
 
@@ -40,12 +40,12 @@ python verificar_anos.py            # barra extração de outro exercício
 | anexo | situação |
 |---|---|
 | **RGF Anexo 1** — despesa com pessoal | **exato em 10 de 10 meses** (I, II e III); por Poder, 100 de 100 |
-| **RGF Anexo 2** — DCL | 9 de 14 linhas |
+| **RGF Anexo 2** — DCL | **11 de 14 linhas** |
 | **RGF Anexo 3** — garantias | exato |
 | **RGF Anexo 4** — limites | exato |
 | **RGF Anexo 5** — disponibilidades | **90 de 90 células** e os 5 totais contra o Siconfi |
 | **RGF Anexo 6** — limites | exato |
-| **RREO Anexos 1, 2, 3, 7, 9, 14** | exatos |
+| **RREO Anexos 1, 2, 3, 7, 9, 14** | exatos (2, 7 e 14 também em 2026) |
 | **RREO Anexo 4** — previdenciário | 2 de 4 (as outras a 0,02% e 0,15%) |
 | **RREO Anexo 13** — PPP | **7 de 7 valores**, projeções exatas |
 
@@ -89,7 +89,8 @@ bater com o GND 31 — e bate.
 | item | depende de |
 |---|---|
 | RGF Anexo 2 — RP processados | relatório "Execução Orçamentária por Fonte" (bloco de RP), por Poder |
-| RGF Anexo 2 — 3 linhas por Poder | abertura de disponibilidade, depósitos e haveres da equipe |
+| RGF Anexo 2 — Disponibilidade e Haveres | **fechadas**; resta a abertura de 8 segmentos dos Depósitos |
+| RCL | é **lida** do Anexo 3: o bloco RPPS de deduções não existe na matriz |
 | RREO Anexo 4 — 2 linhas | classificação fina de naturezas (0,02% e 0,15%) |
 
 ---

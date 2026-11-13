@@ -38,6 +38,9 @@ POR_TEXTO = (
     ("pensionistas - defensoria", "DPRN"),
     ("pensionistas - defensoria publica", "DPRN"),
 )
+#: pensões especiais e montepio executadas na UG 162011 (IPERN)
+PENSAO_ESP = {"412301": "ALRN", "412401": "MPRN", "412501": "TCE",
+              "412601": "TJRN", "412701": "TJRN"}
 PODERES = ("DPRN", "TJRN", "ALRN", "MPRN", "TCE")
 
 RE_CODIGO = re.compile(r"^(\d{6})(?:\s|$)")
@@ -88,6 +91,8 @@ def ler_mes(arquivo: str) -> dict:
             texto = _sem_acento(" ".join(i.texto for _, itens in bloco["linhas"] for i in itens))
             poder = POR_CODIGO.get(bloco["codigo"])
             origem = "codigo"
+            if poder is None and bloco["codigo"] in PENSAO_ESP:
+                poder, origem = PENSAO_ESP[bloco["codigo"]], "pensao_esp"
             if poder is None:
                 for chave, nome in POR_TEXTO:
                     if chave in texto:
@@ -127,7 +132,11 @@ def ler_mes(arquivo: str) -> dict:
                         saida[poder]["exerc_ant"] += valor
                     elif elemento == "31.90.94":
                         saida[poder]["indeniz"] += valor
-                elif elemento == "31.90.03" and (fonte or "").startswith(("0.8.00", "0.8.04")):
+                elif origem == "pensao_esp":
+                    # pensões especiais e montepio do IPERN: Tesouro + RPPS
+                    if elemento == "31.90.03" and (fonte or "").startswith(("0.5.00", "0.8.04")):
+                        saida[poder]["pensoes"] += valor
+                elif elemento == "31.90.03" and (fonte or "").startswith(("0.5.00", "0.8.00", "0.8.04")):
                     saida[poder]["pensoes"] += valor
             saida[poder]["patronal"] += patr_050
             # na fonte 0.5.00 o total da fonte é a soma dos elementos: o que não
@@ -135,6 +144,21 @@ def ler_mes(arquivo: str) -> dict:
             if origem == "codigo" and total_050 > patr_050:
                 saida[poder]["apos_tesouro"] += total_050 - patr_050
     return saida
+
+
+def ler_periodo(mes: str) -> dict:
+    """Soma as duas UGs do RPPS: 162233 (FUNFIRN) e 162011 (IPERN)."""
+    somado = {p: {"aposentadorias": 0.0, "pensoes": 0.0, "patronal": 0.0,
+                  "exerc_ant": 0.0, "indeniz": 0.0, "apos_tesouro": 0.0}
+              for p in PODERES}
+    for ug in ("162233", "162011"):
+        arq = os.path.join(BASE, f"Imprimir Execução Orçamentária - IEO_{ug}_{mes}.pdf")
+        if not os.path.exists(arq):
+            continue
+        for poder, vals in ler_mes(arq).items():
+            for k, v in vals.items():
+                somado[poder][k] += v
+    return somado
 
 
 def total(dados: dict) -> dict:
@@ -163,6 +187,9 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+
 
 
 

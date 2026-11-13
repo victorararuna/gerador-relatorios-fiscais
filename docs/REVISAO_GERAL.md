@@ -517,3 +517,26 @@ diferença ................... 52.409.610,36  <- igual à lacuna
 Há um subelemento executado só em janeiro que o relatório não abre na listagem
 — provavelmente aposentadorias intra-orçamentárias (31.91.01). É o único ponto
 aberto da seção.
+
+### 13.1 Pensões — o IPERN entrou
+
+As pensões especiais e o montepio são executados na **UG 162011 (IPERN)**, com
+códigos próprios: 412301 (ALRN), 412401 (MPRN), 412501 (TCE), 412601 e 412701
+(TJRN). Somando as duas UGs e incluindo as fontes 0.5.00 e 0.8.04:
+
+| mês | apurado | planilha | diferença |
+|---|---:|---:|---:|
+| janeiro | 74.267.123,37 | 94.440.794,10 | −20.173.670,73 |
+| fevereiro | 76.131.864,76 | 75.695.508,43 | 436.356,33 |
+| março | 76.348.551,34 | 76.238.461,25 | 110.090,09 |
+| abril | 76.269.203,03 | 76.124.731,24 | 144.471,79 |
+| maio | 76.160.520,54 | 76.058.020,54 | **102.500,00** |
+| junho | 76.388.908,67 | 76.286.408,67 | **102.500,00** |
+| julho | 76.552.217,40 | 76.442.836,31 | 109.381,09 |
+| agosto | 76.309.794,85 | 76.207.294,85 | **102.500,00** |
+| setembro | 77.272.761,35 | 77.112.359,14 | 160.402,21 |
+| outubro | 78.472.225,82 | 78.369.725,82 | **102.500,00** |
+
+O desvio caiu de R$ 5,9 mi para **R$ 102.500,00 constantes** em quatro meses —
+um item fixo que ainda não é capturado. Janeiro continua fora da curva
+(−20,17 mi), provavelmente pelo mesmo subelemento que afetou as aposentadorias.

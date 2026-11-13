@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """MAPA do RGF Anexo 1 — construção a partir dos relatórios do SIGEF/RN.
 
 Aplica a especificação de `docs/MANUAL_MAPA_ANEXO1.md` aos arquivos de
@@ -82,8 +82,7 @@ def secoes(mes: str) -> dict:
     total_gnd31 = comp.get("31.00.00.00", 0.0)
 
     bruto_apos = sum(comp.get(nd, 0.0) for nd in APOSENTADORIAS)
-    ieo = E.total(E.ler_mes(os.path.join(
-        E.BASE, f"Imprimir Execução Orçamentária - IEO_{E.UG}_{mes}.pdf")))
+    ieo = E.total(E.ler_periodo(mes))
     ded_apos = ieo["aposentadorias"] + ieo["apos_tesouro"]
 
     bruto_pens = sum(comp.get(nd, 0.0) for nd in PENSOES)
@@ -116,4 +115,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
 

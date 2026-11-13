@@ -1256,3 +1256,31 @@ ser registrada em outra conta ou natureza.
 **Situação:** a RCL é o último item do projeto que ainda é lido em vez de
 apurado. As receitas correntes — 73% do caminho — já se reproduzem; falta o
 mapeamento das deduções.
+
+
+### 17.25 A RCL — os componentes das deduções
+
+Decompus o 6.2.1.3 e **dois dos cinco componentes aparecem exatos**:
+
+| componente | conta | MSC | publicado |
+|---|---|---:|---:|
+| Dedução para formação do FUNDEB | `621310100` | 3.175.469.290,58 | 3.175.469.290,58 |
+| Transferências constitucionais e legais | `621310200` | 2.733.005.621,51 | 2.733.005.621,51 |
+| outros | `621390000` | 35.486.843,83 | — |
+| **total do 6.2.1.3** | | **5.943.961.755,92** | **7.142.850.204,96** |
+
+O que falta é o **bloco do RPPS**, que não está no 6.2.1.3:
+
+| componente | publicado |
+|---|---:|
+| Contribuição do servidor para o plano de previdência | 1.110.322.676,50 |
+| Compensações financeiras entre regimes | 115.005.627,07 |
+| Rendimentos de aplicações previdenciárias | 9.046.989,30 |
+| **total** | **1.234.375.292,87** |
+
+5.943.961.755,92 + 1.234.375.292,87 = 7.178.337.048,79 — um pouco acima do
+publicado (7.142.850.204,96), porque o `621390000` provavelmente já contém parte
+desses itens.
+
+**Situação da RCL:** 4 dos 7 componentes identificados (receitas correntes, FUNDEB
+e transferências exatos; o bloco RPPS localizado em valor, não em conta).

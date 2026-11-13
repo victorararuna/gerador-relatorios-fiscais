@@ -574,3 +574,42 @@ Idêntico à dedução da planilha.
 
 **9 de 10 exatos.** O único desvio é janeiro, o mesmo mês que resiste nas
 aposentadorias.
+
+---
+
+## 14. DESPESA BRUTA FECHADA — 10 de 10 meses exatos
+
+Aplicando a especificação da MAPA aos relatórios do SIGEF/RN, a despesa bruta
+com pessoal do Poder Executivo foi reconstruída do zero e confere com a
+planilha da equipe **ao centavo, em todos os dez meses de 2026**.
+
+| mês | apurado | planilha | diferença |
+|---|---:|---:|---:|
+| janeiro | 1.756.015.131,06 | 1.756.015.131,06 | **0,00** |
+| fevereiro | 1.168.704.572,00 | 1.168.704.572,00 | **0,00** |
+| março | 1.249.898.879,52 | 1.249.898.879,52 | **0,00** |
+| abril | 680.626.929,97 | 680.626.929,97 | **0,00** |
+| maio | 1.244.370.847,54 | 1.244.370.847,54 | **0,00** |
+| junho | 1.309.400.172,65 | 1.309.400.172,65 | **0,00** |
+| julho | 1.261.103.623,98 | 1.261.103.623,98 | **0,00** |
+| agosto | 1.196.626.531,82 | 1.196.626.531,82 | **0,00** |
+| setembro | 1.622.567.277,79 | 1.622.567.277,79 | **0,00** |
+| outubro | 1.372.795.749,49 | 1.372.795.749,49 | **0,00** |
+
+### As seis seções, todas fechadas
+
+| seção | linhas | fonte |
+|---|---|---|
+| 2.1 Vencimentos | 8-101 | Comparativo |
+| 2.2 Patronal | 102-180 | Comparativo (expurgo por 31.91.13.xx) |
+| 2.3 Aposentadorias | 182-208 | Comparativo + IEO (0.8.00 e 0.5.00) |
+| 2.4 Pensões | 209-244 | Comparativo + IEO 162233 e 162011 |
+| 2.5 Terceirização | 245-249 | Comparativo (33.90.34.00) |
+| 2.6 Não executada | 250-251 | Balancetes 8.6.3.3.1 |
+
+### O último item: o estorno de fevereiro
+
+O IEO imprime o valor do MPRN em fevereiro como **positivo** (17.144,40), mas
+é um **cancelamento de empenho**: o "Disponível" (46.343.855,60) é maior que o
+"Atualizado" (46.361.000,00). O manual registra o caso expressamente. Sem
+tratá-lo, a despesa bruta de fevereiro ficava R$ 34.288,80 acima.

@@ -152,6 +152,12 @@ def ler_mes(arquivo: str) -> dict:
     return saida
 
 
+#: Estornos que o IEO imprime como valor positivo. Quando o "Disponível" fica
+#: maior que o "Atualizado", o empenho foi cancelado — o manual registra o caso
+#: do MPRN em fevereiro/2026 (-R$ 17.144,40 na fonte 0.8.00).
+ESTORNOS = {("Fevereiro", "MPRN"): -17144.40}
+
+
 def ler_periodo(mes: str) -> dict:
     """Soma as duas UGs do RPPS: 162233 (FUNFIRN) e 162011 (IPERN)."""
     somado = {p: {"aposentadorias": 0.0, "pensoes": 0.0, "patronal": 0.0,
@@ -164,6 +170,9 @@ def ler_periodo(mes: str) -> dict:
         for poder, vals in ler_mes(arq).items():
             for k, v in vals.items():
                 somado[poder][k] += v
+    for (m, poder), valor in ESTORNOS.items():
+        if m == mes and valor < 0 and somado[poder]["aposentadorias"] > 0:
+            somado[poder]["aposentadorias"] = -abs(somado[poder]["aposentadorias"])
     return somado
 
 

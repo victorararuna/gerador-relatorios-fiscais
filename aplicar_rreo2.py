@@ -103,13 +103,19 @@ def coluna_alvo(ws, linha_crit: int) -> int:
 
 
 def linha_de_criterio(ws) -> list:
-    """Linhas do mapeamento que trazem critérios de conta (linha 15, 104, 141…)."""
+    """Linhas do mapeamento que trazem critérios de conta utilizáveis.
+
+    Só entram as linhas que têm uma **coluna acumulada** com critério de conta:
+    as linhas 96/97, por exemplo, só descrevem as colunas de saldo e não marcam
+    início de bloco.
+    """
     linhas = []
     for l in range(1, ws.max_row + 1):
         for c in range(4, ws.max_column + 1):
             v = ws.cell(l, c).value
             if isinstance(v, str) and v.strip().upper().startswith("CC"):
-                linhas.append(l)
+                if coluna_alvo(ws, l):
+                    linhas.append(l)
                 break
     return linhas
 
@@ -152,8 +158,14 @@ def criterio_conta(ws, coluna: int = 0) -> str:
     return ""
 
 
-def ler_linhas(ws) -> list:
-    """(indentação, especificação, filtro) de cada linha."""
+def ler_linhas(ws, criterios: list | None = None) -> list:
+    """(indentação, especificação, filtro, valor, linha, bloco) de cada linha.
+
+    O mapeamento tem **vários blocos** (receita, despesa, intra-receita,
+    intra-despesa), cada um com sua própria linha de critérios. O bloco entra na
+    estrutura para que a hierarquia não misture rótulos repetidos entre blocos.
+    """
+    criterios = criterios or []
     saida = []
     for l in range(16, ws.max_row + 1):
         bruto = ws.cell(l, 1).value
@@ -166,7 +178,8 @@ def ler_linhas(ws) -> list:
         indent = len(texto) - len(texto.lstrip())
         filtro = ws.cell(l, 2).value
         filtro = str(filtro).strip() if filtro is not None else ""
-        saida.append([indent, esp, filtro, None, l])   # 4º = valor, 5º = linha
+        bloco = max([c for c in criterios if c <= l], default=0)
+        saida.append([indent, esp, filtro, None, l, bloco])
     return saida
 
 
@@ -190,26 +203,29 @@ ano_global = 2026
 
 
 def calcular_hierarquia(linhas: list) -> None:
-    """Preenche os valores: folhas por filtro, ramos por soma dos filhos."""
+    """Ramos = soma dos filhos diretos; folhas = filtro. Hierarquia por bloco.
+
+    Filhos só valem dentro do mesmo bloco: o mapeamento repete rótulos nos
+    blocos intra, e misturá-los contaminava a soma.
+    """
     n = len(linhas)
-    # para cada linha, o índice da próxima linha com indentação menor ou igual
     for i in range(n - 1, -1, -1):
-        indent, esp, filtro, valor = linhas[i][:4]
-        if valor is not None:
-            continue
-        # filhos: linhas seguintes com indentação maior
+        indent, esp, filtro, valor, linha_excel, bloco = linhas[i]
         filhos = []
         j = i + 1
-        while j < n and linhas[j][0] > indent:
+        while j < n and linhas[j][5] == bloco and linhas[j][0] > indent:
             filhos.append(j)
             j += 1
-        # só considera filhos diretos (a primeira geração)
         diretos = []
         for k in filhos:
             if not diretos or linhas[k][0] == linhas[diretos[0]][0]:
                 diretos.append(k)
         if diretos:
-            linhas[i][3] = sum(linhas[k][3] or 0.0 for k in diretos)
+            soma = sum(linhas[k][3] or 0.0 for k in diretos)
+            # o valor apurado pelo filtro do ramo prevalece quando existe; só se
+            # ele vier zerado (filtro insatisfazível) é que se usa a soma
+            if not valor:
+                linhas[i][3] = soma
 
 
 def main(anexo_chave: str, ano: int, bimestre: int, coluna: int = 0) -> int:
@@ -221,18 +237,18 @@ def main(anexo_chave: str, ano: int, bimestre: int, coluna: int = 0) -> int:
         return 1
     ws = wb[wb.sheetnames[0]]
     crit = criterio_conta(ws, coluna)
-    linhas = ler_linhas(ws)
+    criterios = linha_de_criterio(ws)
+    linhas = ler_linhas(ws, criterios)
     print(f"mapeamento: {os.path.basename(caminho)}")
     print(f"critério de conta: {crit[:70]}")
-    print(f"linhas: {len(linhas)}")
+    print(f"linhas: {len(linhas)}  blocos: {sorted(set(l[5] for l in linhas))}")
 
     acervo = Acervo(ACERVO)
     meses = list(range(1, bimestre * 2 + 1))
-    criterios = linha_de_criterio(ws)
 
     # apura as folhas (linhas com filtro válido)
     for ln in linhas:
-        indent, esp, filtro, _, linha_excel = ln
+        indent, esp, filtro, _, linha_excel, _bloco = ln
         fl = F.interpretar(filtro)
         if not fl.invalido:
             crit_ln = criterio_da_linha(ws, linha_excel, criterios) or crit
@@ -323,6 +339,7 @@ if __name__ == "__main__":
                     help="coluna do mapeamento (padrão: a acumulada \"(c)\")")
     a = ap.parse_args()
     raise SystemExit(main(a.anexo, a.ano, a.bimestre))
+
 
 
 

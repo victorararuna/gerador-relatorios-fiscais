@@ -1353,3 +1353,15 @@ dizia **299 células, 294 exatas**.
 
 Corrigido com uma função `_grupos()` usada pelos dois. Agora os dois dizem
 294 de 299.
+
+
+### 17.29 Trava de coerência entre README e livro
+
+`tests/test_coerencia.py` compara o número declarado no README com o total da aba
+RESUMO e falha se divergirem. Também verifica que **nenhuma divergência fica sem
+causa escrita** na planilha.
+
+É a trava que faltava: o bug da rodada 68 nasceu de o console contar diferente da
+planilha. Agora, se o README mentir sobre o que a planilha contém, o teste avisa.
+
+Suíte: **10 arquivos, 72 testes**.

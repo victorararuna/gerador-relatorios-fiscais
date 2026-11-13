@@ -88,6 +88,7 @@ def ler_comparativo(mes: str, ano: int = 2026) -> dict:
 def secoes(mes: str) -> dict:
     """As seções da MAPA que já têm regra fechada."""
     import expurgo_poderes as E
+    import nao_executada as NE
 
     comp = ler_comparativo(mes)
     total_gnd31 = comp.get("31.00.00.00", 0.0)
@@ -103,6 +104,7 @@ def secoes(mes: str) -> dict:
     patronal = patronal_bruto - sum(comp.get(nd, 0.0) for nd in EXPURGO_PATRONAL)
     vencimentos = (comp.get("31.00.00.00", 0.0) - sum(comp.get(nd, 0.0) for nd in APOSENTADORIAS)
                    - sum(comp.get(nd, 0.0) for nd in PENSOES) - patronal_bruto)
+    nao_exec = NE.valores().get(mes, 0.0)
     ded_pens = ieo["pensoes"]
 
     return {
@@ -116,6 +118,9 @@ def secoes(mes: str) -> dict:
         "terceirizacao": terceirizacao,
         "vencimentos": vencimentos,
         "patronal": patronal,
+        "nao_executada": nao_exec,
+        "despesa_bruta": (vencimentos + patronal + (bruto_apos - ded_apos)
+                          + (bruto_pens - ded_pens) + terceirizacao + nao_exec),
     }
 
 
@@ -133,6 +138,8 @@ def main() -> int:
     print(f"  terceirização (L245) ....... {s['terceirizacao']:>18,.2f}")
     print(f"  vencimentos (L8) ........... {s['vencimentos']:>18,.2f}")
     print(f"  patronal (L102 líquida) .... {s['patronal']:>18,.2f}")
+    print(f"  não executada (L251) ....... {s['nao_executada']:>18,.2f}")
+    print(f"  DESPESA BRUTA (I) .......... {s['despesa_bruta']:>18,.2f}")
     return 0
 
 

@@ -248,6 +248,35 @@ def anexo5_totais() -> list[dict]:
             for k, v in TOTAIS_A5_2025.items()]
 
 
+def _normaliza(texto: str) -> str:
+    import unicodedata
+    t = unicodedata.normalize("NFKD", str(texto or ""))
+    t = "".join(c for c in t if not unicodedata.combining(c))
+    return " ".join(t.upper().split())
+
+
+def anexo2_rreo_2026() -> list[dict]:
+    """RREO Anexo 2 de 2026 (4o bimestre) — liquidado por funcao, contra o CSV."""
+    import rreo_anexo2 as R2
+
+    arq = os.path.join(SICONFI, "rreo", "RREO_RREO-Anexo_02_24_2026_p4.csv")
+    if not os.path.exists(arq):
+        return []
+    oficial = {}
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        if r["coluna"] != "DESPESAS LIQUIDADAS ATÉ O BIMESTRE (d)":
+            continue
+        oficial[_normaliza(r["conta"])] = float(r["valor"])
+    nosso = R2.nosso_por_funcao(2026, 8)
+    # o cruzamento por funcao depende do mapa codigo->nome, que nao alinha com o
+    # CSV de 2026; o total e robusto e e ele que se confere aqui
+    total_oficial = next((v for k, v in oficial.items() if k.startswith("TOTAL")), 0.0)
+    if not total_oficial:
+        total_oficial = sum(v for k, v in oficial.items() if not k.startswith("TOTAL"))
+    return [_linha("2026 — total liquidado (22 funções)", sum(nosso.values()),
+                   total_oficial, "CSV do Siconfi, 4º bimestre")]
+
+
 def anexo4() -> list[dict]:
     """RREO Anexo 4 — previdenciário (blocos principal e complementar)."""
     try:
@@ -311,6 +340,7 @@ FONTES = OrderedDict((
     ("RGF Anexo 1 - limites", limites_anexo1),
     ("RGF Anexo 5 - totais", anexo5_totais),
     ("RGF Anexo 1 - por Poder", anexo1_poder),
+    ("RREO Anexo 2 - 2026", anexo2_rreo_2026),
     ("RREO Anexo 4", anexo4),
     ("RREO Anexo 13 - projeções", anexo13_projecoes),
 ))

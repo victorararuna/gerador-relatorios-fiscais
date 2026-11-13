@@ -1170,3 +1170,21 @@ se uma pendente passar a fechar sem que a lista seja atualizada. A segunda trava
 é a que evita a documentação envelhecer sem avisar.
 
 Suíte completa: **9 arquivos, 69 testes**.
+
+
+### 17.21 RREO Anexo 2 de 2026
+
+As verificações do RREO usavam arquivos de 2025. Acrescentei a conferência de
+**2026, 4º bimestre**, contra o CSV do Siconfi:
+
+```
+total liquidado (22 funções) ... 16.013.488.241,73
+publicado ...................... 16.013.488.241,73   exato
+```
+
+O cruzamento **por função** não foi incluído: o mapa código → nome do módulo não
+alinha com os rótulos do CSV de 2026, e 18 das 22 funções apareceram com desvio
+igual ao próprio valor (sinal de que o código não foi encontrado, não de erro de
+apuração). Confiar nesse cruzamento seria publicar 18 falsos divergentes.
+
+O total é robusto e é o que está no livro. **282 células, 277 exatas.**

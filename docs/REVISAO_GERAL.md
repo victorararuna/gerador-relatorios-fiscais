@@ -1104,3 +1104,29 @@ balancete. Não é falta de esforço: é falta de dado.
 Duas implementações tentadas e revertidas. A linha segue pelo balancete, com o
 desvio de 54.946.195,61 documentado — e a regra conhecida (total menos bloco
 IPERN) registrada para quando o insumo existir.
+
+
+### 17.18 Disponibilidade fechou — e a regra é a mesma dos Depósitos
+
+A aba "CONTAS" (linha 243) faz `C - D`, com D vindo da aba "Disponibilidade".
+O rótulo é o mesmo de antes: **"VALOR SEM RPPS"**.
+
+Testando na MSC as 13 contas da disponibilidade:
+
+| escopo | valor | contra o oficial |
+|---|---:|---:|
+| todas as fontes | 1.559.285.389,89 | +10.104.024,53 |
+| **sem 800, 801 e 802** | **1.549.181.365,36** | **0** |
+
+**RGF Anexo 2: 11 de 14 linhas exatas.** O livro passou a **276 de 281**.
+
+### O padrão que se repetiu três vezes
+
+| linha | regra |
+|---|---|
+| Depósitos | total − bloco IPERN (800/802) |
+| Disponibilidade | total sem 800/801/802 |
+| Demais Haveres | PO 10111 (sem o RPPS) |
+
+Nas três, o que sai é o **RPPS**. A diferença é só a forma de tirar: por bloco de
+contas numa, por fonte noutra, por Poder na terceira.

@@ -166,6 +166,41 @@ CONTAS_IPERN = ("2188101080", "2188101100", "2188101110", "2188101130",
                 "2188301020", "2188301021", "2188501080")
 
 
+#: contas da disponibilidade de caixa bruta (aba CONTAS, linhas 230 a 242)
+CONTAS_DISPONIBILIDADE = (
+    "111110100", "111110200", "111110600", "111111900", "111113000",
+    "111115000", "111115100", "111115200", "111115300",
+    "111210100", "111210200", "111210300", "111310000",
+)
+#: fontes do RPPS, excluídas da disponibilidade (a aba chama de "sem RPPS")
+FONTES_RPPS = ("800", "801", "802")
+
+
+def disponibilidade() -> float:
+    """Disponibilidade de caixa bruta: as 13 contas, sem as fontes do RPPS.
+
+    A aba "CONTAS" (linha 243) faz `C - D`, com D vindo da aba "Disponibilidade"
+    (B23). Conferido: as 13 contas somam 1.559.285.389,89; sem 800/801/802 dão
+    **1.549.181.365,36**, exatamente o publicado.
+    """
+    import sys as _sys
+
+    raiz = os.path.dirname(os.path.abspath(__file__))
+    if os.path.join(raiz, "app") not in _sys.path:
+        _sys.path.insert(0, os.path.join(raiz, "app"))
+    from acervo import Acervo
+
+    ac = Acervo(os.path.join(raiz, "dados", "acervo"))
+    total = 0.0
+    for r in ac.ler(2025, 12, classe=1, tipo_valor="ending_balance"):
+        if not r.conta.startswith(CONTAS_DISPONIBILIDADE):
+            continue
+        if (r.fr or "")[1:4] in FONTES_RPPS:
+            continue
+        total -= r.liquido
+    return total
+
+
 def depositos() -> float:
     """Depósitos restituíveis: total das contas 2.1.8.8/2.2.8.8 menos o IPERN.
 
@@ -248,7 +283,9 @@ def main() -> int:
     for nome, contas in secoes.items():
         if not contas:
             continue
-        if nome in SECOES_MSC:
+        if nome.startswith("Disponibilidade de Caixa Bruta"):
+            v = disponibilidade()
+        elif nome in SECOES_MSC:
             aba, classe, po = SECOES_MSC[nome]
             v = apurar_msc(aba, classe, po)
         else:

@@ -149,7 +149,9 @@ def anexo2() -> list[dict]:
         oficial = D.OFICIAL.get(nome)
         if oficial is None:
             continue
-        if nome in D.SECOES_MSC:
+        if nome.startswith("Disponibilidade de Caixa Bruta"):
+            v = D.disponibilidade()
+        elif nome in D.SECOES_MSC:
             aba, classe, po = D.SECOES_MSC[nome]
             v = D.apurar_msc(aba, classe, po)
         else:
@@ -363,8 +365,7 @@ CAUSAS = (
     ("Abril — III", "Idem: decorre da mesma diferenca em I."),
     ("Demais Dívidas Contratuais", "O RN publica zero nessa linha e aloca o valor em "
                                    "'Outras Dividas' - decisao de classificacao do ente."),
-    ("Disponibilidade de Caixa Bruta", "Localizado: TCE, MP e DP batem ao centavo por "
-                                       "Poder; a diferenca esta no Executivo (escopo de conta)."),
+
     ("Restos a Pagar Processados", "Exige o relatorio 'Execucao Orcamentaria por Fonte' "
                                    "(bloco de RP) por Poder, com a dimensao fonte de recursos."),
     ("Depósitos Restitu", "Regra conhecida (total menos o bloco IPERN de FR 800/802), mas o "

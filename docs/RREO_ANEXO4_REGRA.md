@@ -248,3 +248,53 @@ Tentativa com o balancete de encerramento/2025: 50 das 301 contas localizadas �
 a família da dívida mobiliária também não aparece nele. O caminho correto é
 replicar a aba **CONTAS** (que alimenta Disponibilidade, D+Haveres e Depósitos
 por fórmulas `=CONTAS!E229` etc.).
+
+---
+
+## 10. A aba CONTAS e os números reais do DCL
+
+A aba **CONTAS** não tem dado próprio: é `VLOOKUP` na aba **BALANCETE** do mesmo
+arquivo, coluna 10 — *Saldo Restante*. O BALANCETE é a extração do SIGEF colada
+no workbook (2.667 contas, uma linha por conta).
+
+A aba **Base** traz os números do próprio demonstrativo (2025 Q3):
+
+| linha | valor oficial |
+|---|---:|
+| DC (I) | 9.741.754.359,71 |
+| **Dívida Mobiliária** | **0,00** |
+| Dívida Contratual | 3.204.264.028,97 |
+| Empréstimos Internos | 849.909.956,58 |
+| Empréstimos Externos | 1.532.683.584,76 |
+| Reestruturação | 678.224.099,41 |
+| De Tributos | 16.905.273,05 |
+| De Contribuições Previdenciárias | 1.806.971,92 |
+| Com Instituição Não financeira | 124.734.143,25 |
+| **Precatórios post. 05/05/2000** | **5.595.401.507,77** |
+| Outras Dívidas | 942.088.822,97 |
+| Deduções (II) | 269.314.515,89 |
+| DCL (III) | 9.472.439.843,82 |
+
+### Confronto com a nossa apuração pela MSC
+
+| linha | nosso | oficial | situação |
+|---|---:|---:|---|
+| Empréstimos Externos | 1.532.683.584,76 | 1.532.683.584,76 | **exato** |
+| Precatórios post. 05/05/2000 | 5.595.401.507,77 | 5.595.401.507,77 | **exato** |
+| De Tributos | 16.905.273,05 | 16.905.273,05 | **exato** |
+| De Contribuições Previdenciárias | 1.806.971,92 | 1.806.971,92 | **exato** |
+| Com Instituição Não financeira | 124.734.143,25 | 124.734.143,25 | **exato** |
+| Reestruturação | 663.224.116,18 | 678.224.099,41 | −2,2% |
+| Empréstimos Internos | 388.289.783,76 | 849.909.956,58 | −54% |
+| Dívida Mobiliária | 0,00 | 0,00 | **exato** (não há mobiliária) |
+
+**Cinco linhas exatas**, incluindo a maior (precatórios) e a mobiliária — que é
+zero, confirmando que a referência de 2.205.135.681,69 que eu usava antes estava
+errada.
+
+### O que falta
+
+Empréstimos Internos (−54%) e Reestruturação (−2,2%) divergem. A base de contas
+para essas linhas usa famílias que a MSC não traz na mesma abertura; o caminho é
+rodar a aba CONTAS sobre o **balancete extraído no formato do workbook** (uma
+linha por conta, saldo restante).

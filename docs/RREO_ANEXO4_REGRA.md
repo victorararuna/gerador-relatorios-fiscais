@@ -365,3 +365,47 @@ A aritmética está certa; o ente simplesmente não inclui essas contas
 
 8 linhas exatas; as demais divergências têm causa identificada e documentada —
 nenhuma é erro de apuração.
+
+---
+
+## 13. RGF Anexo 5 — o mapeamento completo está na aba MAPEAMENTO
+
+O arquivo `RGF 2025_Q3_05 - DEMONSTRATIVO DA DISPONIBILIDADE DE CAIXA E DOS
+RESTOS A PAGAR.xlsx` tem a aba **MAPEAMENTO** com a regra inteira:
+
+### Colunas (linha 16/17)
+
+| coluna | critério de conta | leitura |
+|---|---|---|
+| (a) Disponibilidade bruta | `CC 11111,11121…` | Ending_Balance, sem D/C |
+| (b) RP liquidados de exercícios anteriores | `CC 6321,6313` | Ending_Balance |
+| (c) RP liquidados do exercício | `CC 6327` | Ending_Balance |
+| (d) RP empenhados e não liquidados | `CC 6311,6312` | Ending_Balance |
+| (e) Demais obrigações financeiras | `CC 2188,2288,21…` | Ending_Balance |
+| (f) Insuficiência financeira | `CC 8535` | Ending_Balance |
+| (g) Disponível líquida | `(a − (b+c+d+e) − f)` | fórmula |
+
+### Linhas (vinculação) — filtro por PO e fonte
+
+```
+PO 10... /// FR pos.2-3 = 500            -> Não vinculados de impostos
+PO 10... /// FR pos.2-3 = 540,541,542,543,546 -> FUNDEB
+PO 10... /// FR pos.2-3 = 803,804        -> Previdência Social
+PO 10... /// FR pos.2-3 = 754            -> Operações de Crédito
+PO 10... /// FR pos.2-3 = 860,861,862,869 -> Extraorçamentários
+```
+
+É o de-para FR → categoria que eu dizia não existir. **Existia**, na aba
+MAPEAMENTO do próprio arquivo.
+
+### Totais oficiais (2025 Q3, QUADRO PRINCIPAL L39)
+
+| coluna | valor |
+|---|---:|
+| (a) Disponibilidade de caixa bruta | **1.088.399.547,00** |
+| (b) RP liquidados de exercícios anteriores | 472.988.715,32 |
+| (c) RP liquidados do exercício | 1.405.948.478,02 |
+| (d) RP empenhados e não liquidados | 11.871.954,46 |
+| (e) Demais obrigações financeiras | 2.230.614.991,10 |
+| (f) Insuficiência | 0,00 |
+| (g) Disponibilidade líquida | −3.033.024.591,90 |

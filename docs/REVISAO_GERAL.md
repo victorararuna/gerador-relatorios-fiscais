@@ -154,3 +154,37 @@ Registro para quem retomar não repetir o caminho:
 | dívida mobiliária de 2,2 bi | é zero |
 
 **Padrão**: em todas, o dado existia. O que faltava era saber onde olhar.
+
+---
+
+## 8. Item 4 executado — quebra por vinculação do Anexo 5
+
+Implementado em `rgf_anexo5_vinculacao.py`. Cada linha do anexo é um filtro de
+**fonte de recursos** (posição 2, lista de valores); as colunas vêm do
+MAPEAMENTO.
+
+| coluna | contas |
+|---|---|
+| (b) RP liquidados | 6321, 6313 |
+| (c) RP do exercício | 6327 |
+| (d) RP não liquidados | 6311, 6312 |
+
+**Resultado: 46 de 54 células exatas** (19 linhas × 3 colunas), contra o QUADRO
+PRINCIPAL.
+
+As oito divergências:
+
+| linha | coluna | diferença |
+|---|---|---:|
+| Recursos Não Vinculados de Impostos | b | +524.118 |
+| Recursos Não Vinculados de Impostos | c | +1.769.977 |
+| Recursos Não Vinculados de Impostos | d | +1.548.101 |
+| Outros Recursos não Vinculados | c | +15.137 |
+| Outros Recursos não Vinculados | d | +751.849 |
+| Recursos Vinculados a Fundos | c | +8.624.787 |
+| Outras Vinculações Legais | b | +594.952 |
+| Outras Vinculações Legais | c | +13.522.393 |
+
+Todas são **para mais** e concentradas em três linhas. O padrão sugere que o
+anexo desconta algo que o filtro de fonte sozinho não captura — provavelmente os
+RP cancelados, que aparecem em coluna própria do demonstrativo.

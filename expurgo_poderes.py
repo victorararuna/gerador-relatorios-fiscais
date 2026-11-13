@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Expurgo do Anexo 1 — leitura do IEO por blocos de subação.
 
 O IEO é emitido por Subação / Fonte / Elemento. Cada subação abre um bloco que
@@ -96,18 +96,22 @@ def ler_mes(arquivo: str) -> dict:
             if poder is None:
                 continue
             fonte = elemento = None
+            total_050 = patr_050 = 0.0
             for y, itens in bloco["linhas"]:
                 primeiro = itens[0].texto.strip() if itens else ""
+                numeros = [i for i in itens if RE_NUMERO.match(i.texto.strip())]
                 mf = RE_FONTE.match(primeiro)
                 if mf:
                     fonte, elemento = mf.group(1), None
+                    # o total da fonte é o valor na coluna Liquidado
+                    if fonte.startswith("0.5.00") and len(numeros) >= 3:
+                        total_050 = _num(min(numeros, key=lambda i: abs(i.x - x_liq)).texto.strip())
                     continue
                 me = RE_ELEMENTO.match(primeiro)
                 if me:
                     elemento = me.group(1)
                 if elemento is None:
                     continue
-                numeros = [i for i in itens if RE_NUMERO.match(i.texto.strip())]
                 if len(numeros) < 3:
                     continue
                 alvo = min(numeros, key=lambda i: abs(i.x - x_liq))
@@ -118,13 +122,18 @@ def ler_mes(arquivo: str) -> dict:
                     if elemento == "31.90.01" and (fonte or "").startswith("0.8.00"):
                         saida[poder]["aposentadorias"] += valor
                     elif elemento == "31.91.13" and (fonte or "").startswith("0.5.00"):
-                        saida[poder]["patronal"] += valor
+                        patr_050 += valor
                     elif elemento == "31.90.92":
                         saida[poder]["exerc_ant"] += valor
                     elif elemento == "31.90.94":
                         saida[poder]["indeniz"] += valor
-                elif elemento == "31.90.03" and (fonte or "").startswith("0.8.00"):
+                elif elemento == "31.90.03" and (fonte or "").startswith(("0.8.00", "0.8.04")):
                     saida[poder]["pensoes"] += valor
+            saida[poder]["patronal"] += patr_050
+            # na fonte 0.5.00 o total da fonte é a soma dos elementos: o que não
+            # for patronal é aposentadoria paga pelo Tesouro
+            if origem == "codigo" and total_050 > patr_050:
+                saida[poder]["apos_tesouro"] += total_050 - patr_050
     return saida
 
 

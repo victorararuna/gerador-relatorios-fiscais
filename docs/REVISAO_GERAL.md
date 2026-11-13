@@ -460,3 +460,60 @@ a "regra de ouro" do manual. Sem ela, a diferença era de R$ 13,36 mi.
 
 `expurgo_poderes.py` captura a fonte 0.8.00 mas ainda não a 0.5.00 (bug de
 atribuição no bloco do IEO). O valor está provado à mão; falta o parser.
+
+---
+
+## 13. Seção 2.3 fechada — aposentadorias em 8 de 10 meses
+
+A parcela que faltava era a **fonte 0.5.00**. Ela não é lida diretamente no
+IEO: no bloco da 0.5.00 o relatório imprime o **total da fonte** e, abaixo, os
+elementos. Como o total é a soma dos elementos, a aposentadoria paga pelo
+Tesouro é obtida por diferença:
+
+    aposentadorias 0.5.00 = total da fonte 0.5.00 − patronal 0.5.00
+
+### Resultado por Poder (setembro/2026)
+
+| Poder | 0.8.00 | 0.5.00 (por diferença) |
+|---|---:|---:|
+| DPRN | 104.948,47 | 0,00 |
+| TJRN | 12.629.016,99 | 0,00 |
+| ALRN | 8.562.226,99 | 11.548.881,70 |
+| MPRN | 0,00 | 0,00 |
+| TCE | 3.198.821,82 | 1.813.449,05 |
+| **total** | **24.495.014,27** | **13.362.330,75** |
+
+E a linha fecha: `567.729.412,24 − 24.495.014,27 − 13.362.330,75 = 529.872.067,22`.
+
+### Os dez meses
+
+| mês | apurado | planilha | diferença |
+|---|---:|---:|---:|
+| janeiro | 686.312.230,70 | 738.721.841,06 | **−52.409.610,36** |
+| fevereiro | 424.371.697,98 | 424.405.986,78 | −34.288,80 |
+| março | 423.850.718,32 | 423.850.718,32 | **0,00** |
+| abril | 441.617.489,06 | 441.617.489,06 | **0,00** |
+| maio | 437.285.993,34 | 437.285.993,34 | **0,00** |
+| junho | 446.393.073,41 | 446.393.073,41 | **0,00** |
+| julho | 442.302.059,10 | 442.302.059,10 | **0,00** |
+| agosto | 355.311.963,91 | 355.311.963,91 | **0,00** |
+| setembro | 529.872.067,22 | 529.872.067,22 | **0,00** |
+| outubro | 442.352.625,45 | 442.352.625,45 | **0,00** |
+
+**8 de 10 exatos ao centavo.**
+
+### Janeiro: causa identificada
+
+No Comparativo de janeiro:
+
+```
+31.90.01.00 (agregado) ..... 765.918.836,02
+31.90.01.01 ................ 658.074.916,41
+31.90.01.21 ................. 55.434.309,25
+soma dos subelementos ...... 713.509.225,66
+diferença ................... 52.409.610,36  <- igual à lacuna
+```
+
+Há um subelemento executado só em janeiro que o relatório não abre na listagem
+— provavelmente aposentadorias intra-orçamentárias (31.91.01). É o único ponto
+aberto da seção.

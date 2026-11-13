@@ -1,0 +1,98 @@
+# RREO Anexo 4 — a regra de segregação (MDF 15ª ed. v8)
+
+Documento de 13/11/2026. Registra o critério que separa benefícios do RPPS,
+do Tesouro e dos militares, e o que ele reproduz na matriz do RN.
+
+---
+
+## 1. O que o manual diz
+
+MDF 15ª edição, versão v8 (23/09/2026), páginas 244, 250 e 253:
+
+> "para o correto preenchimento das informações referentes aos benefícios
+> previdenciários (…) **a partir da matriz de saldos contábeis**, é necessário
+> que o ente realize a execução orçamentária utilizando (…) a **subfunção 272 —
+> Previdência do Regime Estatutário** (…) daqueles benefícios em regime
+> especial, os quais são executados na **subfunção 274 — Previdência Especial**."
+
+Antes desta leitura eu tratava o corte civil × militar como "atributo
+inexistente na matriz". **Não é:** é subfunção.
+
+---
+
+## 2. O que o mapeamento diz
+
+O arquivo `RREO - ANEXO 04 - Receitas e Despesas Previdenciárias`, aba
+`Anexo 4 - RPPS ( E )`, traz a regra completa. Para cada linha, quatro
+critérios combinados:
+
+| sigla | campo | posição |
+|---|---|---|
+| **FR** | fonte de recursos | posição 2, tamanho 3 |
+| **ND** | natureza da despesa | prefixo e posição 5, tamanho 4 |
+| **FS** | subfunção | posição 3, tamanho 3 |
+| **CO** | complemento de fonte | lista |
+
+### Linhas civis (FS = 272)
+
+```
+L50 Aposentadorias
+  FR pos.2-3 = 800
+  ND começa 3190 E pos.5-8 em 0101,0106,0118,0151,0199,9109,9115,9123,9128,9201,9403
+  + bloco complementar: FR EXCETO 800,801,803,804 / CO em 1111..1151 / FS = 272
+```
+
+### Linhas militares (FS = 274)
+
+```
+L210 Inatividade
+  FR pos.2-3 = 803
+  ND começa 31900121,31900123,31900126,31900152,31900189,31909112,…
+  + bloco complementar: CO = 2211 / FS = 274
+```
+
+---
+
+## 3. O que se apurou na matriz do RN (2025)
+
+Aplicando a subfunção e a fonte:
+
+| componente | apurado | homologado | desvio |
+|---|---:|---:|---:|
+| Pensões civis (319003, FS 272) | 634.718.036,81 | 640.868.408,22 | **−0,96%** |
+| Aposentadorias (319001, FS 272) | 4.648.107.547,94 | 4.917.756.724,31 | −5,5% |
+| Previdência especial (FS 274) | 614.960.748,14 | inatividade militar 675.066.910,71 | −8,9% |
+| Pensões (FS 274) | 358.000.504,13 | pensões militares 119.906.956,64 | +198% |
+
+Composição da aposentadoria civil por complemento de fonte:
+
+```
+CO 1111 .. 4.266.826.128,20
+CO 1131 ..   150.994.803,21
+CO 1121 ..   123.164.829,08
+CO 1122 ..    57.406.865,05
+CO 1141 ..     7.321.996,16
+CO 1151 ..     1.181.939,70
+(vazio)  ..    41.210.986,54
+soma 272 .. 4.648.107.547,94
+```
+
+---
+
+## 4. O que falta
+
+A diferença de R$ 269,7 mi nas aposentadorias e o desencontro nas linhas
+militares vêm do **encadeamento FR × CO**, que o mapeamento expressa em blocos
+sobrepostos: o filtro principal usa FR, o bloco complementar usa CO, e os dois
+se cruzam.
+
+Próximo passo é aplicar os blocos na ordem do mapeamento (principal, depois
+complementar, sem dupla contagem) — não por subfunção isolada.
+
+---
+
+## 5. Valor prático
+
+**Pensões civis saíram de "bloqueado" para −0,96%** com um critério normativo
+documentado. O Anexo 4 deixou de ser um anexo sem regra e passou a ser um anexo
+com regra e uma pendência de encadeamento.

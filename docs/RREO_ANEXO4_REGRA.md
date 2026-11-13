@@ -298,3 +298,31 @@ Empréstimos Internos (−54%) e Reestruturação (−2,2%) divergem. A base de 
 para essas linhas usa famílias que a MSC não traz na mesma abertura; o caminho é
 rodar a aba CONTAS sobre o **balancete extraído no formato do workbook** (uma
 linha por conta, saldo restante).
+
+---
+
+## 11. O DCL fecha no balancete — 8 de 14 linhas exatas
+
+O módulo `rgf_anexo2_dcl.py` aplica a base de contas da equipe ao **balancete**
+(aba BALANCETE do workbook, coluna *Saldo Restante*), com a convenção de sinal
+correta: **passivo (classe 2) entra pelo saldo credor positivo**.
+
+| linha | nosso | oficial |
+|---|---:|---:|
+| Dívida Mobiliária | 0,00 | 0,00 ✅ |
+| Empréstimos Externos | 1.532.683.584,76 | 1.532.683.584,76 ✅ |
+| Reestruturação | 678.224.099,41 | 678.224.099,41 ✅ |
+| De Tributos | 16.905.273,05 | 16.905.273,05 ✅ |
+| De Contribuições Previdenciárias | 1.806.971,92 | 1.806.971,92 ✅ |
+| De Demais Contribuições Sociais | 0,00 | 0,00 ✅ |
+| Do FGTS | 0,00 | 0,00 ✅ |
+| Com Instituição Não financeira | 124.734.143,25 | 124.734.143,25 ✅ |
+| Empréstimos Internos | 817.031.660,22 | 849.909.956,58 | −32,9 mi |
+| Disponibilidade de Caixa Bruta | 1.551.032.002,93 | 1.549.181.365,36 | +1,9 mi |
+| Depósitos Restituíveis | 852.068.043,72 | 797.121.848,11 | +54,9 mi |
+| Demais Haveres Financeiros | 276.820.329,62 | 269.314.515,89 | +7,5 mi |
+| (-) Restos a Pagar Processados | −3.306.229.590,47 | 752.059.517,25 | sinal/escopo |
+| Demais Dívidas Contratuais | 272.293.396,59 | 0,00 | +272,3 mi |
+
+**Oito de quatorze exatas.** O que abriu o caminho foi a convenção de sinal —
+antes o passivo entrava negativo e metade das linhas saía com o dobro do desvio.

@@ -69,8 +69,27 @@ para 272 células exatas** (as 5 do Anexo 2 fecham).
 | Demais Haveres Financeiros | +7.505.813,73 | blocos por Poder | aba "D+ Haveres" |
 
 Essas três não saem do balancete consolidado: ele é do Executivo, e o anexo é
-consolidado dos sete Poderes. Ou se extraem os balancetes por Poder, ou se
-transcrevem os blocos.
+consolidado dos sete Poderes.
+
+**Achado de 13/11 (caminho novo):** a **MSC do Siconfi é consolidada do Estado**
+e separa os Poderes por `poder_orgao`. Testando a lista de contas da aba
+"Disponibilidade" sobre a MSC de dez/2025:
+
+| PO | Poder | disponibilidade | confere com a aba |
+|---|---|---:|---|
+| 20212 | TCE | 64.555.550,90 | **exato** |
+| 50511 | MP | 13.829.962,38 | **exato** |
+| 60611 | DP | 14.858.839,33 | **exato** |
+| 30390 | TJ | 330.047.905,00 | a conferir |
+| 20211 | AL + FDM | 50.046.336,15 | AL 46.519.232,58 + FDM 3.527.103,57 |
+| 10111+10112 | Executivo | 1.085.946.796,13 | resíduo de 10.104.024,53 |
+
+O total dá 1.559.285.389,89 contra 1.549.181.365,36 publicados — **a diferença
+está toda no Executivo**, não nos demais Poderes.
+
+Ou seja: as três linhas **são** apuráveis da MSC. Falta alinhar o escopo do
+Executivo (conta ou PO a excluir). É bem mais barato que extrair balancetes por
+Poder.
 
 **Demais Dívidas Contratuais** (272,3 mi contra zero publicado) não é erro: é o
 RN alocando o valor em "Outras Dívidas". Decisão de classificação — se quiser

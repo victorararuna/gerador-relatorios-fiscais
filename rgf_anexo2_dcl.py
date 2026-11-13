@@ -111,14 +111,41 @@ def _buscar(saldo: dict, conta: str) -> float | None:
     return None
 
 
+def _pai(conta: str) -> str | None:
+    """Conta-pai de nível 7 (ex.: 2.1.2.1.1.02.01.00 -> 2.1.2.1.1.02.00.00).
+
+    O critério da STN enumera os filhos terminais, mas o plano de contas do RN
+    não tem todos eles (não existe o .02.98, e o ".02.02 - Contratos do
+    Exercício" fica de fora da lista). Usar o pai captura o que o filho deixa
+    escapar — em 31/12/2025 são R$ 32.878.296,36.
+    """
+    partes = conta.split(".")
+    if len(partes) < 7:
+        return None
+    return ".".join(partes[:6] + ["00", "00"])
+
+
+#: contas em que se usa o pai de nível 7 em vez do filho terminal: o critério da
+#: STN enumera filhos que o plano de contas do RN não tem (o ".02.98"), e o
+#: ".02.02 - Contratos do Exercício" fica de fora. Em 31/12/2025 são 32,9 mi.
+USAR_PAI = ("2.1.2.1.1.02", "2.1.2.1.3.02")
+
+
 def apurar_secao(saldo: dict, contas: list) -> float:
     total = 0.0
+    usados = set()
     for c, s in contas:
-        v = _buscar(saldo, c)
+        chave = c
+        if c.startswith(USAR_PAI):
+            pai = _pai(c)
+            if pai and pai in saldo and pai not in usados:
+                chave = pai
+                usados.add(pai)
+        v = _buscar(saldo, chave)
         if v is None:
             continue
         # classe 2 (passivo): credor é positivo
-        total += s * (-v if c.startswith("2") else v)
+        total += s * (-v if chave.startswith("2") else v)
     return total
 
 

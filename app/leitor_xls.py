@@ -322,7 +322,13 @@ def _ler_biff(dados: bytes) -> Workbook:
 
 
 def _ler_sst(dados: bytes, corpo: int, tam: int, biff8: bool = True) -> List[str]:
-    """SST + CONTINUE: concatena os pedacos antes de interpretar."""
+    """SST + CONTINUE.
+
+    Cada registro CONTINUE recomeca com um byte de flags: o trecho que continua
+    pode mudar de comprimido (1 byte/caractere) para UTF-16 (2 bytes). Concatenar
+    os pedacos antes de interpretar corrompe todas as strings seguintes — era o
+    que acontecia com as receitas de capital do comparativo da receita.
+    """
     pedacos = [dados[corpo:corpo + tam]]
     pos = corpo + tam
     n = len(dados)
@@ -332,20 +338,100 @@ def _ler_sst(dados: bytes, corpo: int, tam: int, biff8: bool = True) -> List[str
             break
         pedacos.append(dados[pos + 4:pos + 4 + rlen])
         pos += 4 + rlen
-    buf = b"".join(pedacos)
 
     try:
-        _total, unicos = struct.unpack_from("<II", buf, 0)
+        _total, unicos = struct.unpack_from("<II", pedacos[0], 0)
     except struct.error:
         return []
+
     strings: List[str] = []
+    ped = 0
     p = 8
+
+    def _avancar() -> bool:
+        nonlocal ped, p
+        ped += 1
+        p = 0
+        return ped < len(pedacos)
+
     for _ in range(unicos):
-        try:
-            s, p = _unicode(False, buf, p, biff8)
-        except (IndexError, struct.error):
+        buf = pedacos[ped]
+        # comprimento da string
+        if p + 2 > len(buf):
+            if not _avancar():
+                break
+            buf = pedacos[ped]
+        if p + 2 > len(buf):
             break
-        strings.append(s)
+        cch = struct.unpack_from("<H", buf, p)[0]
+        p += 2
+        # flags
+        if p >= len(buf):
+            if not _avancar():
+                break
+            buf = pedacos[ped]
+        flags = buf[p]
+        p += 1
+        alto = bool(flags & 0x01)
+        tem_fonetica = bool(flags & 0x04)
+        tem_rt = bool(flags & 0x08)
+        n_rt = 0
+        tam_fonetica = 0
+        if tem_rt:
+            if p + 2 > len(buf):
+                if not _avancar():
+                    break
+                buf = pedacos[ped]
+            n_rt = struct.unpack_from("<H", buf, p)[0]
+            p += 2
+        if tem_fonetica:
+            if p + 4 > len(buf):
+                if not _avancar():
+                    break
+                buf = pedacos[ped]
+            tam_fonetica = struct.unpack_from("<I", buf, p)[0]
+            p += 4
+
+        partes: List[str] = []
+        restante = cch
+        while restante > 0:
+            buf = pedacos[ped]
+            disp = len(buf) - p
+            if disp <= 0:
+                if not _avancar():
+                    break
+                buf = pedacos[ped]
+                flags = buf[0]
+                p = 1
+                alto = bool(flags & 0x01)
+                continue
+            if alto:
+                n = min(restante, disp // 2)
+                if n <= 0:
+                    if not _avancar():
+                        break
+                    buf = pedacos[ped]
+                    flags = buf[0]
+                    p = 1
+                    alto = bool(flags & 0x01)
+                    continue
+                partes.append(buf[p:p + n * 2].decode("utf-16-le", "replace"))
+                p += n * 2
+            else:
+                n = min(restante, disp)
+                partes.append(buf[p:p + n].decode("latin-1", "replace"))
+                p += n
+            restante -= n
+            if restante > 0:
+                if not _avancar():
+                    break
+                flags = pedacos[ped][0]
+                p = 1
+                alto = bool(flags & 0x01)
+
+        strings.append("".join(partes))
+        p += n_rt * 4 + tam_fonetica
+
     return strings
 
 

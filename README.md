@@ -188,6 +188,79 @@ dado específico que cada uma exige.
 
 ---
 
+## Motor novo — matrizes MSC de 2025 em diante
+
+A partir de 2025 o Siconfi abandonou o `instancia.csv` e passou a publicar a
+matriz em **um arquivo por classe, mês e tipo de saldo**, com os atributos em
+colunas próprias (`poder_orgao`, `natureza_despesa`, `natureza_receita`,
+`funcao`, `ano_inscricao`). O motor antigo não lê esse formato.
+
+### Módulos
+
+| módulo | função |
+|---|---|
+| `app/leitor_msc.py` | índice e leitura do formato longo; conferência fluxo × estoque |
+| `app/anexo1_msc.py` | RGF Anexo 1 — janela móvel de 12 meses, de-para e deduções |
+| `app/relatorio_anexo1.py` | planilha do Anexo 1 com aba de verificações |
+| `app/anexo3_msc.py` | RCL do RREO Anexo 3 + RGF Anexo 3 (garantias) |
+| `app/anexo4_msc.py` | limites do RGF Anexo 4 (operações de crédito) |
+| `app/anexo6_msc.py` | limites do RGF Anexo 6 (despesa com pessoal) |
+| `app/regras_anexo1.py` | regras de validação do próprio Siconfi |
+| `rreo_anexo1_grupos.py` | RREO Anexo 1 — despesa por grupo, com intra derivada |
+| `rreo_anexo1_receita.py` | RREO Anexo 1 — receita nas três bases |
+| `rreo_anexo2.py` | RREO Anexo 2 — despesa por função |
+| `rreo_anexo7.py` | RREO Anexo 7 — restos a pagar (contas 6.3.1/6.3.2) |
+| `rreo_anexo14.py` | RREO Anexo 14 — simplificado (despesa e RCL) |
+| `rreo_anexo9.py` | RREO Anexo 9 — despesa de capital empenhada |
+| `app/rreo_gerador.py` | apura o bimestre inteiro a partir da MSC |
+| `app/rreo_layout.py` | renderiza os anexos no layout oficial (molde = arquivo do Siconfi) |
+| `gerar_painel.py` | painel consolidado de verificação em XLSX |
+
+### Como rodar
+
+```bash
+python verificar_tudo.py          # 27 conferências de ponta a ponta (sai != 0 se falhar)
+python gerar_rreo.py --ano 2026 --bimestre 4   # RREO do bimestre a partir da MSC
+python gerar_anexo1.py            # Anexo 1 (2025 Q3, 2026 Q1 e Q2) -> saida/
+python gerar_anexo1_poderes.py    # Anexo 1 por Poder (7 POs + consolidado)
+python gerar_painel.py            # painel de verificação consolidado
+python app/anexo3_msc.py --rreo ... --rgf ...
+python app/regras_anexo1.py --raiz <acervo> --ano 2025 --quadrimestre 3
+python tests/test_leitor_msc.py   # 41 testes, sem dependência externa
+```
+
+### Documentação
+
+| documento | conteúdo |
+|---|---|
+| [`docs/RELATORIO_FINAL.md`](docs/RELATORIO_FINAL.md) | **consolidação da fase: o que fecha, o que não fecha e por quê** |
+| [`docs/LEITOR_MSC.md`](docs/LEITOR_MSC.md) | o formato novo e as duas regras de leitura |
+| [`docs/ANEXO1_CALIBRACAO.md`](docs/ANEXO1_CALIBRACAO.md) | calibração do Anexo 1 nas três janelas |
+| [`docs/ANEXO2_CALIBRACAO.md`](docs/ANEXO2_CALIBRACAO.md) | por que o Anexo 2 não fecha |
+| [`docs/RREO_ANEXO1.md`](docs/RREO_ANEXO1.md) | despesa e receita do Balanço |
+| [`docs/RREO_ANEXO2.md`](docs/RREO_ANEXO2.md) | despesa por função e intra derivada |
+| [`docs/REGRAS_VALIDACAO_ANEXO1_2026.md`](docs/REGRAS_VALIDACAO_ANEXO1_2026.md) | as 125 regras do Siconfi para o Anexo 1 |
+| [`docs/PAINEL_ANEXOS.md`](docs/PAINEL_ANEXOS.md) | situação de cada demonstrativo |
+
+### Resultado em 2025 Q3 / B6
+
+| demonstrativo | desvio |
+|---|---:|
+| RGF Anexo 1 — Despesa Bruta | −0,36% |
+| RGF Anexo 3 — Garantias | 0,00% (5/5 linhas) |
+| RGF Anexos 4 e 6 — limites | 0,00% (6/6 linhas) |
+| RREO Anexo 1 — despesa | 4 de 6 grupos exatos |
+| RREO Anexo 2 — total por função | 0,00% |
+| RREO Anexo 3 — RCL | 0,00% (2025 e 2026) |
+| RREO Anexo 7 — Restos a Pagar | 0,00% (5/5 linhas) |
+| RREO Anexo 14 — Simplificado | 0,00% (6/6 linhas) |
+| RREO Anexo 9 — despesa de capital | 0,00% (4/4 linhas) |
+
+---
+
 ## Licença
 
 MIT — ver [LICENSE](LICENSE).
+
+
+

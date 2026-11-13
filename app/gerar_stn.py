@@ -161,22 +161,33 @@ ARQUIVOS = {}
 PASTA_MENSAL = None
 
 
+# caminho do Comparativo da Receita (opcional, preenchido pelo pipeline)
+ARQUIVO_RECEITA: str | None = None
+
+
 def apurar_anexo4(caminho_msc: str) -> dict:
     """Anexo 4 - Operacoes de Credito.
 
-    A operacao de credito contratada (R$ 429.228.593,51) e receita orcamentaria;
-    a MSC nao a expoe numa conta que se distinga sem o mapeamento da natureza da
-    receita. Preenchemos a RCL e os limites, que sao apuraveis.
+    A operacao de credito e receita orcamentaria: a MSC traz a natureza da
+    DESPESA, nao a da receita. Quando o Comparativo da Receita Oncada com a
+    Arrecadada esta disponivel, a rubrica 4.2.1 fornece o valor exato.
     """
+    oc = 0.0
+    if ARQUIVO_RECEITA and os.path.exists(ARQUIVO_RECEITA):
+        try:
+            import msc_receita
+            oc = msc_receita.apurar(ARQUIVO_RECEITA)["operacoes_credito"]
+        except Exception:
+            oc = 0.0
     rcl_ajustada = RCL - EMENDAS_INDIVIDUAIS
     return {
         "oc_mobiliaria": 0.0, "oc_mobiliaria_interna": 0.0, "oc_mobiliaria_externa": 0.0,
         "oc_contratual": 0.0, "oc_contratual_interna": 0.0,
         "oc_emprestimos": 0.0, "oc_aquisicao": 0.0, "oc_antecipacao": 0.0,
         "oc_assuncao": 0.0,
-        "oc_nao_sujeitas_1": 0.0, "oc_nao_sujeitas_2": 0.0, "oc_total": 0.0,
+        "oc_nao_sujeitas_1": 0.0, "oc_nao_sujeitas_2": 0.0, "oc_total": oc,
         "rcl": RCL, "oc_emendas": EMENDAS_INDIVIDUAIS,
-        "oc_rcl_ajustada": rcl_ajustada, "oc_vedadas": 0.0, "oc_considerado": 0.0,
+        "oc_rcl_ajustada": rcl_ajustada, "oc_vedadas": 0.0, "oc_considerado": oc,
         "oc_limite": rcl_ajustada * 0.16,
         "oc_limite_alerta": rcl_ajustada * 0.16 * 0.90,
         "oc_aro": 0.0, "oc_aro_limite": rcl_ajustada * 0.07,

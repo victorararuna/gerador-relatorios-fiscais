@@ -52,6 +52,12 @@ LINHA_POR_ELEMENTO = {
     "319192": "exercicios_anteriores",
     "319094": "indenizacoes",
     "319096": "exercicios_anteriores",
+    # A conta de controle 8.6.3.3.1.00.00 (Despesa com Pessoal nao Executada
+    # Orcamentariamente) e somada em VENCIMENTOS, como no RGF homologado: a
+    # despesa subjacente e de pessoal ativo e o RGF a considera tanto na linha
+    # propria quanto na composicao do pessoal ativo. O total e conferido contra
+    # o homologado (diferenca residual de R$ 86,0 mi em vencimentos).
+    "863310": "vencimentos",
 }
 
 
@@ -160,7 +166,7 @@ def apurar(resultado: ResultadoMSC) -> Dict[str, float]:
 
 def nao_executada(resultado: ResultadoMSC) -> float:
     """Despesa com Pessoal nao Executada Orcamentariamente (conta 8.6.3.3.1.00.00)."""
-    return sum(l.liquidado for l in resultado.linhas
+    return sum(l.bruto for l in resultado.linhas
                if l.nd == "863310000" and l.po in PO_EXECUTIVO)
 
 

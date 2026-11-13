@@ -64,6 +64,16 @@ def _ler_cabecalho(caminho: str) -> Optional[tuple]:
     return m.group(1), int(m.group(2)), int(m.group(3))
 
 
+def achar_receita(pasta: str) -> Optional[str]:
+    """Localiza o Comparativo da Receita Oncada com a Arrecadada."""
+    for raiz, _, arquivos in os.walk(pasta):
+        for nome in arquivos:
+            baixo = nome.lower()
+            if baixo.endswith((".xls", ".xlsx")) and "receita" in baixo and "comparativo" in baixo:
+                return os.path.join(raiz, nome)
+    return None
+
+
 def escanear(pasta: str) -> List[Matriz]:
     """Encontra todas as matrizes (instancia.csv) sob a pasta."""
     achados: List[Matriz] = []
@@ -163,6 +173,14 @@ def gerar(entrada: str, saida: str, exercicio: Optional[int] = None,
 
     gerar_stn.PASTA_MENSAL = _pasta_mensal(conjunto, saida)
 
+    # comparativo da receita: fornece as operacoes de credito (rubrica 4.2.1)
+    receita = achar_receita(entrada)
+    gerar_stn.ARQUIVO_RECEITA = receita
+    if receita:
+        log(f"  Comparativo da Receita: {os.path.basename(receita)}")
+    else:
+        log("  Comparativo da Receita: nao encontrado (operacoes de credito ficam zeradas)")
+
     nome = f"RGF_{exercicio}_Q{quadrimestre}_STN.xlsx"
     destino = os.path.join(saida, nome)
     log(f"Gerando {nome} ...")
@@ -170,7 +188,8 @@ def gerar(entrada: str, saida: str, exercicio: Optional[int] = None,
                    anterior.caminho if anterior else None)
 
     log(f"Pronto: {destino}")
-    return {"rgf": destino, "exercicio": exercicio, "matrizes": len(matrizes)}
+    return {"rgf": destino, "exercicio": exercicio, "matrizes": len(matrizes),
+            "receita": receita}
 
 
 if __name__ == "__main__":

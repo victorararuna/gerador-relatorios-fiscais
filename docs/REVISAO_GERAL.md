@@ -31,23 +31,27 @@ está na planilha da equipe, não no CSV do Siconfi.**
 |---|---|---:|
 | RREO Anexo 1 — despesa | 4 grupos + total | **0,00** |
 | RREO Anexo 1 — receita | total e itens | **0,00** |
-| RREO Anexo 2 — função | 23 funções | **0,00** |
+| RREO Anexo 2 — função | 23 funções (2025) e total de 2026 | **0,00** |
 | RREO Anexo 3 — RCL | 5 linhas, 2025 e 2026 | **0,00** |
-| RREO Anexo 7 — restos a pagar | 5 linhas | **0,00** |
+| RREO Anexo 4 — previdenciário | 4 linhas (com o PAE) | **0,00** |
+| RREO Anexo 7 — restos a pagar | 5 linhas, 2025 e 2026 | **0,00** |
 | RREO Anexo 9 — despesa de capital | 4 linhas | **0,00** |
-| RREO Anexo 14 — simplificado | 6 linhas | **0,00** |
+| RREO Anexo 13 — PPP | 7 valores e 6 projeções | **0,00** |
+| RREO Anexo 14 — simplificado | 6 linhas, 2025 e 2026 | **0,00** |
+| RGF Anexo 1 — despesa com pessoal | 10 meses, I/II/III | **0,00** |
 | RGF Anexo 3 — garantias | 5 linhas | **0,00** |
 | RGF Anexo 4 — limites | 3 limites | **0,00** |
+| RGF Anexo 5 — disponibilidade | 90 células e 5 totais | **0,00** |
 | RGF Anexo 6 — limites | 3 limites | **0,00** |
 
 ### Apurado com desvio pequeno e documentado
 
 | anexo | situação |
 |---|---|
-| **RGF Anexo 1 — pessoal** | bruta a −0,36% (2025 Q3); a líquida desvia pela dedução |
-| **RREO Anexo 4 — previdenciário** | 4/4: inatividade e pensões militares **exatas**; civis a +0,02% e +0,15% |
-| **RGF Anexo 2 — DCL** | **8 de 14 linhas exatas**; as demais com causa identificada |
-| **RGF Anexo 5 — disponibilidade** | (b) +0,11%, (c) +0,74%, (f) exata; (a) explicada; (e) a 0,7% |
+| **RGF Anexo 1 — pessoal** | **exato em 10/10 meses** (I, II e III); abril a −5.241,65, documentado |
+| **RREO Anexo 4 — previdenciário** | **4/4 exatas** desde que se deduza o PAE (31.90.92.02 e .06) |
+| **RGF Anexo 2 — DCL** | **11 de 14 linhas exatas**; as 3 com causa escrita |
+| **RGF Anexo 5 — disponibilidade** | **90 de 90 células** e os 5 totais contra o Siconfi |
 
 ### Aberto
 

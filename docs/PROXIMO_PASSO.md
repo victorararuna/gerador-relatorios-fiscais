@@ -49,7 +49,7 @@ Referência de conferência: em 31/08/2026 o publicado é **640.153.394,98**.
 ```
 python rgf_anexo2_dcl.py
 ```
-Esperado: **14 de 14 linhas exatas** (hoje 9 de 14).
+Esperado: **12 de 14 linhas exatas** (hoje 11 de 14).
 
 ### 2.4 Atualizar o livro
 ```

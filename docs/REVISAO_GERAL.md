@@ -1335,3 +1335,21 @@ usa para excluir FR 32, 46, 800, 801 e 802.
 
 **Conclusão:** não é conta trocada nem sinal. É a dimensão **fonte de recursos por
 Poder**, que só o relatório do SIGEF tem.
+
+
+### 17.28 Um bug no próprio relatório — e a causa dentro da planilha
+
+Duas correções que a rodada 68 trouxe:
+
+**1. A causa agora está na aba.** As linhas divergentes do livro passaram a trazer
+o motivo na coluna "observação", gerado do mesmo `CAUSAS` que alimenta o
+`DIVERGENCIAS.md`. Quem abrir a planilha vê o motivo sem precisar do markdown.
+Conferido: **5 divergentes, 0 sem causa escrita**.
+
+**2. O console contava menos que a planilha.** Ele somava os grupos de `FONTES` e
+depois os do motor que não estivessem ali — mas `gerar()` **mescla** as linhas do
+motor nos grupos existentes. Resultado: console dizia 288 de 293; a aba RESUMO
+dizia **299 células, 294 exatas**.
+
+Corrigido com uma função `_grupos()` usada pelos dois. Agora os dois dizem
+294 de 299.

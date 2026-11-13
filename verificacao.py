@@ -382,6 +382,14 @@ FONTES = OrderedDict((
 ))
 
 
+def _grupos() -> "OrderedDict[str, list]":
+    """Todos os grupos, com as linhas do motor já mescladas nas abas homônimas."""
+    grupos = OrderedDict((nome, list(funcao())) for nome, funcao in FONTES.items())
+    for anexo, linhas in motor().items():
+        grupos.setdefault(anexo, []).extend(linhas)
+    return grupos
+
+
 def gerar(caminho: str | None = None) -> str:
     from openpyxl import Workbook
     from openpyxl.styles import Font, PatternFill
@@ -393,9 +401,7 @@ def gerar(caminho: str | None = None) -> str:
     for c in range(1, 6):
         resumo.cell(1, c).font = Font(bold=True)
 
-    grupos = OrderedDict((nome, funcao()) for nome, funcao in FONTES.items())
-    for anexo, linhas in motor().items():
-        grupos.setdefault(anexo, []).extend(linhas)
+    grupos = _grupos()
 
     for nome, linhas in grupos.items():
         ws = wb.create_sheet(nome[:31])
@@ -407,8 +413,9 @@ def gerar(caminho: str | None = None) -> str:
         for l in linhas:
             exatas += bool(l["ok"])
             soma += abs(l["desvio"])
+            obs = l["obs"] or ("" if l["ok"] else _causa(l["item"]))
             ws.append([l["item"], l["apurado"], l["referencia"], l["desvio"],
-                       "OK" if l["ok"] else "DIVERGENTE", l["obs"]])
+                       "OK" if l["ok"] else "DIVERGENTE", obs])
             if not l["ok"]:
                 ws.cell(ws.max_row, 5).fill = PatternFill("solid", fgColor="FFF2CC")
         for col, largura in (("A", 52), ("B", 20), ("C", 20), ("D", 16),
@@ -491,19 +498,12 @@ def relatorio_divergencias(destino: str | None = None) -> str:
 def main() -> int:
     destino = gerar()
     print(f"planilha gerada: {destino}\n")
-    print(f"{'anexo':<22}{'células':>9}{'exatas':>8}{'divergentes':>13}")
+    print(f"{'grupo':<26}{'células':>9}{'exatas':>8}{'divergentes':>13}")
     total = exatas_total = 0
-    for nome, funcao in FONTES.items():
-        linhas = funcao()
+    for nome, linhas in _grupos().items():
         exatas = sum(1 for l in linhas if l["ok"])
         total += len(linhas); exatas_total += exatas
-        print(f"{nome:<22}{len(linhas):>9}{exatas:>8}{len(linhas) - exatas:>13}")
-    for anexo, linhas in motor().items():
-        if anexo in FONTES:
-            continue
-        exatas = sum(1 for l in linhas if l["ok"])
-        total += len(linhas); exatas_total += exatas
-        print(f"{anexo:<22}{len(linhas):>9}{exatas:>8}{len(linhas) - exatas:>13}")
+        print(f"{nome:<26}{len(linhas):>9}{exatas:>8}{len(linhas) - exatas:>13}")
     print(f"\n{exatas_total} de {total} células exatas")
     print("relatorio de divergencias:", relatorio_divergencias())
     return 0

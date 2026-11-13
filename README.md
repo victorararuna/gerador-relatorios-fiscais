@@ -4,7 +4,7 @@ Ferramenta que apura os demonstrativos fiscais do **Rio Grande do Norte** a
 partir das **Matrizes de Saldos Contábeis (MSC)** do Siconfi e dos relatórios do
 **SIGEF/RN**, e confere cada célula contra o arquivo homologado.
 
-Estado em **13/11/2026**: **288 de 293 células exatas** (98,3%), em 24 abas de
+Estado em **13/11/2026**: **294 de 299 células exatas** (98,3%), em 24 abas de
 verificação (23 de anexo e uma de resumo). As 5 divergências estão em
 [`docs/DIVERGENCIAS.md`](docs/DIVERGENCIAS.md), cada uma com valor, referência e
 causa.

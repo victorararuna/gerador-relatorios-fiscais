@@ -40,6 +40,10 @@ class TestAnexosFechados(unittest.TestCase):
     def test_anexo5(self):
         self._todos_exatos(V.anexo5(), "RGF Anexo 5")
 
+    def test_anexo5_totais_contra_siconfi(self):
+        """Os totais têm de bater com o CSV publicado, não só com a planilha."""
+        self._todos_exatos(V.anexo5_totais(), "RGF Anexo 5 totais")
+
 
 class TestDivergenciasDocumentadas(unittest.TestCase):
     """Toda divergência conhecida precisa ter causa escrita."""

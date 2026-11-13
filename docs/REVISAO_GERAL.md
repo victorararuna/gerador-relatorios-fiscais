@@ -873,3 +873,23 @@ pelo complemento de fonte. O complementar se distribui em três COs:
 
 Nenhum deles corresponde ao desvio (1.215.655,93 e 929.796,71). É diferença de
 classificação dentro do conjunto, não um complemento inteiro a mais.
+
+
+### 17.9 Anexo 5 conferido contra o Siconfi, não só contra a planilha
+
+Até aqui o Anexo 5 era conferido célula por célula contra a planilha da equipe.
+Agora há também a conferência dos **totais das colunas contra o CSV publicado**
+(`RGF_RGF-Anexo_05_24_2025_p3.csv`, TOTAL IV):
+
+| coluna | apurado | publicado |
+|---|---:|---:|
+| (a) Disponibilidade bruta | 1.088.399.547,00 | 1.088.399.547,00 |
+| (b) RP processados | 472.988.715,32 | 472.988.715,32 |
+| (c) RPNP inscritos no exercício | 1.405.948.478,02 | 1.405.948.478,02 |
+| (d) RPNP a liquidar | 11.871.954,46 | 11.871.954,46 |
+| (e) Demais obrigações financeiras | 2.230.614.991,10 | 2.230.614.991,10 |
+
+**Cinco de cinco.** É a primeira vez que um anexo do RGF é conferido contra o
+arquivo publicado além da planilha de trabalho.
+
+O livro passou a **281 células, 272 exatas** (95,9%).

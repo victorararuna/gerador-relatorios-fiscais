@@ -211,6 +211,36 @@ def limites_anexo1() -> list[dict]:
     ]
 
 
+#: totais publicados do Anexo 5 de 2025 Q3 (TOTAL IV), no CSV do Siconfi
+TOTAIS_A5_2025 = {
+    "a": 1_088_399_547.00, "b": 472_988_715.32, "c": 1_405_948_478.02,
+    "d": 11_871_954.46, "e": 2_230_614_991.10,
+}
+
+
+def anexo5_totais() -> list[dict]:
+    """RGF Anexo 5 — totais das colunas contra o CSV publicado, não a planilha."""
+    import rgf_anexo5_vinculacao as A5
+
+    filtros, _oficial = A5.ler_planilha(A5.PLANILHA)
+    if "Outras Vinculações Legais" in filtros:
+        pos, tam, lista = filtros["Outras Vinculações Legais"]
+        filtros["Outras Vinculações Legais"] = (pos, tam, [f for f in lista if f != "759"])
+    somas = {k: 0.0 for k in A5.COLUNAS}
+    for nome, fr in filtros.items():
+        for chave, (prefixos, classe, sinal, excluir) in A5.COLUNAS.items():
+            v = A5.apurar(2025, 12, prefixos, fr, classe=classe, sinal=sinal,
+                          excluir=excluir)
+            if chave == "e" and nome == A5.LINHA_NAO_VINCULADOS:
+                v += A5.apurar_nao_executada(2025, 12, fr)
+            somas[chave] += v
+    nomes = {"a": "Disponibilidade bruta", "b": "RP processados",
+             "c": "RPNP inscritos no exercício", "d": "RPNP a liquidar",
+             "e": "Demais obrigações financeiras"}
+    return [_linha(f"TOTAL (IV) — {nomes[k]}", somas[k], v, "CSV do Siconfi")
+            for k, v in TOTAIS_A5_2025.items()]
+
+
 def anexo4() -> list[dict]:
     """RREO Anexo 4 — previdenciário (blocos principal e complementar)."""
     try:
@@ -272,6 +302,7 @@ FONTES = OrderedDict((
     ("RREO Anexo 9", anexo9),
     ("RREO Anexo 13", anexo13),
     ("RGF Anexo 1 - limites", limites_anexo1),
+    ("RGF Anexo 5 - totais", anexo5_totais),
     ("RGF Anexo 1 - por Poder", anexo1_poder),
     ("RREO Anexo 4", anexo4),
     ("RREO Anexo 13 - projeções", anexo13_projecoes),

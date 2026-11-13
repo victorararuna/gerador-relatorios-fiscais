@@ -14,4 +14,4 @@ Gerado por `verificacao.relatorio_divergencias()`. Não editar à mão.
 | RREO Anexo 4 | Aposentadorias civis | 4,918,972,380.24 | 4,917,756,724.31 | 1,215,655.93 | Desvio de 0,02%: diferenca de classificacao nas naturezas de aposentadoria civil; em investigacao. |
 | RREO Anexo 4 | Pensões por morte civis | 641,798,204.93 | 640,868,408.22 | 929,796.71 | Desvio de 0,15%: diferenca de classificacao nas naturezas de pensao civil; em investigacao. |
 
-**267 de 276 células exatas** (9 divergentes, todas acima com causa).
+**272 de 281 células exatas** (9 divergentes, todas acima com causa).

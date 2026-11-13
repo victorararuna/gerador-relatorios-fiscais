@@ -211,6 +211,23 @@ def limites_anexo1() -> list[dict]:
     ]
 
 
+def anexo4() -> list[dict]:
+    """RREO Anexo 4 — previdenciário (blocos principal e complementar)."""
+    try:
+        import rreo_anexo4_blocos as A4
+    except Exception:
+        return []
+    saida = []
+    for chave, (nome, oficial) in A4.OFICIAL.items():
+        try:
+            principal, complementar = A4.apurar(chave)
+        except Exception:
+            continue
+        saida.append(_linha(nome, principal + complementar, oficial,
+                            f"principal {principal:,.2f}"))
+    return saida
+
+
 def anexo13_projecoes() -> list[dict]:
     """RREO Anexo 13 — projeção do contrato a partir da âncora contratual."""
     import rreo_anexo13 as A13
@@ -256,6 +273,7 @@ FONTES = OrderedDict((
     ("RREO Anexo 13", anexo13),
     ("RGF Anexo 1 - limites", limites_anexo1),
     ("RGF Anexo 1 - por Poder", anexo1_poder),
+    ("RREO Anexo 4", anexo4),
     ("RREO Anexo 13 - projeções", anexo13_projecoes),
 ))
 

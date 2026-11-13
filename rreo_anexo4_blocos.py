@@ -104,7 +104,9 @@ OFICIAL = {
     "apos_civil": ("Aposentadorias civis", 4_917_756_724.31),
     "pens_civil": ("Pensões por morte civis", 640_868_408.22),
     "inat_mil": ("Inatividade militar", 675_066_910.71),
-    "pens_mil": ("Pensões militares", 119_906_956.64),
+    # corrigido: 119.906.956,64 era a linha das pensões militares do bloco
+    # principal, não o total; o total publicado é 250.915.256,72
+    "pens_mil": ("Pensões militares", 250_915_256.72),
 }
 
 

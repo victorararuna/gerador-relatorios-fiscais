@@ -807,3 +807,21 @@ arredondamento).
 
 A âncora é `ANCORA_ARENA` em `rreo_anexo13.py` — o único dado que não vem da
 matriz, e é o mesmo nos quatro bimestres do exercício.
+
+
+### 17.5 RREO Anexo 4 no livro — e uma referência errada corrigida
+
+O módulo dos blocos previdenciários comparava as pensões militares com
+**119.906.956,64** — que é a linha do bloco principal, não o total. O total
+publicado é **250.915.256,72**, e é ele que o motor apura.
+
+| linha | apurado | oficial | desvio |
+|---|---:|---:|---:|
+| Aposentadorias civis | 4.918.972.380,24 | 4.917.756.724,31 | +1.215.656 (0,02%) |
+| Pensões por morte civis | 641.798.204,93 | 640.868.408,22 | +929.797 (0,15%) |
+| **Inatividade militar** | 675.066.910,71 | 675.066.910,71 | **0** |
+| **Pensões militares** | 250.915.256,72 | 250.915.256,72 | **0** |
+
+Duas exatas, duas com desvio documentado abaixo de 0,15%.
+
+O livro de verificação passou a **276 células, 267 exatas**.

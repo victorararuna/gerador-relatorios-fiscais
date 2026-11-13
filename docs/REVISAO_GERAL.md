@@ -221,3 +221,45 @@ Restam seis, todas concentradas em duas linhas:
 A hipótese dos RP cancelados **não se confirmou**: subtrair 6329/6319 produz
 valores negativos em várias linhas. O caminho agora é a coluna (H) do arquivo,
 que trata dos cancelados separadamente.
+
+---
+
+## 9. Validação em 2026 contra a planilha da equipe
+
+A pasta `Arquivos etonjones` trouxe o que faltava: o `Quadro_e_Mapa_Janeiro_a_
+Outubro_2026.xlsx` (a planilha de trabalho), os IEO mensais das UGs 162233 e
+162011, os Comparativos mensais e o **RGF Q2/2026 homologado**.
+
+### O falso alarme dos 3,25 bi
+
+Eu havia apontado que o painel mostrava 12,86 bi para Jan–Out e o Siconfi 16,11
+bi para Jan–Ago — o que parecia contradição. **Não é:** nossa apuração usa
+**janela móvel de 12 meses** (set/2025 a ago/2026), e o painel usa o **ano
+calendário** (jan a out/2026). Janelas diferentes, números diferentes.
+
+### O confronto com a janela certa
+
+Nosso motor, jan–set/2026, recorte Executivo, contra a soma dos meses da planilha:
+
+| linha | nosso | planilha | desvio |
+|---|---:|---:|---:|
+| Despesa Bruta (I) | 11.528.161.353,65 | 11.489.313.966,33 | **+0,34%** |
+| Despesas Não Computadas (II) | 3.026.980.959,05 | 3.083.374.098,61 | −1,83% |
+| Despesa Líquida (III) | 8.501.180.394,60 | 8.405.939.867,72 | +1,13% |
+
+**A despesa bruta fecha a 0,34%** — calculada pelo motor a partir da matriz,
+sem usar a planilha em nada. É a validação independente que faltava para 2026.
+
+### O que a planilha confirma
+
+| regra | evidência |
+|---|---|
+| DEA (elemento 92) concentrada em dezembro | coluna Dez/26 de II = **61.416.717,30** |
+| Enfermagem a 72% em 2026 | aplicada na composição de II |
+| Expurgo por UG 162233/162011 | R$ 466,2 mi (inat 276,4 + pens 93,2 + pat 96,6) |
+
+### O que resta
+
+A diferença em II (−1,83%) é o único ponto: deduzimos R$ 56,4 mi menos que a
+planilha. Com os IEO mensais em mãos, dá para decompor mês a mês e localizar
+exatamente onde a dedução diverge.

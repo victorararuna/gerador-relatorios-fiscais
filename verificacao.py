@@ -154,6 +154,23 @@ def anexo2() -> list[dict]:
 
 
 # --------------------------------------------------------------------------
+def limites_anexo1() -> list[dict]:
+    """A cadeia da RCL do Anexo 3 ate o percentual publicado."""
+    import mapa_anexo1 as MAPA
+
+    try:
+        r = MAPA.limites_do_rreo(11_563_398_205.71)
+    except Exception:
+        return []
+    return [
+        _linha("RCL ajustada p/ pessoal", r["rcl_ajustada"], 20_958_175_998.75),
+        _linha("DTP / RCL (12 meses) %", r["percentual"], 55.17),
+        _linha("Limite maximo (49%)", r["limite_maximo"], 10_269_506_239.39),
+        _linha("Limite prudencial (46,55%)", r["limite_prudencial"], 9_756_030_927.42),
+        _linha("Limite de alerta (44,10%)", r["limite_alerta"], 9_242_555_615.45),
+    ]
+
+
 def motor() -> dict:
     """As 27 conferências de ponta a ponta, agrupadas por anexo.
 
@@ -186,6 +203,7 @@ FONTES = OrderedDict((
     ("RGF Anexo 5", anexo5),
     ("RREO Anexo 9", anexo9),
     ("RREO Anexo 13", anexo13),
+    ("RGF Anexo 1 - limites", limites_anexo1),
 ))
 
 

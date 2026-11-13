@@ -37,5 +37,14 @@ class TestLimites(unittest.TestCase):
             MAPA.limites(0.0, DTP_12M)
 
 
+class TestCadeiaDoRreo(unittest.TestCase):
+    """RCL do Anexo 3 -> percentual, lendo o CSV homologado."""
+
+    def test_le_a_rcl_do_anexo3(self):
+        r = MAPA.limites_do_rreo(DTP_12M)
+        self.assertAlmostEqual(r["rcl_ajustada"], RCL, places=2)
+        self.assertAlmostEqual(r["percentual"], 55.17, places=2)
+
+
 if __name__ == "__main__":
     unittest.main()

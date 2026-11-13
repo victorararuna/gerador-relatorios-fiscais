@@ -215,6 +215,28 @@ def limites(rcl_ajustada: float, dtp: float) -> dict:
     }
 
 
+#: RCL do Anexo 3 do RREO homologada (2026, 4o bimestre)
+RREO_ANEXO3 = os.path.join(AQUI, "dados", "siconfi", "rreo",
+                           "RREO_RREO-Anexo_03_24_2026_p4.csv")
+
+
+def rcl_ajustada_pessoal(caminho: str | None = None,
+                         coluna: str = "TOTAL (ÚLTIMOS 12 MESES)") -> float:
+    """RCL ajustada para os limites da despesa com pessoal (Anexo 3)."""
+    import anexo3_msc as A3
+
+    return A3.ler_rcl(caminho or RREO_ANEXO3, coluna).ajustada_pessoal
+
+
+def limites_do_rreo(dtp_12m: float, caminho: str | None = None) -> dict:
+    """Fecha a cadeia: RCL do Anexo 3 -> percentual e limites em reais.
+
+    A DTP precisa ser a de 12 meses, na mesma janela da RCL.
+    """
+    rcl = rcl_ajustada_pessoal(caminho)
+    return {"rcl_ajustada": rcl, **limites(rcl, dtp_12m)}
+
+
 def main() -> int:
     mes = sys.argv[1] if len(sys.argv) > 1 else "Setembro"
     s = secoes(mes)

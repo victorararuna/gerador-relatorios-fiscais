@@ -973,3 +973,23 @@ erro de leitura: é **escopo de conta no Executivo**.
 "Demais Haveres" resiste a outro método: a aba lista 73 contas-folha, e o prefixo
 de 6 dígitos captura 22 vezes o valor oficial (6,02 bi contra 269,3 mi). Precisa
 do critério de conta exato, não de prefixo.
+
+
+### 17.13 Anexo 2 — a linha de Depósitos exclui a fonte 800
+
+A aba "CONTAS" mostra que a coluna usada é `E = C - D`, rotulada **"VALOR SEM
+RPPS"**. Testando a hipótese na MSC:
+
+| escopo | valor | contra o oficial |
+|---|---:|---:|
+| todas as fontes | 852.068.043,72 | +54.946.195,61 |
+| **sem a fonte 800** | **798.507.904,34** | **+1.386.056,23 (0,17%)** |
+
+A fonte 800 soma 53.560.139,38 — praticamente toda a diferença.
+
+Ou seja: a linha não é o saldo bruto das contas 2.1.8.8/2.2.8.8 — é o saldo
+**sem a parcela do RPPS**, que a equipe soma em separado (bloco IPERN, fontes 800
+e 802, linhas 16 a 22 da aba).
+
+Restam R$ 1.386.056,23 (0,17%), provavelmente a fonte 802 ou uma sub-conta
+específica.

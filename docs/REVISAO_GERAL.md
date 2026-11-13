@@ -1207,3 +1207,23 @@ Parametrizei `rreo_anexo7` por ano/mês e conferi os dois exercícios:
 
 O mesmo parâmetro (`matriz(ano, mes)`) serve para o 3º quadrimestre, quando os
 dados chegarem.
+
+
+### 17.23 RREO Anexo 14 de 2026 — seis de seis
+
+Mesmo tratamento do Anexo 7: parametrizado por ano, mês e caminho do Anexo 3.
+
+| linha | 2025 | 2026 |
+|---|---|---|
+| Despesas empenhadas | 23.874.415.460,69 | 20.405.779.981,56 |
+| Despesas liquidadas | 23.361.499.529,63 | 16.013.488.241,73 |
+| Despesas pagas | 21.945.141.150,86 | 15.316.721.257,95 |
+| RCL | 19.513.846.659,98 | 20.966.424.987,22 |
+| RCL ajustada — endividamento | 19.509.346.803,92 | 20.961.883.945,10 |
+| RCL ajustada — pessoal | 19.507.449.078,52 | 20.958.175.998,75 |
+
+**Seis de seis nos dois exercícios.** O livro passou a **293 células, 288 exatas
+(98,3%)**.
+
+Os três anexos do RREO de 2026 agora conferidos — 2, 7 e 14 — compartilham o
+mesmo padrão de parametrização, e o 3º quadrimestre usará os mesmos argumentos.

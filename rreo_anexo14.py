@@ -36,9 +36,9 @@ LINHAS = {
 }
 
 
-def oficial() -> dict:
+def oficial(caminho: str | None = None) -> dict:
     valores = {}
-    with open(RREO, encoding="utf-8-sig", newline="") as fh:
+    with open(caminho or RREO, encoding="utf-8-sig", newline="") as fh:
         for r in csv.DictReader(fh, delimiter=";"):
             if r["coluna"] != COLUNA:
                 continue
@@ -48,10 +48,11 @@ def oficial() -> dict:
     return valores
 
 
-def matriz() -> dict:
+def matriz(ano: int = 2025, mes: int = 12,
+           anexo3: str | None = None) -> dict:
     acervo = M.Acervo(MSC)
     emp = liq = pago = 0.0
-    for r in acervo.ler(2025, 12, classe=6, tipo_valor="ending_balance"):
+    for r in acervo.ler(ano, mes, classe=6, tipo_valor="ending_balance"):
         if not r.conta.startswith("62213"):
             continue
         emp += r.liquido
@@ -61,7 +62,7 @@ def matriz() -> dict:
             pago += r.liquido
 
     import app.anexo3_msc as A3
-    rcl = A3.ler_rcl(os.path.join(
+    rcl = A3.ler_rcl(anexo3 or os.path.join(
         os.path.dirname(RREO), "RREO_24_2025_bim6_anexo03.csv"))
     return {"empenhadas": emp, "liquidadas": liq, "pagas": pago,
             "rcl": rcl.rcl,

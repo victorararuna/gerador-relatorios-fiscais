@@ -429,3 +429,34 @@ Setembro é o caso fora da curva: resíduo de 13,2 mi, o dobro dos demais.
 
 A regra está certa e o valor está certo. Falta **aplicá-la**: hoje o motor não
 deduz os inativos dos demais Poderes da sua linha de aposentadorias.
+
+---
+
+## 12. A MAPA reconstruída — aposentadorias fecham ao centavo
+
+Aplicando o manual aos arquivos da pasta, com o **Comparativo** como fonte do
+bruto (3º número da linha = Liquidada no mês) e o **IEO** como fonte da dedução:
+
+**Trava de conferência (manual, item 4):** a soma das naturezas do grupo 31 no
+Comparativo dá **1.659.015.263,31** — exatamente o GND 31 da planilha.
+
+**Seção 2.3 — Aposentadorias (setembro/2026):**
+
+| parcela | valor |
+|---|---:|
+| bruto (20 naturezas das linhas 183-202) | 567.729.412,24 |
+| (−) IEO 0.8.00 (DPRN 104.948,47 + TJRN 12.629.016,99 + ALRN 8.562.226,99 + TCE 3.198.821,82) | 24.495.014,27 |
+| (−) IEO 0.5.00 (ALRN 11.548.881,70 + TCE 1.813.449,05) | 13.362.330,75 |
+| **líquido** | **529.872.067,22** |
+| planilha | **529.872.067,22** |
+| **diferença** | **0,00** |
+
+**A linha fecha ao centavo.**
+
+O que faltava era exatamente a parcela de **fonte 0.5.00** da ALRN e do TCE —
+a "regra de ouro" do manual. Sem ela, a diferença era de R$ 13,36 mi.
+
+### Pendência de implementação
+
+`expurgo_poderes.py` captura a fonte 0.8.00 mas ainda não a 0.5.00 (bug de
+atribuição no bloco do IEO). O valor está provado à mão; falta o parser.

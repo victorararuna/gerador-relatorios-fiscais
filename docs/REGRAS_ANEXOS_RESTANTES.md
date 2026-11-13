@@ -1,4 +1,4 @@
-# Regras descobertas para os anexos restantes (13/11/2026)
+﻿# Regras descobertas para os anexos restantes (13/11/2026)
 
 Varredura feita por seis agentes sobre os materiais do projeto. Cada regra abaixo
 foi provada com números contra o homologado. **Nenhuma delas está implementada
@@ -117,8 +117,11 @@ V = **0,47%**.
 Projeções: `60.190.422,53 × (1,035 / 1,1068)^n` — uma âncora (valor presente das
 contraprestações da Arena das Dunas) e dois índices publicados na nota do anexo.
 
-**Pendências:** a âncora de 60.190.422,53 é dado contratual; e a coluna
-"31/12 do exercício anterior" exige a MSC de dezembro do ano anterior.
+**Pendência única:** a âncora de 60.190.422,53 é dado contratual. A coluna
+"31/12 do exercício anterior" **já é apurável**: a MSC de dezembro/2025 está no
+acervo e reproduz os três valores ao centavo (400.000.000,00 / 215.455.288,93 /
+38.506.744,29), assim como a coluna do período em ago/2026
+(400.000.000,00 / 196.757.187,16 / 413.225.632,16).
 
 ---
 
@@ -169,3 +172,4 @@ Série histórica publicada: 2021 = 54,57%; 2022 = 53,37%; 2023 = 56,94%;
 | RREO Anexo 9 | trocar a natureza `17115001` por prefixo "21" sobre 6.2.1.2+6.2.1.3 |
 | RREO Anexo 13 | montar as contas de saldo e dotação; parametrizar a âncora |
 | RCL/limites | ligar o Anexo 3 ao bloco de limites do Anexo 1 |
+

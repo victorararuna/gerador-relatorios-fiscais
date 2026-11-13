@@ -1,4 +1,4 @@
-# Entradas necessárias para gerar todos os relatórios
+﻿# Entradas necessárias para gerar todos os relatórios
 
 Lista do que precisa ser extraído do SIGEF/RN (e de onde mais) para o motor gerar
 RREO e RGF completos. Organizada por anexo e por rotina de período.
@@ -41,8 +41,8 @@ Sem a dimensão Poder, fecham 8 das 14 linhas. Com os sete Poderes, as 14.
 
 | item | por quê |
 |---|---|
-| **MSC de dezembro do exercício anterior** | preenche a coluna "31/12 do exercício anterior" (ativos, passivos, garantias) |
-| **Valor presente das contraprestações** (âncora de 2027) | hoje R$ 60.190.422,53 — cláusula 25.6 do contrato 001/2011 (Arena das Dunas); recalculado em abril |
+| ~~MSC de dezembro do exercício anterior~~ | **já temos** — dez/2025 está no acervo e reproduz os três saldos ao centavo |
+| **Valor presente das contraprestações** (âncora de 2027) | R$ 60.190.422,53 — cláusula 25.6 do contrato 001/2011 (Arena das Dunas); recalculado em abril. **É o único item que falta.** |
 
 A âncora é **um número por ano**; o resto das 24 células sai dela com IPCA e Selic
 publicados na nota do anexo.
@@ -134,3 +134,4 @@ que está certo.
 | RREO Anexo 9 | — | só código |
 | RCL e limites | — | só código |
 | Demais anexos | — | já exatos |
+

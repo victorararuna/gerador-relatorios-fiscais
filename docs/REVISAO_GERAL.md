@@ -1152,3 +1152,21 @@ A diferença é **1.192.921,12** e está concentrada na `218830102` da fonte 150
 a MSC não separa o que a equipe atribui ao AL e ao FDM.
 
 Como no caso do bloco IPERN, é **falta de granularidade**, não de regra.
+
+
+### 17.20 Trava do Anexo 2
+
+`tests/test_rgf_anexo2.py` confere as 11 linhas exatas e mantém uma lista
+explícita das 3 pendentes, com o motivo de cada uma:
+
+| pendente | motivo |
+|---|---|
+| Demais Dívidas Contratuais | o RN publica zero e aloca em Outras Dívidas |
+| (−) Depósitos Restituíveis | falta granularidade (8º segmento e AL × FDM) |
+| (−) Restos a Pagar Processados | exige o relatório por fonte, por Poder |
+
+O teste falha em dois sentidos: se uma linha que fechava voltar a divergir **e**
+se uma pendente passar a fechar sem que a lista seja atualizada. A segunda trava
+é a que evita a documentação envelhecer sem avisar.
+
+Suíte completa: **9 arquivos, 69 testes**.

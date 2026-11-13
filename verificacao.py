@@ -275,6 +275,31 @@ def anexo14_2026() -> list[dict]:
             for k in rotulos]
 
 
+def anexo2_rgf_2026() -> list[dict]:
+    """RGF Anexo 2 de 2026, 2o quadrimestre (fechamento em agosto)."""
+    import rgf_anexo2_dcl as D
+
+    arq = os.path.join(SICONFI, "rgf", "RGF_RGF-Anexo_02_24_2026_p2.csv")
+    if not os.path.exists(arq):
+        return []
+    of = {}
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        if r["coluna"] == "Até o 2º Quadrimestre":
+            of[r["conta"].strip()] = float(r["valor"])
+    saida = []
+    pares = (
+        ("Disponibilidade de Caixa Bruta", lambda: D.disponibilidade(2026, 8)),
+        ("(-) Depósitos Restituíveis e Valores Vinculados", lambda: D.depositos(2026, 8)),
+        ("Demais Haveres Financeiros",
+         lambda: D.apurar_msc("D+ Haveres", 1, "10111", 2026, 8)),
+    )
+    for nome, funcao in pares:
+        if nome not in of:
+            continue
+        saida.append(_linha(f"2026 Q2 — {nome[:34]}", funcao(), of[nome]))
+    return saida
+
+
 def anexo7_2026() -> list[dict]:
     """RREO Anexo 7 de 2026 — restos a pagar, contra o CSV do Siconfi."""
     import rreo_anexo7 as A7
@@ -377,6 +402,7 @@ FONTES = OrderedDict((
     ("RGF Anexo 5 - totais", anexo5_totais),
     ("RGF Anexo 1 - por Poder", anexo1_poder),
     ("RREO Anexo 2 - 2026", anexo2_rreo_2026),
+    ("RGF Anexo 2 - 2026", anexo2_rgf_2026),
     ("RREO Anexo 7 - 2026", anexo7_2026),
     ("RREO Anexo 14 - 2026", anexo14_2026),
     ("RREO Anexo 4", anexo4),

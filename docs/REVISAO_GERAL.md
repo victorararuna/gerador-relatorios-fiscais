@@ -1422,3 +1422,29 @@ planilha da equipe, não contra o homologado.
 
 É a que depende do relatório por fonte. As demais — inclusive as que eu dava como
 "em aberto" — fecham.
+
+
+### 17.32 RGF Anexo 2 de 2026 — e a descoberta do quadrimestre
+
+Existem arquivos do RGF de 2026 (p1 e p2). Ao testar, o 2º quadrimestre dava
+errado porque eu usei **junho** — mas o 2º quadrimestre fecha em **agosto**
+(Jan–Abr, Mai–Ago, Set–Dez).
+
+Em agosto, as três linhas da MSC fecham ao centavo:
+
+| linha | apurado | publicado (p2/2026) |
+|---|---:|---:|
+| Disponibilidade de caixa bruta | 2.179.696.115,59 | 2.179.696.115,59 |
+| (−) Depósitos restituíveis | 1.055.257.817,55 | 1.055.257.817,55 |
+| Demais haveres financeiros | 266.702.621,21 | 266.702.621,21 |
+
+As funções foram parametrizadas (`disponibilidade(ano, mes)`,
+`depositos(ano, mes)`, `apurar_msc(..., ano, mes)`), de modo que p1 e p3 usam os
+mesmos argumentos.
+
+**Livro: 304 células, 301 exatas (99,0%).**
+
+### A lição
+
+O erro não era de dado nem de regra: era de **calendário**. Um quadrimestre não é
+um bimestre, e o fechamento é em abril, agosto e dezembro — não em junho.

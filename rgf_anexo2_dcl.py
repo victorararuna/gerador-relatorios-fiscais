@@ -184,7 +184,7 @@ CONTAS_DISPONIBILIDADE = (
 FONTES_RPPS = ("800", "801", "802")
 
 
-def disponibilidade() -> float:
+def disponibilidade(ano: int = 2025, mes: int = 12) -> float:
     """Disponibilidade de caixa bruta: as 13 contas, sem as fontes do RPPS.
 
     A aba "CONTAS" (linha 243) faz `C - D`, com D vindo da aba "Disponibilidade"
@@ -200,7 +200,7 @@ def disponibilidade() -> float:
 
     ac = Acervo(os.path.join(raiz, "dados", "acervo"))
     total = 0.0
-    for r in ac.ler(2025, 12, classe=1, tipo_valor="ending_balance"):
+    for r in ac.ler(ano, mes, classe=1, tipo_valor="ending_balance"):
         if not r.conta.startswith(CONTAS_DISPONIBILIDADE):
             continue
         if (r.fr or "")[1:4] in FONTES_RPPS:
@@ -209,7 +209,7 @@ def disponibilidade() -> float:
     return total
 
 
-def depositos() -> float:
+def depositos(ano: int = 2025, mes: int = 12) -> float:
     """Depósitos restituíveis: as 8 contas, sem as fontes do RPPS.
 
     Conferido contra o DCL **publicado**: 798.314.769,23, exato. A planilha da
@@ -226,7 +226,7 @@ def depositos() -> float:
             "22881", "22883", "22884", "22885")
     ac = Acervo(os.path.join(raiz, "dados", "acervo"))
     total = 0.0
-    for r in ac.ler(2025, 12, classe=2, tipo_valor="ending_balance"):
+    for r in ac.ler(ano, mes, classe=2, tipo_valor="ending_balance"):
         if not r.conta.startswith(pref):
             continue
         if (r.fr or "")[1:4] in ("800", "802"):
@@ -259,7 +259,8 @@ def contas_da_aba(nome: str) -> list:
     return sorted(saida)
 
 
-def apurar_msc(aba: str, classe: int, po: str) -> float:
+def apurar_msc(aba: str, classe: int, po: str,
+               ano: int = 2025, mes: int = 12) -> float:
     """Soma o saldo de uma aba na MSC, restrito a um Poder."""
     import sys as _sys
 
@@ -271,7 +272,7 @@ def apurar_msc(aba: str, classe: int, po: str) -> float:
     contas = contas_da_aba(aba)
     ac = Acervo(os.path.join(raiz, "dados", "acervo"))
     total = 0.0
-    for r in ac.ler(2025, 12, classe=classe, tipo_valor="ending_balance"):
+    for r in ac.ler(ano, mes, classe=classe, tipo_valor="ending_balance"):
         if r.po != po:
             continue
         if any(r.conta.startswith(p) for p in contas):

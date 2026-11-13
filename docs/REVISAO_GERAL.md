@@ -188,3 +188,36 @@ As oito divergências:
 Todas são **para mais** e concentradas em três linhas. O padrão sugere que o
 anexo desconta algo que o filtro de fonte sozinho não captura — provavelmente os
 RP cancelados, que aparecem em coluna própria do demonstrativo.
+
+### 8.1 A fonte 759 e o salto para 48 de 54
+
+"Recursos Vinculados a Fundos" e "Outras Vinculações Legais" **compartilham a
+fonte 759**. O anexo a atribui somente à primeira:
+
+```
+FR 759 ... 6321 = 581.150,15 | 6313 = 13.801,55 | 6327 = 13.522.392,88
+```
+
+Removendo 759 de "Outras Vinculações Legais":
+
+| célula | nosso | oficial |
+|---|---:|---:|
+| Outras — (b) | 7.213,51 | 7.213,81 |
+| Outras — (c) | 13.318.440,16 | 13.318.440,16 |
+
+**48 de 54 células exatas** (89%).
+
+Restam seis, todas concentradas em duas linhas:
+
+| linha | coluna | diferença |
+|---|---|---:|
+| Recursos Não Vinculados de Impostos | b | +524.118 |
+| Recursos Não Vinculados de Impostos | c | +1.769.977 |
+| Recursos Não Vinculados de Impostos | d | +1.548.101 |
+| Outros Recursos não Vinculados | c | +15.137 |
+| Outros Recursos não Vinculados | d | +751.849 |
+| Recursos Vinculados a Fundos | c | +8.624.787 |
+
+A hipótese dos RP cancelados **não se confirmou**: subtrair 6329/6319 produz
+valores negativos em várias linhas. O caminho agora é a coluna (H) do arquivo,
+que trata dos cancelados separadamente.

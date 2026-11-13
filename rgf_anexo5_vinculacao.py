@@ -83,6 +83,12 @@ def apurar(ano: int, mes: int, prefixos, fr) -> float:
 
 def main() -> int:
     filtros, oficial = ler_planilha(PLANILHA)
+    # a fonte 759 aparece em "Recursos Vinculados a Fundos" e em "Outras
+    # Vinculações Legais"; o anexo a atribui somente à primeira.
+    if "Outras Vinculações Legais" in filtros:
+        pos, tam, lista = filtros["Outras Vinculações Legais"]
+        filtros["Outras Vinculações Legais"] = (
+            pos, tam, [f for f in lista if f != "759"])
     print(f"{len(filtros)} linhas com filtro de fonte\n")
     print(f"{'linha':<46}{'col':<4}{'nosso':>16}{'oficial':>16}{'dif':>12}")
     acertos = total = 0
@@ -106,3 +112,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+

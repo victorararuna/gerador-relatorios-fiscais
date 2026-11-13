@@ -441,3 +441,22 @@ e a MSC não abre essas contas no mesmo nível — é a mesma limitação do Ane
 
 **(d)** está 2,3 mi acima: provável efeito dos empenhos não liquidados
 cancelados, que o anexo desconta em coluna própria.
+
+### 14.1 O cuidado com o nível da conta
+
+Ao trocar a fonte da MSC para o balancete, os valores **dobraram**. A causa:
+
+```
+6.3.2.1.0.00.00.00  RP Processados a Pagar ....  470.465.377,32
+6.3.2.1.1.00.00.00  (nível seguinte) ..........  470.465.377,32
+```
+
+O prefixo `6321` do mapeamento casa com os **dois** níveis. Somar por prefixo
+conta duas vezes; o mapeamento pressupõe o nível exato.
+
+Consequência prática: na MSC o prefixo funciona porque ela já vem agregada em
+9 dígitos. No balancete é preciso usar a conta exata de 8 segmentos, não o
+prefixo.
+
+Isso explica por que a MSC deu (b) = 473.512.832,93 (+0,11%) e o balancete deu
+947.025.665,86 — mesmo dado, níveis diferentes.

@@ -154,6 +154,32 @@ def anexo2() -> list[dict]:
 
 
 # --------------------------------------------------------------------------
+def motor() -> dict:
+    """As 27 conferências de ponta a ponta, agrupadas por anexo.
+
+    Reaproveita `verificar_tudo.py`, que confere o motor contra os arquivos
+    homologados do Siconfi. Cada verificação vira uma linha da aba do seu anexo.
+    """
+    import contextlib
+    import io
+
+    import verificar_tudo as VT
+
+    VT.resultados.clear()
+    with contextlib.redirect_stdout(io.StringIO()):
+        VT.main()
+    grupos = OrderedDict()
+    for nome, ok, valor, esperado, _obrig in VT.resultados:
+        anexo = nome.split(":")[0].strip()
+        if anexo == "RREO":
+            anexo = "RREO - Balanço Orçamentário"
+        grupos.setdefault(anexo, []).append(
+            {"item": nome, "apurado": valor, "referencia": esperado,
+             "desvio": valor - esperado, "ok": bool(ok),
+             "obs": "tolerância de 0,5%" if ok and abs(valor - esperado) > 1 else ""})
+    return grupos
+
+
 FONTES = OrderedDict((
     ("RGF Anexo 1", anexo1),
     ("RGF Anexo 2", anexo2),
@@ -174,8 +200,11 @@ def gerar(caminho: str | None = None) -> str:
     for c in range(1, 6):
         resumo.cell(1, c).font = Font(bold=True)
 
-    for nome, funcao in FONTES.items():
-        linhas = funcao()
+    grupos = OrderedDict((nome, funcao()) for nome, funcao in FONTES.items())
+    for anexo, linhas in motor().items():
+        grupos.setdefault(anexo, []).extend(linhas)
+
+    for nome, linhas in grupos.items():
         ws = wb.create_sheet(nome[:31])
         ws.append(["item", "apurado", "referência", "desvio", "situação", "observação"])
         for c in range(1, 7):
@@ -205,11 +234,20 @@ def gerar(caminho: str | None = None) -> str:
 def main() -> int:
     destino = gerar()
     print(f"planilha gerada: {destino}\n")
-    print(f"{'anexo':<16}{'células':>9}{'exatas':>8}{'divergentes':>13}")
+    print(f"{'anexo':<22}{'células':>9}{'exatas':>8}{'divergentes':>13}")
+    total = exatas_total = 0
     for nome, funcao in FONTES.items():
         linhas = funcao()
         exatas = sum(1 for l in linhas if l["ok"])
-        print(f"{nome:<16}{len(linhas):>9}{exatas:>8}{len(linhas) - exatas:>13}")
+        total += len(linhas); exatas_total += exatas
+        print(f"{nome:<22}{len(linhas):>9}{exatas:>8}{len(linhas) - exatas:>13}")
+    for anexo, linhas in motor().items():
+        if anexo in FONTES:
+            continue
+        exatas = sum(1 for l in linhas if l["ok"])
+        total += len(linhas); exatas_total += exatas
+        print(f"{anexo:<22}{len(linhas):>9}{exatas:>8}{len(linhas) - exatas:>13}")
+    print(f"\n{exatas_total} de {total} células exatas")
     return 0
 
 

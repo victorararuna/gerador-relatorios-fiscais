@@ -741,3 +741,33 @@ demonstrativo (apurado, referência, desvio, situação) e uma aba de resumo.
 
 Nenhuma divergência está "arredondada para zero": todas aparecem com o valor e a
 causa.
+
+
+### 17.1 O livro agora cobre tudo
+
+`verificacao.py` incorporou as 27 conferências do `verificar_tudo.py`, agrupadas
+por anexo. O livro passou a ter **16 abas** e **166 células**:
+
+| grupo | células | exatas |
+|---|---:|---:|
+| RGF Anexo 1 (jan–ago) | 24 | 22 |
+| RGF Anexo 1 — limites | 5 | **5** |
+| RGF Anexo 2 | 14 | 9 |
+| RGF Anexo 3 / 4 / 6 | 3 | **3** |
+| RGF Anexo 5 | 90 | **90** |
+| RREO Anexo 1 / 2 / 3 / 7 / 9 / 13 / 14 | 27 | **27** |
+| motor | 1 | **1** |
+| **total** | **166** | **159** |
+
+### 17.2 A cadeia RCL → limites
+
+`mapa_anexo1.limites_do_rreo(dtp_12m)` fecha o caminho:
+
+```
+RREO Anexo 3 (CSV homologado) -> RCL ajustada 20.958.175.998,75
+                              -> limites( RCL , DTP 12 meses )
+                              -> 55,17% e os três limites em reais
+```
+
+Conferido contra o publicado: 55,17%; máximo 10.269.506.239,39; prudencial
+9.756.030.927,42; alerta 9.242.555.615,45.

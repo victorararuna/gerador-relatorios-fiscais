@@ -326,3 +326,42 @@ correta: **passivo (classe 2) entra pelo saldo credor positivo**.
 
 **Oito de quatorze exatas.** O que abriu o caminho foi a convenção de sinal —
 antes o passivo entrava negativo e metade das linhas saía com o dobro do desvio.
+
+---
+
+## 12. As duas divergências que sobraram no DCL
+
+### 12.1 Restos a Pagar Processados — fonte própria
+
+A seção "(-) Restos a Pagar Processados" da base lista **contas da classe 6**
+(6.2.2.1.3.07, 6.3.1.3, 6.3.2.1, 6.3.2.7), não saldos patrimoniais. Lê-las como
+"saldo restante" do balancete produz −3,3 bi.
+
+O demonstrativo não as tira do balancete: tem **abas próprias**, `RP` e
+`RP_MSC`, alimentadas pelo relatório de execução orçamentária do SIGEF:
+
+```
+RP Proc A Pagar - 6321 ............. 469.941.259,71
+RP Não Proc Liquidado A Pg .........   3.047.455,61
+6.2.2.1.3.07 inscritos ............. 1.405.948.478,02
+                                     ----------------
+                                     1.878.937.193,34
+(-) 32 (juros) / 46 (amort.) / 800 / 801 / 802 ... deduções por fonte
+```
+
+Conclusão: a linha de RP **não é apurável pelo balancete nem pela MSC** — exige
+essa extração específica.
+
+### 12.2 Demais Dívidas Contratuais — escopo, não erro
+
+Nossa soma: 53.565.914,09 + 218.727.482,50 = **272.293.396,59**.
+O valor oficial da linha é **0,00**.
+
+A aritmética está certa; o ente simplesmente não inclui essas contas
+(2.1.8.1.x / 2.2.8.1.x) nessa linha — elas aparecem em "Outras Dívidas"
+(942.088.822,97). É escolha de classificação, não erro de soma.
+
+### Situação final do Anexo 2
+
+8 linhas exatas; as demais divergências têm causa identificada e documentada —
+nenhuma é erro de apuração.

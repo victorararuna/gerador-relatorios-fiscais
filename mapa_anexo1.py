@@ -191,6 +191,30 @@ def quadro_ii(mes: str) -> dict:
     }
 
 
+#: limites da LRF para o Poder Executivo estadual (art. 20, II)
+LIMITE_MAXIMO = 0.49
+LIMITE_PRUDENCIAL = 0.4655
+LIMITE_ALERTA = 0.4410
+
+
+def limites(rcl_ajustada: float, dtp: float) -> dict:
+    """Percentual e limites em reais.
+
+    ATENÇÃO À JANELA: numerador e denominador têm de cobrir o mesmo período.
+    A DTP é de 12 meses e a RCL também. Dividir uma DTP de 10 meses por uma RCL
+    de 12 produz um número plausível e errado — foi o que gerou os 44,32% do
+    painel, quando o publicado é 55,17%.
+    """
+    if not rcl_ajustada:
+        raise ValueError("RCL ajustada zerada")
+    return {
+        "percentual": dtp / rcl_ajustada * 100,
+        "limite_maximo": round(rcl_ajustada * LIMITE_MAXIMO, 2),
+        "limite_prudencial": round(rcl_ajustada * LIMITE_PRUDENCIAL, 2),
+        "limite_alerta": round(rcl_ajustada * LIMITE_ALERTA, 2),
+    }
+
+
 def main() -> int:
     mes = sys.argv[1] if len(sys.argv) > 1 else "Setembro"
     s = secoes(mes)

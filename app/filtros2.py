@@ -52,14 +52,14 @@ class Condicao:
     tamanho: Optional[int] = None
     valores: List[str] = field(default_factory=list)
     exceto: List[str] = field(default_factory=list)
+    negado: bool = False   # "EXCETO Pos. inicial=..." — substring que exclui
 
     def casar(self, reg) -> bool:
         valor = getattr(reg, self.campo, "") or ""
         if self.posicao is not None and self.tamanho:
             pedaco = valor[self.posicao - 1:self.posicao - 1 + self.tamanho]
-            if self.valores:
-                return pedaco in self.valores
-            return True
+            dentro = (pedaco in self.valores) if self.valores else True
+            return (not dentro) if self.negado else dentro
         if self.prefixos:
             if not any(valor.startswith(p) for p in self.prefixos):
                 return False
@@ -116,14 +116,16 @@ def _parte(texto: str) -> List[Condicao]:
         saida.append(Condicao(campo="conta",
                               prefixos=[conta_para_prefixo(m.group(1))]))
 
-    # substring de FR
+    # substring de FR/ND/NR/CC
     for m in RE_SUBSTR.finditer(texto):
         campo = CAMPOS.get(m.group(1).upper(), "fr")
+        antes = texto[max(0, m.start() - 18):m.start()].upper()
         saida.append(Condicao(
             campo=campo,
             posicao=int(m.group(2)),
             tamanho=int(m.group(3)),
             valores=_itens(m.group(4) or ""),
+            negado="EXCETO" in antes,
         ))
 
     # prefixos

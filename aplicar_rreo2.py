@@ -44,7 +44,7 @@ ACERVO = os.path.join(RAIZ, "dados", "acervo")
 MAPEAMENTOS = os.path.join(RAIZ, "dados", "mapeamentos", "rreo")
 
 IGNORAR = ("Atualiz", "Tabela", "<", "RELAT", "DEMON", "ORÇAM", "RREO -",
-           "ESPECIF", "Critérios", "FILTROS", "RECEITAS", "DESPESAS",
+           "ESPECIF", "Critérios", "FILTROS",
            "ACIMA DA", "ABAIXO DA", "IDENTIFICAÇÃO")
 
 
@@ -74,15 +74,80 @@ def abrir(chave: str):
     return None, None
 
 
-def criterio_conta(ws) -> str:
-    """O critério de conta — linha 15 por coluna, ou linha 18 única."""
-    for c in range(2, min(ws.max_column, 14) + 1):
+def coluna_alvo(ws, linha_crit: int) -> int:
+    """Escolhe a coluna acumulada da seção, pela especificidade da conta.
+
+    As colunas de um bloco têm critérios diferentes (dotação, empenhada,
+    liquidada, paga). A comparação com o homologado usa a **liquidada** na
+    despesa e a **realizada** na receita — ambas marcadas "SEM MÊS".
+    """
+    melhor, score = 0, -1
+    for c in range(4, ws.max_column + 1):
+        v = str(ws.cell(linha_crit, c).value or "")
+        if not v.upper().startswith("CC"):
+            continue
+        u = v.upper()
+        if "SEM MÊS" not in u and "SEM MES" not in u:
+            continue
+        if "6221303" in v or "6221304" in v:
+            s = 3
+        elif "6212" in v:
+            s = 2
+        elif "62213" in v:
+            s = 1
+        else:
+            continue
+        if s > score:
+            melhor, score = c, s
+    return melhor
+
+
+def linha_de_criterio(ws) -> list:
+    """Linhas do mapeamento que trazem critérios de conta (linha 15, 104, 141…)."""
+    linhas = []
+    for l in range(1, ws.max_row + 1):
+        for c in range(4, ws.max_column + 1):
+            v = ws.cell(l, c).value
+            if isinstance(v, str) and v.strip().upper().startswith("CC"):
+                linhas.append(l)
+                break
+    return linhas
+
+
+def criterio_da_linha(ws, linha_excel: int, criterios: list) -> str:
+    """O critério da seção a que a linha pertence (o mais próximo acima)."""
+    acima = [l for l in criterios if l <= linha_excel]
+    if not acima:
+        return ""
+    base = max(acima)
+    col = coluna_alvo(ws, base)
+    v = ws.cell(base, col).value if col else None
+    return str(v).strip() if isinstance(v, str) else ""
+
+
+def criterio_conta(ws, coluna: int = 0) -> str:
+    """O critério de conta da coluna que se quer apurar.
+
+    O mapeamento é uma grade: cada coluna do anexo tem o **seu** critério de
+    conta na linha 15. A coluna pedida vem por argumento; sem ela, procura-se a
+    coluna "(c)" (Até o Bimestre), que é a acumulada — a que se compara com o
+    homologado. Antes isto pegava a primeira coluna (Previsão Inicial, conta
+    5211) e por isso toda a apuração saía zerada.
+    """
+    if coluna:
+        v = ws.cell(15, coluna).value
+        return str(v).strip() if isinstance(v, str) else ""
+    # coluna acumulada: linha 13 traz "(c)"
+    for c in range(2, ws.max_column + 1):
+        rotulo = ws.cell(13, c).value
+        if isinstance(rotulo, str) and rotulo.strip().lower() == "(c)":
+            v = ws.cell(15, c).value
+            if isinstance(v, str) and "CC" in v.upper():
+                return v.strip()
+    # sem rótulo: última coluna com critério de conta
+    for c in range(ws.max_column, 1, -1):
         v = ws.cell(15, c).value
-        if isinstance(v, str) and ("CC" in v.upper() or "LISTA" in v.upper()):
-            return v.strip()
-    for l in range(15, 22):
-        v = ws.cell(l, 4).value
-        if isinstance(v, str) and ("6.2.1" in v or "CC " in v.upper()):
+        if isinstance(v, str) and "CC" in v.upper():
             return v.strip()
     return ""
 
@@ -101,7 +166,7 @@ def ler_linhas(ws) -> list:
         indent = len(texto) - len(texto.lstrip())
         filtro = ws.cell(l, 2).value
         filtro = str(filtro).strip() if filtro is not None else ""
-        saida.append([indent, esp, filtro, None])   # o 4º vira o valor
+        saida.append([indent, esp, filtro, None, l])   # 4º = valor, 5º = linha
     return saida
 
 
@@ -129,7 +194,7 @@ def calcular_hierarquia(linhas: list) -> None:
     n = len(linhas)
     # para cada linha, o índice da próxima linha com indentação menor ou igual
     for i in range(n - 1, -1, -1):
-        indent, esp, filtro, valor = linhas[i]
+        indent, esp, filtro, valor = linhas[i][:4]
         if valor is not None:
             continue
         # filhos: linhas seguintes com indentação maior
@@ -147,7 +212,7 @@ def calcular_hierarquia(linhas: list) -> None:
             linhas[i][3] = sum(linhas[k][3] or 0.0 for k in diretos)
 
 
-def main(anexo_chave: str, ano: int, bimestre: int) -> int:
+def main(anexo_chave: str, ano: int, bimestre: int, coluna: int = 0) -> int:
     global ano_global
     ano_global = ano
     caminho, wb = abrir(anexo_chave)
@@ -155,7 +220,7 @@ def main(anexo_chave: str, ano: int, bimestre: int) -> int:
         print(f"mapeamento não encontrado: {anexo_chave}")
         return 1
     ws = wb[wb.sheetnames[0]]
-    crit = criterio_conta(ws)
+    crit = criterio_conta(ws, coluna)
     linhas = ler_linhas(ws)
     print(f"mapeamento: {os.path.basename(caminho)}")
     print(f"critério de conta: {crit[:70]}")
@@ -163,13 +228,15 @@ def main(anexo_chave: str, ano: int, bimestre: int) -> int:
 
     acervo = Acervo(ACERVO)
     meses = list(range(1, bimestre * 2 + 1))
+    criterios = linha_de_criterio(ws)
 
     # apura as folhas (linhas com filtro válido)
     for ln in linhas:
-        indent, esp, filtro, _ = ln
+        indent, esp, filtro, _, linha_excel = ln
         fl = F.interpretar(filtro)
         if not fl.invalido:
-            ln[3] = apurar_linha(acervo, meses, crit, filtro)
+            crit_ln = criterio_da_linha(ws, linha_excel, criterios) or crit
+            ln[3] = apurar_linha(acervo, meses, crit_ln, filtro)
 
     # soma os ramos
     calcular_hierarquia(linhas)
@@ -202,7 +269,7 @@ def main(anexo_chave: str, ano: int, bimestre: int) -> int:
 
     r = 5
     n_ok = n_div = 0
-    for indent, esp, filtro, valor in linhas:
+    for indent, esp, filtro, valor in (l[:4] for l in linhas):
         of = None
         rot = indice.get(normalizar(esp))
         if hom is not None and rot:
@@ -252,5 +319,10 @@ if __name__ == "__main__":
     ap.add_argument("--anexo", required=True)
     ap.add_argument("--ano", type=int, default=2026)
     ap.add_argument("--bimestre", type=int, default=4)
+    ap.add_argument("--coluna", type=int, default=0,
+                    help="coluna do mapeamento (padrão: a acumulada \"(c)\")")
     a = ap.parse_args()
     raise SystemExit(main(a.anexo, a.ano, a.bimestre))
+
+
+

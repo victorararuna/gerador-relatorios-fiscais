@@ -29,7 +29,10 @@ PO_EXECUTIVO = ("10111", "10112", "60611")
 FR_ENFERMAGEM = "1605"
 
 #: ADCT art. 38, § 2º — percentual do exercício
-PERCENTUAL_ENFERMAGEM = {2022: 1.00, 2023: 1.00, 2024: 0.90, 2025: 0.80, 2026: 0.70}
+#: EC 127/2022, art. 38, § 2º — escalonamento do piso da enfermagem.
+#: 2023: 100% | 2024: 90% | 2025: 81% | 2026: 72% | 2027: 63%
+#: Conferido no manual da equipe (MDF 15ª ed.): 2026 = 72%.
+PERCENTUAL_ENFERMAGEM = {2022: 1.00, 2023: 1.00, 2024: 0.90, 2025: 0.81, 2026: 0.72}
 
 
 def percentual_enfermagem(ano: int) -> float:

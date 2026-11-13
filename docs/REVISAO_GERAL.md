@@ -1092,8 +1092,14 @@ A MSC para no sétimo segmento; o balancete desce ao oitavo, mas não na mesma
 abertura que a aba — 15 contas não casam e as que casam capturam o pai, não a
 folha.
 
-**Conclusão:** a linha de Depósitos depende da abertura de 8 segmentos **por
-fonte**, que a equipe tem e nós não. Não é falta de esforço: é falta de insumo.
+Confirmado no balancete: a conta mais fina da família é `2.1.8.8.1.01.08.00`
+(sete segmentos, R$ 128.568,23); o oitavo — `.08.01` — não existe em nenhuma
+fonte. O pai `2.1.8.8.1.01.00.00` soma R$ 531.484.361,86 e não serve: é a família
+inteira.
+
+**Conclusão:** a linha de Depósitos depende de uma abertura de 8 segmentos **por
+fonte** que não existe em nenhuma das nossas fontes — nem na MSC, nem no
+balancete. Não é falta de esforço: é falta de dado.
 
 Duas implementações tentadas e revertidas. A linha segue pelo balancete, com o
 desvio de 54.946.195,61 documentado — e a regra conhecida (total menos bloco

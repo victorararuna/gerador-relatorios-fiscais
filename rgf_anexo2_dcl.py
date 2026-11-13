@@ -156,6 +156,44 @@ SECOES_MSC = {
     "Demais Haveres Financeiros": ("D+ Haveres", 1, "10111"),
 }
 
+#: o bloco IPERN dos depósitos (contas .01.08 a .01.14 em FR 800/802) é
+#: deduzido do total: a aba o soma em separado e o CONTAS subtrai (D253 = D42)
+CONTAS_IPERN = ("2188101080", "2188101100", "2188101110", "2188101130",
+                "2188101140", "2188101180", "2188101200", "2188101210",
+                "2188101230", "2188101240", "2188101320", "2188101990",
+                "2188102020", "2188104010", "2188104030", "2188104120",
+                "2188199010", "2188199020", "2188199030", "2188199060",
+                "2188301020", "2188301021", "2188501080")
+
+
+def depositos() -> float:
+    """Depósitos restituíveis: total das contas 2.1.8.8/2.2.8.8 menos o IPERN.
+
+    A aba "Depósitos" soma o bloco IPERN em separado (D42) e a aba "CONTAS"
+    subtrai esse valor do total (D253 = D42). É o mesmo mecanismo do Anexo 5:
+    o RPPS sai da linha e entra por outro caminho.
+    """
+    import sys as _sys
+
+    raiz = os.path.dirname(os.path.abspath(__file__))
+    if os.path.join(raiz, "app") not in _sys.path:
+        _sys.path.insert(0, os.path.join(raiz, "app"))
+    from acervo import Acervo
+
+    pref = ("21881", "21883", "21884", "21885",
+            "22881", "22883", "22884", "22885")
+    ac = Acervo(os.path.join(raiz, "dados", "acervo"))
+    total = ipern = 0.0
+    for r in ac.ler(2025, 12, classe=2, tipo_valor="ending_balance"):
+        c = r.conta
+        if not c.startswith(pref):
+            continue
+        v = -r.liquido
+        total += v
+        if c.startswith(CONTAS_IPERN) and (r.fr or "")[1:4] in ("800", "802"):
+            ipern += v
+    return total - ipern
+
 
 #: contas que a MSC agrega num sufixo diferente do que a aba lista
 EQUIVALENTES = {"121310100": "121310199"}

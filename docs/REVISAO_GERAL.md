@@ -1040,3 +1040,39 @@ exatamente R$ 40.722,00. Com o mapa `EQUIVALENTES = {"121310100": "121310199"}`:
 | **MSC, PO 10111 + conta .99** | **269.314.515,89** | **0** |
 
 **RGF Anexo 2: 10 de 14 linhas exatas.** O livro passou a **275 de 281**.
+
+
+### 17.16 Depósitos — a dedução e o Poder que sobra
+
+A aba "Depósitos" tem, abaixo das 8 contas, um bloco **IPERN** (linhas 16-42)
+com 24 sub-contas em FR 800/802. A aba "CONTAS" subtrai esse bloco do total
+(`D253 = Depósitos!D42`):
+
+```
+C 834.666.683,98   (as 8 contas do Executivo — igual ao nosso valor da MSC)
+D  53.753.274,49   (o bloco IPERN)
+E 780.913.409,49   (o que vai para a linha)
+```
+
+O total da linha, então, é **todas as contas menos o bloco IPERN**:
+
+| escopo | valor | contra o oficial |
+|---|---:|---:|
+| todas as contas | 852.068.043,72 | +54.946.195,61 |
+| menos o bloco IPERN | 798.314.769,23 | **+1.192.921,12** |
+
+### E o resíduo é de outro Poder
+
+O Executivo fecha: `834.666.683,98 − 53.753.274,49 = 780.913.409,49`. O que sobra
+está nos demais Poderes:
+
+| | nosso | da aba | diferença |
+|---|---:|---:|---:|
+| AL + FDM | 2.531.909,68 | 1.338.988,56 | **1.192.921,12** |
+
+É exatamente o resíduo. O AL (PO 20211) concentra o FDM, e a diferença é de
+escopo de conta entre a MSC e o balancete da AL.
+
+Tentei implementar a dedução do bloco IPERN e o resultado não convergiu (erro de
+sinal e de prefixo das sub-contas). **Revertido** — a linha segue pelo balancete,
+com o desvio de 54,9 mi documentado aqui, em vez de um número pior.

@@ -29,12 +29,22 @@ PLANILHA = (r"C:\Users\victo\Downloads\RELATÓRIOS CONTAG\Demonstrativos Fiscais
             r"\RGF 2025\3º QUADRIMESTRE\PRONTOS\EXCEL"
             r"\RGF 2025_Q3_05 -DEMONSTRATIVO DA DISPONIBILIDADE DE CAIXA E DOS RESTOS A PAGAR.xlsx")
 
-#: coluna -> prefixos de conta
+#: coluna -> (prefixos de conta, classe, sinal, exclusões)
+#: (a) classe 1 com sinal D-C, excluindo a conta-espelho 111120000
+#: (e) contas de CONTROLE da classe 8 - a pratica do RN (notas 3 e 4 do anexo),
+#:     que diverge do template da STN (2.1.8.9.1.01.05/.08)
 COLUNAS = {
-    "b": ("6321", "6313"),
-    "c": ("6327",),
-    "d": ("6311", "6312"),
+    "a": (("111",), 1, -1, ("111120000",)),
+    "b": (("6321", "6313"), 6, 1, ()),
+    "c": (("6327",), 6, 1, ()),
+    "d": (("6311", "6312"), 6, 1, ()),
+    "e": (("821130200", "821130300"), 8, 1, ()),
+    "h": (("6317",), 6, 1, ()),
 }
+
+#: acrescimo proprio do ente na coluna (e), so na linha de recursos nao vinculados
+CONTA_NAO_EXECUTADA = "863310000"
+LINHA_NAO_VINCULADOS = "Recursos Não Vinculados de Impostos"
 
 RE_FILTRO = re.compile(
     r"FR\s+Pos\.?\s*inicial\s*=\s*(\d+)\s*;\s*Tamanho\s*=\s*(\d+);?\s*Lista\s*=\s*([\d,]+)",
@@ -66,16 +76,42 @@ def ler_planilha(caminho: str):
     return filtros, oficial
 
 
-def apurar(ano: int, mes: int, prefixos, fr) -> float:
+def apurar(ano: int, mes: int, prefixos, fr, classe: int = 6, sinal: int = 1,
+           excluir=()) -> float:
+    """Soma a coluna. Filtra por conta, por fonte e pelo Poder Executivo.
+
+    O filtro `po` começando por "10" é o que separa o Executivo dos demais
+    Poderes — sem ele, seis células do anexo somavam os outros Poderes.
+    """
     from acervo import Acervo
 
     pos, tam, lista = fr
     acervo = Acervo(MSC)
     total = 0.0
-    for r in acervo.ler(ano, mes, classe=6, tipo_valor="ending_balance"):
+    for r in acervo.ler(ano, mes, classe=classe, tipo_valor="ending_balance"):
         if not r.conta.startswith(prefixos):
             continue
+        if r.conta in excluir:
+            continue
+        if not (r.po or "").startswith("10"):
+            continue
         if ((r.fr or "")[pos - 1:pos - 1 + tam]) not in lista:
+            continue
+        total += sinal * r.liquido
+    return total
+
+
+def apurar_nao_executada(ano: int, mes: int, fr) -> float:
+    """Acréscimo da conta 8.6.3.3.1 na coluna (e), linha de não vinculados."""
+    from acervo import Acervo
+
+    pos, tam, _ = fr
+    acervo = Acervo(MSC)
+    total = 0.0
+    for r in acervo.ler(ano, mes, classe=8, tipo_valor="ending_balance"):
+        if not r.conta.startswith(CONTA_NAO_EXECUTADA):
+            continue
+        if not (r.po or "").startswith("10"):
             continue
         total += r.liquido
     return total
@@ -96,11 +132,16 @@ def main() -> int:
         valores = oficial.get(nome)
         if not valores:
             continue
-        for i, (chave, prefixos) in enumerate(COLUNAS.items(), start=1):
+        for i, (chave, (prefixos, classe, sinal, excluir)) in enumerate(COLUNAS.items()):
+            if i >= len(valores):
+                continue
             of = valores[i]
             if of is None:
                 continue
-            v = apurar(2025, 12, prefixos, fr)
+            v = apurar(2025, 12, prefixos, fr, classe=classe, sinal=sinal,
+                       excluir=excluir)
+            if chave == "e" and nome == LINHA_NAO_VINCULADOS:
+                v += apurar_nao_executada(2025, 12, fr)
             total += 1
             ok = abs(v - of) < 1.0
             acertos += ok

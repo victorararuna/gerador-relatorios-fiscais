@@ -1402,3 +1402,31 @@ simples, e funcionava. Eu parei no primeiro que falhou em vez de testar o segund
 
 E o mais grave: eu comparava contra a planilha da equipe — que **não é** o
 publicado. A conferência só vale contra o arquivo homologado.
+
+
+### 17.31 ANEXO 2 EM 15 DE 16 — três linhas que estavam fora da conferência
+
+O DCL publicado tem 30 linhas; o módulo conferia 13. Fui ver as que ficavam de
+fora e **três fecham ao centavo**:
+
+| linha | apurado | publicado |
+|---|---:|---:|
+| Precatórios posteriores a 05/05/2000 | 5.595.401.507,77 | 5.595.401.507,77 |
+| Passivo atuarial | 84.052.803.127,13 | 84.052.803.127,13 |
+| Dívida contratual de PPP | 215.455.288,93 | 215.455.288,93 |
+
+E retirei uma comparação indevida: **"Demais Dívidas Contratuais" não existe no
+DCL publicado**. As contas 2.1.8.1.1 (53,6 mi) e 2.2.8.1.1 (218,7 mi) entram em
+"Outras Dívidas" (941.926.197,62). Comparar contra zero era comparar contra a
+planilha da equipe, não contra o homologado.
+
+**RGF Anexo 2: 15 de 16 linhas exatas.** Livro: **298 de 301 (99,0%)**.
+
+### A única que resta
+
+| linha | apurado | publicado |
+|---|---:|---:|
+| (−) Restos a Pagar Processados | 3.306.229.590,47 | 750.866.596,13 |
+
+É a que depende do relatório por fonte. As demais — inclusive as que eu dava como
+"em aberto" — fecham.

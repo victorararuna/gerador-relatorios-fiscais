@@ -40,7 +40,15 @@ OFICIAL = {
     "De Demais Contribuições Sociais": 0.0,
     "Do FGTS": 0.0,
     "Com Instituição Não financeira": 124_734_143.25,
-    "Demais Dívidas Contratuais": 0.0,
+    # linhas do DCL publicado (3o quadrimestre de 2025) que a aba Base tambem tem
+    "Precatórios Posteriores a 05/05/2000 (inclusive) - Vencidos e não pagos":
+        5_595_401_507.77,
+    "PASSIVO ATUARIAL": 84_052_803_127.13,
+    "DÍVIDA CONTRATUAL DE PPP": 215_455_288.93,
+    # nao e linha do DCL publicado: as contas 2.1.8.1.1 e 2.2.8.1.1 entram em
+    # "Outras Dividas" (941.926.197,62). Comparar contra zero seria comparar
+    # contra a planilha da equipe, nao contra o homologado.
+    "Demais Dívidas Contratuais": None,
     "Precatórios Posteriores a 05/05/2000 (inclusive) - Vencidos e não pago": 5_595_401_507.77,
     "Outras Dívidas": 942_088_822.97,
     "Disponibilidade de Caixa Bruta": 1_549_181_365.36,

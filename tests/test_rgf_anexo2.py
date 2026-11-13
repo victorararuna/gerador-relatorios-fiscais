@@ -18,7 +18,6 @@ import rgf_anexo2_dcl as D  # noqa: E402
 
 #: linhas que ainda não fecham, com o motivo
 PENDENTES = {
-    "Demais Dívidas Contratuais": "o RN publica zero e aloca em Outras Dívidas",
     "(-) Restos a Pagar Processados (Exceto Precatórios)":
         "exige o relatório por fonte (bloco de RP) por Poder",
 }
@@ -66,7 +65,7 @@ class TestAnexo2(unittest.TestCase):
     def test_contagem(self):
         exatas = sum(1 for n, (v, o) in self.linhas.items()
                      if n not in PENDENTES and abs(v - o) < 0.01)
-        self.assertEqual(12, exatas, f"esperava 12 linhas exatas, achei {exatas}")
+        self.assertEqual(15, exatas, f"esperava 15 linhas exatas, achei {exatas}")
 
 
 if __name__ == "__main__":

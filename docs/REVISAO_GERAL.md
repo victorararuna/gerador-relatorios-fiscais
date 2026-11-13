@@ -1130,3 +1130,25 @@ Testando na MSC as 13 contas da disponibilidade:
 
 Nas três, o que sai é o **RPPS**. A diferença é só a forma de tirar: por bloco de
 contas numa, por fonte noutra, por Poder na terceira.
+
+
+### 17.19 Depósitos — o resíduo é uma conta do AL
+
+Com a Disponibilidade fechada pelo mesmo critério, sobrou uma única conta nos
+Depósitos. A composição do AL (PO 20211):
+
+| conta | fonte | valor |
+|---|---|---:|
+| 218830102 | 1500 | 2.512.993,42 |
+| 218850108 | 1500 | 17.718,59 |
+| 218830102 | 2501 | 567,67 |
+| 218810401 | 1869 | 440,00 |
+| 218819900 | 1869 | 190,00 |
+| **total** | | **2.531.909,68** |
+
+A aba da equipe traz AL 1.252.392,72 + FDM 86.595,84 = **1.338.988,56**.
+
+A diferença é **1.192.921,12** e está concentrada na `218830102` da fonte 1500 —
+a MSC não separa o que a equipe atribui ao AL e ao FDM.
+
+Como no caso do bloco IPERN, é **falta de granularidade**, não de regra.

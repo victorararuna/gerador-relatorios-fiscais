@@ -1,4 +1,4 @@
-# Revisão geral do motor de demonstrativos fiscais do RN
+﻿# Revisão geral do motor de demonstrativos fiscais do RN
 
 Documento de 13/11/2026. **Ponto de entrada único**: consolida o que foi
 descoberto, o que está verificado e o que resta. Substitui a leitura dispersa
@@ -664,7 +664,9 @@ janeiro e R$ 2.509,77 em junho — exatamente os valores que o manual registra.
 | **RGF Anexo 5** | 48 de 54 células | **90 de 90 exatas** |
 | **RREO Anexo 9 — receita** | não implementada | **exata** (2.491.012,67) |
 | **RGF Anexo 2** | 8 de 14 linhas | **9 de 14** (empréstimos internos) |
-| **RCL fixa no código** | valores de 2024 sem aviso | **trava que impede o uso em outro exercício** |
+'| **RCL fixa no código** | valores de 2024 sem aviso | **trava que impede o uso em outro exercício** |
+| **RREO Anexo 13** | não existia | **módulo criado — 7 de 7 valores exatos** |
+| **Limites do Anexo 1** | peças soltas | **função `limites()` — 55,17% conferido** |'
 
 ### RGF Anexo 5
 
@@ -706,3 +708,4 @@ erro** para qualquer outro exercício. Teste em `tests/test_layout_stn.py`.
   RP processados dependem do relatório por fonte.
 - Anexo 13: módulo ainda não criado.
 - RCL/limites: ligar o Anexo 3 ao bloco de limites.
+

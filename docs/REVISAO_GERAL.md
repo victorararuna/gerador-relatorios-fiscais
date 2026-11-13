@@ -893,3 +893,27 @@ Agora há também a conferência dos **totais das colunas contra o CSV publicado
 arquivo publicado além da planilha de trabalho.
 
 O livro passou a **281 células, 272 exatas** (95,9%).
+
+
+### 17.10 Anexo 4 — o desvio está no bloco 31.90.92
+
+Decompus as duas linhas por família de natureza. O resultado é conclusivo:
+
+| linha | família | apurado | esperado | diferença |
+|---|---|---:|---:|---:|
+| Aposentadorias civis | 31.90.01 | 4.648.107.547,94 | 4.648.217.285,93 | **−109.737,99** |
+| Aposentadorias civis | 31.90.92 | 270.864.832,30 | 269.539.438,38 | **+1.325.393,92** |
+| Pensões civis | 31.90.03 | 634.718.036,81 | 634.718.040,12 | −3,31 |
+| Pensões civis | 31.90.92 | 7.080.168,12 | 6.150.368,10 | **+929.800,02** |
+
+**A família 01 e a 03 praticamente fecham.** Todo o desvio está no **31.90.92
+(DEA)**, e a soma dos dois excessos — 1.325.393,92 + 929.800,02 = 2.255.193,94 —
+menos a falta de 109.737,99 e os 3,31, dá exatamente o desvio das duas linhas.
+
+A memória da equipe mostra, no bloco 92, uma linha `b` de **−2.145.718,19**
+(lançada como `31.90.92 b` e composta em `31.90.92 (a−b)`), que o motor não
+reproduz. Não é uma fonte inteira: testei as oito fontes que executam 92 em 2025
+e nenhuma vale esse montante.
+
+Fica localizado: o que falta é **a natureza de despesa** que compõe esse `b`, não
+o bloco.

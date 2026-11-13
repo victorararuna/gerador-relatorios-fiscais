@@ -364,10 +364,14 @@ CAUSAS = (
                                    "(bloco de RP) por Poder, com a dimensao fonte de recursos."),
     ("Depósitos Restitu", "Exige os blocos por Poder (aba Depositos)."),
     ("Demais Haveres", "Exige os blocos por Poder (aba D+ Haveres)."),
-    ("Aposentadorias civis", "Desvio de 0,02%: diferenca de classificacao nas naturezas "
-                             "de aposentadoria civil; em investigacao."),
-    ("Pensões por morte civis", "Desvio de 0,15%: diferenca de classificacao nas naturezas "
-                                "de pensao civil; em investigacao."),
+    ("Aposentadorias civis", "Desvio concentrado no bloco 31.90.92 (DEA): o motor soma "
+                             "270.864.832,30 contra 269.539.438,38 esperados. A familia "
+                             "31.90.01 bate (diferenca de 109.737,99, o sentido oposto). "
+                             "A equipe aplica no 92 um ajuste 'b' de -2.145.718,19 que o "
+                             "motor nao reproduz."),
+    ("Pensões por morte civis", "Idem: o 31.90.03 bate (634.718.036,81 contra "
+                                "634.718.040,12) e o desvio esta no 92: 7.080.168,12 "
+                                "contra 6.150.368,10 esperados."),
 )
 
 

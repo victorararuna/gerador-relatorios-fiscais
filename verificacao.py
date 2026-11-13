@@ -154,6 +154,46 @@ def anexo2() -> list[dict]:
 
 
 # --------------------------------------------------------------------------
+#: linha da MAPA com a dedução de cada Poder (setembro = coluna 12)
+PODERES_APOS = {"ALRN": 289, "DPRN": 290, "MPRN": 291, "TCE": 292, "TJRN": 293}
+PODERES_PENS = {"ALRN": 296, "DPRN": 297, "MPRN": 298, "TCE": 299, "TJRN": 300}
+COLUNA_MAPA = {"Janeiro": 4, "Fevereiro": 5, "Março": 6, "Abril": 7, "Maio": 8,
+               "Junho": 9, "Julho": 10, "Agosto": 11, "Setembro": 12, "Outubro": 13}
+
+
+def anexo1_poder(mes: str | None = None) -> list[dict]:
+    """RGF Anexo 1 — dedução dos demais Poderes, contra as linhas da MAPA.
+
+    Cada Poder deve aparecer com o que apuramos no IEO (aposentadorias na fonte
+    0.8.00 e pensões na 0.8.00/0.8.04) igual ao que a planilha deduz.
+    """
+    import expurgo_poderes as E
+
+    planilha = os.path.join(r"C:\Users\victo\Downloads\Arquivos etonjones",
+                            "Quadro_e_Mapa_Janeiro_a_Outubro_2026.xlsx")
+    if not os.path.exists(planilha):
+        return []
+    from openpyxl import load_workbook
+
+    ws = load_workbook(planilha, data_only=True)["MAPA"]
+    meses = [mes] if mes else list(COLUNA_MAPA)
+    saida = []
+    for nome_mes in meses:
+        col = COLUNA_MAPA.get(nome_mes)
+        if col is None:
+            continue
+        nosso = E.ler_periodo(nome_mes)
+        for poder, linha in PODERES_APOS.items():
+            ref = ws.cell(linha, col).value or 0.0
+            saida.append(_linha(f"{nome_mes} — aposentadorias {poder}",
+                                nosso[poder]["aposentadorias"], ref))
+        for poder, linha in PODERES_PENS.items():
+            ref = ws.cell(linha, col).value or 0.0
+            saida.append(_linha(f"{nome_mes} — pensões {poder}",
+                                nosso[poder]["pensoes_rpps"], ref))
+    return saida
+
+
 def limites_anexo1() -> list[dict]:
     """A cadeia da RCL do Anexo 3 ate o percentual publicado."""
     import mapa_anexo1 as MAPA
@@ -204,6 +244,7 @@ FONTES = OrderedDict((
     ("RREO Anexo 9", anexo9),
     ("RREO Anexo 13", anexo13),
     ("RGF Anexo 1 - limites", limites_anexo1),
+    ("RGF Anexo 1 - por Poder", anexo1_poder),
 ))
 
 

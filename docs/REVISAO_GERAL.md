@@ -771,3 +771,22 @@ RREO Anexo 3 (CSV homologado) -> RCL ajustada 20.958.175.998,75
 
 Conferido contra o publicado: 55,17%; máximo 10.269.506.239,39; prudencial
 9.756.030.927,42; alerta 9.242.555.615,45.
+
+
+### 17.3 Anexo 1 por Poder — 100 de 100
+
+A aba "RGF Anexo 1 - por Poder" confronta o que o motor apura no IEO para cada
+Poder com as linhas de dedução da MAPA (289-293 para aposentadorias na fonte
+0.8.00; 296-300 para pensões nas fontes 0.8.00 e 0.8.04).
+
+**Cinco Poderes × dez meses × dois componentes = 100 células, todas exatas.**
+
+| Poder | aposentadorias (set) | pensões (set) |
+|---|---:|---:|
+| ALRN | 8.562.226,99 | 653.945,20 |
+| DPRN | 104.948,47 | 0,00 |
+| MPRN | 0,00 | 516.454,36 |
+| TCE/RN | 3.198.821,82 | 370.274,76 |
+| TJRN | 12.629.016,99 | 3.072.814,87 |
+
+O livro de verificação passou a **266 células, 259 exatas**.

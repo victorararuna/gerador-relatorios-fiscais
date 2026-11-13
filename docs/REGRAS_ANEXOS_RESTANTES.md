@@ -173,3 +173,73 @@ Série histórica publicada: 2021 = 54,57%; 2022 = 53,37%; 2023 = 56,94%;
 | RREO Anexo 13 | montar as contas de saldo e dotação; parametrizar a âncora |
 | RCL/limites | ligar o Anexo 3 ao bloco de limites do Anexo 1 |
 
+
+---
+
+## 7. Achados da varredura de materiais (agente 6)
+
+### 7.1 De-paras confirmados
+
+| anexo | arquivo | aba / linha |
+|---|---|---|
+| RGF 2 | `RGF - ANEXO 2 ... MSC 2026.xlsx` | "Anexo 2 - Dívida (E, DF e M)": L17 empréstimos, L53 RP, L59-61 RCL |
+| RGF 2 (uso do pai) | `RGF 2026_Q2_02 - DCL.xlsx` | aba **oculta** "Contas MSC", L25: `2.1.2.1.1.02.00.00` |
+| RGF 2 (RP por Poder) | idem | aba **oculta** "RP", L12-20, com as exclusões -32/-46/-800/-801/-802 |
+| RGF 5 | `RGF - ANEXO 5 ... MSC 2026.xlsx` | L16 (colunas) e L18 (conta da coluna e) |
+| RREO 9 | `RREO - ANEXO 09 ... MSC 2026.xlsx` | E12 e E13 (6212/6213 + NR) |
+| RREO 13 | `RREO - ANEXO 13 ... MSC 2026.xlsx` | B15-B24 (saldos) e linha 30 (dotação) |
+| RCL | `RREO - ANEXO 03 - RCL ... MSC 2026.xlsx` | L46-52 (a cadeia completa) |
+
+### 7.2 A regra da RCL, agora escrita
+
+```
+L46  RCL (III) = I - II
+L47  (-) emendas individuais ...... NR 171; CO = 3110, 3111
+L48  RCL ajustada p/ endividamento = V
+L49  (-) emendas de bancada ....... NR 171; CO = 3120, 3121; TODAS as FR exceto 604
+L50  (-) ACS/ACE .................. NR 171; FR = 604
+L51  (-) outras deduções .......... "NÃO HÁ MAPEAMENTO"
+L52  RCL ajustada p/ pessoal ...... V - VI - VII - VIII
+```
+
+### 7.3 RISCO: a RCL está com valores fixos no código
+
+`app/layout_stn.py` linhas 166-167 trazem a cadeia **digitada**:
+
+```python
+"rcl": 17259989216.73, "emendas_individuais": 4802839.15,
+"emendas_bancada": 22049553.00, "rcl_ajustada": 17233040024.58,
+```
+
+E `app/anexo3_msc.py` lê **apenas** as emendas individuais — a bancada e o ACS não
+são calculados. Se esse caminho for usado para gerar 2026, publica a RCL de outro
+período. **Corrigir antes de qualquer geração.**
+
+### 7.4 O Anexo 13 muda de regra no 6º bimestre
+
+| coluna | 1º ao 5º bimestre | 6º bimestre |
+|---|---|---|
+| despesa do contrato | `6.2.2.1.1` + `6.2.2.1.2.02` + `6.2.2.1.3` | **só** `6.2.2.1.3` |
+| RCL (IV) | Anexo 3, "Previsão Atualizada" | Anexo 3, "Total últimos 12 meses" |
+
+Como o fechamento do ano é no 3º quadrimestre / 6º bimestre, a regra de dezembro é
+a segunda coluna — não a que foi validada em agosto.
+
+### 7.5 O Anexo 5 não tem homologado de 2026
+
+Só existem Anexo 5 de **2024 Q3** e **2025 Q3** (e os consolidados). Não há 2026
+Q1/Q2 para conferir — a validação de 2026 terá de ser feita contra o RREO Anexo 7
+e a coerência interna, não contra o homologado.
+
+### 7.6 Divergência STN × prática do ente (Anexo 5, coluna e)
+
+O template da STN manda ler `2.1.8.9.1.01.05/.08`. O RN usa a **classe 8**
+(`8211302`/`8211303` + `8.6.3.3.1`), e isso está documentado nas **notas 3 e 4** do
+próprio demonstrativo publicado. **Seguir a prática, não o template** — e registrar
+essa escolha no código.
+
+### 7.7 O que a varredura não achou
+
+- a redação escrita da regra "conta-pai" — só o uso (aba oculta "Contas MSC");
+- de-para para "Outras Deduções Constitucionais" — a STN declara "não há mapeamento";
+- teto de 5% da RCL para PPP em nenhum arquivo.

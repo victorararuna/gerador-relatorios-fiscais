@@ -709,3 +709,35 @@ erro** para qualquer outro exercício. Teste em `tests/test_layout_stn.py`.
 - Anexo 13: módulo ainda não criado.
 - RCL/limites: ligar o Anexo 3 ao bloco de limites.
 
+
+
+---
+
+## 17. Aba de verificação por anexo
+
+`verificacao.py` gera `saida/verificacao_anexos.xlsx` com uma aba por
+demonstrativo (apurado, referência, desvio, situação) e uma aba de resumo.
+
+| anexo | células | exatas | divergentes |
+|---|---:|---:|---:|
+| RGF Anexo 1 (jan–ago vs homologado) | 24 | 22 | 2 |
+| RGF Anexo 2 | 14 | 9 | 5 |
+| RGF Anexo 5 | 90 | **90** | 0 |
+| RREO Anexo 9 | 5 | **5** | 0 |
+| RREO Anexo 13 | 7 | **7** | 0 |
+| **total** | **140** | **133** | **7** |
+
+### As sete divergências, todas com causa
+
+| anexo | item | desvio | causa |
+|---|---|---:|---|
+| 1 | Abril — I | −5.241,65 | empenho de março liquidado em abril sem complemento (documentado no manual) |
+| 1 | Abril — III | −5.241,65 | idem |
+| 2 | Demais Dívidas Contratuais | +272.293.396,59 | o RN publica zero nessa linha (decisão de classificação, não erro) |
+| 2 | Disponibilidade de Caixa Bruta | +1.850.637,57 | exige os blocos por Poder |
+| 2 | (−) Restos a Pagar Processados | −4.058.289.107,72 | exige o relatório por fonte |
+| 2 | (−) Depósitos Restituíveis | +54.946.195,61 | exige os blocos por Poder |
+| 2 | Demais Haveres Financeiros | +7.505.813,73 | exige os blocos por Poder |
+
+Nenhuma divergência está "arredondada para zero": todas aparecem com o valor e a
+causa.

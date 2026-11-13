@@ -953,3 +953,23 @@ pelo **INEC** a cada bimestre e transcrito na aba "PAE" da planilha da equipe
 parametrizado em `PAE_2025` e documentado como tal — não deduzido.
 
 **O livro passou a 281 células, 274 exatas (97,5%).**
+
+
+### 17.12 Anexo 2 — as três linhas por Poder, localizadas
+
+Testando as abas "Disponibilidade", "Depósitos" e "D+ Haveres" contra a MSC, por
+Poder:
+
+| linha | Poderes que batem ao centavo | onde está a diferença |
+|---|---|---|
+| Disponibilidade | TCE, MP, DP | Executivo |
+| Depósitos | TCE, TJ, MP, DP | Executivo (54.946.195,61) |
+| Demais Haveres | — | não fecha por prefixo: 73 contas-folha |
+
+Nas duas primeiras, **quatro ou três Poderes fecham exatamente** e a diferença
+inteira está no Executivo. O valor é o mesmo que o balancete produz — logo, não é
+erro de leitura: é **escopo de conta no Executivo**.
+
+"Demais Haveres" resiste a outro método: a aba lista 73 contas-folha, e o prefixo
+de 6 dígitos captura 22 vezes o valor oficial (6,02 bi contra 269,3 mi). Precisa
+do critério de conta exato, não de prefixo.

@@ -358,12 +358,14 @@ CAUSAS = (
     ("Abril — III", "Idem: decorre da mesma diferenca em I."),
     ("Demais Dívidas Contratuais", "O RN publica zero nessa linha e aloca o valor em "
                                    "'Outras Dividas' - decisao de classificacao do ente."),
-    ("Disponibilidade de Caixa Bruta", "Exige os blocos por Poder (abas Disponibilidade "
-                                       "da planilha); o balancete e consolidado do Executivo."),
+    ("Disponibilidade de Caixa Bruta", "Localizado: TCE, MP e DP batem ao centavo por "
+                                       "Poder; a diferenca esta no Executivo (escopo de conta)."),
     ("Restos a Pagar Processados", "Exige o relatorio 'Execucao Orcamentaria por Fonte' "
                                    "(bloco de RP) por Poder, com a dimensao fonte de recursos."),
-    ("Depósitos Restitu", "Exige os blocos por Poder (aba Depositos)."),
-    ("Demais Haveres", "Exige os blocos por Poder (aba D+ Haveres)."),
+    ("Depósitos Restitu", "Localizado: TCE, TJ, MP e DP batem ao centavo; a diferenca "
+                          "de 54.946.195,61 esta no Executivo (escopo de conta)."),
+    ("Demais Haveres", "Nao fecha por prefixo de conta: a aba lista 73 contas-folha e o "
+                       "prefixo de 6 digitos captura 22x o valor. Falta o criterio exato."),
     ("Aposentadorias civis", "Resolvido: a linha e o bruto menos o PAE "
                              "(31.90.92.02), insumo do INEC."),
     ("Pensões por morte civis", "Resolvido: a linha e o bruto menos o PAE "

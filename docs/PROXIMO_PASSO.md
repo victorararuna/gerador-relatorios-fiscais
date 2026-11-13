@@ -87,9 +87,34 @@ e separa os Poderes por `poder_orgao`. Testando a lista de contas da aba
 O total dá 1.559.285.389,89 contra 1.549.181.365,36 publicados — **a diferença
 está toda no Executivo**, não nos demais Poderes.
 
-Ou seja: as três linhas **são** apuráveis da MSC. Falta alinhar o escopo do
-Executivo (conta ou PO a excluir). É bem mais barato que extrair balancetes por
-Poder.
+**Mas o ajuste fino não fecha.** Testei conta por conta contra a coluna
+"Executivo" da aba e as diferenças são compensatórias:
+
+| conta | nosso (MSC) | equipe | diferença |
+|---|---:|---:|---:|
+| 1.1.1.1.1.02 | 45.608.012,65 | 23.572.282,07 | +22.035.730,58 |
+| 1.1.1.1.1.19 | 423.874.247,22 | 383.713.738,02 | +40.160.509,20 |
+| 1.1.1.1.1.50 | 605.744.640,93 | 669.641.329,17 | −63.896.688,24 |
+| 1.1.1.3.1 | 0,00 | 757.069,91 | −757.069,91 |
+
+A equipe usa uma abertura **diferente** entre as contas (1119 e 1150 trocam de
+lugar), e o total só se aproxima por compensação.
+
+Testando exclusões de PO no total consolidado:
+
+| escopo | total | contra o oficial |
+|---|---:|---:|
+| todos os POs | 1.559.285.389,89 | +10.104.024,53 |
+| sem 10112 (RPPS) | 1.548.574.484,56 | −606.880,80 |
+| sem 60611 (DP) | 1.544.426.550,56 | −4.754.814,80 |
+
+**Conclusão:** a MSC tem os Poderes, mas a consolidação traz duplicações
+intra-estado e a abertura por conta não é a do anexo. O balancete (só Executivo)
+chega mais perto — +1.850.637,57 — do que a MSC inteira.
+
+Para fechar essas três linhas é preciso a **abertura por Poder que a equipe usa**
+(abas "Disponibilidade", "Depósitos" e "D+ Haveres"), não uma dedução nossa a
+partir da matriz.
 
 **Demais Dívidas Contratuais** (272,3 mi contra zero publicado) não é erro: é o
 RN alocando o valor em "Outras Dívidas". Decisão de classificação — se quiser

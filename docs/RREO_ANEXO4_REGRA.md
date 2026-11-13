@@ -212,3 +212,39 @@ militares. O erro era da minha referência, não da apuração.
 | Aposentadorias civis | +0,02% |
 | Pensões civis | +0,15% |
 | **Total militar** | **925.982.167,43** (confere com a planilha) |
+
+---
+
+## 9. O mesmo método no RGF Anexo 2 (DCL)
+
+Os XLSX de trabalho do RGF têm a aba **"Anexo 2 - RGF BASE"**: 301 contas em 25
+seções, com as deduções marcadas por "(-)" (encargos prefixados, ajustes de
+perdas). É o mapeamento que se supunha não publicado.
+
+Implementado em `rgf_anexo2_base.py`, aplicado à MSC de dez/2025:
+
+| seção | apurado |
+|---|---:|
+| **Precatórios posteriores a 05/05/2000** | **5.595.401.507,77** |
+| Empréstimos Externos | 1.532.683.584,76 |
+| Empréstimos Internos | 388.289.783,76 |
+| Demais Dívidas Contratuais | 272.293.396,59 |
+| Disponibilidade de Caixa Bruta | 1.548.574.484,56 |
+| Demais Haveres Financeiros | 276.769.780,89 |
+
+**Precatórios fecham ao centavo** com o homologado (5.595.401.507,77) — linha
+que nunca havia sido apurada.
+
+### O limite da matriz
+
+A classe 2 da MSC em dez/2025 tem **128 contas** e não traz a família
+`2.1.2.1.x` (dívida mobiliária e contratual analítica). Por isso as seções
+correspondentes saem zeradas.
+
+Consequência: **o DCL não pode ser apurado só pela MSC.** Precisa do balancete
+ou da extração que alimenta a aba "CONTAS" do próprio arquivo de trabalho.
+
+Tentativa com o balancete de encerramento/2025: 50 das 301 contas localizadas —
+a família da dívida mobiliária também não aparece nele. O caminho correto é
+replicar a aba **CONTAS** (que alimenta Disponibilidade, D+Haveres e Depósitos
+por fórmulas `=CONTAS!E229` etc.).

@@ -1284,3 +1284,25 @@ desses itens.
 
 **Situação da RCL:** 4 dos 7 componentes identificados (receitas correntes, FUNDEB
 e transferências exatos; o bloco RPPS localizado em valor, não em conta).
+
+
+### 17.26 A RCL — o bloco RPPS não está na matriz
+
+Procurei o bloco de 1,23 bi em todos os lugares plausíveis:
+
+| verificação | resultado |
+|---|---|
+| `621390000` por natureza | só itens pequenos; o maior é 32.580.000,00 (NR 7215) |
+| `6213` por Poder | Executivo 5,91 bi, RPPS 32,6 mi, demais < 55 mil |
+| total do `6213` | **5.943.961.755,92** contra 7.142.850.204,96 publicados |
+
+O bloco de 1.234.375.292,87 (contribuição do servidor, compensações e rendimentos
+previdenciários) **não tem contrapartida no 6.2.1.3**. Não é soma errada: a
+matriz não registra essas deduções ali.
+
+**Conclusão:** a RCL não é integralmente apurável da MSC. Quatro componentes são
+(receitas correntes a 0,011%, FUNDEB e transferências exatos); três não são, e a
+demonstração os busca em outra fonte.
+
+Isso fecha a investigação da RCL. Ela continua sendo **lida** do Anexo 3 — e
+agora se sabe exatamente por quê.

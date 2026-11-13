@@ -993,3 +993,31 @@ e 802, linhas 16 a 22 da aba).
 
 Restam R$ 1.386.056,23 (0,17%), provavelmente a fonte 802 ou uma sub-conta
 específica.
+
+
+### 17.14 Anexo 2 — as linhas têm escopos diferentes
+
+Descobri por que a mesma regra não servia para as três linhas. Lendo o cabeçalho
+das abas da equipe:
+
+| aba | cabeçalho da coluna do Executivo | escopo |
+|---|---|---|
+| Disponibilidade | "Executivo" | consolidado, com os demais Poderes |
+| Depósitos | "EXECUTIVO" | consolidado + bloco IPERN |
+| D+ Haveres | **"EXECUTIVO (SEM RPPS)"** | **só o Executivo, sem o RPPS** |
+
+Testando na MSC:
+
+| linha | escopo | valor | contra o oficial |
+|---|---|---:|---:|
+| Demais Haveres | todos os POs | 276.769.780,89 | +7.455.265,00 |
+| **Demais Haveres** | **PO 10111** | **269.273.793,89** | **−40.722,00 (0,015%)** |
+| Disponibilidade | PO 10111 só | 1.075.235.890,80 | −473.945.474,56 |
+| Disponibilidade | todos os POs | 1.559.285.389,89 | +10.104.024,53 |
+
+**Demais Haveres é Executivo sem RPPS** — em PO 10111 o valor passa de 7,4
+milhões de desvio para **40.722,00**. A linha é 100% Executivo: a aba mostra zero
+em MP, TCE, DP, AL, FDM e TJ.
+
+**Disponibilidade é consolidada** — restringir ao Executivo a derruba para menos
+da metade. O escopo dela é o oposto.

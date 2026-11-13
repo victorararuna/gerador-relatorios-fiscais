@@ -846,3 +846,30 @@ Sobre as duas do Anexo 4: testei o mapeamento por sufixo de natureza e o desvio
 **não** corresponde a uma natureza isolada (o sufixo 9403 vale 926.078,43 e o
 desvio das pensões é 929.796,71). É diferença de classificação dentro do
 conjunto, não uma linha trocada.
+
+
+### 17.7 Trava de regressão dos anexos fechados
+
+`tests/test_verificacao.py` falha se qualquer célula dos anexos fechados voltar a
+divergir: Anexo 13 (saldos e projeções), Anexo 9, limites do Anexo 1 e Anexo 5.
+São 7 testes em 4,6 segundos.
+
+Também verifica que **toda divergência conhecida tem causa escrita** em
+`CAUSAS` — e que um item desconhecido não inventa causa ("sem causa
+identificada").
+
+Motivo: a regra que fecha um anexo hoje pode ser alterada amanhã por quem achar
+que está corrigindo outra coisa. O teste avisa antes de o relatório sair.
+
+### 17.8 Anexo 4 — o que foi testado
+
+Tentei isolar o desvio de 0,02% (aposentadorias civis) e 0,15% (pensões civis)
+pelo complemento de fonte. O complementar se distribui em três COs:
+
+| linha | CO 1111 | CO 1121 | CO 1122 |
+|---|---:|---:|---:|
+| aposentadorias civis | 1.739.994.707,43 | 66.413.050,21 | 20.468.496,52 |
+| pensões civis | 49.754.089,37 | 1.103.670,02 | 474.282,69 |
+
+Nenhum deles corresponde ao desvio (1.215.655,93 e 929.796,71). É diferença de
+classificação dentro do conjunto, não um complemento inteiro a mais.

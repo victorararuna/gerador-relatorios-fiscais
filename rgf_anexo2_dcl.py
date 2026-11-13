@@ -149,6 +149,58 @@ def apurar_secao(saldo: dict, contas: list) -> float:
     return total
 
 
+#: seções que NÃO saem do balancete consolidado: a linha do anexo tem escopo
+#: próprio, e o cabeçalho da aba da equipe é que o define.
+SECOES_MSC = {
+    # "EXECUTIVO (SEM RPPS)": 73 contas-folha, só o PO 10111 na MSC
+    "Demais Haveres Financeiros": ("D+ Haveres", 1, "10111"),
+}
+
+
+#: contas que a MSC agrega num sufixo diferente do que a aba lista
+EQUIVALENTES = {"121310100": "121310199"}
+
+
+def contas_da_aba(nome: str) -> list:
+    """Prefixos de 6 dígitos das contas de uma aba da planilha da equipe.
+
+    A aba lista contas de 8 segmentos. A MSC agrega **uma** delas no sufixo .99:
+    a 1.2.1.3.1.01 aparece como 121310199 (R$ 40.722,00 em 2025). O mapa abaixo
+    trata o caso sem abrir o prefixo para a família inteira — que capturaria
+    contas fora da linha.
+    """
+    from openpyxl import load_workbook
+
+    ws = load_workbook(PLANILHA, data_only=True)[nome]
+    saida = set()
+    for r in range(1, ws.max_row + 1):
+        c = ws.cell(r, 1).value
+        if isinstance(c, str) and c[:1].isdigit() and c.count(".") >= 6:
+            chave = c.replace(".", "")[:9]
+            saida.add(EQUIVALENTES.get(chave, chave))
+    return sorted(saida)
+
+
+def apurar_msc(aba: str, classe: int, po: str) -> float:
+    """Soma o saldo de uma aba na MSC, restrito a um Poder."""
+    import sys as _sys
+
+    raiz = os.path.dirname(os.path.abspath(__file__))
+    if os.path.join(raiz, "app") not in _sys.path:
+        _sys.path.insert(0, os.path.join(raiz, "app"))
+    from acervo import Acervo
+
+    contas = contas_da_aba(aba)
+    ac = Acervo(os.path.join(raiz, "dados", "acervo"))
+    total = 0.0
+    for r in ac.ler(2025, 12, classe=classe, tipo_valor="ending_balance"):
+        if r.po != po:
+            continue
+        if any(r.conta.startswith(p) for p in contas):
+            total -= r.liquido
+    return total
+
+
 def main() -> int:
     saldo = ler_balancete(BALANCETE)
     secoes = ler_base(PLANILHA)
@@ -158,7 +210,11 @@ def main() -> int:
     for nome, contas in secoes.items():
         if not contas:
             continue
-        v = apurar_secao(saldo, contas)
+        if nome in SECOES_MSC:
+            aba, classe, po = SECOES_MSC[nome]
+            v = apurar_msc(aba, classe, po)
+        else:
+            v = apurar_secao(saldo, contas)
         of = OFICIAL.get(nome)
         if of is None:
             continue

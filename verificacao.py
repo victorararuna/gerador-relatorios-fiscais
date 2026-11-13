@@ -149,7 +149,12 @@ def anexo2() -> list[dict]:
         oficial = D.OFICIAL.get(nome)
         if oficial is None:
             continue
-        saida.append(_linha(nome[:48], D.apurar_secao(saldo, contas), oficial))
+        if nome in D.SECOES_MSC:
+            aba, classe, po = D.SECOES_MSC[nome]
+            v = D.apurar_msc(aba, classe, po)
+        else:
+            v = D.apurar_secao(saldo, contas)
+        saida.append(_linha(nome[:48], v, oficial))
     return saida
 
 
@@ -364,8 +369,7 @@ CAUSAS = (
                                    "(bloco de RP) por Poder, com a dimensao fonte de recursos."),
     ("Depósitos Restitu", "Localizado: TCE, TJ, MP e DP batem ao centavo; a diferenca "
                           "de 54.946.195,61 esta no Executivo (escopo de conta)."),
-    ("Demais Haveres", "Nao fecha por prefixo de conta: a aba lista 73 contas-folha e o "
-                       "prefixo de 6 digitos captura 22x o valor. Falta o criterio exato."),
+
     ("Aposentadorias civis", "Resolvido: a linha e o bruto menos o PAE "
                              "(31.90.92.02), insumo do INEC."),
     ("Pensões por morte civis", "Resolvido: a linha e o bruto menos o PAE "

@@ -1021,3 +1021,22 @@ em MP, TCE, DP, AL, FDM e TJ.
 
 **Disponibilidade é consolidada** — restringir ao Executivo a derruba para menos
 da metade. O escopo dela é o oposto.
+
+
+### 17.15 Demais Haveres fechou — e a causa era uma conta agregada
+
+A linha "Demais Haveres Financeiros" é **Executivo sem RPPS** (73 contas-folha,
+PO 10111). Implementada assim, o desvio caiu de 7.505.813,73 para **40.722,00**.
+
+O resíduo era **uma conta só**: a aba lista `1.2.1.3.1.01.00.00`, mas a MSC
+agrega esse valor no sufixo `.99` — a conta que existe é **`121310199`** com
+exatamente R$ 40.722,00. Com o mapa `EQUIVALENTES = {"121310100": "121310199"}`:
+
+| | valor | contra o oficial |
+|---|---:|---:|
+| balancete (Executivo + RPPS) | 276.820.329,62 | +7.505.813,73 |
+| MSC, todos os POs | 276.769.780,89 | +7.455.265,00 |
+| **MSC, PO 10111** | 269.273.793,89 | −40.722,00 |
+| **MSC, PO 10111 + conta .99** | **269.314.515,89** | **0** |
+
+**RGF Anexo 2: 10 de 14 linhas exatas.** O livro passou a **275 de 281**.

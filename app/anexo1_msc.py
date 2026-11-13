@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Anexo 1 do RGF (despesa com pessoal) apurado na nova MSC do Siconfi.
 
 Traduz as contas de liquidação (6.2.2.1.3.03/04/07) nas linhas do Anexo 1,
@@ -30,9 +30,9 @@ FR_ENFERMAGEM = "1605"
 
 #: ADCT art. 38, § 2º — percentual do exercício
 #: EC 127/2022, art. 38, § 2º — escalonamento do piso da enfermagem.
-#: 2023: 100% | 2024: 90% | 2025: 81% | 2026: 72% | 2027: 63%
+#: 2023: 100% | 2024: 90% | 2025: 80% | 2026: 72%
 #: Conferido no manual da equipe (MDF 15ª ed.): 2026 = 72%.
-PERCENTUAL_ENFERMAGEM = {2022: 1.00, 2023: 1.00, 2024: 0.90, 2025: 0.81, 2026: 0.72}
+PERCENTUAL_ENFERMAGEM = {2022: 1.00, 2023: 1.00, 2024: 0.90, 2025: 0.80, 2026: 0.72}
 
 
 def percentual_enfermagem(ano: int) -> float:
@@ -313,6 +313,7 @@ def _cli() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(_cli())
+
 
 
 

@@ -160,12 +160,13 @@ class TestApuracao(unittest.TestCase):
         ])
         d = deducoes(Acervo(self.pasta), [(2025, 1)])
         self.assertEqual(d["vinculados"], 200.0)
-        self.assertEqual(d["enfermagem_percentual"], 0.81)  # EC 127/2022: 2026 = 72%, logo 2025 = 81%
-        self.assertAlmostEqual(d["enfermagem"], 81.0)   # 100 x 0,81
+        self.assertEqual(d["enfermagem_percentual"], 0.80)  # EC 127/2022: 2023 100, 2024 90, 2025 80, 2026 72
+        self.assertAlmostEqual(d["enfermagem"], 80.0)   # 100 x 0,80
 
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
 
 
 

@@ -65,7 +65,8 @@ def _linhas(pagina, janela: float = 4.0):
 def ler_mes(arquivo: str) -> dict:
     import leitor_pdf as LP
 
-    saida = {p: {"aposentadorias": 0.0, "pensoes": 0.0, "patronal": 0.0}
+    saida = {p: {"aposentadorias": 0.0, "pensoes": 0.0, "patronal": 0.0,
+                 "exerc_ant": 0.0, "indeniz": 0.0, "apos_tesouro": 0.0}
              for p in PODERES}
     for pagina in LP.ler_pdf(arquivo):
         x_liq = next((it.x for it in pagina.itens
@@ -118,6 +119,10 @@ def ler_mes(arquivo: str) -> dict:
                         saida[poder]["aposentadorias"] += valor
                     elif elemento == "31.91.13" and (fonte or "").startswith("0.5.00"):
                         saida[poder]["patronal"] += valor
+                    elif elemento == "31.90.92":
+                        saida[poder]["exerc_ant"] += valor
+                    elif elemento == "31.90.94":
+                        saida[poder]["indeniz"] += valor
                 elif elemento == "31.90.03" and (fonte or "").startswith("0.8.00"):
                     saida[poder]["pensoes"] += valor
     return saida
@@ -125,7 +130,7 @@ def ler_mes(arquivo: str) -> dict:
 
 def total(dados: dict) -> dict:
     return {k: sum(d[k] for d in dados.values())
-            for k in ("aposentadorias", "pensoes", "patronal")}
+            for k in ("aposentadorias", "pensoes", "patronal", "exerc_ant", "indeniz", "apos_tesouro")}
 
 
 def main() -> int:
@@ -149,5 +154,8 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+
 
 

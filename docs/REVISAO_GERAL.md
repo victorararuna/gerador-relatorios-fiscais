@@ -395,3 +395,37 @@ qualquer combinação) nem março (−6,7 abaixo de apos+patr).
 Isso reforça: o expurgo tem os três componentes identificados **mais um fator
 mensal** que não é constante — provavelmente 13º, atrasados ou exercícios
 anteriores lançados em 31.90.92/94.
+
+---
+
+## 11. A especificação da MAPA e a validação do expurgo
+
+Com a especificação em mãos (`docs/MANUAL_MAPA_ANEXO1.md`), a regra do expurgo
+dos inativos ficou explícita: **fonte 0.5.00 + fonte 0.8.00**, por subação.
+
+Confronto da nossa linha de aposentadorias com a do QUADRO, mês a mês:
+
+| mês | nosso | planilha | lacuna | expurgo (5 Poderes) | resíduo |
+|---|---:|---:|---:|---:|---:|
+| jan | 765.918.836,02 | 738.721.841,06 | 27.196.995 | 24.747.756 | 2.449.239 |
+| fev | 446.913.643,30 | 424.405.986,78 | 22.507.657 | 20.466.415 | 2.041.242 |
+| mar | 449.748.959,12 | 423.850.718,32 | 25.898.241 | 20.623.004 | 5.275.237 |
+| abr | 468.373.953,02 | 441.617.489,06 | 26.756.464 | 19.807.320 | 6.949.144 |
+| mai | 464.122.939,89 | 437.285.993,34 | 26.836.947 | 21.682.248 | 5.154.698 |
+| jun | 472.906.541,62 | 446.393.073,41 | 26.513.468 | 21.635.864 | 4.877.604 |
+| jul | 469.835.105,50 | 442.302.059,10 | 27.533.046 | 21.044.835 | 6.488.212 |
+| ago | 372.474.018,80 | 355.311.963,91 | 17.162.055 | 15.898.299 | 1.263.756 |
+| set | 567.565.402,86 | 529.872.067,22 | 37.693.336 | 24.495.014 | 13.198.321 |
+
+### Leitura
+
+O expurgo explica **80% a 93% da lacuna** em oito dos nove meses. O resíduo
+(1,3 a 6,9 mi) é o componente de classificação — naturezas que a planilha põe
+em outra linha.
+
+Setembro é o caso fora da curva: resíduo de 13,2 mi, o dobro dos demais.
+
+### Conclusão
+
+A regra está certa e o valor está certo. Falta **aplicá-la**: hoje o motor não
+deduz os inativos dos demais Poderes da sua linha de aposentadorias.

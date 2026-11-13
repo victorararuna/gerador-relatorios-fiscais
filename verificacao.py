@@ -151,6 +151,8 @@ def anexo2() -> list[dict]:
             continue
         if nome.startswith("Disponibilidade de Caixa Bruta"):
             v = D.disponibilidade()
+        elif nome.startswith("(-) Depósitos"):
+            v = D.depositos()
         elif nome in D.SECOES_MSC:
             aba, classe, po = D.SECOES_MSC[nome]
             v = D.apurar_msc(aba, classe, po)
@@ -441,9 +443,7 @@ CAUSAS = (
 
     ("Restos a Pagar Processados", "Exige o relatorio 'Execucao Orcamentaria por Fonte' "
                                    "(bloco de RP) por Poder, com a dimensao fonte de recursos."),
-    ("Depósitos Restitu", "Regra conhecida (total menos o bloco IPERN de FR 800/802), mas o "
-                          "bloco exige abertura de 8 segmentos POR FONTE: a MSC para no 7o "
-                          "segmento e o balancete cobre 9 das 24 contas. Falta insumo."),
+
 
     ("Aposentadorias civis", "Resolvido: a linha e o bruto menos o PAE "
                              "(31.90.92.02), insumo do INEC."),

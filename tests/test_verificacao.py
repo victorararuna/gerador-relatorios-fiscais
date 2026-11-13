@@ -50,7 +50,7 @@ class TestDivergenciasDocumentadas(unittest.TestCase):
 
     CONHECIDAS = (
         "Abril — I", "Abril — III", "Demais Dívidas Contratuais",
-        "Restos a Pagar Processados", "Depósitos Restitu",
+        "Restos a Pagar Processados",
         "Aposentadorias civis", "Pensões por morte civis",
     )
 

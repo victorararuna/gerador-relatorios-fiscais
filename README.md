@@ -4,8 +4,8 @@ Ferramenta que apura os demonstrativos fiscais do **Rio Grande do Norte** a
 partir das **Matrizes de Saldos Contábeis (MSC)** do Siconfi e dos relatórios do
 **SIGEF/RN**, e confere cada célula contra o arquivo homologado.
 
-Estado em **13/11/2026**: **294 de 299 células exatas** (98,3%), em 24 abas de
-verificação (23 de anexo e uma de resumo). As 5 divergências estão em
+Estado em **13/11/2026**: **295 de 299 células exatas** (98,3%), em 24 abas de
+verificação (23 de anexo e uma de resumo). As 4 divergências estão em
 [`docs/DIVERGENCIAS.md`](docs/DIVERGENCIAS.md), cada uma com valor, referência e
 causa.
 
@@ -40,7 +40,7 @@ python verificar_anos.py            # barra extração de outro exercício
 | anexo | situação |
 |---|---|
 | **RGF Anexo 1** — despesa com pessoal | **exato em 10 de 10 meses** (I, II e III); por Poder, 100 de 100 |
-| **RGF Anexo 2** — DCL | **11 de 14 linhas** |
+| **RGF Anexo 2** — DCL | **12 de 14 linhas** |
 | **RGF Anexo 3** — garantias | exato |
 | **RGF Anexo 4** — limites | exato |
 | **RGF Anexo 5** — disponibilidades | **90 de 90 células** e os 5 totais contra o Siconfi |

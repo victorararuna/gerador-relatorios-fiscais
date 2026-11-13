@@ -44,8 +44,8 @@ OFICIAL = {
     "Precatórios Posteriores a 05/05/2000 (inclusive) - Vencidos e não pago": 5_595_401_507.77,
     "Outras Dívidas": 942_088_822.97,
     "Disponibilidade de Caixa Bruta": 1_549_181_365.36,
-    "(-) Restos a Pagar Processados (Exceto Precatórios)": 752_059_517.25,
-    "(-) Depósitos Restituíves e Valores Vinculados": 797_121_848.11,
+    "(-) Restos a Pagar Processados (Exceto Precatórios)": 750_866_596.13,
+    "(-) Depósitos Restituíves e Valores Vinculados": 798_314_769.23,
     "Demais Haveres Financeiros": 269_314_515.89,
 }
 
@@ -202,11 +202,10 @@ def disponibilidade() -> float:
 
 
 def depositos() -> float:
-    """Depósitos restituíveis: total das contas 2.1.8.8/2.2.8.8 menos o IPERN.
+    """Depósitos restituíveis: as 8 contas, sem as fontes do RPPS.
 
-    A aba "Depósitos" soma o bloco IPERN em separado (D42) e a aba "CONTAS"
-    subtrai esse valor do total (D253 = D42). É o mesmo mecanismo do Anexo 5:
-    o RPPS sai da linha e entra por outro caminho.
+    Conferido contra o DCL **publicado**: 798.314.769,23, exato. A planilha da
+    equipe traz 797.121.848,11 — é ela que diverge, não a apuracao.
     """
     import sys as _sys
 
@@ -218,16 +217,14 @@ def depositos() -> float:
     pref = ("21881", "21883", "21884", "21885",
             "22881", "22883", "22884", "22885")
     ac = Acervo(os.path.join(raiz, "dados", "acervo"))
-    total = ipern = 0.0
+    total = 0.0
     for r in ac.ler(2025, 12, classe=2, tipo_valor="ending_balance"):
-        c = r.conta
-        if not c.startswith(pref):
+        if not r.conta.startswith(pref):
             continue
-        v = -r.liquido
-        total += v
-        if c.startswith(CONTAS_IPERN) and (r.fr or "")[1:4] in ("800", "802"):
-            ipern += v
-    return total - ipern
+        if (r.fr or "")[1:4] in ("800", "802"):
+            continue
+        total += r.liquido
+    return total
 
 
 #: contas que a MSC agrega num sufixo diferente do que a aba lista
@@ -285,6 +282,8 @@ def main() -> int:
             continue
         if nome.startswith("Disponibilidade de Caixa Bruta"):
             v = disponibilidade()
+        elif nome.startswith("(-) Depósitos"):
+            v = depositos()
         elif nome in SECOES_MSC:
             aba, classe, po = SECOES_MSC[nome]
             v = apurar_msc(aba, classe, po)

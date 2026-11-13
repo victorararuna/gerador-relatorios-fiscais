@@ -19,8 +19,6 @@ import rgf_anexo2_dcl as D  # noqa: E402
 #: linhas que ainda não fecham, com o motivo
 PENDENTES = {
     "Demais Dívidas Contratuais": "o RN publica zero e aloca em Outras Dívidas",
-    "(-) Depósitos Restituíves e Valores Vinculados":
-        "falta granularidade: 8º segmento e a separação AL x FDM",
     "(-) Restos a Pagar Processados (Exceto Precatórios)":
         "exige o relatório por fonte (bloco de RP) por Poder",
 }
@@ -36,6 +34,8 @@ def _comparar():
             continue
         if nome.startswith("Disponibilidade de Caixa Bruta"):
             v = D.disponibilidade()
+        elif nome.startswith("(-) Depósitos"):
+            v = D.depositos()
         elif nome in D.SECOES_MSC:
             aba, classe, po = D.SECOES_MSC[nome]
             v = D.apurar_msc(aba, classe, po)
@@ -66,7 +66,7 @@ class TestAnexo2(unittest.TestCase):
     def test_contagem(self):
         exatas = sum(1 for n, (v, o) in self.linhas.items()
                      if n not in PENDENTES and abs(v - o) < 0.01)
-        self.assertEqual(11, exatas, f"esperava 11 linhas exatas, achei {exatas}")
+        self.assertEqual(12, exatas, f"esperava 12 linhas exatas, achei {exatas}")
 
 
 if __name__ == "__main__":

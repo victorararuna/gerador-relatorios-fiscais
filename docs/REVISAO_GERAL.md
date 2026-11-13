@@ -1369,3 +1369,36 @@ causa escrita** na planilha.
 planilha. Agora, se o README mentir sobre o que a planilha contém, o teste avisa.
 
 Suíte: **10 arquivos, 72 testes**.
+
+
+### 17.30 A base de comparação do Anexo 2 estava errada — e o Depósitos fechou
+
+O `OFICIAL` do módulo foi montado a partir da **aba Base da planilha da equipe**.
+Fui ao **DCL publicado** (CSV do Siconfi, 3º quadrimestre de 2025) e ele traz
+valores diferentes em duas linhas:
+
+| linha | planilha da equipe | **DCL publicado** | nossa apuração |
+|---|---:|---:|---:|
+| (−) Depósitos Restituíveis | 797.121.848,11 | **798.314.769,23** | **798.314.769,23** |
+| (−) Restos a Pagar Processados | 752.059.517,25 | **750.866.596,13** | 3.306.229.590,47 |
+
+Na linha de Depósitos, **a planilha é que diverge** — a nossa apuração bate com o
+publicado ao centavo.
+
+A regra, afinal, era simples: as 8 contas **sem as fontes 800 e 802**.
+
+```
+todas as fontes ....... 852.068.043,72
+sem 800 e 802 ......... 798.314.769,23   = DCL publicado
+```
+
+**RGF Anexo 2: 12 de 14 linhas exatas.** Livro: **295 de 299**.
+
+### O que eu errei antes
+
+Na rodada 56 concluí que a linha "não era apurável" porque o bloco IPERN exigia o
+8º segmento. O bloco IPERN era um caminho; a exclusão por fonte era outro, mais
+simples, e funcionava. Eu parei no primeiro que falhou em vez de testar o segundo.
+
+E o mais grave: eu comparava contra a planilha da equipe — que **não é** o
+publicado. A conferência só vale contra o arquivo homologado.

@@ -94,6 +94,33 @@ def despesa_contrato(ano: int, mes: int, sexto_bimestre: bool = False) -> float:
     return total
 
 
+#: índices publicados na nota do demonstrativo
+IPCA = 0.035
+SELIC = 0.1068
+#: fator de projeção da RCL (Manual de Instrução de Pleitos)
+FATOR_RCL = 1.02031208231
+
+#: âncora da projeção do contrato Arena das Dunas (valor presente das
+#: contraprestações, cláusula 25.6 do contrato 001/2011, recalculado em abril).
+#: é o ÚNICO dado que não vem da matriz — parametrizar por exercício.
+ANCORA_ARENA = 60_190_422.53
+
+
+def projecoes(ancora: float = ANCORA_ARENA, rcl_ec: float | None = None,
+              n: int = 9) -> dict:
+    """Colunas <EC+1> a <EC+n> do Quadro II e da RCL.
+
+    A despesa decresce pela razão (1+IPCA)/(1+SELIC); a RCL cresce pelo fator
+    publicado pela STN.
+    """
+    razao = (1 + IPCA) / (1 + SELIC)
+    despesas = [round(ancora * razao ** i, 2) for i in range(n)]
+    saida = {"despesas": despesas}
+    if rcl_ec is not None:
+        saida["rcl"] = [round(rcl_ec * FATOR_RCL ** (i + 1), 2) for i in range(n)]
+    return saida
+
+
 def main() -> int:
     from openpyxl import load_workbook
 
@@ -115,6 +142,14 @@ def main() -> int:
               f"   oficial {of_ant:,.2f} / {of_atu:,.2f}")
     print(f"\nQuadro II — despesa do contrato: {despesa_contrato(2026, 8):>18,.2f}"
           f"   oficial 102.811.000,00")
+
+    oficial = [60_190_422.53, 56_285_767.37, 52_634_413.83,
+               49_219_929.81, 46_026_949.18, 43_041_102.64]
+    proj = projecoes(n=6)["despesas"]
+    print("\nProjeção do contrato (EC+1 a EC+6):")
+    for i, (v, o) in enumerate(zip(proj, oficial), start=1):
+        marca = "OK" if abs(v - o) < 0.02 else f"dif {v - o:,.2f}"
+        print(f"  EC+{i}: {v:>16,.2f}   oficial {o:>16,.2f}   {marca}")
     return 0
 
 

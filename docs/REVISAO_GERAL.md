@@ -790,3 +790,20 @@ Poder com as linhas de dedução da MAPA (289-293 para aposentadorias na fonte
 | TJRN | 12.629.016,99 | 3.072.814,87 |
 
 O livro de verificação passou a **266 células, 259 exatas**.
+
+
+### 17.4 Anexo 13 — projeções implementadas
+
+A projeção do contrato é geométrica e sai de **uma âncora** mais dois índices
+publicados na nota do próprio demonstrativo:
+
+```
+despesa(EC+n) = 60.190.422,53 x (IPCA / SELIC)^(n-1)      IPCA 3,5% | SELIC 10,68%
+RCL(EC+n)     = RCL_EC x 1,02031208231^n
+```
+
+Conferido nas seis colunas publicadas: **todas exatas** (uma com 1 centavo de
+arredondamento).
+
+A âncora é `ANCORA_ARENA` em `rreo_anexo13.py` — o único dado que não vem da
+matriz, e é o mesmo nos quatro bimestres do exercício.

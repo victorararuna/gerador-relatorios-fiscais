@@ -211,6 +211,17 @@ def limites_anexo1() -> list[dict]:
     ]
 
 
+def anexo13_projecoes() -> list[dict]:
+    """RREO Anexo 13 — projeção do contrato a partir da âncora contratual."""
+    import rreo_anexo13 as A13
+
+    oficial = [60_190_422.53, 56_285_767.37, 52_634_413.83,
+               49_219_929.81, 46_026_949.18, 43_041_102.64]
+    proj = A13.projecoes(n=6)["despesas"]
+    return [_linha(f"Arena das Dunas — EC+{i}", v, o, "âncora 60.190.422,53")
+            for i, (v, o) in enumerate(zip(proj, oficial), start=1)]
+
+
 def motor() -> dict:
     """As 27 conferências de ponta a ponta, agrupadas por anexo.
 
@@ -245,6 +256,7 @@ FONTES = OrderedDict((
     ("RREO Anexo 13", anexo13),
     ("RGF Anexo 1 - limites", limites_anexo1),
     ("RGF Anexo 1 - por Poder", anexo1_poder),
+    ("RREO Anexo 13 - projeções", anexo13_projecoes),
 ))
 
 

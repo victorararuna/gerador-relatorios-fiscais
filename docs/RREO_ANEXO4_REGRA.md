@@ -132,3 +132,42 @@ linha oficial considera apenas parte das fontes.
 
 `FS` é **função + subfunção concatenadas**, e a regra usa a posição 3, tamanho 3:
 `09272` → `272`, `09274` → `274`. Sem decodificar isso, o filtro FS nunca casa.
+
+---
+
+## 7. O bloco do Tesouro (L166) e a separação por fonte
+
+O mapeamento tem **dois blocos de despesa** além do RPPS:
+
+| bloco | linha do mapa | fonte (FR pos. 2-3) |
+|---|---|---|
+| Benefícios mantidos pelo **Tesouro** | L183/L184 | **804** |
+| Pensões e inativos **militares** | L210/L211 | **803** |
+
+Apurando todas as pensões (ND 319003*) por grupo de fonte, 2025:
+
+| grupo de fonte | valor |
+|---|---:|
+| FR 800 (RPPS) | 585.867.873,92 |
+| FR 500 (Tesouro) | 374.258.143,13 |
+| FR 804 | 32.241.328,86 |
+| FR 803 (fundo militar) | 351.195,03 |
+| **total** | **992.718.540,94** |
+
+Referências oficiais: pensões civis 640.868.408,22; pensões militares 119.906.956,64.
+
+### Leitura
+
+As pensões **civis** fecham: FR 800 (585,9) + complementar (55,9) = 641,8 contra
+640,9 → **+0,15%**.
+
+As **militares** não fecham por nenhum recorte testado: FR 803 dá 0,35 mi (muito
+pouco) e o ND 31900302 dentro do bloco do Tesouro dá 245,4 mi (2,05× o oficial).
+
+Verificou-se que **não há duplicidade**: em junho/2025 as linhas são um estorno
+D/C de 35,99 mi que zera e um líquido de 20,38 mi. O fator 2,05 é sistemático nos
+doze meses, o que aponta **escopo** — a linha oficial é um subconjunto que ainda
+não foi isolado.
+
+Discriminantes que restam testar: `exercicio` (pensões de exercícios anteriores),
+`entrada_msc` e o corte RPPS × Fundo pela natureza de receita.

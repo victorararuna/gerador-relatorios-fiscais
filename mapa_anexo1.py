@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """MAPA do RGF Anexo 1 — construção a partir dos relatórios do SIGEF/RN.
 
 Aplica a especificação de `docs/MANUAL_MAPA_ANEXO1.md` aos arquivos de
@@ -38,8 +38,10 @@ APOSENTADORIAS = [
 
 #: pensões — naturezas da parte bruta (MAPA linhas 210 a 227)
 PENSOES = [
-    "31.90.03.01", "31.90.03.02", "31.90.03.04", "31.90.03.05",
-    "31.90.03.08", "31.90.91.10", "31.90.91.13", "31.90.91.16",
+    # usa-se o agregado 31.90.03.00 no lugar dos subelementos: em janeiro/2026
+    # ele traz R$ 20.427.820,81 que a abertura por subelemento não evidencia
+    "31.90.03.00",
+    "31.90.91.10", "31.90.91.13", "31.90.91.16",
     "31.90.91.19", "31.90.91.30", "31.90.91.31", "31.90.91.36",
     "31.90.91.37", "31.90.92.03", "31.90.92.06", "31.90.94.05",
     "31.90.94.06", "31.90.94.13",

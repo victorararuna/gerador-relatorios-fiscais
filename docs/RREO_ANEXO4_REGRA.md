@@ -171,3 +171,44 @@ não foi isolado.
 
 Discriminantes que restam testar: `exercicio` (pensões de exercícios anteriores),
 `entrada_msc` e o corte RPPS × Fundo pela natureza de receita.
+
+---
+
+## 8. A memória de cálculo (13/11, arquivos CONTAG)
+
+Os XLSX de trabalho de cada anexo, na pasta `RELATÓRIOS CONTAG`, contêm a
+memória de cálculo. No Anexo 04 de 2025 B6, a aba **Desp. Militar** traz cada
+natureza por fonte, com o filtro declarado na coluna B:
+
+```
+Inatividade  FR X.803; CO 2211; FS XX.274; ND 3.1.90.01.21/.23/.26/.52/.89...
+Pensões      FR X.803; CO 2211; FS XX.274; ND 3.1.90.03.xx / 92.03 / 94.06
+```
+
+E os totais que alimentam o Anexo 04 (células L135/L136/L137):
+
+| bloco | linha | empenhada = liquidada |
+|---|---|---:|
+| Inatividade | L51 | 675.066.910,71 |
+| Pensões | L65 | **250.915.256,72** |
+| Outras | L78 | 0,00 |
+| **Total** | L24 | **925.982.167,43** |
+
+### O achado
+
+A apuração da nossa implementação para **pensões militares** deu
+**250.915.256,72** — idêntico ao L65 da planilha da equipe.
+
+Ou seja: **a linha já estava fechada**. O valor 119.906.956,64 que eu usava como
+"oficial" vinha de outra linha/coluna do CSV do Siconfi, não do total de pensões
+militares. O erro era da minha referência, não da apuração.
+
+### Situação do Anexo 4
+
+| linha | situação |
+|---|---|
+| Inatividade militar | **exata** (675.066.910,71) |
+| Pensões militares | **exata** (250.915.256,72) |
+| Aposentadorias civis | +0,02% |
+| Pensões civis | +0,15% |
+| **Total militar** | **925.982.167,43** (confere com a planilha) |

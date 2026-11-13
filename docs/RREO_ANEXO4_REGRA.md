@@ -409,3 +409,35 @@ MAPEAMENTO do próprio arquivo.
 | (e) Demais obrigações financeiras | 2.230.614.991,10 |
 | (f) Insuficiência | 0,00 |
 | (g) Disponibilidade líquida | −3.033.024.591,90 |
+
+---
+
+## 14. Primeiro confronto do Anexo 5
+
+Aplicando os critérios de conta do MAPEAMENTO sobre a MSC de dez/2025, sem os
+filtros de vinculação (ou seja, o total do anexo):
+
+| coluna | nosso | oficial | desvio |
+|---|---:|---:|---:|
+| (b) RP liquidados de exercícios anteriores | 473.512.832,93 | 472.988.715,32 | **+0,11%** |
+| (c) RP liquidados do exercício | 1.416.358.378,77 | 1.405.948.478,02 | +0,74% |
+| (d) RP empenhados e não liquidados | 14.171.905,15 | 11.871.954,46 | +19% |
+| (e) Demais obrigações financeiras | 1.442.057.569,17 | 2.230.614.991,10 | −35% |
+| (f) Insuficiência financeira | 0,00 | 0,00 | **exato** |
+| (a) Disponibilidade bruta | 1.561.738.140,76 | 1.088.399.547,00 | +473,3 mi |
+
+### Leitura
+
+**(b) e (c) estão praticamente fechadas** — 0,11% e 0,74%. São as duas maiores
+colunas de restos a pagar, e o critério de conta do mapeamento reproduz o valor.
+
+**(a)** está 473,3 mi acima — e 473,0 mi é exatamente o valor de (b). Isso indica
+que a disponibilidade bruta do anexo é apurada **líquida dos RP liquidados de
+exercícios anteriores**, não bruta como o nome sugere. Subtraindo:
+1.561.738.140,76 − 472.988.715,32 = 1.088.749.425,44, a 0,03% do oficial.
+
+**(e)** é a que mais destoa. O critério lista `2188, 2288, 218910105, 218910108`
+e a MSC não abre essas contas no mesmo nível — é a mesma limitação do Anexo 2.
+
+**(d)** está 2,3 mi acima: provável efeito dos empenhos não liquidados
+cancelados, que o anexo desconta em coluna própria.

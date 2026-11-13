@@ -36,6 +36,15 @@ APOSENTADORIAS = [
     "31.90.92.86", "31.90.94.03", "31.90.94.04", "31.91.86.00",
 ]
 
+#: expurgo das obrigações patronais dos demais Poderes (MAPA linhas 164 a 180)
+EXPURGO_PATRONAL = [
+    "31.91.13.22", "31.91.13.43", "31.91.13.49", "31.91.13.71",   # ALRN
+    "31.91.13.46",                                                # DPRN
+    "31.91.13.25", "31.91.13.48", "31.91.13.53", "31.91.13.75",   # MPRN
+    "31.91.13.23", "31.91.13.44", "31.91.13.50", "31.91.13.72",   # TCE
+    "31.91.13.24", "31.91.13.45", "31.91.13.51", "31.91.13.73",   # TJRN
+]
+
 #: pensões — naturezas da parte bruta (MAPA linhas 210 a 227)
 PENSOES = [
     # usa-se o agregado 31.90.03.00 no lugar dos subelementos: em janeiro/2026
@@ -88,6 +97,12 @@ def secoes(mes: str) -> dict:
     ded_apos = ieo["aposentadorias"] + ieo["apos_tesouro"]
 
     bruto_pens = sum(comp.get(nd, 0.0) for nd in PENSOES)
+    terceirizacao = comp.get("33.90.34.00", 0.0) + comp.get("33.90.92.34", 0.0) \
+        + comp.get("33.90.91.34", 0.0)
+    patronal_bruto = comp.get("31.90.13.00", 0.0) + comp.get("31.91.13.00", 0.0)
+    patronal = patronal_bruto - sum(comp.get(nd, 0.0) for nd in EXPURGO_PATRONAL)
+    vencimentos = (comp.get("31.00.00.00", 0.0) - sum(comp.get(nd, 0.0) for nd in APOSENTADORIAS)
+                   - sum(comp.get(nd, 0.0) for nd in PENSOES) - patronal_bruto)
     ded_pens = ieo["pensoes"]
 
     return {
@@ -98,6 +113,9 @@ def secoes(mes: str) -> dict:
         "pensoes_bruto": bruto_pens,
         "pensoes_deducao": ded_pens,
         "pensoes": bruto_pens - ded_pens,
+        "terceirizacao": terceirizacao,
+        "vencimentos": vencimentos,
+        "patronal": patronal,
     }
 
 
@@ -112,6 +130,9 @@ def main() -> int:
     print(f"  pensões bruto .............. {s['pensoes_bruto']:>18,.2f}")
     print(f"  (-) dedução ................ {s['pensoes_deducao']:>18,.2f}")
     print(f"  pensões líquido ............ {s['pensoes']:>18,.2f}")
+    print(f"  terceirização (L245) ....... {s['terceirizacao']:>18,.2f}")
+    print(f"  vencimentos (L8) ........... {s['vencimentos']:>18,.2f}")
+    print(f"  patronal (L102 líquida) .... {s['patronal']:>18,.2f}")
     return 0
 
 

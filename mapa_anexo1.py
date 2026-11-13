@@ -48,14 +48,22 @@ def _num(t: str) -> float:
     return float(t.replace(".", "").replace(",", "."))
 
 
-def ler_comparativo(mes: str) -> dict:
-    """natureza (formato 31.90.11.00) -> liquidada no mês."""
+def ler_comparativo(mes: str, ano: int = 2026) -> dict:
+    """natureza (formato 31.90.11.00) -> liquidada no mês.
+
+    Valida o exercício e o mês no cabeçalho antes de somar: uma extração de
+    outro período levantaria `ErroFonte` em vez de contaminar a apuração.
+    """
     import leitor_pdf as LP
+    from fonte_sigef import ErroFonte, ler_cabecalho, validar
 
     arquivo = os.path.join(
         BASE, f"Comparativo Despesa Autorizada Empenhada Liquidada e Paga_{mes}.pdf")
+    paginas = LP.ler_pdf(arquivo)
+    cabecalho = re.sub(r"\s+", " ", paginas[0].texto())
+    validar(*ler_cabecalho(cabecalho), ano, mes, os.path.basename(arquivo))
     valores = {}
-    for pagina in LP.ler_pdf(arquivo):
+    for pagina in paginas:
         texto = re.sub(r"\s+", " ", pagina.texto())
         for m in RE_LINHA.finditer(texto):
             nums = re.findall(NUM, m.group(0))

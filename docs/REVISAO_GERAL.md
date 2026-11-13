@@ -1188,3 +1188,22 @@ igual ao próprio valor (sinal de que o código não foi encontrado, não de err
 apuração). Confiar nesse cruzamento seria publicar 18 falsos divergentes.
 
 O total é robusto e é o que está no livro. **282 células, 277 exatas.**
+
+
+### 17.22 RREO Anexo 7 de 2026 — cinco de cinco
+
+Parametrizei `rreo_anexo7` por ano/mês e conferi os dois exercícios:
+
+| linha | 2025 | 2026 |
+|---|---|---|
+| RP processados pagos | 1.009.808.236,48 | 1.182.340.948,71 |
+| RP processados cancelados | 49.997.069,58 | 69.178.545,41 |
+| RP processados — saldo | 470.465.377,32 | 638.351.717,58 |
+| RP não processados pagos | 217.231.892,52 | 221.477.718,89 |
+| RP não processados cancelados | 188.293.949,99 | 264.195.701,11 |
+
+**Todas exatas nos dois anos.** O livro passou a **287 células, 282 exatas
+(98,3%)**.
+
+O mesmo parâmetro (`matriz(ano, mes)`) serve para o 3º quadrimestre, quando os
+dados chegarem.

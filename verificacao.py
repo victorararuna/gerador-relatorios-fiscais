@@ -255,6 +255,22 @@ def _normaliza(texto: str) -> str:
     return " ".join(t.upper().split())
 
 
+def anexo7_2026() -> list[dict]:
+    """RREO Anexo 7 de 2026 — restos a pagar, contra o CSV do Siconfi."""
+    import rreo_anexo7 as A7
+
+    arq = os.path.join(SICONFI, "rreo", "RREO_RREO-Anexo_07_24_2026_p4.csv")
+    if not os.path.exists(arq):
+        return []
+    of, ms = A7.oficial(arq), A7.matriz(2026, 8)
+    rotulos = {"rpp_pagos": "RP processados pagos", "rpp_cancelados": "RP processados cancelados",
+               "rpp_saldo": "RP processados — saldo",
+               "rpn_pagos": "RP não processados pagos",
+               "rpn_cancelados": "RP não processados cancelados"}
+    return [_linha(f"2026 — {rotulos[k]}", ms.get(k, 0.0), of.get(k, 0.0))
+            for k in rotulos]
+
+
 def anexo2_rreo_2026() -> list[dict]:
     """RREO Anexo 2 de 2026 (4o bimestre) — liquidado por funcao, contra o CSV."""
     import rreo_anexo2 as R2
@@ -341,6 +357,7 @@ FONTES = OrderedDict((
     ("RGF Anexo 5 - totais", anexo5_totais),
     ("RGF Anexo 1 - por Poder", anexo1_poder),
     ("RREO Anexo 2 - 2026", anexo2_rreo_2026),
+    ("RREO Anexo 7 - 2026", anexo7_2026),
     ("RREO Anexo 4", anexo4),
     ("RREO Anexo 13 - projeções", anexo13_projecoes),
 ))

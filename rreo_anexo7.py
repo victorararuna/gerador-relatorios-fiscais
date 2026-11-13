@@ -41,9 +41,9 @@ OFICIAL = {
 }
 
 
-def oficial() -> dict:
+def oficial(caminho: str | None = None) -> dict:
     saida = {}
-    with open(RREO, encoding="utf-8-sig", newline="") as fh:
+    with open(caminho or RREO, encoding="utf-8-sig", newline="") as fh:
         for r in csv.DictReader(fh, delimiter=";"):
             for chave, (col, conta) in OFICIAL.items():
                 if r["coluna"] == col and r["conta"] == conta:
@@ -51,10 +51,10 @@ def oficial() -> dict:
     return saida
 
 
-def matriz() -> dict:
+def matriz(ano: int = 2025, mes: int = 12) -> dict:
     acervo = M.Acervo(MSC)
     soma = defaultdict(float)
-    for r in acervo.ler(2025, 12, classe=6, tipo_valor="ending_balance"):
+    for r in acervo.ler(ano, mes, classe=6, tipo_valor="ending_balance"):
         for chave, conta in CONTAS.items():
             if r.conta == conta:
                 soma[chave] += r.liquido

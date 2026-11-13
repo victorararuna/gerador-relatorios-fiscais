@@ -96,3 +96,39 @@ complementar, sem dupla contagem) — não por subfunção isolada.
 **Pensões civis saíram de "bloqueado" para −0,96%** com um critério normativo
 documentado. O Anexo 4 deixou de ser um anexo sem regra e passou a ser um anexo
 com regra e uma pendência de encadeamento.
+
+---
+
+## 6. Aplicação dos blocos (13/11, à noite)
+
+Implementado em `rreo_anexo4_blocos.py`: bloco principal (FR) + bloco
+complementar (FR exceto / CO / FS), sem dupla contagem.
+
+| linha | principal | complementar | total | homologado | desvio |
+|---|---:|---:|---:|---:|---:|
+| **Inatividade militar** | 200.789.769,53 | 474.277.141,18 | **675.066.910,71** | 675.066.910,71 | **0,00** |
+| Aposentadorias civis | 3.092.096.126,08 | 1.826.876.254,16 | 4.918.972.380,24 | 4.917.756.724,31 | +0,02% |
+| Pensões por morte civis | 585.867.873,92 | 55.930.331,01 | 641.798.204,93 | 640.868.408,22 | +0,15% |
+| Pensões militares | 351.195,03 | 250.564.061,69 | 250.915.256,72 | 119.906.956,64 | +109% |
+
+**A inatividade militar fechou ao centavo.** Aplicar os blocos na ordem do
+mapeamento — e não a subfunção isolada — foi o que resolveu.
+
+### O que resta
+
+Só as pensões militares. A composição mostra o problema:
+
+```
+31900302  FS 274  fonte 1500  CO 2211 ... 245.371.532,13
+31900302  FS 274  fonte 1803  CO 2211 ...     351.195,03
+31909203  (exercícios anteriores) .......   ~13.000.000,00
+```
+
+O oficial é 119.906.956,64 — menos da metade do que o filtro CO 2211 captura.
+Ou o CO 2211 tem subdivisão que o mapeamento não explicita na célula, ou a
+linha oficial considera apenas parte das fontes.
+
+### Chave de leitura descoberta
+
+`FS` é **função + subfunção concatenadas**, e a regra usa a posição 3, tamanho 3:
+`09272` → `272`, `09274` → `274`. Sem decodificar isso, o filtro FS nunca casa.

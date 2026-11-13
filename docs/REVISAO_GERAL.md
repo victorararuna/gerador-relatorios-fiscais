@@ -1306,3 +1306,32 @@ demonstração os busca em outra fonte.
 
 Isso fecha a investigação da RCL. Ela continua sendo **lida** do Anexo 3 — e
 agora se sabe exatamente por quê.
+
+
+### 17.27 Anexo 2 — por que o RP Processados exige o relatório
+
+A seção da aba "Base" usa quatro contas, todas somadas com sinal positivo:
+
+```
+6.2.2.1.3.07.00   6.3.1.3.0.00.00   6.3.2.1.0.00.00   6.3.2.7.0.00.00
+```
+
+No balancete só as **contas-pai** existem (as filhas `6.3.1.3.1` e `6.3.2.1.1`
+não estão lá), e elas somam **3.306.229.590,47** contra **752.059.517,25**
+publicados.
+
+A composição publicada, pela memória da equipe, é:
+
+```
+RP bruto dos sete Poderes .......... 1.694.111.739,40
+(-) conta 8.6.3.2.2 ................   942.052.222,15
+= RP processados ...................   752.059.517,25
+```
+
+Mesmo descontando a conta de controle dos nossos R$ 3,3 bi, chegaríamos a
+R$ 2,36 bi — **três vezes** o publicado. As contas-pai do balancete agregam
+inscritos, cancelados e o que já foi pago, sem a dimensão de fonte que a equipe
+usa para excluir FR 32, 46, 800, 801 e 802.
+
+**Conclusão:** não é conta trocada nem sinal. É a dimensão **fonte de recursos por
+Poder**, que só o relatório do SIGEF tem.

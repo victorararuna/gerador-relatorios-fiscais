@@ -44,23 +44,15 @@ está na planilha da equipe, não no CSV do Siconfi.**
 | RGF Anexo 5 — disponibilidade | 90 células e 5 totais | **0,00** |
 | RGF Anexo 6 — limites | 3 limites | **0,00** |
 
-### Apurado com desvio pequeno e documentado
+### Em aberto — e de quem depende
 
-| anexo | situação |
-|---|---|
-| **RGF Anexo 1 — pessoal** | **exato em 10/10 meses** (I, II e III); abril a −5.241,65, documentado |
-| **RREO Anexo 4 — previdenciário** | **4/4 exatas** desde que se deduza o PAE (31.90.92.02 e .06) |
-| **RGF Anexo 2 — DCL** | **11 de 14 linhas exatas**; as 3 com causa escrita |
-| **RGF Anexo 5 — disponibilidade** | **90 de 90 células** e os 5 totais contra o Siconfi |
+| item | desvio | depende de |
+|---|---:|---|
+| **RGF Anexo 2 — RP Processados** | 2,56 bi | relatório "Execução Orçamentária por Fonte" (bloco de RP), por Poder |
+| **RGF Anexo 1 — abril** | 5.241,65 | empenho de março liquidado em abril; documentado, não é erro |
+| RCL | — | é lida do Anexo 3: o bloco RPPS de deduções não existe na matriz |
 
-### Aberto
-
-| anexo | o que falta |
-|---|---|
-| RREO Anexo 1 completo | 47 de 105 linhas no aplicador de mapeamento |
-| RREO Anexo 9 — receita | separar operação nova de refinanciamento |
-| RREO Anexo 13 — PPP | cadastro de contratos |
-| RGF Anexo 5 — quebra por vinculação | rodar as 27 linhas do MAPEAMENTO com as contas da classe 8 |
+Fora esses, **todos os anexos fecham**: 298 de 301 células exatas.
 
 ---
 
@@ -71,11 +63,11 @@ está na planilha da equipe, não no CSV do Siconfi.**
 | RREO 1 despesa | MSC classe 6 | conta 62213 por grupo de natureza |
 | RREO 1 receita | MSC classe 6 | conta 6212/6213 + natureza (mapeamento) |
 | RREO 2 | MSC classe 6 | conta de liquidação + função |
-| RREO 3 | RREO Anexo 3 | RCL menos deduções publicadas |
+| RREO 3 | RREO Anexo 3 | RCL **lida** do homologado (o bloco RPPS não está na matriz) |
 | RREO 7 | MSC classe 6 | contas 6.3.1 / 6.3.2 |
 | RREO 9 | MSC classe 6 | 62213 por natureza 44/45/46 |
 | RREO 14 | MSC classe 6 | empenhado, liquidado, pago |
-| RREO 4 | MSC + mapeamento | ND × FS (função+subfunção) × FR × CO |
+| RREO 4 | MSC + mapeamento | ND × FS (função+subfunção) × FR × CO, menos o **PAE** do INEC |
 | RGF 1 | MSC classes 3/4/6 + class 8 | janela móvel de 12 meses |
 | RGF 2 | **balancete** | base de 301 contas da planilha |
 | RGF 3/4/6 | RCL | limites da LRF |

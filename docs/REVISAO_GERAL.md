@@ -1076,3 +1076,25 @@ escopo de conta entre a MSC e o balancete da AL.
 Tentei implementar a dedução do bloco IPERN e o resultado não convergiu (erro de
 sinal e de prefixo das sub-contas). **Revertido** — a linha segue pelo balancete,
 com o desvio de 54,9 mi documentado aqui, em vez de um número pior.
+
+
+### 17.17 Depósitos — por que não fecha hoje
+
+Tentei reproduzir o bloco IPERN (as 24 sub-contas em FR 800/802) e **não há
+fonte no projeto com a granularidade necessária**:
+
+| fonte | granularidade | resultado |
+|---|---|---|
+| MSC | 7 segmentos (9 dígitos: `218810102`) | o bloco não existe — a conta mais fina é `2.1.8.8.1.01.02`, não `2.1.8.8.1.01.08.01` |
+| balancete | 8 segmentos | só **9 das 24** contas casam, e somam **657.898.469,56** contra 53.753.274,49 da aba (12× o valor) |
+
+A MSC para no sétimo segmento; o balancete desce ao oitavo, mas não na mesma
+abertura que a aba — 15 contas não casam e as que casam capturam o pai, não a
+folha.
+
+**Conclusão:** a linha de Depósitos depende da abertura de 8 segmentos **por
+fonte**, que a equipe tem e nós não. Não é falta de esforço: é falta de insumo.
+
+Duas implementações tentadas e revertidas. A linha segue pelo balancete, com o
+desvio de 54.946.195,61 documentado — e a regra conhecida (total menos bloco
+IPERN) registrada para quando o insumo existir.

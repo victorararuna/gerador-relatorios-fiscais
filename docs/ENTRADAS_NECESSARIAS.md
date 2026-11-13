@@ -135,3 +135,21 @@ que está certo.
 | RCL e limites | — | só código |
 | Demais anexos | — | já exatos |
 
+
+
+---
+
+## 7. Anexo 2 — o que já foi resolvido e o que falta (13/11/2026)
+
+| linha | situação | o que falta |
+|---|---|---|
+| Empréstimos Internos | **exata** (conta-pai 2.1.2.1.1.02) | — |
+| Empréstimos Externos, Reestruturação, Tributos, Contribuições, FGTS, Instituição Não Financeira | **exatas** | — |
+| **Demais Haveres Financeiros** | **exata** (PO 10111 + conta 121310199) | — |
+| Demais Dívidas Contratuais | 272,3 mi contra zero publicado | decisão de classificação do ente |
+| Disponibilidade de Caixa Bruta | 1,85 mi | escopo de conta no Executivo |
+| (−) Depósitos Restituíveis | 54,9 mi | **abertura de 8 segmentos por fonte** (bloco IPERN) |
+| (−) Restos a Pagar Processados | 4,06 bi | relatório por fonte (bloco de RP) |
+
+Duas das cinco linhas que faltavam fecharam em 13/11. Das três restantes, uma
+espera o relatório e duas esperam a abertura de conta da equipe.

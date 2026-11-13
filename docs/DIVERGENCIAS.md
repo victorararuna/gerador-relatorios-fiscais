@@ -9,6 +9,6 @@ Gerado por `verificacao.relatorio_divergencias()`. Não editar à mão.
 | RGF Anexo 2 | Demais Dívidas Contratuais | 272,293,396.59 | 0.00 | 272,293,396.59 | O RN publica zero nessa linha e aloca o valor em 'Outras Dividas' - decisao de classificacao do ente. |
 | RGF Anexo 2 | Disponibilidade de Caixa Bruta | 1,551,032,002.93 | 1,549,181,365.36 | 1,850,637.57 | Localizado: TCE, MP e DP batem ao centavo por Poder; a diferenca esta no Executivo (escopo de conta). |
 | RGF Anexo 2 | (-) Restos a Pagar Processados (Exceto Precatóri | -3,306,229,590.47 | 752,059,517.25 | -4,058,289,107.72 | Exige o relatorio 'Execucao Orcamentaria por Fonte' (bloco de RP) por Poder, com a dimensao fonte de recursos. |
-| RGF Anexo 2 | (-) Depósitos Restituíves e Valores Vinculados | 852,068,043.72 | 797,121,848.11 | 54,946,195.61 | Localizado: TCE, TJ, MP e DP batem ao centavo; a diferenca de 54.946.195,61 esta no Executivo (escopo de conta). |
+| RGF Anexo 2 | (-) Depósitos Restituíves e Valores Vinculados | 852,068,043.72 | 797,121,848.11 | 54,946,195.61 | Regra conhecida (total menos o bloco IPERN de FR 800/802), mas o bloco exige abertura de 8 segmentos POR FONTE: a MSC para no 7o segmento e o balancete cobre 9 das 24 contas. Falta insumo. |
 
 **275 de 281 células exatas** (6 divergentes, todas acima com causa).

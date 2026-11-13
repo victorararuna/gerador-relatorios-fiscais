@@ -361,3 +361,37 @@ Os candidatos: 13º salário (só em alguns meses), patronal sobre a folha de
 inativos em meses específicos, ou exercícios anteriores.
 
 Setembro fechou porque ali os componentes coincidiram.
+
+### 10.2 Março lido e as combinações testadas
+
+Lendo o IEO de março visualmente, o bloco da ALRN mostra o que varia:
+
+| conta | setembro | março |
+|---|---:|---:|
+| ALRN 31.90.01 na fonte 0.5.00 | 11.548.881,70 | **5.044.555,49** |
+| ALRN 31.90.01 na fonte 0.8.00 | 8.562.226,99 | 4.895.720,17 |
+
+A mesma conta varia 2,3× de um mês para o outro. É aí que mora o componente
+mensal que faltava identificar.
+
+### Combinações testadas nos dez meses
+
+| mês | apos | apos+patr | apos+pens | tudo | planilha |
+|---|---:|---:|---:|---:|---:|
+| jan | 24,7 | 36,8 | 27,8 | 39,8 | **47,4** |
+| fev | 20,5 | **28,7** | 23,7 | 31,9 | 28,2 |
+| mar | 20,6 | 29,0 | **23,8** | 32,2 | 22,3 |
+| mai | 21,7 | **30,1** | 25,0 | 33,3 | 29,8 |
+| jun | 21,6 | 30,3 | 25,0 | 33,6 | 36,2 |
+| jul | 21,0 | **29,6** | 24,6 | 33,2 | 29,5 |
+| ago | 15,9 | 24,2 | 19,4 | 27,8 | 25,9 |
+| set | 24,5 | 33,2 | 28,0 | **36,7** | 36,4 |
+| out | 21,3 | **29,9** | 24,7 | 33,3 | 29,5 |
+
+**`apos + patronal` é a melhor combinação geral: fecha em 5 dos 10 meses**
+(fev, mai, jul, out e quase ago). Mas não explica janeiro (+10,7 acima de
+qualquer combinação) nem março (−6,7 abaixo de apos+patr).
+
+Isso reforça: o expurgo tem os três componentes identificados **mais um fator
+mensal** que não é constante — provavelmente 13º, atrasados ou exercícios
+anteriores lançados em 31.90.92/94.

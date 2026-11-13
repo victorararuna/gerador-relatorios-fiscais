@@ -1,31 +1,44 @@
-# -*- coding: utf-8 -*-
-"""Expurgo do Anexo 1 — aposentadorias e pensões dos demais Poderes no IEO.
+﻿# -*- coding: utf-8 -*-
+"""Expurgo do Anexo 1 — leitura do IEO por blocos de subação.
 
-Regra (verificada contra a planilha da equipe, set/2026):
+O IEO é emitido por Subação / Fonte / Elemento. Cada subação abre um bloco que
+vai até a próxima; dentro dele vêm as fontes e os elementos.
 
-    expurgo = aposentadorias (31.90.01, fonte 0.8.00)
-            + pensões        (31.90.03, fonte 0.8.00)
-            + patronal       (31.91.13, fonte 0.5.00)
-    dos Poderes: 218401 DPRN, 221201 TJRN, 222201 ALRN,
-                 222401 MPRN, 222501 TCE
+Regra do expurgo (validada contra a planilha da equipe em set/2026):
 
-O IEO quebra cada registro em várias linhas físicas, então a leitura usa a
-geometria do PDF: y identifica a linha, x identifica a coluna.
+    aposentadorias (31.90.01, fonte 0.8.00)
+  + pensões        (31.90.03, fonte 0.8.00)
+  + patronal       (31.91.13, fonte 0.5.00)
+  dos cinco Poderes: 218401, 221201, 222201, 222401, 222501
+
+Os blocos de pensões usam outra codificação de subação e trazem o Poder descrito
+por extenso — o leitor identifica pelo texto do bloco.
 """
 from __future__ import annotations
 
 import os
 import re
 import sys
+import unicodedata
 from collections import defaultdict
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(AQUI, "app"))
 
 BASE = r"C:\Users\victo\Downloads\Arquivos etonjones"
-PODERES = {"218401": "DPRN", "221201": "TJRN", "222201": "ALRN",
-           "222401": "MPRN", "222501": "TCE"}
 UG = "162233"
+
+POR_CODIGO = {"218401": "DPRN", "221201": "TJRN", "222201": "ALRN",
+              "222401": "MPRN", "222501": "TCE"}
+POR_TEXTO = (
+    ("pensionistas - tribunal de justica", "TJRN"),
+    ("pensionistas - tribunal de contas", "TCE"),
+    ("pensionistas - assembleia legislativa", "ALRN"),
+    ("pensionistas - ministerio publico", "MPRN"),
+    ("pensionistas - defensoria", "DPRN"),
+    ("pensionistas - defensoria publica", "DPRN"),
+)
+PODERES = ("DPRN", "TJRN", "ALRN", "MPRN", "TCE")
 
 RE_CODIGO = re.compile(r"^(\d{6})(?:\s|$)")
 RE_FONTE = re.compile(r"^(\d\.\d\.\d{2}\.\d{6})(?:\s|$)")
@@ -34,7 +47,6 @@ RE_NUMERO = re.compile(r"^-?\d{1,3}(?:\.\d{3})*,\d{2}$|^-?\d+,\d{2}$")
 
 
 def _sem_acento(t: str) -> str:
-    import unicodedata
     t = unicodedata.normalize("NFKD", t or "")
     return "".join(c for c in t if not unicodedata.combining(c)).lower()
 
@@ -43,58 +55,71 @@ def _num(t: str) -> float:
     return float(t.replace(".", "").replace(",", "."))
 
 
-def _x_liquidado(pagina) -> float | None:
+def _linhas(pagina, janela: float = 4.0):
+    por_y = defaultdict(list)
     for it in pagina.itens:
-        if it.texto.strip() == "Liquidado":
-            return it.x
-    return None
+        por_y[round(it.y / janela)].append(it)
+    return [(y, sorted(por_y[y], key=lambda i: i.x)) for y in sorted(por_y, reverse=True)]
 
 
 def ler_mes(arquivo: str) -> dict:
-    """Poder -> {'aposentadorias','pensoes','patronal'} (coluna Liquidado)."""
     import leitor_pdf as LP
 
     saida = {p: {"aposentadorias": 0.0, "pensoes": 0.0, "patronal": 0.0}
-             for p in PODERES.values()}
+             for p in PODERES}
     for pagina in LP.ler_pdf(arquivo):
-        x_liq = _x_liquidado(pagina)
+        x_liq = next((it.x for it in pagina.itens
+                      if it.texto.strip() == "Liquidado"), None)
         if x_liq is None:
             continue
-        # agrupa linhas físicas próximas (o IEO quebra o registro em 2-3 linhas)
-        por_y = defaultdict(list)
-        for it in pagina.itens:
-            por_y[round(it.y / 4.0)].append(it)
-        poder = fonte = elemento = None
-        for y in sorted(por_y, reverse=True):
-            itens = sorted(por_y[y], key=lambda i: i.x)
+        linhas = _linhas(pagina)
+        # separa em blocos que começam por um código de 6 dígitos
+        blocos, atual = [], None
+        for y, itens in linhas:
             primeiro = itens[0].texto.strip() if itens else ""
             m = RE_CODIGO.match(primeiro)
-            if m and m.group(1) in PODERES:
-                poder, fonte, elemento = PODERES[m.group(1)], None, None
-            elif m:
-                poder, fonte, elemento = None, None, None
-            else:
+            if m:
+                atual = {"codigo": m.group(1), "linhas": []}
+                blocos.append(atual)
+            if atual is not None:
+                atual["linhas"].append((y, itens))
+        for bloco in blocos:
+            texto = _sem_acento(" ".join(i.texto for _, itens in bloco["linhas"] for i in itens))
+            poder = POR_CODIGO.get(bloco["codigo"])
+            origem = "codigo"
+            if poder is None:
+                for chave, nome in POR_TEXTO:
+                    if chave in texto:
+                        poder, origem = nome, "texto"
+                        break
+            if poder is None:
+                continue
+            fonte = elemento = None
+            for y, itens in bloco["linhas"]:
+                primeiro = itens[0].texto.strip() if itens else ""
                 mf = RE_FONTE.match(primeiro)
                 if mf:
                     fonte, elemento = mf.group(1), None
-                else:
-                    me = RE_ELEMENTO.match(primeiro)
-                    if me:
-                        elemento = me.group(1)
-
-            if poder is None or elemento is None:
-                continue
-            numeros = [i for i in itens if RE_NUMERO.match(i.texto.strip())]
-            if len(numeros) < 3:
-                continue
-            alvo = min(numeros, key=lambda i: abs(i.x - x_liq))
-            valor = _num(alvo.texto.strip())
-            if elemento == "31.90.01" and (fonte or "").startswith("0.8.00"):
-                saida[poder]["aposentadorias"] += valor
-            elif elemento == "31.90.03" and (fonte or "").startswith("0.8.00"):
-                saida[poder]["pensoes"] += valor
-            elif elemento == "31.91.13" and (fonte or "").startswith("0.5.00"):
-                saida[poder]["patronal"] += valor
+                    continue
+                me = RE_ELEMENTO.match(primeiro)
+                if me:
+                    elemento = me.group(1)
+                if elemento is None:
+                    continue
+                numeros = [i for i in itens if RE_NUMERO.match(i.texto.strip())]
+                if len(numeros) < 3:
+                    continue
+                alvo = min(numeros, key=lambda i: abs(i.x - x_liq))
+                valor = _num(alvo.texto.strip())
+                # bloco identificado pelo código: aposentadorias e patronal
+                # bloco identificado pela descrição: pensões dos pensionistas
+                if origem == "codigo":
+                    if elemento == "31.90.01" and (fonte or "").startswith("0.8.00"):
+                        saida[poder]["aposentadorias"] += valor
+                    elif elemento == "31.91.13" and (fonte or "").startswith("0.5.00"):
+                        saida[poder]["patronal"] += valor
+                elif elemento == "31.90.03" and (fonte or "").startswith("0.8.00"):
+                    saida[poder]["pensoes"] += valor
     return saida
 
 
@@ -112,7 +137,7 @@ def main() -> int:
     dados = ler_mes(arquivo)
     print(f"IEO {UG} — {mes}")
     print(f"{'Poder':<7}{'aposentadorias':>18}{'pensões':>15}{'patronal':>15}")
-    for p in PODERES.values():
+    for p in PODERES:
         d = dados[p]
         print(f"{p:<7}{d['aposentadorias']:>18,.2f}{d['pensoes']:>15,.2f}{d['patronal']:>15,.2f}")
     t = total(dados)

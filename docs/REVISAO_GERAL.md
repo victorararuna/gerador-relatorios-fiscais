@@ -316,3 +316,48 @@ Julho fecha a 0,24% e maio a 0,9% **mesmo sem as pensões** — o que confirma a
 regra. Os meses com desvio maior têm causa: falta o componente de pensões
 (~3,5 mi/mês) e, em abril, a planilha embute o ajuste de −R$ 624,7 mi da conta
 8.6.3.3.1.
+
+### 10.1 O leitor por blocos e o resultado nos nove meses
+
+`expurgo_poderes.py` foi reescrito para separar em blocos: os identificados por
+código de subação rendem aposentadorias e patronal; os identificados pela
+descrição ("pensionistas - Tribunal de Justiça" etc.) rendem pensões.
+
+**Setembro/2026:**
+
+| componente | apurado | planilha |
+|---|---:|---:|
+| aposentadorias 0.8.00 | 24.495.014,27 | — |
+| pensões 0.8.00 | 3.494.674,89 | — |
+| patronal 0.5.00 | 8.706.194,90 | — |
+| **total** | **36.695.884,06** | **36.447.985,52** |
+| **desvio** | **+0,68%** | |
+
+### Os nove meses — só setembro fecha
+
+| mês | apurado | planilha | desvio |
+|---|---:|---:|---:|
+| jan | 39.842.750,07 | 47.435.203,37 | −16% |
+| fev | 31.929.124,04 | 28.155.853,57 | +13% |
+| mar | 32.162.974,01 | 22.327.549,36 | +44% |
+| abr | 31.318.076,56 | 653.864.492,01 | −95% |
+| mai | 33.349.378,77 | 29.772.727,55 | +12% |
+| jun | 33.636.991,04 | 36.249.744,22 | −7% |
+| jul | 33.172.076,64 | 29.546.096,39 | +12% |
+| ago | 27.766.563,97 | 25.936.622,87 | +7% |
+| **set** | **36.695.884,06** | **36.447.985,52** | **+0,68%** |
+| out | 33.278.070,64 | 29.476.494,85 | +13% |
+
+**1 de 10 meses dentro de 2%.**
+
+### A leitura honesta
+
+A apuração do motor é **estável** (ronda R$ 33 mi todo mês); a da planilha
+**varia** (de 22 a 47 mi). Se a regra fosse só aposentadorias + pensões +
+patronal, as duas deveriam variar juntas.
+
+Conclusão: existe um **componente mensal variável** que ainda não identifiquei.
+Os candidatos: 13º salário (só em alguns meses), patronal sobre a folha de
+inativos em meses específicos, ou exercícios anteriores.
+
+Setembro fechou porque ali os componentes coincidiram.

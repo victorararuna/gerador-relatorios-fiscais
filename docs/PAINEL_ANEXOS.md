@@ -1,6 +1,6 @@
-# Painel de verificação — RGF 2025/2026 a partir da MSC
+﻿# Painel de verificação — RGF 2025/2026 a partir da MSC
 
-Situação de cada anexo com o número que o sustenta. Atualizado na rodada 9.
+Situação de cada anexo com o número que o sustenta. Atualizado após a consolidação por Poder.
 
 | anexo | situação | número |
 |---|---|---|
@@ -30,19 +30,35 @@ Passa nas cinco regras estruturais do Siconfi (ES1005, ES1016, ES1017, ES1018,
 ED1002). A III é puxada pela linha de Exercícios Anteriores do homologado, que
 repete R$ 248.732.357,39 em três janelas diferentes.
 
-**Por Poder**: `gerar_anexo1_poderes.py` produz as sete apurações + consolidado
-em um XLSX (`saida/RGF_<ano>_Q<q>_Anexo01_Poderes.xlsx`).
+**Por Poder**: o RGF é declarado por Poder; o RREO é consolidado por ente (os
+arquivos `_L`, `_J`, `_M`, `_D` do RREO são **cópias idênticas** do consolidado —
+verificado por MD5).
 
-| janela | Executivo | demais Poderes | consolidado (I) | líquida (III) |
-|---|---:|---:|---:|---:|
-| 2025 Q3 | 15.422.754.491,59 | 1.668.885.665,54 | **17.091.640.157,13** | 12.641.025.255,09 |
-| 2026 Q2 | 16.185.150.619,87 | 1.847.801.645,76 | **18.032.952.265,63** | 13.615.243.150,19 |
+O consolidado do Estado combina a matriz (Executivo, que **inclui a Defensoria**)
+com os arquivos oficiais dos demais Poderes:
 
-O consolidado é exatamente a soma dos sete.
+| Poder | fonte | Despesa Bruta (I) — 2025 Q3 |
+|---|---|---:|
+| Executivo (c/ Defensoria) | matriz | 15.422.754.491,59 |
+| Legislativo | oficial | 505.431.728,20 |
+| Judiciário | oficial | 1.247.658.100,32 |
+| Ministério Público | oficial | 408.028.644,01 |
+| **CONSOLIDADO** | | **17.583.872.964,12** |
 
-Ressalva: só o Executivo tem homologado para comparar — os 216 downloads do
-acervo usaram `co_poder=E`. Para os demais Poderes os números são **apurados**,
-não conferidos.
+A Defensoria está dentro do Executivo: o "Pessoal Ativo" do arquivo E
+(R$ 8.957.805.853) é igual à nossa soma 10111+10112+60611 com desvio de 0,01%.
+Somar a coluna D duplicaria a despesa.
+
+Limites por Poder (2025 Q3), sobre RCL ajustada de R$ 19.507.449.078,52:
+
+| Poder | DTP | % da RCL | limite | situação |
+|---|---:|---:|---:|---|
+| Executivo | 11.004.331.905,62 | 56,41% | 49,00% | excesso de R$ 1,45 bi |
+| Legislativo | 127.631.384,36 | 0,65% | 0,71% | folga |
+| Judiciário | 988.502.569,11 | 5,07% | 6,00% | folga |
+| Ministério Público | 330.258.158,23 | 1,69% | 2,00% | folga |
+
+Os limites diferem por Poder — 49% é só o do Executivo.
 
 ## Anexo 2
 
@@ -120,11 +136,7 @@ Falta o de-para FR → categoria do Anexo 5 (educação, FUNDEB, saúde, SUS, RP
 e a definição de quais contas compõem "disponibilidade bruta". É trabalho de
 mapeamento, não de dado ausente — diferente de 2024.
 
-## Anexo 6
 
-Depende dos anexos 4 (operações) e 5. Sem eles, não fecha.
-
----
 
 ## RREO
 
@@ -168,9 +180,16 @@ todas. Não é erro de leitura: é critério de apuração.
 | `app/regras_anexo1.py` | regras de validação do Siconfi |
 | `rreo_anexo1_grupos.py` | RREO Anexo 1 — despesa por grupo |
 | `rreo_anexo2.py` / `rreo_anexo2_intra.py` | RREO Anexo 2 — despesa por função |
-| `gerar_painel.py` | painel consolidado em XLSX |
+'| `gerar_painel.py` | painel consolidado em XLSX |
+| `app/rreo_gerador.py` | apura o bimestre inteiro a partir da MSC |
+| `app/rreo_layout.py` | renderiza os anexos no layout oficial (molde do Siconfi) |
+| `gerar_rreo.py` | RREO de um bimestre + comparação com o homologado |
+| `gerar_consolidado.py` | Anexo 1 consolidado do Estado com o quadro de limites |
+| `verificar_tudo.py` | 27 conferências de ponta a ponta |'
 
-41 testes verdes (leitor 14, Anexo 1 15, Anexo 3 3, limites 9).
+41 testes verdes e 27 conferências de ponta a ponta.
+
+
 
 
 

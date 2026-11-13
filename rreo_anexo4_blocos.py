@@ -64,8 +64,20 @@ def _valor(r) -> float:
     return v if (r.get("natureza_conta") or "").upper().startswith("C") else -v
 
 
-def apurar(linha: str) -> tuple[float, float]:
-    """(bloco principal, incremento do bloco complementar)."""
+#: PAE — Parcela de Ajuste Previdenciário, informada pelo INEC a cada bimestre.
+#: NÃO vem da matriz: em 2025 o 31.90.92.02 e o .06 não existem na MSC.
+#: A linha do anexo é o bruto MENOS o PAE (aba "PAE" da planilha da equipe):
+#:   31.90.92.02 -> aposentadorias civis
+#:   31.90.92.06 -> pensões civis
+PAE_2025 = {"apos_civil": 1_215_655.93, "pens_civil": 929_796.71}
+
+
+def apurar(linha: str, pae: float = 0.0) -> tuple[float, float]:
+    """(bloco principal, incremento do bloco complementar), líquido de PAE.
+
+    O PAE é subtraído do bloco complementar — é uma dedução da linha, não uma
+    natureza que esteja sendo somada a mais.
+    """
     principal = complementar = 0.0
     for r in _registros():
         nd = r.get("natureza_despesa") or ""
@@ -97,7 +109,7 @@ def apurar(linha: str) -> tuple[float, float]:
                 principal += v
             elif base and fr not in MIL_EXCETO and co == "2211" and fs == "274":
                 complementar += v
-    return principal, complementar
+    return principal, complementar - pae
 
 
 OFICIAL = {
@@ -114,7 +126,7 @@ def main() -> int:
     print(f"{'linha':<26}{'principal':>18}{'complementar':>16}{'total':>18}"
           f"{'oficial':>18}{'dif':>10}")
     for chave, (nome, oficial) in OFICIAL.items():
-        p, c = apurar(chave)
+        p, c = apurar(chave, PAE_2025.get(chave, 0.0))
         total = p + c
         print(f"{nome:<26}{p:>18,.2f}{c:>16,.2f}{total:>18,.2f}"
               f"{oficial:>18,.2f}{total - oficial:>10,.0f}")

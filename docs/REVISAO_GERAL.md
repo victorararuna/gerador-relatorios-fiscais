@@ -917,3 +917,39 @@ e nenhuma vale esse montante.
 
 Fica localizado: o que falta é **a natureza de despesa** que compõe esse `b`, não
 o bloco.
+
+
+### 17.11 ANEXO 4 FECHADO — as quatro linhas exatas
+
+O desvio estava todo no bloco 31.90.92. A linha do anexo **não é o bruto**: é o
+bruto **menos o PAE** (Parcela de Ajuste Previdenciário):
+
+| linha | natureza do PAE | valor |
+|---|---|---:|
+| Aposentadorias civis | 31.90.92.02 | 1.215.655,93 |
+| Pensões por morte civis | 31.90.92.06 | 929.796,71 |
+
+Conferindo:
+
+```
+4.918.972.380,24 - 1.215.655,93 = 4.917.756.724,31   (publicado)
+  641.798.204,93 -   929.796,71 =   640.868.408,22   (publicado)
+```
+
+| linha | apurado | oficial | desvio |
+|---|---:|---:|---:|
+| Aposentadorias civis | 4.917.756.724,31 | 4.917.756.724,31 | **0** |
+| Pensões por morte civis | 640.868.408,22 | 640.868.408,22 | **0** |
+| Inatividade militar | 675.066.910,71 | 675.066.910,71 | **0** |
+| Pensões militares | 250.915.256,72 | 250.915.256,72 | **0** |
+
+### O PAE não vem da matriz
+
+Testei: o 31.90.92.02 e o .06 **não existem** na MSC de 2025. O PAE é informado
+pelo **INEC** a cada bimestre e transcrito na aba "PAE" da planilha da equipe
+("PREENCHER TODO BIMESTRE. FONTE: INEC").
+
+É o segundo insumo exógeno do projeto, ao lado da âncora do PPP. Fica
+parametrizado em `PAE_2025` e documentado como tal — não deduzido.
+
+**O livro passou a 281 células, 274 exatas (97,5%).**

@@ -250,7 +250,7 @@ def anexo4() -> list[dict]:
     saida = []
     for chave, (nome, oficial) in A4.OFICIAL.items():
         try:
-            principal, complementar = A4.apurar(chave)
+            principal, complementar = A4.apurar(chave, A4.PAE_2025.get(chave, 0.0))
         except Exception:
             continue
         saida.append(_linha(nome, principal + complementar, oficial,
@@ -364,14 +364,10 @@ CAUSAS = (
                                    "(bloco de RP) por Poder, com a dimensao fonte de recursos."),
     ("Depósitos Restitu", "Exige os blocos por Poder (aba Depositos)."),
     ("Demais Haveres", "Exige os blocos por Poder (aba D+ Haveres)."),
-    ("Aposentadorias civis", "Desvio concentrado no bloco 31.90.92 (DEA): o motor soma "
-                             "270.864.832,30 contra 269.539.438,38 esperados. A familia "
-                             "31.90.01 bate (diferenca de 109.737,99, o sentido oposto). "
-                             "A equipe aplica no 92 um ajuste 'b' de -2.145.718,19 que o "
-                             "motor nao reproduz."),
-    ("Pensões por morte civis", "Idem: o 31.90.03 bate (634.718.036,81 contra "
-                                "634.718.040,12) e o desvio esta no 92: 7.080.168,12 "
-                                "contra 6.150.368,10 esperados."),
+    ("Aposentadorias civis", "Resolvido: a linha e o bruto menos o PAE "
+                             "(31.90.92.02), insumo do INEC."),
+    ("Pensões por morte civis", "Resolvido: a linha e o bruto menos o PAE "
+                                "(31.90.92.06), insumo do INEC."),
 )
 
 

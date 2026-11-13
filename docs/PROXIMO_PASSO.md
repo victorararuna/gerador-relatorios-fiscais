@@ -112,9 +112,27 @@ Testando exclusões de PO no total consolidado:
 intra-estado e a abertura por conta não é a do anexo. O balancete (só Executivo)
 chega mais perto — +1.850.637,57 — do que a MSC inteira.
 
-Para fechar essas três linhas é preciso a **abertura por Poder que a equipe usa**
-(abas "Disponibilidade", "Depósitos" e "D+ Haveres"), não uma dedução nossa a
-partir da matriz.
+### Onde exatamente está a diferença (testado em 13/11)
+
+Testando a aba **"Depósitos"** (8 contas: 2.1.8.8.1/.3/.4/.5 + 2.2.8.8.1/.3/.4/.5)
+sobre a MSC, por Poder:
+
+| PO | Poder | MSC | aba da equipe | |
+|---|---|---:|---:|---|
+| 20212 | TCE | 167.585,87 | 167.585,87 | **exato** |
+| 30390 | TJ | 13.926.244,78 | 13.926.244,78 | **exato** |
+| 50511 | MP | 621.232,24 | 621.232,24 | **exato** |
+| 60611 | DP | 154.387,17 | 154.387,17 | **exato** |
+| 20211 | AL | 2.531.909,68 | 1.252.392,72 + FDM 86.595,84 | a separar |
+| 10111+10112 | Executivo | 834.666.683,98 | 780.913.409,49 | **+53.753.274,49** |
+| **total** | | 852.068.043,72 | 797.121.848,11 | **+54.946.195,61** |
+
+**Quatro Poderes batem ao centavo.** Toda a diferença está no Executivo — e o
+valor é o mesmo que o balancete produz, o que mostra que não é erro de leitura:
+é escopo de conta no Executivo.
+
+Para fechar, é preciso a **abertura de conta do Executivo** que a equipe usa, não
+uma dedução nossa a partir da matriz.
 
 **Demais Dívidas Contratuais** (272,3 mi contra zero publicado) não é erro: é o
 RN alocando o valor em "Outras Dívidas". Decisão de classificação — se quiser

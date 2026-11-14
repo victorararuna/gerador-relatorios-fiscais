@@ -78,5 +78,34 @@ class TestBaselineDCL(unittest.TestCase):
                          "seção com valor esperado sem correspondência no DCL")
 
 
+class TestBaselinePPP(unittest.TestCase):
+    """Os saldos de referencia do Anexo 13 tem de vir do CSV publicado."""
+
+    ARQUIVOS = (
+        (1, "RREO_RREO-Anexo_13_24_2025_p6.csv", "SALDO FINAL ATÉ O BIMESTRE"),
+        (2, "RREO_RREO-Anexo_13_24_2026_p4.csv", "SALDO FINAL ATÉ O BIMESTRE"),
+    )
+
+    def test_referencias_batem(self):
+        import verificacao as V
+
+        for indice, nome, coluna in self.ARQUIVOS:
+            arq = os.path.join(RAIZ, "dados", "siconfi", "rreo", nome)
+            if not os.path.exists(arq):
+                continue
+            with open(arq, encoding="utf-8-sig", newline="") as fh:
+                valores = {}
+                for r in csv.DictReader(fh, delimiter=";"):
+                    if r["coluna"] == coluna:
+                        valores[r["conta"].strip()] = float(r["valor"])
+            for chave, (rotulo, ref25, ref26) in V.ANEXO13_REF.items():
+                esperado = ref25 if indice == 1 else ref26
+                self.assertIn(rotulo, valores, f"{rotulo} ausente em {nome}")
+                self.assertAlmostEqual(
+                    esperado, valores[rotulo], places=2,
+                    msg=f"Anexo 13 {rotulo} em {nome}: codigo {esperado:,.2f} "
+                        f"vs publicado {valores[rotulo]:,.2f}")
+
+
 if __name__ == "__main__":
     unittest.main()

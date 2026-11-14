@@ -1601,3 +1601,22 @@ Suíte: **11 arquivos, 74 testes**.
 | **81** | **valor de "Outras Dívidas" 162.625,35 acima do publicado** |
 
 Em todos, a apuração estava certa e a régua, torta.
+
+
+### 17.39 A auditoria alcançou o Anexo 13
+
+Os saldos de referência do PPP estavam fixos em `verificacao.anexo13()`. Passaram
+a uma constante de módulo (`ANEXO13_REF`) e o teste confere os seis valores
+(3 linhas × 2 exercícios) contra os CSVs publicados:
+
+| linha | 2025 p6 | 2026 p4 |
+|---|---:|---:|
+| Total de ativos | 400.000.000,00 | 400.000.000,00 |
+| Total de passivos | 215.455.288,93 | 196.757.187,16 |
+| Atos potenciais passivos | 38.506.744,29 | 413.225.632,16 |
+
+Todos batem. O Anexo 4 não entrou na auditoria porque suas linhas **agregam
+blocos** (fundo em capitalização, RPPS e Tesouro) — não há correspondência 1:1
+com uma linha do CSV.
+
+Suíte: **11 arquivos, 75 testes**.

@@ -115,17 +115,21 @@ def anexo9() -> list[dict]:
 
 
 # --------------------------------------------------------------------------
+#: (rotulo, 2025 p6, 2026 p4) — conferidos contra os CSVs publicados
+ANEXO13_REF = {
+    "total_ativos": ("TOTAL DE ATIVOS", 400_000_000.00, 400_000_000.00),
+    "total_passivos": ("TOTAL DE PASSIVOS", 215_455_288.93, 196_757_187.16),
+    "atos_potenciais": ("ATOS POTENCIAIS PASSIVOS", 38_506_744.29, 413_225_632.16),
+}
+
+
 def anexo13() -> list[dict]:
     """RREO Anexo 13 — PPP: saldos e despesa do contrato."""
     import rreo_anexo13 as A13
 
     ant = A13.saldos(2025, 12)
     atu = A13.saldos(2026, 8)
-    referencias = {
-        "total_ativos": ("TOTAL DE ATIVOS", 400_000_000.00, 400_000_000.00),
-        "total_passivos": ("TOTAL DE PASSIVOS", 215_455_288.93, 196_757_187.16),
-        "atos_potenciais": ("ATOS POTENCIAIS PASSIVOS", 38_506_744.29, 413_225_632.16),
-    }
+    referencias = ANEXO13_REF
     saida = []
     for chave, (rotulo, of_ant, of_atu) in referencias.items():
         saida.append(_linha(f"{rotulo} — 31/12/2025", ant[chave], of_ant))

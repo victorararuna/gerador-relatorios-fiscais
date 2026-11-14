@@ -2104,3 +2104,42 @@ documentado, não uma regra que se deduza da matriz.
 O livro segue com **310 células, 307 exatas** — a linha ainda não fecha, mas o
 número agora está a 5% do publicado, com o método provado num período e a causa
 do resto identificada.
+
+
+### 17.52 O controle da classe 8 confirma a nossa soma
+
+A conta de controle do RP na classe 8 é `821130100`. Em dezembro/2025:
+
+| | valor |
+|---|---:|
+| controle `821130100` (classe 8) | **1.889.871.211,70** |
+| nossa soma `6.3.1.3 + 6321 + 6.2.2.1.3.07` (classe 6) | **1.889.871.211,70** |
+
+**Idênticos.** Isso valida a leitura das contas: a classe 8 é o espelho da
+classe 6, e a nossa soma está certa.
+
+O que falta não é conta — é o **valor do controle 8.6.3.2.2** que a equipe deduz.
+Ele não está na classe 8 da matriz (as 36 contas de dezembro não trazem nenhuma
+com 979.815.213,56), e na planilha está como número digitado, com a nota *"só tem
+saldo em caso de disponibilidade negativa"*.
+
+### Onde a linha está
+
+| | valor |
+|---|---:|
+| nossa soma (classe 6, sem exclusões) | 1.889.871.211,70 |
+| após excluir fontes 32/46/800/801/802 | 1.730.681.809,69 |
+| após deduzir o controle (942.052.222,15) | **788.629.587,54** |
+| publicado | 750.866.596,13 |
+| **diferença** | **37.762.991,41 (5,0%)** |
+
+Para fechar, o controle em dezembro precisaria ser **979.815.213,56** — e o que
+temos é o de outro mês.
+
+### O que isso significa para segunda
+
+A linha está a **5%** do publicado, com o método provado ao centavo em agosto. O
+que resta é **um número de uma data**: o saldo da conta 8.6.3.2.2 em 31/12/2025.
+
+Se a equipe extrair o relatório de RP daquela data, o controle sai junto — e a
+linha fecha.

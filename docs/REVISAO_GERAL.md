@@ -1916,3 +1916,38 @@ Suite: **11 arquivos, 78 testes**.
 | 68 | console | somava os grupos sem a mescla do motor |
 | 93 | DIVERGENCIAS.md | somava os grupos **duas vezes** |
 | 94 | os tres | agora comparados entre si |
+
+
+### 17.48 RP Processados — a matriz só tem o Executivo
+
+Abertura do `6.3.2.1` por Poder nos fechamentos de 2025:
+
+| fechamento | Executivo (10111) | RPPS (10112) | TJ (30390) | outros | total |
+|---|---:|---:|---:|---:|---:|
+| setembro | 622.407.726,27 | 13.282.469,76 | 550.382,10 | 3.388,51 | 636.243.966,64 |
+| outubro | 562.629.707,91 | 13.282.469,76 | 542.209,47 | 3.388,51 | 576.457.774,57 |
+| dezembro | 462.168.338,94 | 7.772.920,77 | 523.880,63 | 177,98 | 470.465.377,32 |
+
+**O Executivo responde por 97,8% do total.** Os demais Poderes aparecem com
+valores residuais — algumas centenas de milhares de reais.
+
+O DCL publicado em setembro é **750.866.596,13**, e o nosso total é
+636.243.966,64. A diferença de 114,6 milhões **não está em nenhum Poder** da
+matriz.
+
+### O que isso prova
+
+A MSC carrega o RP do Executivo e do RPPS. Os RP do Legislativo, Judiciário,
+Ministério Público, TCE e Defensoria **não estão lá** — ou estão incompletos.
+
+Como o DCL consolida os sete Poderes, a linha não fecha por construção: falta a
+parcela dos outros cinco.
+
+### Investigação encerrada de vez
+
+Foram testados, nesta ordem: conta-pai, conta-filha, classe 8, ano de inscrição,
+duas datas de corte, três meses e todos os Poderes. Nenhum caminho reproduz o
+publicado.
+
+**O que falta é uma coisa só:** o RP processado dos sete Poderes em 31/12/2025,
+por fonte, incluindo a inscrição do exercício.

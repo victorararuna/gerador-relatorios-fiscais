@@ -538,7 +538,9 @@ CAUSAS = (
      "por Poder e por fonte, incluindo a inscricao do exercicio. A secao da "
      "aba Base soma quatro contas e conta 6.2.2.1.3.07 e 6.3.2.7 duas vezes "
      "(mesmo valor). Em agosto/2025 a conta 6.3.2.1 quase fecha (3,4%); em "
-     "dezembro a diferenca salta para 37% pelo corte de exercicio."),
+     "dezembro a diferenca salta para 37% pelo corte de exercicio. A matriz "
+     "so traz o Executivo (97,8%) e o RPPS; os RP dos outros cinco Poderes "
+     "nao estao nela."),
 
 
     ("Aposentadorias civis", "Resolvido: a linha e o bruto menos o PAE "

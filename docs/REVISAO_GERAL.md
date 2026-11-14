@@ -3466,3 +3466,55 @@ Uma linha nova, exata, do Anexo 6. E a documentacao do porquê as outras nao vem
 | exatas | 369 | **370** |
 | grupos | 32 | **33** |
 | testes | 100 | **100** |
+
+
+### 17.77 "Sem causa identificada" agora e erro de teste
+
+O `DIVERGENCIAS.md` e gerado do motor: para cada celula que nao bate, ele procura
+a causa na tabela `CAUSAS`. Quando nao acha, escreve **"sem causa identificada"**.
+
+Essa frase e o sinal de trabalho pela metade — e ela estava em uma das 26
+divergencias: **Pensoes de abril/2026**.
+
+### A que estava sem causa
+
+Era a mesma diferenca de 5.241,65 que aparece em I e III. Faltava a ligacao
+explicita:
+
+> em abril so Pensoes desvia, e o desvio da despesa bruta e igual ao das
+> rubricas. O item e o par de anulacao (35.094,19) e re-empenho (29.852,54) no
+> ND 31909203 — pensoes de exercicios anteriores, subacao 408801 do TJRN — que
+> liquida em 5.241,65.
+
+Agora **as 26 tem causa**.
+
+### O teste
+
+`tests/test_causas.py` — quatro garantias:
+
+| teste | o que impede |
+|---|---|
+| existe alguma divergencia | teste que nao prova nada se a lista estiver vazia |
+| nenhuma sem causa | o texto "sem causa identificada" nao aparece |
+| causa nao e curta | exige ao menos 60 caracteres — causa de uma linha nao explica |
+| divergencia tem valor e referencia | toda linha traz os dois numeros e eles diferem |
+
+O terceiro e o mais importante dos quatro: uma causa com menos de 60 caracteres
+e quase sempre "nao sei". Ele obriga a escrever de verdade.
+
+### Por que isso vale mais do que parece
+
+O relatorio de divergencias e o que a equipe le para decidir se aceita o numero.
+Se uma linha diz "sem causa identificada", ela perde a funcao — ninguem sabe se
+e erro de apuracao, dado ausente ou erro do publicado.
+
+Com a trava, a proxima divergencia que aparecer **obriga** a investigacao antes
+de entrar no relatorio.
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| testes | 100 | **104** |
+| divergencias | 26 | 26 |
+| com causa | **25** | **26** |

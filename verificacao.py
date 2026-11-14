@@ -911,6 +911,13 @@ CAUSAS = (
      "par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 "
      "(pensoes de exercicios anteriores), que liquida em 5.241,65. O homologado "
      "trata o par de forma diferente do Comparativo."),
+    ("2026 — Abril — Pensões",
+     "A mesma diferenca de 5.241,65 que aparece em I e III: em abril so Pensoes "
+     "desvia, e o desvio da despesa bruta e igual ao das rubricas. O item e o par "
+     "de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 — pensoes de "
+     "exercicios anteriores, subacao 408801 do TJRN — que liquida em 5.241,65. O "
+     "arquivo publicado somou empenhado de uma fonte com liquidado de outra; o "
+     "correto, pelo regime de competencia, e o nosso."),
     ("2026 — Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
     ("RGF Anexo 1: despesa bruta (I)",

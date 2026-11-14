@@ -451,8 +451,10 @@ def motor() -> dict:
     grupos = OrderedDict()
     for nome, ok, valor, esperado, _obrig in VT.resultados:
         anexo = nome.split(":")[0].strip()
-        if anexo == "RREO":
-            anexo = "RREO - Balanço Orçamentário"
+        # nomes das conferencias x nomes das abas (evita duas abas com o mesmo anexo)
+        anexo = {"RREO": "RREO - Balanço Orçamentário",
+                 "RGF Anexo 1": "RGF Anexo 1 - totais",
+                 "RREO Anexo 2": "RREO Anexo 2 - totais"}.get(anexo, anexo)
         grupos.setdefault(anexo, []).append(
             {"item": nome, "apurado": valor, "referencia": esperado,
              "desvio": valor - esperado, "ok": bool(ok),

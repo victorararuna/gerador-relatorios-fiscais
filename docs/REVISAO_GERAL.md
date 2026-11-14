@@ -2143,3 +2143,31 @@ que resta é **um número de uma data**: o saldo da conta 8.6.3.2.2 em 31/12/202
 
 Se a equipe extrair o relatório de RP daquela data, o controle sai junto — e a
 linha fecha.
+
+
+### 17.53 O mapa do livro de verificacao
+
+`saida/verificacao_anexos.xlsx` tem **27 abas**. Elas nao seguem a ordem dos
+anexos, e duas tinham nomes que se confundiam (`RGF Anexo 1` para os totais e
+`RGF Anexo 1 - 2026` para os meses). Corrigido: as abas de total agora dizem
+"- totais" no nome.
+
+| aba | linhas | o que tem |
+|---|---:|---|
+| RESUMO | 26 | uma linha por aba, com celulas e exatas |
+| RGF Anexo 1 - 2026 | 24 | I, II e III por mes (jan-ago) |
+| RGF Anexo 1 - por Poder | 100 | 5 Poderes x 10 meses x 2 rubricas |
+| RGF Anexo 1 - limites | 6 | RCL ajustada, DTP e os tres limites |
+| RGF Anexo 1 - totais | 2 | despesa bruta e liquida do periodo |
+| RGF Anexo 2 | 16 | as 16 linhas da DCL |
+| RGF Anexo 2 - 2026 | 6 | Q1 e Q2 |
+| RGF Anexo 5 | 90 | as 90 celulas da vinculacao |
+| RGF Anexo 5 - totais | 5 | os 5 totais de coluna |
+| RREO Anexo 1 / 3 / 7 / 9 / 13 / 14 | 3 a 6 cada | os anexos do RREO |
+| RREO Anexo 2 - 2026 | 1 | total liquidado das 22 funcoes |
+| RREO Anexo 4 | 4 | as quatro linhas previdenciarias |
+| RREO Anexo 13 - projecoes | 6 | as seis projecoes do PPP |
+| motor | 1 | saldo x movimento das contas de resultado |
+
+As quatro abas com "- 2026" sao as do exercicio corrente; as demais comparam
+2025. O RESUMO agrega tudo e e o que o teste de coerencia confere contra o README.

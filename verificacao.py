@@ -450,6 +450,59 @@ def anexo2_somas() -> list[dict]:
     return [_linha(rotulo, valor, of[chave]) for rotulo, valor, chave in pares if chave in of]
 
 
+def anexo6_2025() -> list[dict]:
+    """As linhas do Anexo 6 de 2025, contra o CSV publicado.
+
+    O CSV traz, para cada linha, um par VALOR / % SOBRE A RCL AJUSTADA. Os dois
+    sao emparelhados em ordem de leitura — sem isso, a 200% e a 22% se confundem,
+    assim como a 16% e a 7%.
+    """
+    import app.anexo3_msc as A3
+    import app.anexo6_msc as A6
+    import rreo_anexo9 as A9
+
+    arq = os.path.join(SICONFI, "rgf", "RGF_RGF-Anexo_06_24_2025_p3.csv")
+    if not os.path.exists(arq):
+        return []
+    pares = []
+    atual = None
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        conta, col, valor = r["conta"].strip(), r["coluna"].strip(), float(r["valor"])
+        if col.startswith("VALOR ATÉ"):
+            atual = [conta, valor, None]
+        elif col.startswith("% SOBRE") and atual is not None and atual[0] == conta:
+            atual[2] = valor
+            pares.append(tuple(atual))
+            atual = None
+
+    def ref(prefixo: str, taxa: float) -> float:
+        for conta, valor, pct in pares:
+            if conta.startswith(prefixo) and pct is not None and abs(pct - taxa) < 0.005:
+                return valor
+        return 0.0
+
+    rcl = A3.ler_rcl(os.path.join(SICONFI, "rreo", "RREO_RREO-Anexo_03_24_2025_p6.csv"))
+    lim = A6.limites(rcl)
+    op = A9.receita()
+    ajust = rcl.ajustada_endividamento
+
+    linhas = [
+        ("Limite do Senado (200%)", ajust * 2.0,
+         ref("Limite Definido por Resolução do Senado Federal", 200.0)),
+        ("Limite do Senado (22%)", ajust * 0.22,
+         ref("Limite Definido por Resolução do Senado Federal", 22.0)),
+        ("Operações de crédito realizadas", op["realizadas"],
+         next((v for c, v, p in pares
+               if c.startswith("Operações de Crédito Internas e Externas")), 0.0)),
+        ("Limite para operações de crédito (16%)", ajust * 0.16,
+         ref("Limite Definido pelo Senado Federal para Operações de Crédito", 16.0)),
+        ("Limite para ARO (7%)", ajust * 0.07,
+         ref("Limite Definido pelo Senado Federal para Operações de Crédito", 7.0)),
+    ]
+    return [_linha(f"Anexo 6 — {rotulo}", valor, esperado)
+            for rotulo, valor, esperado in linhas if esperado]
+
+
 def anexo2_rreo_2026() -> list[dict]:
     """RREO Anexo 2 de 2026 (4o bimestre) — liquidado por funcao, contra o CSV."""
     import rreo_anexo2 as R2
@@ -535,6 +588,7 @@ FONTES = OrderedDict((
     ("RGF Anexo 1 - 2026", anexo1),
     ("RGF Anexo 2", anexo2),
     ("RGF Anexo 2 - somas", anexo2_somas),
+    ("RGF Anexo 6 - 2025", anexo6_2025),
     ("RGF Anexo 5", anexo5),
     ("RREO Anexo 9", anexo9),
     ("RREO Anexo 13", anexo13),

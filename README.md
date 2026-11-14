@@ -4,7 +4,7 @@ Ferramenta que apura os demonstrativos fiscais do **Rio Grande do Norte** a
 partir das **Matrizes de Saldos Contábeis (MSC)** do Siconfi e dos relatórios do
 **SIGEF/RN**, e confere cada célula contra o arquivo homologado.
 
-Estado em **13/11/2026**: **310 de 319 células exatas** (97,2%), em 28 abas de
+Estado em **13/11/2026**: **315 de 324 células exatas** (97,2%), em 29 abas de
 verificação (27 de anexo e uma de resumo). As 9 divergências estão em
 [`docs/DIVERGENCIAS.md`](docs/DIVERGENCIAS.md), cada uma com valor, referência e
 causa.
@@ -110,7 +110,7 @@ bater com o GND 31 — e bate.
 | **RGF Anexo 1 — abril** | 5.241,65 | par de anulação/re-empenho; causa apontada, imaterial (0,0008%) |
 | RCL | — | é **lida** do Anexo 3: o bloco RPPS de deduções não existe na matriz |
 
-Todo o resto fecha: **310 de 319 células** contra os arquivos publicados; 9 divergências, todas com causa.
+Todo o resto fecha: **315 de 324 células** contra os arquivos publicados; 9 divergências, todas com causa.
 
 ---
 

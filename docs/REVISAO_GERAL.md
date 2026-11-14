@@ -1775,3 +1775,35 @@ fluxo — e nenhum deles coincide com o nosso estoque de 470,5.
 **Conclusão:** a linha exige a posição por Poder e por fonte numa data. É a
 mesma conclusão de antes, agora com um dado a mais: a inscrição de 2025 é de
 1,0 bilhão, e o DCL usa 750,9 — um recorte intermediário.
+
+
+### 17.44 RP Processados — o estoque mês a mês e o publicado
+
+Comparando o estoque da conta `6.3.2.1` com o DCL publicado em cada fechamento:
+
+| fechamento | nosso estoque | publicado | diferença |
+|---|---:|---:|---:|
+| agosto/2025 (Q2) | 661.419.626,59 | 684.383.327,91 | +22.963.701,32 (3,4%) |
+| setembro/2025 | 636.243.966,64 | — | — |
+| outubro/2025 | 576.457.774,57 | — | — |
+| dezembro/2025 (Q3) | 470.465.377,32 | 750.866.596,13 | +280.401.218,81 (37%) |
+
+O estoque **cai** ao longo do ano (661 → 470 milhões): os RP vão sendo pagos.
+
+O publicado **não acompanha** essa queda — e em dezembro salta para 750,9.
+
+### O que isso mostra
+
+Se a linha fosse o estoque, ela cairia junto. Ela sobe no fim do ano porque
+**incorpora a inscrição do exercício** — os empenhos de 2025 não pagos, que viram
+RP em 1º/01/2026.
+
+Em agosto a diferença é pequena (3,4%) porque a inscrição do ano ainda não
+pesou. Em dezembro é grande (37%) porque é exatamente o momento do corte.
+
+### O pedido, com a data certa
+
+> RP processados **em 31/12/2025**, com o recorte que o DCL usa — incluindo a
+> inscrição do exercício e excluindo o que já foi pago, por Poder e por fonte.
+
+É a mesma linha que o Estado publica; o que falta é a abertura que a produz.

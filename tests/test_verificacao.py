@@ -49,7 +49,7 @@ class TestDivergenciasDocumentadas(unittest.TestCase):
     """Toda divergência conhecida precisa ter causa escrita."""
 
     CONHECIDAS = (
-        "Abril — I", "Abril — III",
+        "2026 — Abril — I", "2026 — Abril — III",
         "Restos a Pagar Processados",
         "Aposentadorias civis", "Pensões por morte civis",
 

@@ -70,7 +70,7 @@ def anexo1() -> list[dict]:
             ref = oficial.get((chave, col))
             if ref is None:
                 continue
-            saida.append(_linha(f"{nome} — {rotulo}", valor, ref))
+            saida.append(_linha(f"2026 — {nome} — {rotulo}", valor, ref))
     return saida
 
 
@@ -449,7 +449,7 @@ def motor() -> dict:
 
 
 FONTES = OrderedDict((
-    ("RGF Anexo 1", anexo1),
+    ("RGF Anexo 1 - 2026", anexo1),
     ("RGF Anexo 2", anexo2),
     ("RGF Anexo 5", anexo5),
     ("RREO Anexo 9", anexo9),
@@ -518,10 +518,10 @@ def gerar(caminho: str | None = None) -> str:
 
 #: causa documentada de cada divergencia conhecida (prefixo do item -> texto)
 CAUSAS = (
-    ("Abril — I", "Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND "
+    ("2026 — Abril — I", "Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND "
                   "31909203 do PO 10112, em abril: a diferenca e 5.241,65. O "
                   "homologado trata o par de forma diferente do Comparativo."),
-    ("Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
+    ("2026 — Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
     ("Restos a Pagar Processados", "Exige o relatorio 'Execucao Orcamentaria por Fonte' "
                                    "(bloco de RP) por Poder, com a dimensao fonte de recursos."),

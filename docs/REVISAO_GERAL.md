@@ -1546,3 +1546,24 @@ de execução por fonte produz.
 motivos: é conta-pai, inclui uma conta de empenho e não tem a dimensão de fonte.
 
 Investigação encerrada. O que falta é o relatório.
+
+
+### 17.37 O Anexo 1 do livro é de 2026 — e agora está rotulado
+
+Descobri conferindo o CSV `RGF_RGF-Anexo_01_24_2026_p2.csv`: ele traz **12 meses**
+(MR-1 a MR-11) e os nossos valores casam com MR-7 a MR-2 — janeiro a junho de
+**2026**.
+
+```
+Janeiro   nosso 1.756.015.131,06  = MR-7
+Fevereiro       1.168.704.572,00  = MR-6
+Março           1.249.898.879,52  = MR-5
+Abril             680.626.929,97  vs MR-4 680.632.171,62
+Maio            1.244.370.847,54  = MR-3
+Junho           1.309.400.172,65  = MR-2
+```
+
+As abas não diziam o ano — quem abrisse poderia supor 2025. Agora cada célula
+traz `2026 — Mês — Linha`, e a aba se chama **"RGF Anexo 1 - 2026"**.
+
+**22 de 24 exatas** (as duas de abril). Livro: **307 células, 304 exatas**.

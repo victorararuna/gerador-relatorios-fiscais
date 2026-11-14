@@ -108,7 +108,7 @@ def main() -> int:
         "",
         "---",
         "",
-        "*Este certificado é gerado por `_certificado.py`. O número que vale é o "
+        "*Este certificado é gerado por `certificado.py`. O número que vale é o "
         "do livro `saida/verificacao_anexos.xlsx`; se este texto divergir dele, "
         "o livro está certo.*",
         "",

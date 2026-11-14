@@ -593,6 +593,11 @@ def main() -> int:
         print(f"{nome:<26}{len(linhas):>9}{exatas:>8}{len(linhas) - exatas:>13}")
     print(f"\n{exatas_total} de {total} células exatas")
     print("relatorio de divergencias:", relatorio_divergencias())
+    try:
+        import certificado
+        certificado.main()
+    except Exception as erro:  # o certificado nao pode derrubar a verificacao
+        print(f"aviso: certificado nao gerado ({erro})")
     return 0
 
 

@@ -75,6 +75,23 @@ class TestCoerencia(unittest.TestCase):
                          f"DIVERGENCIAS.md diz {md[0]} de {md[1]}; "
                          f"a planilha diz {livro[0]} de {livro[1]}")
 
+    def test_certificado_igual_ao_livro(self):
+        """O certificado e o livro tem de dizer o mesmo numero."""
+        import re
+
+        caminho = os.path.join(RAIZ, "docs", "CERTIFICADO.md")
+        if not os.path.exists(caminho):
+            self.skipTest("CERTIFICADO.md ausente")
+        with open(caminho, encoding="utf-8") as fh:
+            texto = fh.read()
+        m = re.search(r"\*\*(\d+) de (\d+) células exatas\*\*", texto)
+        self.assertIsNotNone(m, "o certificado precisa declarar a contagem")
+        cert = (int(m.group(1)), int(m.group(2)))
+        livro = _numeros_do_livro()
+        self.assertEqual(cert, livro,
+                         f"certificado diz {cert[0]} de {cert[1]}; "
+                         f"a planilha diz {livro[0]} de {livro[1]}")
+
     def test_readme_conta_do_anexo2(self):
         """O "15 de 16" do README tem de bater com a apuracao do Anexo 2.
 

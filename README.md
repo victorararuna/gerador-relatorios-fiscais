@@ -18,8 +18,13 @@ python verificar_tudo.py    # 27 conferências de ponta a ponta
 python verificacao.py       # gera o livro de verificação e o relatório de divergências
 ```
 
-Saídas: `saida/verificacao_anexos.xlsx` (uma aba por anexo) e
-`docs/DIVERGENCIAS.md`.
+Saídas, todas no mesmo comando:
+
+| arquivo | conteúdo |
+|---|---|
+| `saida/verificacao_anexos.xlsx` | uma aba por anexo |
+| `docs/DIVERGENCIAS.md` | as divergências com causa |
+| `docs/CERTIFICADO.md` | data, commit, contagem e ressalvas |
 
 ### Ambiente
 

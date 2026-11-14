@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **13/11/2026 22:24** a partir do código no commit `1faec69` (branch `main`).
+Emitido em **13/11/2026 22:28** a partir do código no commit `fa85a57` (branch `main`).
 
-Último commit: *RP Processados: investigacao encerrada de vez*
+Último commit: *Certificado de verificacao gerado do codigo*
 
 ---
 
@@ -76,4 +76,4 @@ Suíte completa: **78 testes em 11 arquivos**.
 
 ---
 
-*Este certificado é gerado por `_certificado.py`. O número que vale é o do livro `saida/verificacao_anexos.xlsx`; se este texto divergir dele, o livro está certo.*
+*Este certificado é gerado por `certificado.py`. O número que vale é o do livro `saida/verificacao_anexos.xlsx`; se este texto divergir dele, o livro está certo.*

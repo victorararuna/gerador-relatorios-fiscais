@@ -2204,3 +2204,37 @@ que não existiam.
 
 Nada no placar: abril segue com as duas células divergentes. Mas elimina a
 hipótese de "arquivo desatualizado" — a divergência é do dado, não da extração.
+
+
+### 17.55 Cinco modulos de anexo existem fora do livro
+
+Conferi quais modulos de anexo o repositorio tem e quais o livro usa:
+
+| modulo | situacao |
+|---|---|
+| `rgf_anexo2_dcl` | no livro |
+| `rgf_anexo5_vinculacao` | no livro |
+| `rreo_anexo13` | no livro |
+| `rreo_anexo14` | no livro |
+| `rreo_anexo1_grupos` | no livro |
+| `rreo_anexo2` | no livro |
+| `rreo_anexo4_blocos` | no livro |
+| `rreo_anexo7` | no livro |
+| `rreo_anexo9` | no livro |
+| **`rgf_anexo2_base`** | **fora** — superado por `rgf_anexo2_dcl` |
+| **`rgf_anexo5_disp`** | **fora** — superado por `rgf_anexo5_vinculacao` |
+| **`rreo_anexo1_receita`** | **fora** — a receita hoje sai do grupo `RREO Anexo 1` |
+| **`rreo_anexo2_intra`** | **fora** — diagnostico de intra-orcamentaria |
+| **`rreo_anexo7_poder`** | **fora** — valida o recorte de PO; usa caminho antigo (`siconfi_rn_completo`) |
+
+### O que isso significa
+
+Nenhum deles e necessario para o livro. Quatro sao versoes anteriores, mantidas
+como registro; um (`rreo_anexo7_poder`) e uma validacao com caminho que nao
+existe mais.
+
+**Nao apaguei.** O `rreo_anexo2_intra` documenta o diagnostico da despesa
+intra-orcamentaria, que foi uma pista real; e o `rreo_anexo7_poder` guarda o
+de-para de PO por Poder, que pode voltar a ser util.
+
+O que faltava era saber que eles estao fora — agora esta escrito.

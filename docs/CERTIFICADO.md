@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 12:10** a partir do código no commit `d1744f6` (branch `main`).
+Emitido em **14/11/2026 12:15** a partir do código no commit `f56685c` (branch `main`).
 
-Último commit: *certificado: data e contagem*
+Último commit: *RREO Anexo 11: anexo novo, cinco linhas exatas*
 
 ---
 
@@ -93,7 +93,7 @@ As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própr
 | `test_coerencia.py` | README, planilha e .md discordarem |
 | `test_verificacao.py` | divergência ficar sem causa escrita |
 
-Suíte: **96 testes definidos em 15 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
+Suíte: **100 testes definidos em 16 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
 
 ---
 

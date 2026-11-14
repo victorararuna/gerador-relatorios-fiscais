@@ -85,7 +85,8 @@ bater com o GND 31 — e bate.
 
 | documento | o que tem |
 |---|---|
-| [`docs/REVISAO_GERAL.md`](docs/REVISAO_GERAL.md) | **comece aqui** — estado completo, seções 9 a 17 |
+| [`docs/INDEX.md`](docs/INDEX.md) | **o mapa dos 61 documentos** — o que é atual, histórico e referência |
+| [`docs/REVISAO_GERAL.md`](docs/REVISAO_GERAL.md) | **comece aqui** — estado completo, seção 2 e a última 17 |
 | [`docs/DIVERGENCIAS.md`](docs/DIVERGENCIAS.md) | as 9 divergências com causa (gerado do livro) |
 | [`docs/MANUAL_MAPA_ANEXO1.md`](docs/MANUAL_MAPA_ANEXO1.md) | especificação da MAPA, linha a linha |
 | [`docs/METODOLOGIA_RGF_ANEXO1.md`](docs/METODOLOGIA_RGF_ANEXO1.md) | manual metodológico da equipe |

@@ -1,5 +1,15 @@
 ﻿# Relatório final da fase — motor de demonstrativos fiscais sobre a MSC
 
+> **Documento histórico.** Os números e as pendências abaixo **não valem mais**:
+> o Anexo 1 passou a fechar em 10 de 10 meses, o Anexo 5 chegou a 90 de 90
+> células, o Anexo 4 fechou e a DCL está em 15 de 16 linhas.
+>
+> **Para o estado atual, leia [`REVISAO_GERAL.md`](REVISAO_GERAL.md), seção 2** —
+> ou, melhor, abra `saida/verificacao_anexos.xlsx`, que é gerado do código.
+
+---
+
+
 Documento de encerramento da fase. Consolida o que foi construído, o que fecha,
 o que não fecha e por quê. Dados de referência: RGF 2025 Q3 e RREO 2025 B6,
 conferidos contra os arquivos homologados do Siconfi.

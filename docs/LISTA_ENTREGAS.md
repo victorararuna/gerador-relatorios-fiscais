@@ -1,5 +1,15 @@
 # Lista exata do que preciso — e o estado de cada anexo
 
+> **Documento histórico.** Os números e as pendências abaixo **não valem mais**:
+> o Anexo 1 passou a fechar em 10 de 10 meses, o Anexo 5 chegou a 90 de 90
+> células, o Anexo 4 fechou e a DCL está em 15 de 16 linhas.
+>
+> **Para o estado atual, leia [`REVISAO_GERAL.md`](REVISAO_GERAL.md), seção 2** —
+> ou, melhor, abra `saida/verificacao_anexos.xlsx`, que é gerado do código.
+
+---
+
+
 Documento de handoff. Abaixo o que já fecha, o que falta e o que só você pode
 fornecer.
 

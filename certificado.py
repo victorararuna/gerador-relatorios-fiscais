@@ -33,6 +33,15 @@ def main() -> int:
     exatas = sum(1 for l in grupos.values() for x in l if x["ok"])
     divergentes = [(nome, x) for nome, l in grupos.items() for x in l if not x["ok"]]
 
+    # conta os testes de verdade, em vez de fixar o numero
+    pasta_tests = os.path.join(RAIZ, "tests")
+    arquivos = sorted(x for x in os.listdir(pasta_tests) if x.startswith("test_"))
+    n_arquivos = len(arquivos)
+    n_testes = 0
+    for nome in arquivos:
+        with open(os.path.join(pasta_tests, nome), encoding="utf-8") as fh:
+            n_testes += fh.read().count("def test_")
+
     agora = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
     commit = _git("rev-parse", "--short", "HEAD") or "(sem git)"
     assunto = _git("log", "-1", "--format=%s") or ""
@@ -92,18 +101,24 @@ def main() -> int:
         "| `test_coerencia.py` | README, planilha e .md discordarem |",
         "| `test_verificacao.py` | divergência ficar sem causa escrita |",
         "",
-        "Suíte completa: **78 testes em 11 arquivos**.",
+        f"Suíte completa: **{n_testes} testes em {n_arquivos} arquivos**.",
         "",
         "---",
         "",
         "## 5. Ressalvas",
         "",
-        "1. **RGF Anexo 2 — RP Processados**: 5,0% de desvio. O método está "
-        "provado (fecha ao centavo em agosto/2025); falta o saldo da conta "
-        "8.6.3.2.2 em 31/12/2025, que não existe em nenhuma fonte disponível.",
-        "2. **RGF Anexo 1 — abril/2026**: 5.241,65 em 680 milhões (0,0008%), "
-        "causado por um par de anulação e re-empenho no ND 31909203.",
-        "3. **RCL**: é lida do Anexo 3, não apurada — o bloco de deduções do "
+    ]
+    # as ressalvas saem do estado, nao de uma lista escrita a mao
+    if divergentes:
+        for nome, x in divergentes:
+            percentual = (100 * x["desvio"] / x["referencia"]) if x["referencia"] else 0.0
+            linhas.append(
+                f"- **{nome} — {x['item'][:48]}**: {x['desvio']:,.2f} de desvio "
+                f"({percentual:+.2f}%). {V._causa(x['item'])}")
+    else:
+        linhas.append("- Nenhuma divergência.")
+    linhas += [
+        "- **RCL**: é lida do Anexo 3, não apurada — o bloco de deduções do "
         "RPPS não existe na matriz.",
         "",
         "---",

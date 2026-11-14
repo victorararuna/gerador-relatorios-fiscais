@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **13/11/2026 22:34** a partir do código no commit `ab7d032` (branch `main`).
+Emitido em **13/11/2026 22:39** a partir do código no commit `0a96584` (branch `main`).
 
-Último commit: *Certificado passa a ser gerado por verificacao.py*
+Último commit: *Entradas: Anexo 1 de 2025 entra como item opcional*
 
 ---
 
@@ -66,15 +66,18 @@ As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própr
 | `test_coerencia.py` | README, planilha e .md discordarem |
 | `test_verificacao.py` | divergência ficar sem causa escrita |
 
-Suíte completa: **78 testes em 11 arquivos**.
+Suíte completa: **79 testes em 11 arquivos**.
 
 ---
 
 ## 5. Ressalvas
 
-1. **RGF Anexo 2 — RP Processados**: 5,0% de desvio. O método está provado (fecha ao centavo em agosto/2025); falta o saldo da conta 8.6.3.2.2 em 31/12/2025, que não existe em nenhuma fonte disponível.
-2. **RGF Anexo 1 — abril/2026**: 5.241,65 em 680 milhões (0,0008%), causado por um par de anulação e re-empenho no ND 31909203.
-3. **RCL**: é lida do Anexo 3, não apurada — o bloco de deduções do RPPS não existe na matriz.
+- **RGF Anexo 1 - 2026 — 2026 — Abril — I — Despesa Bruta**: -5,241.65 de desvio (-0.00%). Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 do PO 10112, em abril: a diferenca e 5.241,65. O homologado trata o par de forma diferente do Comparativo.
+- **RGF Anexo 1 - 2026 — 2026 — Abril — III — Despesa Líquida**: -5,241.65 de desvio (-0.00%). Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 do PO 10112, em abril: a diferenca e 5.241,65. O homologado trata o par de forma diferente do Comparativo.
+- **RGF Anexo 2 — (-) Restos a Pagar Processados (Exceto Precatóri**: 37,762,991.41 de desvio (+5.03%). Formula da aba RP: 6.3.1.3 + 6321 + 6.2.2.1.3.07, sem fontes 32/46/800/801/802, menos a conta 8.6.3.2.2. Fecha ao centavo em agosto/2025 com controle zero. Em dezembro sobram 37.762.991,41 porque o controle de 942.052.222,15 e de outro mes (precisaria ser 979.815.213,56).
+- **RGF Anexo 1 - totais — RGF Anexo 1: despesa bruta (I)**: -55,866,773.49 de desvio (-0.36%). Total anual de 2025 apurado pela via da MSC (apurar_janela), nao pela MAPA do SIGEF que sustenta o Anexo 1 de 2026. Desvio de -55,9 mi (-0,36%): a MSC nao identifica a parcela intra-orcamentaria, que a equipe conhece pelo SIGEF. A conferencia de origem aceitava 0,5% e marcava OK; aqui se exige o centavo.
+- **RGF Anexo 1 - totais — RGF Anexo 1: despesa líquida (III)**: 85,280,866.09 de desvio (+0.78%). Idem: decorre da mesma apuracao anual de 2025 pela MSC (+85,3 mi, +0,78%).
+- **RCL**: é lida do Anexo 3, não apurada — o bloco de deduções do RPPS não existe na matriz.
 
 ---
 

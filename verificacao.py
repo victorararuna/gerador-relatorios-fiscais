@@ -546,7 +546,7 @@ CAUSAS = (
      "MSC nao identifica a parcela intra-orcamentaria, que a equipe conhece pelo "
      "SIGEF. A conferencia de origem aceitava 0,5% e marcava OK; aqui se exige o "
      "centavo."),
-    ("RGF Anexo 1: despesa liquida (III)",
+    ("RGF Anexo 1: despesa líquida (III)",
      "Idem: decorre da mesma apuracao anual de 2025 pela MSC (+85,3 mi, +0,78%)."),
     ("Restos a Pagar Processados",
      "Formula da aba RP: 6.3.1.3 + 6321 + 6.2.2.1.3.07, sem fontes "

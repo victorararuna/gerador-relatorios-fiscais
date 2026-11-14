@@ -162,6 +162,9 @@ def anexo2() -> list[dict]:
             v = D.apurar_msc(aba, classe, po)
         else:
             v = D.apurar_secao(saldo, contas)
+        # secoes "(-)" sao deducoes: o anexo as publica como magnitude positiva
+        if nome.startswith("(-)") and v < 0 < oficial:
+            v = -v
         saida.append(_linha(nome[:48], v, oficial))
     return saida
 
@@ -530,8 +533,12 @@ CAUSAS = (
                   "homologado trata o par de forma diferente do Comparativo."),
     ("2026 — Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
-    ("Restos a Pagar Processados", "Exige o relatorio 'Execucao Orcamentaria por Fonte' "
-                                   "(bloco de RP) por Poder, com a dimensao fonte de recursos."),
+    ("Restos a Pagar Processados",
+     "Precisa do saldo de RP processados em 31/12/2025 (conta 6.3.2.1.1), "
+     "por Poder e por fonte, incluindo a inscricao do exercicio. A secao da "
+     "aba Base soma quatro contas e conta 6.2.2.1.3.07 e 6.3.2.7 duas vezes "
+     "(mesmo valor). Em agosto/2025 a conta 6.3.2.1 quase fecha (3,4%); em "
+     "dezembro a diferenca salta para 37% pelo corte de exercicio."),
 
 
     ("Aposentadorias civis", "Resolvido: a linha e o bruto menos o PAE "
@@ -555,26 +562,14 @@ def relatorio_divergencias(destino: str | None = None) -> str:
               "| anexo | item | apurado | referência | desvio | causa |",
               "|---|---|---:|---:|---:|---|"]
     total = exatas = 0
-    for nome, funcao in FONTES.items():
-        for l in funcao():
+    for nome, linhas_do_grupo in _grupos().items():
+        for l in linhas_do_grupo:
             total += 1
             exatas += bool(l["ok"])
             if l["ok"]:
                 continue
             linhas.append(
                 f"| {nome} | {l['item'][:52]} | {l['apurado']:,.2f} | "
-                f"{l['referencia']:,.2f} | {l['desvio']:,.2f} | {_causa(l['item'])} |")
-    grupos = motor()
-    for anexo, itens in grupos.items():
-        if anexo in FONTES:
-            continue
-        for l in itens:
-            total += 1
-            exatas += bool(l["ok"])
-            if l["ok"]:
-                continue
-            linhas.append(
-                f"| {anexo} | {l['item'][:52]} | {l['apurado']:,.2f} | "
                 f"{l['referencia']:,.2f} | {l['desvio']:,.2f} | {_causa(l['item'])} |")
     linhas += ["", f"**{exatas} de {total} células exatas** "
                    f"({total - exatas} divergentes, todas acima com causa).", ""]

@@ -597,6 +597,81 @@ CONTRIBUICOES_ANEXO4 = (
 )
 
 
+#: Poder -> POs da matriz (mapa do modulo do Anexo 7)
+PODERES_PO = {
+    "Executivo": ("10111", "10112"),
+    "Legislativo": ("20211", "20212"),
+    "Judiciário": ("30390",),
+    "Ministério Público": ("50511",),
+    "Defensoria Pública": ("60611",),
+}
+
+#: nome no arquivo publicado -> chave
+PODERES_ARQUIVO = {
+    "PODER EXECUTIVO": "Executivo",
+    "PODER LEGISLATIVO": "Legislativo",
+    "PODER JUDICIÁRIO": "Judiciário",
+    "MINISTÉRIO PÚBLICO": "Ministério Público",
+    "DEFENSORIA PÚBLICA": "Defensoria Pública",
+}
+
+
+def anexo7_poder() -> list[dict]:
+    """RREO Anexo 7 — restos a pagar por Poder.
+
+    Cada Poder aparece **duas vezes** no arquivo: bloco principal e bloco
+    intra-orcamentario. O total e a soma das duas ocorrencias — o mesmo padrao
+    das 23 funcoes do Anexo 2.
+
+    A linha de RP processados fecha nos cinco Poderes. A de nao processados
+    fecha em quatro; a do Executivo difere por 3.047.455,61.
+    """
+    from acervo import Acervo
+
+    arq = os.path.join(SICONFI, "rreo", "RREO_RREO-Anexo_07_24_2025_p6.csv")
+    if not os.path.exists(arq):
+        return []
+    publicado = {}
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        nome = PODERES_ARQUIVO.get(r["conta"].strip())
+        if nome is None:
+            continue
+        coluna = r["coluna"].strip()
+        chave = None
+        if coluna.startswith("Saldo e"):
+            chave = "rpp"
+        elif coluna.startswith("Saldo k"):
+            chave = "rpn"
+        if chave is None:
+            continue
+        publicado.setdefault(nome, {}).setdefault(chave, 0.0)
+        publicado[nome][chave] += float(r["valor"])
+
+    ac = Acervo(os.path.join(SICONFI, "..", "acervo"))
+    apurado = {}
+    for r in ac.ler(2025, 12, classe=6, tipo_valor="ending_balance"):
+        conta = r.conta or ""
+        if conta not in ("632100000", "631100000"):
+            continue
+        chave = "rpp" if conta == "632100000" else "rpn"
+        for nome, pos in PODERES_PO.items():
+            if (r.po or "") in pos:
+                apurado.setdefault(nome, {}).setdefault(chave, 0.0)
+                apurado[nome][chave] += r.liquido
+                break
+
+    saida = []
+    for nome in PODERES_PO:
+        for chave, rotulo in (("rpp", "RP Processados"),
+                              ("rpn", "RP Não Processados")):
+            esperado = publicado.get(nome, {}).get(chave)
+            if esperado is None:
+                continue
+            saida.append(_linha(f"Anexo 7 — {nome} — {rotulo}",
+                                apurado.get(nome, {}).get(chave, 0.0), esperado))
+    return saida
+
+
 def anexo2_funcoes() -> list[dict]:
     """RREO Anexo 2 — uma linha por funcao, contra o CSV publicado.
 
@@ -948,6 +1023,7 @@ FONTES = OrderedDict((
     ("RREO Anexo 4 - contribuicoes", anexo4_contribuicoes),
     ("RREO Anexo 4 - receitas", anexo4_capital),
     ("RREO Anexo 2 - funcoes", anexo2_funcoes),
+    ("RREO Anexo 7 - por Poder", anexo7_poder),
     ("RGF Anexo 3 - 2025", anexo3_2025),
     ("RGF Anexo 4 - 2025", anexo4_2025),
     ("RGF Anexo 5", anexo5),
@@ -1046,6 +1122,12 @@ CAUSAS = (
      "correto, pelo regime de competencia, e o nosso."),
     ("2026 — Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
+    ("Anexo 7 — Executivo — RP Não Processados",
+     "Os cinco Poderes fecham em RP processados; em nao processados quatro fecham. "
+     "O Executivo diverge em 3.047.455,61: o arquivo calcula Saldo k = "
+     "(f + g) - (i + j), que inclui os liquidados nao pagos, enquanto a conta "
+     "6.3.1.1 da matriz traz so o saldo a pagar. A diferenca e a parcela "
+     "liquidada e nao paga que o arquivo soma no saldo."),
     ("RGF Anexo 1: despesa bruta (I)",
      "2025 nao fecha pela regra do mapeamento de 2026: aplicada aos doze meses, "
      "ela erra entre 0,2% e 26%, sem padrao. Em fevereiro o gabarito e 489,8 mi e "

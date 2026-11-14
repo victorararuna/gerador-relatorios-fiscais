@@ -3688,3 +3688,53 @@ em dois deles a leitura ingenua produzia divergencia falsa.
 | testes | 109 | **113** |
 
 **23 celulas novas, todas exatas** — a maior expansao desde o Anexo 5.
+
+
+### 17.81 Anexo 7 por Poder — o mesmo padrao de bloco duplicado
+
+Depois das 23 funcoes do Anexo 2, fui procurar o mesmo padrao nos outros anexos.
+O Anexo 7 (restos a pagar por Poder) tem **11 contas para 155 linhas** — e cada
+Poder aparece **duas vezes**: bloco principal e bloco intra-orcamentario.
+
+### O resultado — seis de sete
+
+| Poder | linha | apurado | publicado | |
+|---|---|---:|---:|---|
+| Executivo | RP Processados | 469.941.259,71 | 469.941.259,71 | **OK** |
+| Executivo | RP Nao Processados | 11.871.954,46 | 14.919.410,07 | DIF |
+| Legislativo | RP Nao Processados | 14.500,00 | 14.500,00 | **OK** |
+| Judiciario | RP Processados | 523.880,63 | 523.880,63 | **OK** |
+| Judiciario | RP Nao Processados | 2.285.450,69 | 2.285.450,69 | **OK** |
+| Ministerior Publico | RP Processados | 176,98 | 176,98 | **OK** |
+| Defensoria Publica | RP Processados | 60,00 | 60,00 | **OK** |
+
+**O Executivo de RP processados — 469.941.259,71 — e o mesmo numero que o RGF
+Anexo 2 usa como saldo da 6.3.2.1.** Os dois anexos contam a mesma historia.
+
+### A que diverge
+
+O RPN do Executivo: o arquivo calcula `Saldo k = (f + g) - (i + j)`, que inclui
+os liquidados nao pagos. A conta `6.3.1.1` da matriz traz so o saldo a pagar.
+Diferenca: 3.047.455,61.
+
+E a mesma familia de erro do RP do RGF: **a formula do arquivo nao e a mesma da
+conta contabil.**
+
+### O mapa de Poder
+
+| Poder | POs |
+|---|---|
+| Executivo | 10111, 10112 |
+| Legislativo | 20211, 20212 |
+| Judiciario | 30390 |
+| Ministerio Publico | 50511 |
+| Defensoria Publica | 60611 |
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas | 424 | **431** |
+| exatas | 398 | **404** |
+| grupos | 36 | **37** |
+| testes | 113 | **113** |

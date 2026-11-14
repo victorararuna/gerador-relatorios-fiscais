@@ -9,9 +9,11 @@ que o código faria se rodasse agora.
 """
 import os
 import re
+import sys
 import unittest
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, RAIZ)
 README = os.path.join(RAIZ, "README.md")
 LIVRO = os.path.join(RAIZ, "saida", "verificacao_anexos.xlsx")
 
@@ -50,6 +52,44 @@ class TestCoerencia(unittest.TestCase):
         self.assertEqual(doc, livro,
                          f"README diz {doc[0]} de {doc[1]}; a planilha diz "
                          f"{livro[0]} de {livro[1]} — atualize o README")
+
+    def test_readme_conta_do_anexo2(self):
+        """O "15 de 16" do README tem de bater com a apuracao do Anexo 2.
+
+        As travas anteriores comparam numeros do livro. Esta amarra a **prosa**:
+        se o README anunciar uma contagem que o modulo nao produz, ela falha.
+        """
+        import re
+        import rgf_anexo2_dcl as D
+
+        with open(README, encoding="utf-8") as fh:
+            texto = fh.read()
+        m = re.search(r"Anexo 2\*\* — DCL \| \*\*(\d+) de (\d+)", texto)
+        if not m:
+            self.skipTest("README nao declara a contagem do Anexo 2")
+        declarado = (int(m.group(1)), int(m.group(2)))
+
+        saldo = D.ler_balancete(D.BALANCETE)
+        secoes = D.ler_base(D.PLANILHA)
+        exatas = comparadas = 0
+        for nome, contas in secoes.items():
+            oficial = D.OFICIAL.get(nome)
+            if not contas or oficial is None:
+                continue
+            if nome.startswith("Disponibilidade de Caixa Bruta"):
+                v = D.disponibilidade()
+            elif nome.startswith("(-) Depósitos"):
+                v = D.depositos()
+            elif nome in D.SECOES_MSC:
+                aba, classe, po = D.SECOES_MSC[nome]
+                v = D.apurar_msc(aba, classe, po)
+            else:
+                v = D.apurar_secao(saldo, contas)
+            comparadas += 1
+            exatas += abs(v - oficial) < 0.01
+        self.assertEqual(declarado, (exatas, comparadas),
+                         f"README diz {declarado[0]} de {declarado[1]}; "
+                         f"a apuracao da {exatas} de {comparadas}")
 
     def test_toda_divergencia_tem_causa(self):
         from openpyxl import load_workbook

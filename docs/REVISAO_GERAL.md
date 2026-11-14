@@ -1846,3 +1846,30 @@ dezembro. A regra não é do período: é da conta.
 
 **O que falta:** uma linha — RP processados em 31/12/2025, por Poder e fonte —
 e as duas células de abril de 2026, cuja causa é um par de anulação de 5.241,65.
+
+
+### 17.46 A prosa do README tambem entrou na trava
+
+`test_coerencia.py` ja comparava os **numeros** do README com a planilha. Faltava a
+**prosa**: o README anuncia "15 de 16 linhas" do Anexo 2 — e essa contagem era
+escrita a mao.
+
+Agora um teste le a frase do README, roda a apuracao do Anexo 2 e compara:
+
+```
+README:  15 de 16
+apuracao: 15 de 16   OK
+```
+
+Se alguma linha fechar (ou abrir) sem o texto acompanhar, o teste falha.
+
+### O que ainda escapa
+
+Frases sem numero — "os Depositos fecharam", "a ancora esta parametrizada" — nao
+tem como ser verificadas automaticamente. Foi o que produziu as duas linhas
+obsoletas da rodada 91.
+
+A diferenba e que agora a **contagem** esta amarrada; a narrativa continua sendo
+revisada a mao.
+
+Suite: **11 arquivos, 77 testes**.

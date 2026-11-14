@@ -53,6 +53,28 @@ class TestCoerencia(unittest.TestCase):
                          f"README diz {doc[0]} de {doc[1]}; a planilha diz "
                          f"{livro[0]} de {livro[1]} — atualize o README")
 
+    def test_divergencias_igual_ao_livro(self):
+        """O .md, o console e a planilha tem de dizer o mesmo numero.
+
+        O gerador do DIVERGENCIAS.md ja somou os grupos duas vezes uma vez e
+        anunciou 303 de 306 quando o livro dizia 307 de 310. Este teste fecha
+        essa porta: os tres artefatos passam a ser comparados.
+        """
+        import re
+
+        caminho_md = os.path.join(RAIZ, "docs", "DIVERGENCIAS.md")
+        if not os.path.exists(caminho_md):
+            self.skipTest("DIVERGENCIAS.md ausente")
+        with open(caminho_md, encoding="utf-8") as fh:
+            texto = fh.read()
+        m = re.search(r"\*\*(\d+) de (\d+) células exatas\*\*", texto)
+        self.assertIsNotNone(m, "o .md precisa declarar a contagem")
+        md = (int(m.group(1)), int(m.group(2)))
+        livro = _numeros_do_livro()
+        self.assertEqual(md, livro,
+                         f"DIVERGENCIAS.md diz {md[0]} de {md[1]}; "
+                         f"a planilha diz {livro[0]} de {livro[1]}")
+
     def test_readme_conta_do_anexo2(self):
         """O "15 de 16" do README tem de bater com a apuracao do Anexo 2.
 

@@ -1873,3 +1873,29 @@ A diferenba e que agora a **contagem** esta amarrada; a narrativa continua sendo
 revisada a mao.
 
 Suite: **11 arquivos, 77 testes**.
+
+
+### 17.47 Os tres documentos passam a ser comparados
+
+O console, a aba RESUMO e o `DIVERGENCIAS.md` diziam numeros diferentes — porque
+o gerador do .md somava os grupos do motor duas vezes. Corrigido na rodada 93, e
+agora ha um teste que compara o .md com a planilha:
+
+```
+console:          307 de 310
+aba RESUMO:       307 de 310
+DIVERGENCIAS.md:  307 de 310
+```
+
+Se um dos tres divergir, o teste falha. Nao adianta corrigir um e esquecer os
+outros dois — foi exatamente o que aconteceu.
+
+Suite: **11 arquivos, 78 testes**.
+
+### O placar dos erros de contagem
+
+| rodada | onde | o que acontecia |
+|---|---|---|
+| 68 | console | somava os grupos sem a mescla do motor |
+| 93 | DIVERGENCIAS.md | somava os grupos **duas vezes** |
+| 94 | os tres | agora comparados entre si |

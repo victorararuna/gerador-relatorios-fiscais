@@ -588,6 +588,65 @@ def anexo3_2025() -> list[dict]:
 FONTES_RPPS = {"800", "801", "802", "803", "804"}
 
 
+#: contribuicoes do Anexo 4 por natureza de receita
+CONTRIBUICOES_ANEXO4 = (
+    ("Militares Ativos", "12155211"),
+    ("Militares Inativos", "12155221"),
+    ("Militares Pensionistas", "12155231"),
+    ("Segurados Pensionistas (civil)", "12150131"),
+)
+
+
+def anexo4_contribuicoes() -> list[dict]:
+    """RREO Anexo 4 — contribuicoes dos segurados, por natureza.
+
+    A natureza de receita 1.2.1.5.x separa o segurado por situacao: .01 ativo,
+    .02 inativo, .03 pensionista (civis) e .52 militares (11 ativo, 21 inativo,
+    31 pensionista).
+    """
+    from acervo import Acervo
+
+    arq = os.path.join(SICONFI, "rreo", "RREO_RREO-Anexo_04_24_2025_p6.csv")
+    if not os.path.exists(arq):
+        return []
+    # nomes repetidos: guarda a PRIMEIRA ocorrencia (a do fundo em capitalizacao)
+    of = {}
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        if r["coluna"].startswith("RECEITAS REALIZADAS"):
+            of.setdefault(r["conta"].strip(), float(r["valor"]))
+
+    def ref(prefixo: str) -> float | None:
+        for conta, valor in of.items():
+            if conta.startswith(prefixo):
+                return valor
+        return None
+
+    ac = Acervo(os.path.join(SICONFI, "..", "acervo"))
+    apurado = {}
+    for mes in range(1, 13):
+        for r in ac.ler(2025, mes, classe=6, tipo_valor="period_change"):
+            if not (r.conta or "").startswith("6212"):
+                continue
+            nr = r.nr or ""
+            for _rotulo, prefixo in CONTRIBUICOES_ANEXO4:
+                if nr.startswith(prefixo):
+                    apurado[prefixo] = apurado.get(prefixo, 0.0) + r.liquido
+                    break
+
+    pares = (
+        ("Militares Ativos", apurado.get("12155211", 0.0),
+         ref("Contribuição sobre a Remuneração dos Militares Ativos")),
+        ("Militares Inativos", apurado.get("12155221", 0.0),
+         ref("Contribuição sobre a Remuneração dos Militares Inativos")),
+        ("Militares Pensionistas", apurado.get("12155231", 0.0),
+         ref("Contribuição sobre a Remuneração dos Pensionistas")),
+        ("Segurados Pensionistas (civil)", apurado.get("12150131", 0.0),
+         ref("Pensionista")),
+    )
+    return [_linha(f"Anexo 4 — {rotulo}", valor, esperado)
+            for rotulo, valor, esperado in pares if esperado is not None]
+
+
 def anexo6_rreo_2025() -> list[dict]:
     """RREO Anexo 6 — as linhas de capital primario, contra o CSV publicado.
 
@@ -822,6 +881,7 @@ FONTES = OrderedDict((
     ("RGF Anexo 6 - 2025", anexo6_2025),
     ("RREO Anexo 11", lambda: anexo11(2025)),
     ("RREO Anexo 6", anexo6_rreo_2025),
+    ("RREO Anexo 4 - contribuicoes", anexo4_contribuicoes),
     ("RGF Anexo 3 - 2025", anexo3_2025),
     ("RGF Anexo 4 - 2025", anexo4_2025),
     ("RGF Anexo 5", anexo5),

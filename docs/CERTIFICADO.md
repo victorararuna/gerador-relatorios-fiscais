@@ -1,14 +1,14 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 12:52** a partir do código no commit `ac484c9` (branch `main`).
+Emitido em **14/11/2026 12:56** a partir do código no commit `1870df6` (branch `main`).
 
-Último commit: *certificado: contagem e data*
+Último commit: *docs: ponte do Anexo 6 e documento de passagem*
 
 ---
 
 ## 1. Resultado
 
-**370 de 396 células exatas** (93.4%), em 33 grupos de verificação.
+**374 de 400 células exatas** (93.5%), em 34 grupos de verificação.
 
 Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo publicado pelo Siconfi** — não com a planilha de trabalho da equipe.
 
@@ -23,6 +23,7 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RGF Anexo 6 - 2025 | 5 | 5 |
 | RREO Anexo 11 | 5 | 5 |
 | RREO Anexo 6 | 1 | 1 |
+| RREO Anexo 4 - contribuicoes | 4 | 4 |
 | RGF Anexo 3 - 2025 | 5 | 5 |
 | RGF Anexo 4 - 2025 | 8 | 8 |
 | RGF Anexo 5 | 90 | 90 |

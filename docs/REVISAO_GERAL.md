@@ -3518,3 +3518,67 @@ de entrar no relatorio.
 | testes | 100 | **104** |
 | divergencias | 26 | 26 |
 | com causa | **25** | **26** |
+
+
+### 17.78 Anexo 4 — quatro linhas exatas, e uma inconsistencia no publicado
+
+O Anexo 4 (Receitas e Despesas Previdenciarias) tinha quatro celulas. Fui as
+contribuicoes dos segurados, que o mapeamento separa por natureza de receita:
+
+| natureza | quem e |
+|---|---|
+| `1.2.1.5.01.11` | ativo civil |
+| `1.2.1.5.01.21` | inativo civil |
+| `1.2.1.5.01.31` | pensionista civil |
+| `1.2.1.5.52.11` | militar ativo |
+| `1.2.1.5.52.21` | militar inativo |
+| `1.2.1.5.52.31` | militar pensionista |
+
+### O resultado — quatro exatas
+
+| linha | apurado | publicado | desvio |
+|---|---:|---:|---:|
+| Militares Ativos | 133.912.023,96 | 133.912.023,96 | **0,00** |
+| Militares Inativos | 40.438.549,63 | 40.438.549,63 | **0,00** |
+| Militares Pensionistas | 26.779.906,65 | 26.779.906,65 | **0,00** |
+| Segurados Pensionistas (civil) | 26.547.985,82 | 26.547.985,82 | **0,00** |
+
+As de ativo e inativo civil diferem por 1.768,57 e 54.841,32 — o mesmo tipo de
+diferenca que o Anexo 1 tem no split de vencimentos.
+
+### Duas armadilhas do arquivo
+
+**1. A linha "Pensionista" aparece duas vezes** — uma no fundo em capitalizacao
+(26.547.985,82) e outra nos beneficios mantidos pelo Tesouro (158.384.715,66).
+A primeira e a que vale. Como o dicionario do leitor guardava a ultima, a
+referencia saiu errada por 131,8 milhoes — e o teste pegou.
+
+**2. O TOTAL (XX) publicado nao e a soma das suas tres linhas:**
+
+| | valor |
+|---|---:|
+| Ativos | 133.912.023,96 |
+| Inativos | 40.438.549,63 |
+| Pensionistas | 26.779.906,65 |
+| **soma** | **201.130.480,24** |
+| **TOTAL (XX) publicado** | **201.138.636,57** |
+| **diferenca** | **8.156,33** |
+
+E o segundo caso de erro aritmetico no arquivo publicado — o primeiro foi o
+5.241,65 de abril/2026.
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas | 396 | **400** |
+| exatas | 370 | **374** |
+| grupos | 33 | **34** |
+| testes | 104 | **109** |
+
+### O que falta no Anexo 4
+
+As linhas de **despesa** previdenciaria (aposentadorias e pensoes por bloco) ja
+sao conferidas em outro grupo. As de **receita patrimonial** e **compensacao**
+dependem do mesmo recorte de fonte que o Anexo 3 usa — e devem fechar pelo mesmo
+caminho.

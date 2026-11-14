@@ -3213,3 +3213,71 @@ Entao o gabarito e confiavel: para o relatorio de 2025, as rubricas estao nele.
 3. abril/2026 e negativo e igual ao manual;
 4. dezembro/2025 e positivo e igual ao manual;
 5. janeiro/2025 e negativo — o sinal sozinho, que vale 252 milhoes.
+
+
+### 17.73 A regra oficial funciona em 2026 e nao em 2025 — e isso e um achado
+
+Apliquei a regra do mapeamento (tres contas, PO 10/60, filtro posicional de
+natureza) aos doze meses de 2025 e comparei com o gabarito do auditor.
+
+| mes | vencimentos nosso | gabarito | diferenca |
+|---|---:|---:|---:|
+| Janeiro | 423.544.597 | 426.026.503 | −2.481.906 |
+| **Fevereiro** | 422.175.169 | 489.760.939 | **−67.585.770** |
+| Marco | 428.229.854 | 427.433.315 | +796.539 |
+| Maio | 454.679.690 | 482.042.281 | −27.362.591 |
+| **Outubro** | 503.086.987 | 679.729.237 | **−176.642.251** |
+| Dezembro | 683.229.809 | 786.200.400 | −102.970.590 |
+
+Em 2026 a mesma regra erra 0,49%. Em 2025 erra entre 0,2% e 26%, **sem padrao**.
+
+### O que testei para explicar
+
+| filtro de Poder | fevereiro | gabarito |
+|---|---:|---:|
+| nenhum | 576.371.820 | 489.760.939 |
+| so `10` | 417.463.679 | 489.760.939 |
+| `10` + `60` (o do mapeamento) | 422.175.169 | 489.760.939 |
+
+O gabarito esta **entre** o filtro de dois POs e o de nenhum. Ou seja: em 2025 a
+despesa de pessoal do Executivo inclui POs que em 2026 nao inclui — ou a matriz de
+2025 tem cobertura diferente.
+
+Os POs com maior peso em fevereiro/2025:
+
+| PO | vencimentos |
+|---|---:|
+| `10111` | 416.685.879 |
+| `30390` | 109.929.955 |
+| `50511` | 21.388.621 |
+| `20211` | 17.775.773 |
+
+O `30390` sozinho tem 110 milhoes — e nenhum filtro documentado o inclui.
+
+### O que isso significa
+
+Nao e erro de conta nem de sinal: e **mudanca de estrutura de Poder entre os
+exercicios**. A regra do mapeamento e de 2026 (`Atualizado 07/2026`) e pode nao
+valer retroativamente.
+
+### O que fazer com 2025
+
+O gabarito resolve: a aba `CONFERENCIAS` do `RGF 2025_Q3_01` tem as seis rubricas
+mes a mes, fecha internamente ao centavo e soma exatamente o publicado. Para o
+relatorio de 2025, **as rubricas estao nele**.
+
+O que falta e a **regra de 2025** — provavelmente uma versao anterior do mapeamento
+(ha pastas `MDF_STN/2024`, `2025` e `2026` no workspace; vale procurar a de 2025).
+
+### A pista concreta
+
+```
+MDF_STN\2025\02_instrucoes_stn_siconfi\
+```
+
+**Conferido:** a pasta `MDF_STN/2025` tem o MDF 14a edicao, as regras gerais de
+RGF e RREO e a sintese de alteracoes — **nao tem o mapeamento do Anexo 1**. O
+mapeamento e um so, de 2026, atualizado em 07/2026.
+
+Entao a regra de 2025 nao esta disponivel no material. O gabarito do auditor
+passa a ser a referencia — e a varredura dessa frente termina aqui.

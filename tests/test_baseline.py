@@ -107,5 +107,43 @@ class TestBaselinePPP(unittest.TestCase):
                         f"vs publicado {valores[rotulo]:,.2f}")
 
 
+class TestBaselinePrevidenciario(unittest.TestCase):
+    """As quatro linhas do Anexo 4 tem de vir do CSV publicado.
+
+    "Pensões" aparece duas vezes no arquivo: a primeira no bloco de beneficios
+    mantidos pelo Tesouro, a segunda no bloco militar. A linha do anexo e a
+    segunda.
+    """
+
+    #: chave em rreo_anexo4_blocos.OFICIAL -> (nome da linha, usar a ultima?)
+    MAPA = {
+        "apos_civil": ("Aposentadorias", False),
+        "pens_civil": ("Pensões por Morte", False),
+        "inat_mil": ("Inatividade", False),
+        "pens_mil": ("Pensões", True),
+    }
+
+    def test_linhas_batem(self):
+        import rreo_anexo4_blocos as A4
+
+        arq = os.path.join(RAIZ, "dados", "siconfi", "rreo",
+                           "RREO_RREO-Anexo_04_24_2025_p6.csv")
+        if not os.path.exists(arq):
+            self.skipTest("Anexo 4 publicado ausente")
+        coluna = "DESPESAS LIQUIDADAS ATÉ O BIMESTRE (e)"
+        with open(arq, encoding="utf-8-sig", newline="") as fh:
+            valores = {}
+            for r in csv.DictReader(fh, delimiter=";"):
+                if r["coluna"] == coluna:
+                    valores.setdefault(r["conta"].strip(), []).append(float(r["valor"]))
+        for chave, (nome, ultima) in self.MAPA.items():
+            self.assertIn(nome, valores, f"{nome} ausente no CSV")
+            publicado = valores[nome][-1] if ultima else valores[nome][0]
+            esperado = A4.OFICIAL[chave][1]
+            self.assertAlmostEqual(
+                esperado, publicado, places=2,
+                msg=f"Anexo 4 {chave}: codigo {esperado:,.2f} vs publicado {publicado:,.2f}")
+
+
 if __name__ == "__main__":
     unittest.main()

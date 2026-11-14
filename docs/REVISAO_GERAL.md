@@ -1615,8 +1615,31 @@ a uma constante de módulo (`ANEXO13_REF`) e o teste confere os seis valores
 | Total de passivos | 215.455.288,93 | 196.757.187,16 |
 | Atos potenciais passivos | 38.506.744,29 | 413.225.632,16 |
 
-Todos batem. O Anexo 4 não entrou na auditoria porque suas linhas **agregam
-blocos** (fundo em capitalização, RPPS e Tesouro) — não há correspondência 1:1
-com uma linha do CSV.
+Todos batem.
 
-Suíte: **11 arquivos, 75 testes**.
+### Anexo 4 também entrou — com um detalhe
+
+Eu tinha dito que o Anexo 4 não poderia ser auditado por agregar blocos. Errado:
+fui ao CSV e as quatro linhas existem, com nomes próprios:
+
+| nossa chave | linha no CSV | valor |
+|---|---|---:|
+| `apos_civil` | Aposentadorias | 4.917.756.724,31 |
+| `pens_civil` | Pensões por Morte | 640.868.408,22 |
+| `inat_mil` | Inatividade | 675.066.910,71 |
+| `pens_mil` | **Pensões (a segunda)** | 250.915.256,72 |
+
+O detalhe: **"Pensões" aparece duas vezes** no arquivo — 119.906.956,64 no bloco
+de benefícios mantidos pelo Tesouro e 250.915.256,72 no bloco militar. A linha do
+anexo é a segunda. O teste usa a última ocorrência, com o motivo escrito.
+
+Suíte: **11 arquivos, 76 testes**.
+
+### O que a auditoria cobre agora
+
+| grupo | auditoria |
+|---|---|
+| RGF Anexo 2 (DCL) | 14 linhas contra o DCL publicado |
+| RREO Anexo 13 | 6 valores contra os CSVs |
+| RREO Anexo 4 | 4 linhas contra o CSV |
+| RGF Anexo 1, 3, 6, 7, 14 e RREO 2, 9 | leem o CSV na origem |

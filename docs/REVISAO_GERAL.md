@@ -2754,3 +2754,51 @@ A aba `A 01-Desp` (997 linhas) tem a **despesa por natureza e fonte** do RREO de
 pode indicar o criterio do expurgo — mesmo sendo de outro ano.
 
 E a proxima leitura que vale a pena.
+
+
+### 17.67 As abas de detalhe nao tem a dimensao fonte
+
+Li as tres abas com mais linhas e colunas da planilha do auditor:
+
+| aba | tamanho | o que e | tem fonte? |
+|---|---|---|---|
+| `A 01-Desp` | 74 a 997 x 31 | Balanco Orcamentario — despesa por categoria e grupo | **nao** |
+| `A 01-Rec` | 217 x 102 | Balanco Orcamentario — receita por categoria | **nao** |
+| `A 02` | 468 x 45 | Execucao da despesa por **funcao e subfuncao** | **nao** |
+
+Todas trazem as colunas de dotacao, empenhada, liquidada, paga e restos a pagar —
+e mais nada. As 102 colunas da receita sao **meses e percentuais**, nao fontes.
+
+### O que isso fecha
+
+As duas frentes abertas — RP processados e expurgo patronal — dependem da
+**dimensao fonte de recursos**. Ela **nao existe em nenhuma das 120 abas**:
+
+| fonte consultada | tem fonte? |
+|---|---|
+| MSC (matriz) | **sim**, mas nao na abertura que o SIGEF usa |
+| Comparativo da Despesa | nao — uma linha por natureza |
+| Balancete | nao |
+| Planilhas do auditor (120 abas) | **nao** |
+| Relatorio de execucao por fonte (SIGEF) | **sim** — e o que falta |
+
+### O que isso significa
+
+Nao ha mais onde procurar dentro do material que temos. As 120 abas do auditor
+sao a conferencia de **2024**, no nivel de categoria, funcao e anexo — nunca no
+nivel de natureza x fonte.
+
+E por isso que 18 das 26 divergencias resistem: elas nao dependem de regra
+desconhecida, dependem de um **recorte que nao foi extraido**.
+
+### A conclusao da leitura
+
+| pergunta | resposta |
+|---|---|
+| Li os manuais? | **sim** — 120 abas inventariadas, as com regra lidas a fundo |
+| Elas tinham o resto das conferencias? | **sim** — 966 linhas de RREO e 302 de RGF |
+| Elas fecham as frentes abertas? | **nao** — falta a dimensao fonte |
+| O que ja rendeu? | **80 celulas** novas (rodadas 119 a 124) |
+
+A leitura esta concluida. O que falta nao esta escrito em lugar nenhum do que
+temos: e uma extracao.

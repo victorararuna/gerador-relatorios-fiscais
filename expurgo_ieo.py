@@ -17,7 +17,8 @@ from collections import defaultdict
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(AQUI, "app"))
 
-BASE = r"C:\Users\victo\Downloads\Arquivos etonjones"
+import caminhos
+BASE = caminhos.arquivos_etonjones()
 
 RE_SUBACAO = re.compile(r"^\d{6}$")
 RE_FONTE = re.compile(r"^\d\.\d\.\d{2}\.\d{6}$")

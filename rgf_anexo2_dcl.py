@@ -13,6 +13,10 @@ classe 1 entram como estão (a disponibilidade deduz).
 """
 from __future__ import annotations
 
+import caminhos
+
+_BASE_CONTAG = caminhos.relatorios_contag()
+
 import os
 import re
 import sys
@@ -23,7 +27,7 @@ sys.path.insert(0, os.path.join(AQUI, "app"))
 
 BALANCETE = os.path.join(AQUI, "dados", "fontes", "13nov",
                          "balancete_2025_encerramento.xls")
-PLANILHA = (r"C:\Users\victo\Downloads\RELATÓRIOS CONTAG\Demonstrativos Fiscais 2025"
+PLANILHA = (_BASE_CONTAG + r"\Demonstrativos Fiscais 2025"
             r"\RGF 2025\3º QUADRIMESTRE\PRONTOS\EXCEL"
             r"\RGF 2025_3Q_02 - DEMONSTRATIVO DA DÍVIDA CONSOLIDADA LÍQUIDA.xlsx")
 

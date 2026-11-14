@@ -20,7 +20,24 @@ import sys
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(AQUI, "app"))
 
-BASE = r"C:\Users\victo\Downloads\Arquivos etonjones"
+#: a pasta dos PDFs do SIGEF ja mudou de lugar duas vezes; procura em ordem
+CANDIDATOS_BASE = (
+    r"C:\Users\victo\Downloads\Arquivos etonjones",
+    os.path.join(AQUI, "..", "Arquivos etonjones"),
+    os.path.join(AQUI, "..", "Antigravity", "Arquivos etonjones"),
+    os.path.join(AQUI, "Arquivos etonjones"),
+)
+BASE = next((p for p in CANDIDATOS_BASE if os.path.exists(p)), CANDIDATOS_BASE[0])
+
+#: Diferenca pontual em Abril/2026, celula G244 do Siconfi Q2: subacao 408801 do
+#: TJRN, ND 31.90.92.03, fonte 0.5.00 — empenhado 86.852,54 contra liquidado
+#: 92.094,19. O arquivo publicado somou o empenhado de uma fonte com o liquidado
+#: de outra; 5.241,65 e o empenho de marco liquidado em abril.
+#:
+#: O modo Siconfi reproduz o erro para que o numero bata com o publicado. Fica
+#: **desligado por padrao**: publicar numero errado e decisao do gestor, nao do
+#: motor. Veio da versao do Antigravity.
+DIFERENCA_EMPENHADO_LIQUIDADO_ABRIL_2026 = 5_241.65
 NUM = r"-?\d{1,3}(?:\.\d{3})*,\d{2}"
 RE_PAR = re.compile(
     r"(\d\d\.\d\d\.\d\d\.\d\d)\s+(\d\.\d\.\d\d\.\d{6})\s+[A-Za-zÀ-ÿ]"
@@ -94,7 +111,10 @@ def ler_comparativo(mes: str, ano: int = 2026) -> dict:
     return valores
 
 
-def secoes(mes: str) -> dict:
+_NE_MSC: dict | None = None
+
+
+def secoes(mes: str, modo_siconfi_q2: bool = False) -> dict:
     """As seções da MAPA que já têm regra fechada."""
     import expurgo_poderes as E
     import nao_executada as NE
@@ -132,8 +152,20 @@ def secoes(mes: str) -> dict:
     patronal = patronal_bruto - sum(comp.get(nd, 0.0) for nd in EXPURGO_PATRONAL)
     vencimentos = (comp.get("31.00.00.00", 0.0) - sum(comp.get(nd, 0.0) for nd in APOSENTADORIAS)
                    - sum(comp.get(nd, 0.0) for nd in PENSOES) - patronal_bruto)
-    nao_exec = NE.valores().get(mes, 0.0)
+    # a nao executada vem da MSC (credito - debito), nao dos PDFs: os balancetes
+    # `Relatorio_*.pdf` saem do ar e a linha zera. `valores_msc` foi validada
+    # contra o gabarito do auditor: doze meses de 2025, desvio zero.
+    global _NE_MSC
+    if _NE_MSC is None:
+        _NE_MSC = NE.valores_msc(2026)
+    nao_exec = _NE_MSC.get(mes, 0.0)
     ded_pens = ieo["pensoes"]
+
+    # modo Siconfi (desligado por padrao): reproduz o erro de abril/2026 para
+    # que o numero bata com o publicado. Sem ele, abril fica 5.241,65 abaixo.
+    pensoes = bruto_pens - ded_pens
+    if modo_siconfi_q2 and mes == "Abril":
+        pensoes += DIFERENCA_EMPENHADO_LIQUIDADO_ABRIL_2026
 
     return {
         "gnd31": total_gnd31,
@@ -142,13 +174,13 @@ def secoes(mes: str) -> dict:
         "aposentadorias": bruto_apos - ded_apos,
         "pensoes_bruto": bruto_pens,
         "pensoes_deducao": ded_pens,
-        "pensoes": bruto_pens - ded_pens,
+        "pensoes": pensoes,
         "terceirizacao": terceirizacao,
         "vencimentos": vencimentos,
         "patronal": patronal,
         "nao_executada": nao_exec,
         "despesa_bruta": (vencimentos + patronal + (bruto_apos - ded_apos)
-                          + (bruto_pens - ded_pens) + terceirizacao + nao_exec),
+                          + pensoes + terceirizacao + nao_exec),
     }
 
 

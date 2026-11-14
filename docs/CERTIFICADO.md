@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 14:47** a partir do código no commit `b670447` (branch `main`).
+Emitido em **14/11/2026 20:38** a partir do código no commit `37693c0` (branch `main`).
 
-Último commit: *Split fechado nos oito meses: faltava a natureza 31.XX.07.00*
+Último commit: *Anexo 1 de 2025: quatro linhas fechadas pelo MAPA do auditor*
 
 ---
 

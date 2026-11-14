@@ -25,7 +25,16 @@ from collections import defaultdict
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(AQUI, "app"))
 
-BASE = r"C:\Users\victo\Downloads\Arquivos etonjones"
+#: a pasta dos PDFs do SIGEF ja mudou de lugar; procura em ordem
+_AQUI = os.path.dirname(os.path.abspath(__file__))
+BASE = next(
+    (p for p in (
+        r"C:\Users\victo\Downloads\Arquivos etonjones",
+        os.path.join(_AQUI, "..", "Arquivos etonjones"),
+        os.path.join(_AQUI, "..", "Antigravity", "Arquivos etonjones"),
+        os.path.join(_AQUI, "Arquivos etonjones"),
+    ) if os.path.exists(p)),
+    r"C:\Users\victo\Downloads\Arquivos etonjones")
 UG = "162233"
 
 POR_CODIGO = {"218401": "DPRN", "221201": "TJRN", "222201": "ALRN",

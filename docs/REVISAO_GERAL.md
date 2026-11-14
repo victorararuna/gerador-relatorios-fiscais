@@ -3888,3 +3888,60 @@ Por isso o grupo confere **quatro** linhas, nao seis: as quatro que fecham.
 | exatas | 420 | **424** |
 | percentual | 97,4% | **97,5%** |
 | grupos | 37 | **38** |
+
+
+### 17.85 O que veio do Antigravity, e o que nao veio
+
+A versao do `Antigravity` foi comparada com a nossa. Rodei a verificacao dela:
+
+| janela | desvio em I |
+|---|---:|
+| 2025 Q3 | **−3,04%** |
+| 2026 Q1 | **−2,72%** |
+| 2026 Q2 | **−2,15%** |
+
+**O Anexo 1 deles nao fecha** — e vencimentos erra de −3,96% a −5,03%. O nosso
+fecha os oito meses de 2026 em **0,00**.
+
+Entao trazê-lo inteiro seria retroceder.
+
+### O que aproveitei
+
+| item | por que vale |
+|---|---|
+| **`caminhos.py`** | as pastas ja mudaram tres vezes; resolve por busca em vez de caminho fixo |
+| **modo Siconfi** (`modo_siconfi_q2`) | reproduz o erro de abril sob demanda, com a constante nomeada |
+| **tolerancia a PDF ausente** | o motor nao quebra quando o mes ainda nao foi extraido |
+
+### O modo Siconfi
+
+O Antigravity "fechava" abril somando **5.241,65** de volta. Eu tinha me recusado
+a fazer isso sem autorizacao. A solucao e o meio-termo: um parametro
+`modo_siconfi_q2`, **desligado por padrao**, que reproduz o erro do arquivo
+publicado quando o gestor decidir publicar igual ao Siconfi.
+
+```
+secoes("Abril")                        -> 76.124.731,24  (tecnico)
+secoes("Abril", modo_siconfi_q2=True)  -> 76.129.972,89  (publicado)
+```
+
+### O que o Antigravity descobriu e vale registrar
+
+| descoberta | efeito |
+|---|---|
+| `3.1.90.03.05` nao pertence a linha de Pensoes | R$ 111,7 mi/ano |
+| patronal: excluir `3.1.90.13.02`, incluir `3.1.91.92` | tirou o erro de +5,84% para +1,07% |
+| filtro de CO testado e **descartado** | piora tudo; fica so para auditoria |
+| so `31.xx` entra nas linhas de pessoal | o de-para anterior jogava R$ 1,12 bi de nao-pessoal |
+| nao executada e **estoque**, nao fluxo mensal | 168,8 mi contra 167,5 |
+
+Essas valem para a frente de 2025, onde o nosso motor nao roda por falta do
+Comparativo daquele exercicio.
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| testes | 113 | **117** |
+| celulas | 435 | 435 |
+| exatas | 424 | **424** |

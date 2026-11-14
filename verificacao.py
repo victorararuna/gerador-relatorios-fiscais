@@ -10,6 +10,8 @@ que não fecha aparece com o número e a explicação, não com "OK".
 """
 from __future__ import annotations
 
+import caminhos
+
 import csv
 import os
 import sys
@@ -187,7 +189,7 @@ def anexo1_poder(mes: str | None = None) -> list[dict]:
     """
     import expurgo_poderes as E
 
-    planilha = os.path.join(r"C:\Users\victo\Downloads\Arquivos etonjones",
+    planilha = os.path.join(caminhos.arquivos_etonjones(),
                             "Quadro_e_Mapa_Janeiro_a_Outubro_2026.xlsx")
     if not os.path.exists(planilha):
         return []

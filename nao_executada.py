@@ -21,7 +21,8 @@ import sys
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(AQUI, "app"))
 
-BASE = r"C:\Users\victo\Downloads\Arquivos etonjones"
+import caminhos
+BASE = caminhos.arquivos_etonjones()
 MESES = ("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
          "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
 #: devolução da baixa do 13º dos demais Poderes em abril/2026

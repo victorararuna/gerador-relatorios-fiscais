@@ -1108,18 +1108,22 @@ CAUSA_SPLIT = (
 #: causa documentada de cada divergencia conhecida (prefixo do item -> texto)
 CAUSAS = (
     ("2026 — Abril — I",
-     "A diferenca de 5.241,65 vem TODA da rubrica Pensoes: o desvio de I e igual a "
-     "soma dos desvios das seis rubricas, e em abril so Pensoes desvia. O item e o "
-     "par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 "
-     "(pensoes de exercicios anteriores), que liquida em 5.241,65. O homologado "
-     "trata o par de forma diferente do Comparativo."),
+     "O ARQUIVO PUBLICADO ESTA ERRADO — e o proprio manual do auditor documenta. "
+     "Na subacao 408801 do TJRN, ND 31.90.92.03, fonte 0.5.00, abril tem "
+     "empenhado 86.852,54 e liquidado 92.094,19; a fonte 0.8.00 tem liquidado "
+     "29.377,60. O correto, pelo regime de competencia (art. 18, § 2º, da LRF), e "
+     "92.094,19 + 29.377,60 = 121.471,79. O publicado traz 116.230,14 porque somou "
+     "o EMPENHADO de uma fonte com o LIQUIDADO de outra: 86.852,54 + 29.377,60. A "
+     "diferenca e 5.241,65 — o empenho de marco liquidado em abril. O MAPA do "
+     "proprio auditor (RGF 2026_Q2_01, aba Mapeamento, linha 209) carrega o mesmo "
+     "76.129.972,89 do publicado, ou seja, o erro esta na origem. Nao se corrige do "
+     "nosso lado sem publicar numero errado."),
     ("2026 — Abril — Pensões",
-     "A mesma diferenca de 5.241,65 que aparece em I e III: em abril so Pensoes "
-     "desvia, e o desvio da despesa bruta e igual ao das rubricas. O item e o par "
-     "de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 — pensoes de "
-     "exercicios anteriores, subacao 408801 do TJRN — que liquida em 5.241,65. O "
-     "arquivo publicado somou empenhado de uma fonte com liquidado de outra; o "
-     "correto, pelo regime de competencia, e o nosso."),
+     "Idem I: erro aritmetico do arquivo publicado, documentado pelo proprio "
+     "auditor no manual (secao 1.3). Em abril/2026, subacao 408801 do TJRN: o "
+     "correto e liquidado 92.094,19 (fonte 0.5.00) + 29.377,60 (fonte 0.8.00) = "
+     "121.471,79; o publicado traz 116.230,14 porque somou o empenhado da 0.5.00 "
+     "(86.852,54) com o liquidado da 0.8.00. Diferenca: 5.241,65."),
     ("2026 — Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
     ("Anexo 7 — Executivo — RP Não Processados",

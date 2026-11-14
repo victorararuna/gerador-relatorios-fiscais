@@ -1,14 +1,14 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 12:05** a partir do código no commit `34d3810` (branch `main`).
+Emitido em **14/11/2026 12:10** a partir do código no commit `d1744f6` (branch `main`).
 
-Último commit: *2025: a regra do mapeamento de 2026 nao vale retroativamente*
+Último commit: *certificado: data e contagem*
 
 ---
 
 ## 1. Resultado
 
-**364 de 390 células exatas** (93.3%), em 31 grupos de verificação.
+**369 de 395 células exatas** (93.4%), em 32 grupos de verificação.
 
 Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo publicado pelo Siconfi** — não com a planilha de trabalho da equipe.
 
@@ -21,6 +21,7 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RGF Anexo 2 | 16 | 15 |
 | RGF Anexo 2 - somas | 6 | 3 |
 | RGF Anexo 6 - 2025 | 5 | 5 |
+| RREO Anexo 11 | 5 | 5 |
 | RGF Anexo 3 - 2025 | 5 | 5 |
 | RGF Anexo 4 - 2025 | 8 | 8 |
 | RGF Anexo 5 | 90 | 90 |

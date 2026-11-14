@@ -584,6 +584,51 @@ def anexo3_2025() -> list[dict]:
     return saida
 
 
+def anexo11(ano: int) -> list[dict]:
+    """RREO Anexo 11 — Alienacao de Ativos, contra o CSV publicado.
+
+    Seis linhas: bens moveis, imoveis e intangiveis, rendimentos de aplicacoes,
+    e as duas de aplicacao dos recursos (investimentos e inversoes).
+    """
+    import rreo_anexo11 as A11
+
+    bimestre = "p6" if ano == 2025 else "p4"
+    arq = os.path.join(SICONFI, "rreo", f"RREO_RREO-Anexo_11_24_{ano}_{bimestre}.csv")
+    if not os.path.exists(arq):
+        return []
+
+    # a coluna de receita realizada e a de despesa empenhada mudam de nome entre
+    # os bimestres; pega a primeira que comecar com o prefixo
+    of = {}
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        conta = r["conta"].strip()
+        col = r["coluna"].strip()
+        if col.startswith(("RECEITAS REALIZADAS", "DESPESAS EMPENHADAS", "2025 (j)", "2026 (j)")):
+            of.setdefault(conta, float(r["valor"]))
+
+    def ref(prefixo: str) -> float | None:
+        for conta, valor in of.items():
+            if conta.startswith(prefixo):
+                return valor
+        return None
+
+    v = A11.linhas(ano)
+    pares = (
+        ("Bens Móveis", v["moveis"], ref("Receita de Alienação de Bens Móveis")),
+        ("Bens Imóveis", v["imoveis"], ref("Receita de Alienação de Bens Imóveis")),
+        ("Bens Intangíveis", v["intangiveis"], ref("Receita de Alienação de Bens Intangíveis")),
+        ("Rendimentos de Aplicações", v["rendimentos"],
+         ref("Receita de Rendimentos de Aplicações")),
+        ("Receitas de Alienação (I)", v["receitas_alienacao"],
+         ref("RECEITAS DE ALIENAÇÃO DE ATIVOS")),
+        ("Investimentos", v["investimentos"], ref("Investimentos")),
+        ("Inversões Financeiras", v["inversoes"], ref("Inversões Financeiras")),
+        ("Valor (III)", v["valor"], ref("VALOR (III)")),
+    )
+    return [_linha(f"{ano} — Anexo 11 — {rotulo}", valor, esperado)
+            for rotulo, valor, esperado in pares if esperado is not None]
+
+
 def anexo6_2025() -> list[dict]:
     """As linhas do Anexo 6 de 2025, contra o CSV publicado.
 
@@ -724,6 +769,7 @@ FONTES = OrderedDict((
     ("RGF Anexo 2", anexo2),
     ("RGF Anexo 2 - somas", anexo2_somas),
     ("RGF Anexo 6 - 2025", anexo6_2025),
+    ("RREO Anexo 11", lambda: anexo11(2025)),
     ("RGF Anexo 3 - 2025", anexo3_2025),
     ("RGF Anexo 4 - 2025", anexo4_2025),
     ("RGF Anexo 5", anexo5),

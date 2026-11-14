@@ -31,4 +31,4 @@ Gerado por `verificacao.relatorio_divergencias()`. Não editar à mão.
 | RGF Anexo 1 - totais | RGF Anexo 1: despesa líquida (III) | 11,085,096,971.23 | 11,001,153,864.38 | 83,943,106.85 | Idem: decorre da mesma apuracao anual de 2025 pela MSC (+85,3 mi, +0,78%). |
 | RGF Anexo 6 | RGF Anexo 6: despesa total com pessoal (DTP) | 11,085,096,971.23 | 11,004,331,905.62 | 80,765,065.61 | DTP de 2025 apurada pela MSC (despesa liquida do Anexo 1), nao pela MAPA do SIGEF. Desvio de +82,1 mi (+0,75%): mesma causa das duas linhas de 2025 do Anexo 1 — a MSC nao identifica a parcela intra-orcamentaria. |
 
-**364 de 390 células exatas** (26 divergentes, todas acima com causa).
+**369 de 395 células exatas** (26 divergentes, todas acima com causa).

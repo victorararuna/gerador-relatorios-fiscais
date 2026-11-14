@@ -3281,3 +3281,76 @@ mapeamento e um so, de 2026, atualizado em 07/2026.
 
 Entao a regra de 2025 nao esta disponivel no material. O gabarito do auditor
 passa a ser a referencia — e a varredura dessa frente termina aqui.
+
+
+### 17.74 RREO Anexo 11 — anexo novo, 100% exato
+
+Faltavam dois anexos do RREO com arquivo publicado e sem conferencia: o **6**
+(Resultado Primario e Nominal) e o **11** (Alienacao de Ativos). Comecei pelo 11,
+que e menor e tem regra direta.
+
+### A regra, do mapeamento da STN
+
+| linha | natureza de receita | fonte |
+|---|---|---|
+| Bens Moveis | 2.2.1 + 8.2.1 + 1.9.4.1 + 7.9.4.1 | 755, 756, 762 |
+| Bens Imoveis | 2.2.2 + 8.2.2 + 1.9.4.2 + 7.9.4.2 | 755, 756, 762 |
+| Bens Intangiveis | 2.2.3 + 8.2.3 + 1.9.4.3 + 7.9.4.3 | 755, 756, 762 |
+| Rendimentos de Aplicacoes | 1.3.2.1.01 + .02 + .03 + .05 + .99 | 755, 756, 762 |
+| Investimentos | ND 4.4 | 755, 756, 762 |
+| Inversoes Financeiras | ND 4.5 | 755, 756, 762 |
+
+Receita sai de `6.2.1.2.0.00.00` e despesa de `6.2.2.1.3.00.00`, na classe 6.
+
+### O resultado — 2025, cinco linhas com valor
+
+| linha | apurado | publicado | desvio |
+|---|---:|---:|---:|
+| Bens Moveis | 1.284.564,22 | 1.284.564,22 | **0,00** |
+| Bens Imoveis | 0,00 | 0,00 | **0,00** |
+| Bens Intangiveis | 0,00 | 0,00 | **0,00** |
+| Rendimentos de Aplicacoes | 33.593,57 | 33.593,57 | **0,00** |
+| Receitas de Alienacao (I) | 1.318.157,79 | 1.318.157,79 | **0,00** |
+| Investimentos | 55.800,00 | 55.800,00 | **0,00** |
+| Inversoes Financeiras | 0,00 | 0,00 | **0,00** |
+| **Valor (III)** | **1.262.357,79** | **1.262.357,79** | **0,00** |
+
+**Nenhum desvio.** E o primeiro anexo inteiramente novo desde o Anexo 5.
+
+### O que ele ensinou sobre o metodo
+
+O Anexo 11 fecha sem nenhuma extracao extra porque as tres dimensoes de que ele
+precisa — **natureza de receita, natureza de despesa e fonte** — estao todas na
+matriz.
+
+Compare com as frentes abertas:
+
+| anexo | dimensoes necessarias | estao na MSC? |
+|---|---|---|
+| **11** | NR + ND + FR | **sim, as tres** |
+| Anexo 1 (expurgo) | **subacao** + FR | so a FR |
+| Anexo 2 (RP) | conta `8.6.3.2.2` | nao |
+| Anexo 1 (inativos) | **subacao** | nao |
+
+**A regra e a mesma: quando a matriz tem as dimensoes, fecha. Quando nao tem, nao
+fecha — e nao e por falta de formula.**
+
+### 2026
+
+O modulo ja apura 2026 (1.155.289,75 de receita), mas **nao ha CSV publicado de
+2026 para o Anexo 11** — entao nao ha com o que comparar. A verificacao fica so
+em 2025, e o codigo espera o arquivo.
+
+### Os testes
+
+`tests/test_anexo11.py` — quatro testes: os valores de 2025 ao centavo, os dois
+zerados, a identidade do valor e a soma das linhas de receita.
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas | 390 | **395** |
+| exatas | 364 | **369** |
+| grupos | 31 | **32** |
+| testes | 96 | **100** |

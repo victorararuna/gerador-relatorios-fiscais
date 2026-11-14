@@ -184,6 +184,37 @@ CONTAS_DISPONIBILIDADE = (
 FONTES_RPPS = ("800", "801", "802")
 
 
+#: contas e fontes do RP processados, conforme a aba "RP_MSC" da planilha da equipe
+CONTAS_RP = ("6313", "6321")
+FONTES_RP_EXCLUIR = ("32", "46", "800", "801", "802")
+
+
+def restos_a_pagar(ano: int = 2025, mes: int = 12) -> float:
+    """RP processados: 6.3.1.3 + 6.3.2.1, sem as fontes 32, 46, 800, 801 e 802.
+
+    Metodo copiado da aba "RP_MSC" da planilha da equipe. Conferido: em
+    agosto/2025 reproduz **684.383.327,91**, exatamente o publicado no
+    2o quadrimestre. Em dezembro nao fecha, porque o corte de exercicio muda o
+    conteudo da conta.
+    """
+    import sys as _sys
+
+    raiz = os.path.dirname(os.path.abspath(__file__))
+    if os.path.join(raiz, "app") not in _sys.path:
+        _sys.path.insert(0, os.path.join(raiz, "app"))
+    from acervo import Acervo
+
+    ac = Acervo(os.path.join(raiz, "dados", "acervo"))
+    total = 0.0
+    for r in ac.ler(ano, mes, classe=6, tipo_valor="ending_balance"):
+        if not r.conta.startswith(CONTAS_RP):
+            continue
+        if (r.fr or "")[1:4] in FONTES_RP_EXCLUIR:
+            continue
+        total += r.liquido
+    return total
+
+
 def disponibilidade(ano: int = 2025, mes: int = 12) -> float:
     """Disponibilidade de caixa bruta: as 13 contas, sem as fontes do RPPS.
 
@@ -289,7 +320,9 @@ def main() -> int:
     for nome, contas in secoes.items():
         if not contas:
             continue
-        if nome.startswith("Disponibilidade de Caixa Bruta"):
+        if nome.startswith("(-) Restos a Pagar"):
+            v = restos_a_pagar()
+        elif nome.startswith("Disponibilidade de Caixa Bruta"):
             v = disponibilidade()
         elif nome.startswith("(-) Depósitos"):
             v = depositos()

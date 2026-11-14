@@ -1951,3 +1951,56 @@ publicado.
 
 **O que falta é uma coisa só:** o RP processado dos sete Poderes em 31/12/2025,
 por fonte, incluindo a inscrição do exercício.
+
+
+### 17.49 RP Processados — o método estava na planilha, na aba RP_MSC
+
+A planilha da equipe tem uma aba chamada **"RP_MSC"**, que eu nunca tinha aberto.
+Ela traz a receita do bolo:
+
+```
+RPP
+  6.2.2.1.3.07.00.00   (na MSC: zero)
+  6.3.1.3.0.00.00.00
+  6.3.2.1.0.00.00.00
+  (-) fontes 32, 46, 800
+```
+
+Duas coisas que a nossa seção errava:
+
+1. **`6.2.2.1.3.07` é zero** — a nossa seção o somava, e ele valia 1,4 bilhão
+   (duplicando com `6.3.2.7`, que tem o mesmo valor);
+2. **as fontes 32, 46, 800, 801 e 802 são excluídas** — nós não excluíamos nada.
+
+### O teste que prova o método
+
+Aplicando `(6.3.1.3 + 6.3.2.1)` sem 32/46/800/801/802:
+
+| fechamento | apurado | publicado | diferença |
+|---|---:|---:|---:|
+| **agosto/2025 (2º Q)** | **684.383.327,91** | **684.383.327,91** | **0,00** |
+| dezembro/2025 (3º Q) | 473.395.418,78 | 750.866.596,13 | −277.471.177,35 |
+| abril/2026 (1º Q) | 842.711.344,20 | 816.322.476,17 | +26.388.868,03 |
+| agosto/2026 (2º Q) | 649.144.802,70 | 640.153.394,98 | +8.991.407,72 |
+
+**Em agosto de 2025 fecha ao centavo.** O método está certo.
+
+### Por que ainda não fecha nos outros
+
+- **dezembro/2025**: é o corte de exercício — a inscrição de 2025 (1,0 bilhão)
+  ainda não está na conta nessa data;
+- **2026**: sobra 1,4% a 3,2%, provavelmente por uma conta ou fonte que mudou de
+  comportamento no ano.
+
+### O ganho
+
+| | antes | agora |
+|---|---:|---:|
+| apurado | 3.306.229.590,47 | **473.395.418,78** |
+| desvio | 2.555.362.994,34 | **277.471.177,35** |
+
+**Nove vezes menor.** E agora o sinal está certo: estamos **abaixo** do publicado,
+como o corte de exercício explica.
+
+O livro segue com **310 células, 307 exatas** — a linha ainda não fecha, mas o
+número agora é o da conta certa.

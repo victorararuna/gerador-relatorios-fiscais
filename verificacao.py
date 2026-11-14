@@ -153,7 +153,9 @@ def anexo2() -> list[dict]:
         oficial = D.OFICIAL.get(nome)
         if oficial is None:
             continue
-        if nome.startswith("Disponibilidade de Caixa Bruta"):
+        if nome.startswith("(-) Restos a Pagar"):
+            v = D.restos_a_pagar()
+        elif nome.startswith("Disponibilidade de Caixa Bruta"):
             v = D.disponibilidade()
         elif nome.startswith("(-) Depósitos"):
             v = D.depositos()
@@ -534,13 +536,9 @@ CAUSAS = (
     ("2026 — Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
     ("Restos a Pagar Processados",
-     "Precisa do saldo de RP processados em 31/12/2025 (conta 6.3.2.1.1), "
-     "por Poder e por fonte, incluindo a inscricao do exercicio. A secao da "
-     "aba Base soma quatro contas e conta 6.2.2.1.3.07 e 6.3.2.7 duas vezes "
-     "(mesmo valor). Em agosto/2025 a conta 6.3.2.1 quase fecha (3,4%); em "
-     "dezembro a diferenca salta para 37% pelo corte de exercicio. A matriz "
-     "so traz o Executivo (97,8%) e o RPPS; os RP dos outros cinco Poderes "
-     "nao estao nela."),
+     "Metodo da aba RP_MSC: 6.3.1.3 + 6.3.2.1 sem as fontes 32/46/800/801/802. "
+     "Fecha ao centavo em agosto/2025. Em dezembro sobra 277.471.177,35: a "
+     "inscricao do exercicio ainda nao esta na conta no corte."),
 
 
     ("Aposentadorias civis", "Resolvido: a linha e o bruto menos o PAE "

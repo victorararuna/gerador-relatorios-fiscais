@@ -804,9 +804,12 @@ CAUSA_SPLIT = (
 
 #: causa documentada de cada divergencia conhecida (prefixo do item -> texto)
 CAUSAS = (
-    ("2026 — Abril — I", "Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND "
-                  "31909203 do PO 10112, em abril: a diferenca e 5.241,65. O "
-                  "homologado trata o par de forma diferente do Comparativo."),
+    ("2026 — Abril — I",
+     "A diferenca de 5.241,65 vem TODA da rubrica Pensoes: o desvio de I e igual a "
+     "soma dos desvios das seis rubricas, e em abril so Pensoes desvia. O item e o "
+     "par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 "
+     "(pensoes de exercicios anteriores), que liquida em 5.241,65. O homologado "
+     "trata o par de forma diferente do Comparativo."),
     ("2026 — Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
     ("RGF Anexo 1: despesa bruta (I)",

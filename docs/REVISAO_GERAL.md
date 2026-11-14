@@ -2598,3 +2598,42 @@ Identificar a natureza de despesa do item que migra. Como o valor muda todo mes 
 nao e um elemento inteiro, provavelmente e o **13o salario** ou a **contribuicao
 patronal de uma rubrica especifica** — a conferir natureza a natureza entre
 3190.11 (vencimentos) e 3190.13 (obrigacoes patronais).
+
+
+### 17.64 A identidade que explica o "padrao repetido"
+
+O usuario viu, na planilha, que os desvios das rubricas se repetem com sinais
+opostos — e desconfiou de sinal invertido. Nao e sinal: e **a mesma parcela
+aparecendo em mais de uma linha**, e a prova e uma identidade.
+
+A despesa bruta (I) e a soma das seis rubricas. Logo, o desvio de I tem de ser a
+soma dos desvios das rubricas:
+
+| mes | soma dos desvios das rubricas | desvio de I |
+|---|---:|---:|
+| Janeiro | 0,00 | 0,00 |
+| Fevereiro | 0,00 | 0,00 |
+| Marco | 0,00 | 0,00 |
+| **Abril** | **−5.241,65** | **−5.241,65** |
+| Maio a Agosto | 0,00 | 0,00 |
+
+**Fecha nos oito meses.**
+
+### O que isso revela
+
+1. **O split vencimentos X patronal NAO afeta a despesa bruta.** O +X de um lado
+   e o −X do outro se cancelam exatamente. E erro de **reparticao**, nao de
+   apuracao — e nunca apareceria conferindo so o total.
+2. **A diferenca de abril vem TODA de Pensoes.** Nos outros meses a soma das
+   rubricas da zero; em abril da −5.241,65, e so Pensoes desvia nesse mes.
+   A causa ja registrada (par de anulacao e re-empenho no ND 31909203 —
+   pensoes de exercicios anteriores) estava certa, e agora tem prova.
+
+### Por que a desconfianca do usuario era produtiva
+
+Ver "o mesmo valor com sinais opostos" e o sinal classico de um item contado duas
+vezes ou com sinal trocado. O teste que refuta essa hipotese — comparar a **soma**
+— e o mesmo que revela a estrutura: se a soma fecha, o item esta no lugar errado,
+nao com o sinal errado.
+
+E quando a soma NAO fecha (abril), ela aponta qual rubrica carrega a diferenca.

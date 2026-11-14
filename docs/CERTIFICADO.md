@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 10:37** a partir do código no commit `d1c0070` (branch `main`).
+Emitido em **14/11/2026 10:43** a partir do código no commit `db9e340` (branch `main`).
 
-Último commit: *Kit de preenchimento: 390 linhas prontas por anexo*
+Último commit: *Split vencimentos/patronal: nao e sinal invertido, e o expurgo*
 
 ---
 
@@ -98,8 +98,8 @@ Suíte: **81 testes definidos em 11 arquivos**. Rode `python rodar_testes.py` pa
 
 ## 5. Ressalvas
 
-- **RGF Anexo 1 - 2026 — 2026 — Abril — I — Despesa Bruta**: -5,241.65 de desvio (-0.00%). Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 do PO 10112, em abril: a diferenca e 5.241,65. O homologado trata o par de forma diferente do Comparativo.
-- **RGF Anexo 1 - 2026 — 2026 — Abril — III — Despesa Líquida**: -5,241.65 de desvio (-0.00%). Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 do PO 10112, em abril: a diferenca e 5.241,65. O homologado trata o par de forma diferente do Comparativo.
+- **RGF Anexo 1 - 2026 — 2026 — Abril — I — Despesa Bruta**: -5,241.65 de desvio (-0.00%). A diferenca de 5.241,65 vem TODA da rubrica Pensoes: o desvio de I e igual a soma dos desvios das seis rubricas, e em abril so Pensoes desvia. O item e o par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 (pensoes de exercicios anteriores), que liquida em 5.241,65. O homologado trata o par de forma diferente do Comparativo.
+- **RGF Anexo 1 - 2026 — 2026 — Abril — III — Despesa Líquida**: -5,241.65 de desvio (-0.00%). A diferenca de 5.241,65 vem TODA da rubrica Pensoes: o desvio de I e igual a soma dos desvios das seis rubricas, e em abril so Pensoes desvia. O item e o par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 (pensoes de exercicios anteriores), que liquida em 5.241,65. O homologado trata o par de forma diferente do Comparativo.
 - **RGF Anexo 1 - rubricas — 2026 — Janeiro — Vencimentos, Vantagens e Outras**: 138,865.10 de desvio (+0.02%). NAO e sinal invertido: a soma vencimentos + obrigacoes patronais fecha ao centavo nos oito meses (se fosse inversao, a soma mudaria em 2X). A causa esta no EXPURGO_PATRONAL: excluimos 11.641.413,58 em janeiro e o SIGEF exclui 11.502.548,48 — sempre a mais, e a diferenca e exatamente o X do mes. Nenhuma combinacao das 17 naturezas da lista reproduz o valor: a regra do expurgo e outra.
 - **RGF Anexo 1 - rubricas — 2026 — Janeiro — Obrigações Patronais**: -138,865.10 de desvio (-0.05%). NAO e sinal invertido: a soma vencimentos + obrigacoes patronais fecha ao centavo nos oito meses (se fosse inversao, a soma mudaria em 2X). A causa esta no EXPURGO_PATRONAL: excluimos 11.641.413,58 em janeiro e o SIGEF exclui 11.502.548,48 — sempre a mais, e a diferenca e exatamente o X do mes. Nenhuma combinacao das 17 naturezas da lista reproduz o valor: a regra do expurgo e outra.
 - **RGF Anexo 1 - rubricas — 2026 — Fevereiro — Vencimentos, Vantagens e Outr**: 35,507.44 de desvio (+0.01%). NAO e sinal invertido: a soma vencimentos + obrigacoes patronais fecha ao centavo nos oito meses (se fosse inversao, a soma mudaria em 2X). A causa esta no EXPURGO_PATRONAL: excluimos 11.641.413,58 em janeiro e o SIGEF exclui 11.502.548,48 — sempre a mais, e a diferenca e exatamente o X do mes. Nenhuma combinacao das 17 naturezas da lista reproduz o valor: a regra do expurgo e outra.

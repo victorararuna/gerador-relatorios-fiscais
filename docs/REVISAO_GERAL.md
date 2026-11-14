@@ -2802,3 +2802,79 @@ desconhecida, dependem de um **recorte que nao foi extraido**.
 
 A leitura esta concluida. O que falta nao esta escrito em lugar nenhum do que
 temos: e uma extracao.
+
+
+### 17.68 A RCL e construivel — o mapeamento do MDF entregou as contas
+
+Ate a rodada 129 eu dizia: "a RCL e lida, nao calculada; falta o bloco de
+deducoes do RPPS de 1,23 bilhao, que nao existe na matriz".
+
+**Estava errado.** O mapeamento oficial
+`dados/mapeamentos/rreo/.../RREO - ANEXO 03 - RCL ... - MSC 2026.xlsx` traz, linha
+a linha, o filtro do Siconfi — e as deducoes nao estao na classe 4, e sim na
+**classe 6**:
+
+| linha da RCL | criterio do mapeamento |
+|---|---|
+| RECEITAS CORRENTES (I) | `6.2.1.2.0.00.00` com natureza de receita 1.x |
+| Dedução FUNDEB | conta `6.2.1.3.1.01.00` |
+| Transferências Constitucionais | conta `6.2.1.3.1.02.00` |
+| Contribuição do Servidor | natureza `1.2.1.5.x` |
+| Compensação entre Regimes | natureza `1.9.9.9.03` |
+| Rendimentos Previdenciários | natureza `1.3.2.1.04` |
+
+E a janela e de **12 meses** (MR-11 a MR), nao o mes isolado — outro detalhe que
+eu nao estava aplicando.
+
+### Resultado em 2025
+
+| componente | apurado | publicado | desvio |
+|---|---:|---:|---:|
+| Receitas Correntes (I) | 26.659.603.708,77 | 26.656.696.864,94 | +2.906.843,83 |
+| **Dedução FUNDEB** | **3.175.469.290,58** | **3.175.469.290,58** | **0,00** |
+| **Transferências Constitucionais** | **2.733.005.621,51** | **2.733.005.621,51** | **0,00** |
+| Contribuição do Servidor | 1.110.379.286,39 | 1.110.322.676,50 | +56.609,89 |
+| **Compensação entre Regimes** | **115.005.627,07** | **115.005.627,07** | **0,00** |
+| **Rendimentos Previdenciários** | **9.046.989,30** | **9.046.989,30** | **0,00** |
+| Deduções (II) | 7.142.906.814,85 | 7.142.850.204,96 | +56.609,89 |
+| **RCL (III)** | **19.516.696.893,92** | **19.513.846.659,98** | **+2.850.233,94** |
+
+**Quatro dos sete componentes fecham ao centavo.** A RCL fica a **0,0146%** do
+publicado.
+
+Em 2026-08 o desvio e ainda menor: RCL apurada 20.967.198.508,50 contra
+20.966.424.987,22 publicada — **0,0037%**.
+
+### O que sobra
+
+O desvio residual esta na **receita**: apuramos 2,9 milhoes a mais em 2025 e 854
+mil em 2026. As linhas conferidas item a item mostram por onde:
+
+| linha | desvio |
+|---|---:|
+| IRRF | **0,00** |
+| ICMS | +113.612,03 |
+| IPVA | +210.886,89 |
+| ITCD | +208.486,68 |
+
+Cada tributo sai um pouco acima — o que sugere que a receita inclui parcelas que o
+SIGEF nao conta (provavelmente **intra-orcamentarias**).
+
+### O que isso muda
+
+| antes | agora |
+|---|---|
+| RCL lida do arquivo publicado | **RCL construida da matriz** |
+| "falta o bloco de 1,23 bi" | **o bloco esta na classe 6 e fecha** |
+| RREO Anexo 3 dependia do publicado | **pode ser gerado antes de publicar** |
+
+O modulo `rcl_msc.py` faz a conta, e `tests/test_rcl_msc.py` garante que ela
+continua dentro de 0,02% — com as quatro deducoes exatas travadas em teste.
+
+### A licao
+
+O mapeamento da STN estava na pasta `dados/mapeamentos` desde o inicio. Eu tinha
+procurado a RCL no Comparativo, no balancete e nas planilhas do auditor — e nao
+no **mapeamento que a propria STN publica para a MSC**.
+
+O dado nao faltava: faltava eu olhar o arquivo certo.

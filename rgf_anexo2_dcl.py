@@ -184,18 +184,22 @@ CONTAS_DISPONIBILIDADE = (
 FONTES_RPPS = ("800", "801", "802")
 
 
-#: contas e fontes do RP processados, conforme a aba "RP_MSC" da planilha da equipe
-CONTAS_RP = ("6313", "6321")
+#: contas e fontes do RP processados, conforme as abas "RP" e "RP_MSC" da equipe
+CONTAS_RP = ("6313", "6321", "6221307")
 FONTES_RP_EXCLUIR = ("32", "46", "800", "801", "802")
+#: conta 8.6.3.2.2 — valor manual na aba "RP" (K21): "so tem saldo em caso de
+#: disponibilidade negativa". Nao sai da matriz; e insumo da equipe.
+CONTROLE_RP = 942_052_222.15
 
 
-def restos_a_pagar(ano: int = 2025, mes: int = 12) -> float:
+def restos_a_pagar(ano: int = 2025, mes: int = 12,
+                   controle: float = 0.0) -> float:
     """RP processados: 6.3.1.3 + 6.3.2.1, sem as fontes 32, 46, 800, 801 e 802.
 
     Metodo copiado da aba "RP_MSC" da planilha da equipe. Conferido: em
     agosto/2025 reproduz **684.383.327,91**, exatamente o publicado no
-    2o quadrimestre. Em dezembro nao fecha, porque o corte de exercicio muda o
-    conteudo da conta.
+    2o quadrimestre (com `controle=0`). Em dezembro, a equipe deduz tambem a
+    conta 8.6.3.2.2 (valor manual, `CONTROLE_RP`); sem ela a linha fica 1,73 bi.
     """
     import sys as _sys
 
@@ -212,7 +216,7 @@ def restos_a_pagar(ano: int = 2025, mes: int = 12) -> float:
         if (r.fr or "")[1:4] in FONTES_RP_EXCLUIR:
             continue
         total += r.liquido
-    return total
+    return total - controle
 
 
 def disponibilidade(ano: int = 2025, mes: int = 12) -> float:
@@ -321,7 +325,7 @@ def main() -> int:
         if not contas:
             continue
         if nome.startswith("(-) Restos a Pagar"):
-            v = restos_a_pagar()
+            v = restos_a_pagar(controle=CONTROLE_RP)
         elif nome.startswith("Disponibilidade de Caixa Bruta"):
             v = disponibilidade()
         elif nome.startswith("(-) Depósitos"):

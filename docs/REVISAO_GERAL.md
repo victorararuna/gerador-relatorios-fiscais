@@ -2046,3 +2046,61 @@ Anexo 7 ao lado e as conferências linha a linha.
 A aba "RP" tem os valores **por Poder**, mas os números são de **outro mês** (o
 `6321` vale 469.941.259,71 ali e 470.465.377,32 na MSC de dezembro). Para
 reproduzir o DCL de 31/12/2025 seria preciso rodar o mesmo relatório naquela data.
+
+
+### 17.51 RP Processados — a fórmula completa, e o que ela prova
+
+A aba "Base" aponta para `RP!K22`, e a aba "RP" mostra a conta:
+
+```
+K20 = SUM(K13:K19)          -> soma por Poder (1.694.111.739,40)
+K21 = 942.052.222,15        -> conta 8.6.3.2.2 (valor manual)
+K22 = K20 - K21             -> 752.059.517,25
+```
+
+A nota da célula K21 diz: *"Só tem saldo em caso de disponibilidade negativa"*.
+Isto é: o controle **não é sempre 942 milhões** — é um valor que aparece em
+situações específicas.
+
+### A fórmula implementada
+
+```
+RP = (6.3.1.3 + 6321 + 6.2.2.1.3.07, sem fontes 32/46/800/801/802)
+     - controle (8.6.3.2.2)
+```
+
+Com `controle=0`:
+
+| fechamento | apurado | publicado | diferença |
+|---|---:|---:|---:|
+| agosto/2025 | **684.383.327,91** | **684.383.327,91** | **0,00** |
+
+Com `controle = 942.052.222,15`:
+
+| fechamento | apurado | publicado | diferença |
+|---|---:|---:|---:|
+| dezembro/2025 | 788.629.587,54 | 750.866.596,13 | +37.762.991,41 (5,0%) |
+
+### O ganho em três rodadas
+
+| rodada | apurado | desvio |
+|---|---:|---:|
+| 97 | 3.306.229.590,47 | 2.555.362.994,34 |
+| 98 | 473.395.418,78 | 277.471.177,35 |
+| **100** | **788.629.587,54** | **37.762.991,41** |
+
+**68 vezes menor** que há três rodadas.
+
+### O que ainda sobra
+
+Os 37,8 milhões restantes têm uma causa provável e verificável: o controle
+`8.6.3.2.2` vale **942.052.222,15** na planilha da equipe, mas seria preciso
+**979.815.213,56** para fechar em dezembro. Ou seja: o valor do controle muda
+com a data, e o que temos é o de outro mês.
+
+É a mesma natureza do PAE do Anexo 4: um insumo externo, parametrizado e
+documentado, não uma regra que se deduza da matriz.
+
+O livro segue com **310 células, 307 exatas** — a linha ainda não fecha, mas o
+número agora está a 5% do publicado, com o método provado num período e a causa
+do resto identificada.

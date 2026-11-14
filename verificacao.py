@@ -154,7 +154,7 @@ def anexo2() -> list[dict]:
         if oficial is None:
             continue
         if nome.startswith("(-) Restos a Pagar"):
-            v = D.restos_a_pagar()
+            v = D.restos_a_pagar(controle=D.CONTROLE_RP)
         elif nome.startswith("Disponibilidade de Caixa Bruta"):
             v = D.disponibilidade()
         elif nome.startswith("(-) Depósitos"):
@@ -536,9 +536,10 @@ CAUSAS = (
     ("2026 — Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
     ("Restos a Pagar Processados",
-     "Metodo da aba RP_MSC: 6.3.1.3 + 6.3.2.1 sem as fontes 32/46/800/801/802. "
-     "Fecha ao centavo em agosto/2025. Em dezembro sobra 277.471.177,35: a "
-     "inscricao do exercicio ainda nao esta na conta no corte."),
+     "Formula da aba RP: 6.3.1.3 + 6321 + 6.2.2.1.3.07, sem fontes "
+     "32/46/800/801/802, menos a conta 8.6.3.2.2. Fecha ao centavo em agosto/2025 "
+     "com controle zero. Em dezembro sobram 37.762.991,41 porque o controle de "
+     "942.052.222,15 e de outro mes (precisaria ser 979.815.213,56)."),
 
 
     ("Aposentadorias civis", "Resolvido: a linha e o bruto menos o PAE "

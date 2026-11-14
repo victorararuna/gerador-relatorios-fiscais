@@ -1693,3 +1693,48 @@ Não é "o relatório de RP". É:
 
 Com isso a linha fecha — e a diferença de 2026 (0,28%) sugere que a mesma
 abertura resolve os dois anos.
+
+
+### 17.42 RP Processados — a seção conta o mesmo valor duas vezes
+
+Abrindo as quatro contas da seção da aba Base:
+
+| conta | valor |
+|---|---:|
+| 6.2.2.1.3.07.00 | 1.416.358.378,77 |
+| **6.3.2.7.0.00.00** | **1.416.358.378,77** |
+| 6.3.1.3.0.00.00 | 3.047.455,61 |
+| 6.3.2.1.0.00.00 | 470.465.377,32 |
+
+`6.2.2.1.3.07` e `6.3.2.7` têm **exatamente o mesmo valor** — são o empenho e o seu
+controle. Somar as duas duplica 1,4 bilhão, e é isso que produz os 3,3 bi.
+
+### E o estoque de RP tem ano de inscrição
+
+O `6.3.2.1` se distribui assim:
+
+| ano de inscrição | valor |
+|---|---:|
+| 2017 | 22.087,50 |
+| 2018 | 42.649.221,62 |
+| 2019 | 17.103.801,52 |
+| 2020 | 36.177.634,72 |
+| 2021 | 48.003.311,56 |
+| 2022 | 21.747.780,09 |
+| 2023 | 54.541.574,95 |
+| 2024 | 250.219.965,36 |
+| **total** | **470.465.377,32** |
+
+**Não há inscrição de 2025** nessa conta. O publicado é 750.866.596,13 — a
+diferença de 280.401.218,81 é, com alta probabilidade, a **inscrição de 2025**,
+que a essa altura ainda não estava nessa conta.
+
+Isso explica por que 2026 quase fecha (0,28%) e 2025 não: o corte de exercício.
+
+### O que pedir, agora com precisão
+
+> RP processados inscritos **em 2025** (o que foi inscrito em 1º/01/2026),
+> por Poder.
+
+Não é o saldo de anos anteriores — esse nós já temos (470,5 mi, por ano de
+inscrição).

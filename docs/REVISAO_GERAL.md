@@ -2388,3 +2388,50 @@ A linha **nao e um enigma**. E uma regra conhecida, com quatro parcelas:
 | AL/FDM | recorte que a MSC nao separa |
 
 As duas do meio sao as que faltam — e ambas vem do **mesmo relatorio**.
+
+
+### 17.60 O manual da equipe tem 302 conferencias — faziamos 22
+
+Descoberta da rodada 119: a `PLANILHA DE CONFERENCIAS ATUALIZADA` da equipe tem
+**40 abas**, e a aba `Conf. RGF SICONFxEXCEL` compara linha a linha cada anexo do
+RGF entre o Siconfi e o Excel deles.
+
+| anexo | linhas que o manual confere | nos conferiamos |
+|---|---:|---:|
+| Anexo 1 | 90 | 24 (+100 por Poder) |
+| Anexo 2 | 65 | 22 |
+| Anexo 3 | 42 | 1 |
+| Anexo 4 | 53 | 1 |
+| Anexo 6 | 52 | 4 |
+
+### O que ja foi absorvido
+
+**Anexo 2 — seis somas** (rodada 119): Emprestimos, Parcelamento e Divida
+Contratual fecham ao centavo; DC, DEDUCOES e DCL divergem por causa conhecida
+("Outras Dividas" nao tem lista de contas).
+
+**Anexo 6 — quatro linhas** (rodada 120): limite maximo, prudencial, alerta e DTP.
+Os tres limites fecham; o DTP herda o desvio de 2025.
+
+### O que o manual revelou sobre o RP
+
+A aba `RP` do relatorio oficial tem a formula inteira — e as exclusoes (coluna J)
+vem de **valores digitados**, do relatorio de execucao por fonte:
+
+| fonte | MSC (dez/2025) | equipe |
+|---|---:|---:|
+| 32 | 0,00 | 6.105.962,94 |
+| 46 | 0,00 | 31.819.653,82 |
+| 800 | 159.188.195,82 | 159.070.781,68 |
+| 802 | 1.206,19 | 1.206,18 |
+
+Os 37,9 milhoes que faltavam sao as fontes **32 e 46** — que no relatorio da
+equipe tem valor e na MSC de dezembro valem zero. Mais uma confirmacao de que os
+numeros deles sao de **outra data**.
+
+### O caminho daqui
+
+O manual e um roteiro. Cada anexo tem dezenas de linhas que ainda nao conferimos,
+e muitas sao **somas** das parcelas que ja apuramos — como as seis do Anexo 2.
+Implementar as somas nao fecha celula nova por apuracao: **verifica se a parcela
+esta na linha certa**, que e um erro que a conferencia linha a linha nao pega.

@@ -86,6 +86,12 @@ def main() -> int:
     lim6 = A6.limites(rcl)
     checar("RGF Anexo 6: limite máximo (49%)",
            lim6["maximo"], 9_558_650_048.47, 0.0)
+    checar("RGF Anexo 6: limite prudencial (46,55%)",
+           lim6["prudencial"], 9_080_717_546.05, 0.0)
+    checar("RGF Anexo 6: limite de alerta (44,10%)",
+           lim6["alerta"], 8_602_785_043.62, 0.0)
+    checar("RGF Anexo 6: despesa total com pessoal (DTP)",
+           v["III"], 11_004_331_905.62, 0.0)
 
     # 5. RREO Anexo 2 — total por função
     import rreo_anexo2 as R2

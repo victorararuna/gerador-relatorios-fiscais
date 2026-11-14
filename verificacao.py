@@ -627,6 +627,10 @@ CAUSAS = (
      "Herda as duas anteriores: falta 'Outras Dividas' na DC e sobra o RP sem "
      "disponibilidade nas deducoes. As duas parcelas sao o mesmo valor visto de "
      "dois lados."),
+    ("RGF Anexo 6: despesa total com pessoal (DTP)",
+     "DTP de 2025 apurada pela MSC (despesa liquida do Anexo 1), nao pela MAPA do "
+     "SIGEF. Desvio de +82,1 mi (+0,75%): mesma causa das duas linhas de 2025 do "
+     "Anexo 1 — a MSC nao identifica a parcela intra-orcamentaria."),
     ("Restos a Pagar Processados",
      "Formula da aba RP: 6.3.1.3 + 6321 + 6.2.2.1.3.07, sem fontes "
      "32/46/800/801/802, menos a conta 8.6.3.2.2. Fecha ao centavo em agosto/2025 "

@@ -1,5 +1,14 @@
 # Plano operacional — gerar os relatórios com três documentos
 
+> **Documento histórico.** Os números abaixo **não valem mais**: o Anexo 1 passou
+> a fechar em 10 de 10 meses, o Anexo 5 chegou a 90 de 90 células e a DCL está em
+> 15 de 16 linhas.
+>
+> **Para o estado atual, leia [`REVISAO_GERAL.md`](REVISAO_GERAL.md), seção 2.**
+
+---
+
+
 Resposta à pergunta: **sim, dá para ajudar nesse propósito.** Abaixo está o que a
 ferramenta já faz, o que cada documento destrava e o que ainda depende de decisão
 sua.

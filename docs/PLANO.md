@@ -1,5 +1,16 @@
 # Plano de trabalho — Aplicação de Relatórios Fiscais do RN (MDF/Siconfi)
 
+> **Documento histórico.** Escrito em 11/11/2026, quando o plano era uma
+> **aplicação de mesa com interface**. O que existe hoje é diferente: um conjunto
+> de módulos de apuração com livro de verificação, sem interface gráfica.
+>
+> Números e fases abaixo **não descrevem o estado atual**.
+>
+> **Para o estado atual, leia [`REVISAO_GERAL.md`](REVISAO_GERAL.md), seção 2.**
+
+---
+
+
 **Situação:** fases 1 e 2 concluídas (núcleo gerador, conferência, interface e catálogo de rótulos).
 **Cobertura:** 12 demonstrativos por período (RREO 1, 2, 3, 4, 6, 7, 13 e RGF 1, 2, 3, 4, 6).
 **Data:** 11/11/2026 · **Ente:** 24 – Rio Grande do Norte · **Instituição:** 171 – Governo do Estado

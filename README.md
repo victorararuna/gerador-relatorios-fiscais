@@ -86,12 +86,13 @@ bater com o GND 31 — e bate.
 
 ## O que falta
 
-| item | depende de |
-|---|---|
-| RGF Anexo 2 — RP processados | relatório "Execução Orçamentária por Fonte" (bloco de RP), por Poder |
-| RGF Anexo 2 — Disponibilidade e Haveres | **fechadas**; resta a abertura de 8 segmentos dos Depósitos |
-| RCL | é **lida** do Anexo 3: o bloco RPPS de deduções não existe na matriz |
-| RREO Anexo 4 — 2 linhas | classificação fina de naturezas (0,02% e 0,15%) |
+| item | valor | depende de |
+|---|---:|---|
+| **RGF Anexo 2 — RP processados** | 2,56 bi | saldo de RP processados em **31/12/2025**, conta `6.3.2.1.1`, por Poder e fonte |
+| **RGF Anexo 1 — abril** | 5.241,65 | par de anulação/re-empenho; causa apontada, imaterial (0,0008%) |
+| RCL | — | é **lida** do Anexo 3: o bloco RPPS de deduções não existe na matriz |
+
+Todo o resto fecha: **307 de 310 células** contra os arquivos publicados.
 
 ---
 

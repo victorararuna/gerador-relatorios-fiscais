@@ -1,0 +1,12 @@
+# Normaliza fim de linha no repositorio inteiro.
+#
+# Sem isto, salvar um arquivo com CRLF e outro com LF produz diffs enormes que
+# escondem a mudanca real — foi o que aconteceu ao inserir banners em documentos
+# antigos: 396 linhas alteradas para 10 de conteudo novo.
+* text=auto eol=lf
+
+# Binarios: nao tocar
+*.pdf binary
+*.png binary
+*.xlsx binary
+*.xls binary

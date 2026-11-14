@@ -450,6 +450,54 @@ def anexo2_somas() -> list[dict]:
     return [_linha(rotulo, valor, of[chave]) for rotulo, valor, chave in pares if chave in of]
 
 
+def anexo4_2025() -> list[dict]:
+    """A cadeia do Anexo 4 de 2025 (operacoes de credito), contra o CSV.
+
+    O arquivo publica 19 linhas: as operacoes contratadas, a cadeia da RCL e os
+    tres limites. As operacoes em si saem do Anexo 9 do RREO, que ja confere.
+    """
+    import app.anexo3_msc as A3
+    import app.anexo4_msc as A4
+    import rreo_anexo9 as A9
+
+    arq = os.path.join(SICONFI, "rgf", "RGF_RGF-Anexo_04_24_2025_p3.csv")
+    if not os.path.exists(arq):
+        return []
+    linhas_csv = list(csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"))
+
+    def ref(prefixo: str, coluna: str) -> float:
+        for r in linhas_csv:
+            if r["conta"].strip().startswith(prefixo) and r["coluna"].strip().startswith(coluna):
+                return float(r["valor"])
+        return 0.0
+
+    rcl = A3.ler_rcl(os.path.join(SICONFI, "rreo", "RREO_RREO-Anexo_03_24_2025_p6.csv"))
+    lim = A4.limites(rcl)
+    op = A9.receita()
+    ajust = rcl.ajustada_endividamento
+
+    pares = (
+        ("RCL (IV)", rcl.rcl, ref("RECEITA CORRENTE LÍQUIDA - RCL", "VALOR")),
+        ("(-) Transferências obrigatórias", rcl.rcl - ajust,
+         ref("(-) Transferências", "VALOR")),
+        ("RCL ajustada", ajust,
+         ref("RECEITA CORRENTE LÍQUIDA AJUSTADA", "VALOR")),
+        ("Operações contratadas — até o quadrimestre", op["realizadas"],
+         ref("TOTAL (III)", "Até o Quadrimestre")),
+        ("Operações — % sobre a RCL ajustada",
+         100.0 * op["realizadas"] / ajust if ajust else 0.0,
+         ref("TOTAL CONSIDERADO", "% SOBRE")),
+        ("Limite geral (16%)", lim["geral"],
+         ref("LIMITE GERAL", "VALOR")),
+        ("Limite de alerta (14,4%)", lim["alerta"],
+         ref("LIMITE DE ALERTA", "VALOR")),
+        ("Limite para ARO (7%)", lim["aro"],
+         ref("LIMITE DEFINIDO POR RESOLUÇÃO DO SENADO FEDERAL PARA AS OP", "VALOR")),
+    )
+    return [_linha(f"Anexo 4 — {rotulo}", valor, esperado)
+            for rotulo, valor, esperado in pares if esperado]
+
+
 def anexo3_2025() -> list[dict]:
     """A cadeia do Anexo 3 de 2025 (garantias), contra o CSV publicado.
 
@@ -620,6 +668,7 @@ FONTES = OrderedDict((
     ("RGF Anexo 2 - somas", anexo2_somas),
     ("RGF Anexo 6 - 2025", anexo6_2025),
     ("RGF Anexo 3 - 2025", anexo3_2025),
+    ("RGF Anexo 4 - 2025", anexo4_2025),
     ("RGF Anexo 5", anexo5),
     ("RREO Anexo 9", anexo9),
     ("RREO Anexo 13", anexo13),

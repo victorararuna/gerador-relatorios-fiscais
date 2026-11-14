@@ -2484,3 +2484,62 @@ E o mesmo tipo de armadilha do Anexo 4 ("Pensoes" duas vezes) e do Anexo 6
 
 E, das 37 do manual, 32 sao garantias zeradas — nao ha o que conferir contra o
 CSV, porque o CSV nao as publica.
+
+
+### 17.62 Anexo 4 — oito de oito, e o que o CSV nao publica
+
+O manual confere **53 linhas** no Anexo 4. O CSV publicado tem **19**.
+
+O que passou a ser conferido:
+
+| linha | apurado | publicado |
+|---|---:|---:|
+| RCL (IV) | 19.513.846.659,98 | 19.513.846.659,98 |
+| (−) Transferencias obrigatorias | 4.499.856,06 | 4.499.856,06 |
+| RCL ajustada | 19.509.346.803,92 | 19.509.346.803,92 |
+| Operacoes contratadas ate o quadrimestre | 2.491.012,67 | 2.491.012,67 |
+| Operacoes — % sobre a RCL ajustada | 0,01 | 0,01 |
+| Limite geral (16%) | 3.121.495.488,63 | 3.121.495.488,63 |
+| Limite de alerta (14,4%) | 2.809.345.939,76 | 2.809.345.939,76 |
+| Limite para ARO (7%) | 1.365.654.276,27 | 1.365.654.276,27 |
+
+**Oito de oito.**
+
+### As 45 linhas que sobram
+
+As operacoes de credito do RN em 2025 sao de **R$ 2.491.012,67** — 0,01% da RCL.
+O valor e tao pequeno que o demonstrativo detalhado (contratual, interna,
+emprestimos, por Poder) se reduz a tres linhas repetindo o mesmo numero.
+
+O CSV traz `Contratual`, `Interna`, `Emprestimos` e `TOTAL (III)` com **o mesmo
+valor**, em duas colunas. E o manual confere cada uma delas separadamente.
+
+### O padrao que se repete nos tres anexos
+
+| anexo | linhas no manual | linhas no CSV | o que sobra |
+|---|---:|---:|---|
+| 3 — garantias | 37 | 20 | garantias zeradas |
+| 4 — operacoes | 53 | 19 | tres linhas repetidas |
+| 6 — resumo | 52 | 23 | repete os outros anexos |
+
+Nos tres, boa parte do que o manual confere **nao existe no arquivo publicado** —
+porque e zero, e repeticao, ou e resumo de outro anexo.
+
+### Onde o manual rende de verdade
+
+Rendeu nos Anexos 2 e 6, onde as linhas sao **somas** — e uma soma quebrada
+denuncia classificacao errada. Nos Anexos 3 e 4, o rendimento veio da **cadeia da
+RCL e dos limites**, que sao calculaveis e se repetem em todos eles.
+
+### Placar dos anexos do RGF, com os manuais
+
+| anexo | antes | agora |
+|---|---:|---:|
+| 1 | 24 | 24 (+100 por Poder) |
+| 2 | 16 | **22** |
+| 3 | 1 | **5** |
+| 4 | 1 | **8** |
+| 5 | 90 | 90 |
+| 6 | 1 | **10** |
+
+O livro passou de 310 para **337 celulas**, com **328 exatas**.

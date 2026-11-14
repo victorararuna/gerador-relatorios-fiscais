@@ -1666,3 +1666,30 @@ mesma questão.
 **A seção da aba Base, porém, soma quatro contas** — e é isso que produz os 3,3
 bi. A conta certa é a `6.3.2.1.0` (ou a `6.3.2.1.1`), não as contas-pai mais a
 conta de empenho.
+
+
+### 17.41 RP Processados — a subconta melhora o 2026
+
+Abrindo as subcontas do balancete de agosto/2026:
+
+| conta | valor | contra 640.153.394,98 |
+|---|---:|---:|
+| 6.3.2.1.0 (pai) | 642.884.502,84 | +2.731.107,86 (0,43%) |
+| **6.3.2.1.1** | **638.351.717,58** | **−1.801.677,40 (0,28%)** |
+| 6.3.2.1.2 | 4.532.785,26 | — |
+| 6.3.1.3.1 | 11.099.351,41 | — |
+
+A `6.3.2.1.1` é **exatamente** o saldo de RP processados do RREO Anexo 7 de
+2026 — e é a que mais se aproxima do DCL (0,28%).
+
+Em 2025 ela dá 470.465.377,32 contra 750.866.596,13 — a mesma distância de 37%.
+Ou seja: **a conta está certa; o que falta em 2025 é a consolidação dos Poderes.**
+
+### O que pedir, então
+
+Não é "o relatório de RP". É:
+
+> o saldo de RP processados (conta 6.3.2.1.1) **por Poder**, em 31/12/2025.
+
+Com isso a linha fecha — e a diferença de 2026 (0,28%) sugere que a mesma
+abertura resolve os dois anos.

@@ -160,3 +160,46 @@ O dado está na matriz. O que falta é a **extração por subação e fonte** �
 ---
 
 *Cruzamento das três fontes, rodada 132.*
+
+
+---
+
+## 10. O MAPA do auditor — o gabarito completo (rodada 145)
+
+Faltava um documento: a aba **`Mapeamento`** do `RGF 2025_Q3_01 - DEMONSTRATIVO DA
+DESPESA COM PESSOAL.xlsx`. Ela nao e um mapeamento de contas — e o **MAPA do
+auditor**, a memoria de calculo linha a linha, com o valor de cada mes.
+
+**340 linhas, 324 com valor.** Extraido para `dados/benchmarks/anexo1_2025_mapa.json`.
+
+### O que ele mostra
+
+| linha | rotulo | janeiro | ano |
+|---|---|---:|---:|
+| 4 | **OBRIGACOES PATRONAIS; INATIVOS E PENSIONISTAS DOS PODERES** | **289.358.696,13** | — |
+| 5 | GND 31 SIGEF | 1.100.407.900,09 | — |
+| 6 | DESPESA BRUTA COM PESSOAL (I) | 811.049.203,96 | **15.478.621.265,08** |
+| 7 | Pessoal Ativo | 594.245.174,31 | — |
+| 8 | Vencimentos | 426.026.503,19 | **6.552.405.214,64** |
+| 101 | Obrigacoes Patronais | 168.218.671,12 | **2.405.400.638,81** |
+| 250 | Decisoes judiciais | 1.245.845,89 | — |
+| 262 | DEA | 46.473.885,54 | — |
+| 274 | Inativos e Pensionistas com Recursos Vinculados | 237.630.833,96 | **3.538.152.718,10** |
+
+### O que isso revela
+
+A linha 4 — o expurgo — vale **289.358.696,13 em janeiro**, nao 11,6 milhoes.
+
+Ela **nao e so a patronal**: e "obrigacoes patronais **e** inativos e pensionistas
+dos Poderes". O expurgo dos inativos (que vem do IEO por subacao) esta na **mesma
+linha** do expurgo patronal.
+
+O nosso codigo trata os dois separadamente — a patronal no `EXPURGO_PATRONAL` e os
+inativos dentro de aposentadorias/pensoes. Por isso o split diverge: **estamos
+comparando partes diferentes de uma linha que o auditor totaliza.**
+
+### O proximo passo
+
+Comparar as 324 linhas com a nossa apuracao, uma a uma. A primeira diferenca que
+aparecer aponta a regra que falta — e agora ha um gabarito por linha, nao so por
+total.

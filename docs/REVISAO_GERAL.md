@@ -1807,3 +1807,42 @@ pesou. Em dezembro é grande (37%) porque é exatamente o momento do corte.
 > inscrição do exercício e excluindo o que já foi pago, por Poder e por fonte.
 
 É a mesma linha que o Estado publica; o que falta é a abertura que a produz.
+
+
+### 17.45 RGF de 2026 — os dois quadrimestres
+
+Os arquivos de 2026 existem para o 1º e o 2º quadrimestres. Conferindo as três
+linhas da DCL que saem da matriz:
+
+| linha | Q1 (abril) | Q2 (agosto) |
+|---|---:|---:|
+| Disponibilidade de caixa bruta | 2.025.641.419,41 | 2.179.696.115,59 |
+| (−) Depósitos restituíveis | 925.488.506,04 | 1.055.257.817,55 |
+| Demais haveres financeiros | — | 266.702.621,21 |
+
+Todas exatas nos dois fechamentos.
+
+O Q1 acrescentou três células e o livro passou a **310 células, 307 exatas
+(99,0%)**.
+
+### O que isso mostra sobre a regra
+
+As mesmas três funções — `disponibilidade(ano, mes)`, `depositos(ano, mes)` e
+`apurar_msc(..., ano, mes)` — servem para abril e para agosto, e servirão para
+dezembro. A regra não é do período: é da conta.
+
+### Onde o projeto está, aos 90 rounds
+
+| item | situação |
+|---|---|
+| leitor do formato longo | pronto, com testes |
+| RGF Anexo 1 por Poder | 100 de 100 |
+| RGF Anexos 3, 4, 5, 6 | fechados |
+| RGF Anexo 2 | **15 de 16** (falta o RP processados de 2025) |
+| RREO 1, 2, 3, 4, 7, 9, 13, 14 | fechados, 2025 e 2026 |
+| livro de verificação | 310 células, 307 exatas |
+| auditoria da régua | 24 valores conferidos contra os arquivos |
+| testes | 76, em 11 arquivos |
+
+**O que falta:** uma linha — RP processados em 31/12/2025, por Poder e fonte —
+e as duas células de abril de 2026, cuja causa é um par de anulação de 5.241,65.

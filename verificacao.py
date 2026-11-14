@@ -518,11 +518,10 @@ def gerar(caminho: str | None = None) -> str:
 
 #: causa documentada de cada divergencia conhecida (prefixo do item -> texto)
 CAUSAS = (
-    ("Abril — I", "Empenho de marco liquidado em abril sem complemento. O "
-                  "homologado segue o SIGEF; a planilha e o motor mantem o liquidado."),
-    ("Abril — III", "Idem: decorre da mesma diferenca em I."),
-    ("Demais Dívidas Contratuais", "O RN publica zero nessa linha e aloca o valor em "
-                                   "'Outras Dividas' - decisao de classificacao do ente."),
+    ("Abril — I", "Diferenca de 5.241,65 na despesa EMPENHADA de abril: um empenho "
+                  "que o homologado traz e a leitura do Comparativo nao captura. A "
+                  "linha II (nao computadas) fecha exata, logo nao e classificacao."),
+    ("Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
     ("Restos a Pagar Processados", "Exige o relatorio 'Execucao Orcamentaria por Fonte' "
                                    "(bloco de RP) por Poder, com a dimensao fonte de recursos."),

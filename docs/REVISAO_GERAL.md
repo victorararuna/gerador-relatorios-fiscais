@@ -49,7 +49,7 @@ está na planilha da equipe, não no CSV do Siconfi.**
 | item | desvio | depende de |
 |---|---:|---|
 | **RGF Anexo 2 — RP Processados** | 2,56 bi | relatório "Execução Orçamentária por Fonte" (bloco de RP), por Poder |
-| **RGF Anexo 1 — abril** | 5.241,65 | empenho de março liquidado em abril; documentado, não é erro |
+| **RGF Anexo 1 — abril** | 5.241,65 | na despesa **empenhada**: a linha II (não computadas) fecha exata, logo não é classificação. Não é um empenho único — busquei 5.241,65 na matriz de abril e não existe. Imaterial (0,0008%). |
 | RCL | — | é lida do Anexo 3: o bloco RPPS de deduções não existe na matriz |
 
 Fora esses, **todos os anexos fecham**: 298 de 301 células exatas.

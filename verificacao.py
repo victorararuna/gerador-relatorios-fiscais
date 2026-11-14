@@ -795,10 +795,12 @@ def gerar(caminho: str | None = None) -> str:
 #: soma das duas (Pessoal Ativo) fecha ao centavo. O valor migra de uma para a
 #: outra — e um item classificado como vencimento que o SIGEF poe em patronal.
 CAUSA_SPLIT = (
-    "A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em "
-    "todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo "
-    "valor aparece com sinais opostos — um item que classificamos como vencimento e "
-    "o SIGEF classifica como contribuicao patronal. O total nao e afetado.")
+    "NAO e sinal invertido: a soma vencimentos + obrigacoes patronais fecha ao "
+    "centavo nos oito meses (se fosse inversao, a soma mudaria em 2X). A causa "
+    "esta no EXPURGO_PATRONAL: excluimos 11.641.413,58 em janeiro e o SIGEF "
+    "exclui 11.502.548,48 — sempre a mais, e a diferenca e exatamente o X do mes. "
+    "Nenhuma combinacao das 17 naturezas da lista reproduz o valor: a regra do "
+    "expurgo e outra.")
 
 #: causa documentada de cada divergencia conhecida (prefixo do item -> texto)
 CAUSAS = (

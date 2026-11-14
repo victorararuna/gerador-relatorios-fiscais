@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **13/11/2026 22:41** a partir do código no commit `05c1c3d` (branch `main`).
+Emitido em **13/11/2026 22:48** a partir do código no commit `7b1a37c` (branch `main`).
 
-Último commit: *Certificado: ressalvas geradas do estado, nao escritas a mao*
+Último commit: *rodar_testes.py: prova quantos testes executam e quantos pulam*
 
 ---
 
@@ -66,7 +66,7 @@ As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própr
 | `test_coerencia.py` | README, planilha e .md discordarem |
 | `test_verificacao.py` | divergência ficar sem causa escrita |
 
-Suíte: **79 testes definidos em 11 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
+Suíte: **81 testes definidos em 11 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
 
 ---
 

@@ -92,6 +92,35 @@ class TestCoerencia(unittest.TestCase):
                          f"certificado diz {cert[0]} de {cert[1]}; "
                          f"a planilha diz {livro[0]} de {livro[1]}")
 
+    def test_readme_percentual(self):
+        """O percentual do README tem de ser o da conta, nao um numero lembrado."""
+        import re
+
+        with open(README, encoding="utf-8") as fh:
+            texto = fh.read()
+        m = re.search(r"(\d+) de (\d+) células exatas\*\* \(([\d,]+)%\)", texto)
+        if not m:
+            self.skipTest("README nao declara o percentual")
+        exatas, total, declarado = int(m.group(1)), int(m.group(2)), m.group(3)
+        esperado = f"{100 * exatas / total:.1f}".replace(".", ",")
+        self.assertEqual(declarado, esperado,
+                         f"README diz {declarado}%; a conta da {esperado}%")
+
+    def test_readme_numero_de_abas(self):
+        """O "N abas" do README tem de bater com o livro."""
+        import re
+        from openpyxl import load_workbook
+
+        with open(README, encoding="utf-8") as fh:
+            texto = fh.read()
+        m = re.search(r"em (\d+) abas de", texto)
+        if not m:
+            self.skipTest("README nao declara o numero de abas")
+        declarado = int(m.group(1))
+        real = len(load_workbook(LIVRO, data_only=True).sheetnames)
+        self.assertEqual(declarado, real,
+                         f"README diz {declarado} abas; o livro tem {real}")
+
     def test_readme_conta_do_anexo2(self):
         """O "15 de 16" do README tem de bater com a apuracao do Anexo 2.
 

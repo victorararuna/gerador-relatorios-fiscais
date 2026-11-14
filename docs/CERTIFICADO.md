@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 12:32** a partir do código no commit `a3238d6` (branch `main`).
+Emitido em **14/11/2026 12:36** a partir do código no commit `309ca8a` (branch `main`).
 
-Último commit: *As 26 causas revistas: o que se sabe agora, nao o que se supunha*
+Último commit: *RREO Anexo 6: a receita de capital fecha; o resto e dimensao que falta*
 
 ---
 

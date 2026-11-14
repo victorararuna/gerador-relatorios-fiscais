@@ -2691,3 +2691,66 @@ Anexo 1** que o Siconfi publica separadas.
 A regra do expurgo patronal — provavelmente por fonte, no mesmo relatorio de
 execucao por fonte que fecharia o RP. Se assim for, **um unico arquivo resolve as
 duas frentes**: 18 das 26 divergencias.
+
+
+### 17.66 As planilhas do auditor — inventario completo
+
+Tres arquivos, 40 abas cada, mesma estrutura (2º bi, 4º bi e base):
+
+| grupo | abas | o que sao |
+|---|---|---|
+| `A 01-Rec` a `A 14` | 15 | o layout de cada anexo do RREO, preenchido |
+| `Conferência RREO` | 1 | a tabela de conferencia entre anexos |
+| `S_A01` a `S_A14` | 9 | o mesmo anexo no padrao Siconfi |
+| `Conf. SICONFI x EXCEL` | 1 | **966 linhas** — RREO linha a linha |
+| `Anexo 1` a `Anexo 6` | 6 | o layout de cada anexo do RGF |
+| `Conferência RGF` | 1 | conferencia entre anexos do RGF |
+| `S_RGF 01` a `S_RGF 06` | 5 | o mesmo anexo no padrao Siconfi |
+| `Conf. RGF SICONFxEXCEL` | 1 | **302 linhas** — RGF linha a linha |
+| `Conferência RREO x RGF` | 1 | confere RREO contra RGF |
+
+### O que a conferencia cobre
+
+| bloco | linhas | divergencias do proprio auditor |
+|---|---:|---:|
+| RREO | **966** | **0** |
+| RGF | **302** | **10** |
+
+As 10 divergencias do auditor sao todas em **percentuais** e no **Anexo 6** — as
+mesmas que aparecem na aba "Conferência RGF".
+
+### O que ja foi lido a fundo
+
+| aba | o que rendeu |
+|---|---|
+| `Conf. RGF SICONFxEXCEL` | as 302 linhas do RGF, por anexo |
+| `Conferência RGF` | as conferencias cruzadas (Anexo 2 x 3, 1 x 6, 2 x 6) |
+| `Conferência RREO x RGF` | a RCL do RREO contra a do RGF |
+| `RP` (no workbook do RGF 2025) | a formula do RP e as exclusoes por fonte |
+| `CONTAS`, `Notas`, `Base` | a conta 8.6.3.2.2 e a Nota 4 |
+
+### O que ainda nao foi lido
+
+| aba | por que ainda nao rendeu |
+|---|---|
+| `A 01-Rec` (997 linhas) | e o RREO de **2024**; nao serve para 2025/2026 |
+| `A 01-Desp` (997) | idem |
+| `A 02` a `A 14` | idem |
+| `S_A*`, `S_RGF*` | sao os mesmos anexos no padrao Siconfi de 2024 |
+
+### A conclusao honesta
+
+As planilhas do auditor sao a conferencia de **2024**. O que elas tem de
+reaproveitavel — a **estrutura** da conferencia (somas, limites, cadeia da RCL) —
+ja foi absorvido nas rodadas 119 a 124, e rendeu 80 celulas novas.
+
+O que elas **nao** tem e o dado de 2025/2026: nem a conta 8.6.3.2.2 de
+31/12/2025, nem o expurgo patronal por fonte.
+
+### A pista que sobra nelas
+
+A aba `A 01-Desp` (997 linhas) tem a **despesa por natureza e fonte** do RREO de
+2024. Se a estrutura dela mostrar como o Siconfi separa a patronal por fonte,
+pode indicar o criterio do expurgo — mesmo sendo de outro ano.
+
+E a proxima leitura que vale a pena.

@@ -122,5 +122,11 @@ anexo listados acima.
 ## Dados
 
 As pastas `dados/`, `saida/` e `MDF_STN/` **não são versionadas** (`.gitignore`):
-contêm matrizes e relatórios do Estado. O repositório tem só código e
-documentação — nenhum dado fiscal.
+contêm matrizes e relatórios do Estado.
+
+Conferido em 13/11/2026: o repositório tem **133 arquivos `.py` e 63 `.md`**, mais
+três `.bat` e dois PDFs de leiaute da STN — **nenhum CSV, planilha ou PDF de
+dado fiscal**. O clone inteiro tem 1,8 MB.
+
+Os únicos arquivos de dado são os dois leiautes em `docs/_apoio/` (formato da MSC),
+que são públicos.

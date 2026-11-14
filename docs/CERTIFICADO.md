@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 12:46** a partir do código no commit `d4b240c` (branch `main`).
+Emitido em **14/11/2026 12:52** a partir do código no commit `ac484c9` (branch `main`).
 
-Último commit: *Nenhuma divergencia sem causa — e agora e teste*
+Último commit: *certificado: contagem e data*
 
 ---
 

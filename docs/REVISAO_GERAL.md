@@ -2878,3 +2878,82 @@ procurado a RCL no Comparativo, no balancete e nas planilhas do auditor — e na
 no **mapeamento que a propria STN publica para a MSC**.
 
 O dado nao faltava: faltava eu olhar o arquivo certo.
+
+
+### 17.69 Anexo 1 — o mapeamento oficial tem a regra, e o filtro de Poder e decisivo
+
+O arquivo `dados/mapeamentos/rgf/RGF - PARTE IV - MDF 15ª EDIÇÃO/RGF - ANEXO 1 -
+Despesas com Pessoal ... - MSC 2026.xlsx` tem quatro abas: primeiro/segundo
+quadrimestre e terceiro, cada um para o **Poder Executivo** e para os **Demais
+Poderes**.
+
+### O que a regra diz
+
+**Contas.** A despesa de pessoal nao sai de toda a classe 6 — sai de tres contas:
+
+| conta | o que e |
+|---|---|
+| `6.2.2.1.3.03.00` | credito empenhado liquidado **a pagar** |
+| `6.2.2.1.3.04.00` | credito empenhado liquidado **pago** |
+| `6.2.2.1.3.07.00` | empenhos liquidados inscritos em **RP processados** |
+
+**Filtro de Poder.** No Executivo: `PO começada por (Lista): 10,60`. Nas abas dos
+Demais Poderes, nao ha filtro de PO — cada aba e um Poder.
+
+**Filtro de natureza.** Posicional, nao por lista:
+
+| rubrica | modalidade (pos. 3-4) | elemento (pos. 5-6) |
+|---|---|---|
+| Vencimentos | `30,70,80,90,91,95,96` | `04,08,11,12,16,17,41,46,49,67,96,99` |
+| Obrigacoes Patronais | `90,91,95,96` | `07,13` |
+
+Com excecoes e adicoes: `31900415` **sai** de vencimentos e **entra** em patronal.
+E ha um bloco "EXCETO CO" (linhas sem complemento) que subtrai naturezas.
+
+### O efeito de cada filtro
+
+Aplicando a regra a janeiro/2026, com as tres contas:
+
+| filtro aplicado | vencimentos apurado | publicado | desvio |
+|---|---:|---:|---:|
+| nenhum (toda a classe 6) | 1.194.610.698,33 | 648.854.208,10 | **+84%** |
+| so as tres contas | 706.530.074,16 | 648.854.208,10 | **+9%** |
+| tres contas **+ PO 10,60** | 652.029.045,25 | 648.854.208,10 | **+0,49%** |
+
+**O filtro de Poder era o que faltava.** Sem ele, o erro e de 9% — e a apuracao
+atual (que usa o Comparativo) nao o aplica porque o PDF ja vem por Poder.
+
+### O que ainda falta
+
+| item | situacao |
+|---|---|
+| bloco "EXCETO CO" | nao implementado — as celulas tem o texto, falta extrair |
+| marco/2026 | desvio de −71,4 mi: precisa investigacao propria |
+| patronal | ainda +5% — as adicoes da lista nao foram aplicadas |
+
+### O que ficou pronto
+
+| arquivo | o que e |
+|---|---|
+| `extrair_regras_anexo1.py` | le as celulas do mapeamento e grava as listas |
+| `dados/mapeamentos/anexo1_regras.json` | 68 NDs de vencimentos, 18 de patronal, 31 de aposentadorias, 12 de pensoes |
+
+### A conclusao
+
+O caminho para fechar o Anexo 1 e claro e esta mapeado: **tres contas + filtro de
+Poder + filtro posicional + listas de excecao**. Cada filtro ja foi medido
+isoladamente, e o maior salto (de 9% para 0,5%) veio do Poder.
+
+E o mesmo tipo de erro que o expurgo patronal: a apuracao atual usa o Comparativo,
+que **ja vem agregado**, e por isso perde a dimensao que o Siconfi usa para separar
+as linhas.
+
+### O padrao dos dois achados
+
+| frente | o que faltava |
+|---|---|
+| RCL | as contas estao na **classe 6**, nao na 4 |
+| Anexo 1 | o **filtro de Poder** (PO 10,60) |
+
+Nos dois casos, o mapeamento da STN tinha a resposta — e nos dois casos eu estava
+olhando o relatorio errado.

@@ -3125,3 +3125,91 @@ padrao dos dois desvios.
 4. cada rubrica tem doze meses.
 
 Se alguem trocar o arquivo ou o CSV, o teste quebra.
+
+
+### 17.72 A linha 251 — a regra do sinal, confirmada nos dois anos
+
+A "Despesa com Pessoal não Executada Orçamentariamente" sai das contas
+`8.6.3.3.1.01.00.00` (salários) e `8.6.3.3.1.02.00.00` (13º), pelo movimento
+**credor menos devedor**. Agora ela e apurada pela **matriz**, sem PDF.
+
+### 2025 — doze meses, todos exatos
+
+Contra a aba `CONFERÊNCIAS` do `RGF 2025_Q3_01`:
+
+| mes | apurado | gabarito | desvio |
+|---|---:|---:|---:|
+| Janeiro | −252.032.455,16 | −252.032.455,16 | **0,00** |
+| Fevereiro | −4.726.072,94 | −4.726.072,94 | **0,00** |
+| Março | −58.212.394,89 | −58.212.394,89 | **0,00** |
+| Abril | −139.972.178,06 | −139.972.178,06 | **0,00** |
+| Maio a Novembro | 0,00 | 0,00 | **0,00** |
+| Dezembro | 622.454.793,84 | 622.454.793,84 | **0,00** |
+
+**Desvio absoluto total: zero.**
+
+### 2026 — cinco meses, todos exatos
+
+| mes | apurado | publicado |
+|---|---:|---:|
+| Janeiro | 3.527.816,53 | 3.527.816,53 |
+| Fevereiro | 92.547,22 | 92.547,22 |
+| Março | −89.546,82 | −89.546,82 |
+| Abril | −624.713.040,31 | −624.713.040,31 |
+| Maio | −1.272.570,46 | −1.272.570,46 |
+
+O valor de abril e exatamente o que o manual do etonjones cita como o correto
+(−624.713.040,31), depois de devolver os 1.337.759,24.
+
+### O que so apareceu ao conferir: o expurgo tem sinal
+
+O valor de 1.337.759,24 e a patronal do 13º dos demais Poderes. O sinal depende de
+**onde ela esta no mes**:
+
+| mes | onde esta | efeito | resultado |
+|---|---|---|---|
+| dezembro/2025 | no **credito** (nova inscricao do 13º) | **subtrai** | 623.792.553,08 -> 622.454.793,84 |
+| abril/2026 | no **debito** (baixa do 13º) | **soma de volta** | −626.050.799,55 -> −624.713.040,31 |
+
+Os dois numeros estao no manual do etonjones, e os dois foram reproduzidos aqui.
+Na primeira tentativa eu somei o expurgo em dezembro e errei por 2.675.518,48 —
+duas vezes o valor, porque apliquei com o sinal trocado.
+
+### O efeito no total de 2025 — e por que ainda nao fecha
+
+Corrigir a linha 251 fez o total de 2025 **se afastar** 1.337.759,24 do publicado:
+
+| linha | antes | depois | publicado |
+|---|---:|---:|---:|
+| I — Bruta | 15.422.754.491,59 | 15.421.416.732,35 | 15.478.621.265,08 |
+| III — Liquida | 11.086.434.730,47 | 11.085.096.971,23 | 11.001.153.864,38 |
+
+Isso significa que **outra rubrica esta compensando**: se a linha 251 correta e
+1,34 milhao menor, e o total cai junto, entao uma das outras cinco esta 1,34
+milhao maior do que o gabarito — e mais os 55,9 milhoes que ja faltavam.
+
+Nao da para apontar qual: as rubricas de 2025 vem do **Comparativo da Despesa**,
+que **nao existe para 2025** (a pasta so tem 2026). O modulo falha ao tentar ler.
+
+### O gabarito fecha internamente
+
+Conferi o gabarito contra ele mesmo: a soma das seis rubricas da **exatamente** o
+total de cada mes e os 15.478.621.265,08 do ano.
+
+| verificacao | resultado |
+|---|---|
+| Janeiro: rubricas = I | 811.049.203,96 = 811.049.203,96 |
+| Fevereiro: rubricas = I | 1.440.860.836,75 = 1.440.860.836,75 |
+| 12 meses: rubricas = I | 15.478.621.265,08 = 15.478.621.265,08 |
+
+Entao o gabarito e confiavel: para o relatorio de 2025, as rubricas estao nele.
+
+### Os testes
+
+`tests/test_nao_executada.py` — cinco testes:
+
+1. os doze meses de 2025 batem com o gabarito;
+2. os cinco meses de 2026 batem com o publicado;
+3. abril/2026 e negativo e igual ao manual;
+4. dezembro/2025 e positivo e igual ao manual;
+5. janeiro/2025 e negativo — o sinal sozinho, que vale 252 milhoes.

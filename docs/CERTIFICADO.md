@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 11:51** a partir do código no commit `9411f73` (branch `main`).
+Emitido em **14/11/2026 12:00** a partir do código no commit `ffab2b6` (branch `main`).
 
-Último commit: *README: contagem de testes para 91*
+Último commit: *certificado: contagem de testes e data*
 
 ---
 
@@ -75,9 +75,9 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RGF Anexo 2 - somas | DÍVIDA CONSOLIDADA (I) (soma) | 8,799,665,536.74 | 9,741,591,734.36 | -941,926,197.62 |
 | RGF Anexo 2 - somas | DEDUÇÕES (II) (soma) | 231,551,524.48 | 269,314,515.89 | -37,762,991.41 |
 | RGF Anexo 2 - somas | DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma) | 8,568,114,012.26 | 9,472,277,218.47 | -904,163,206.21 |
-| RGF Anexo 1 - totais | RGF Anexo 1: despesa bruta (I) | 15,422,754,491.59 | 15,478,621,265.08 | -55,866,773.49 |
-| RGF Anexo 1 - totais | RGF Anexo 1: despesa líquida (III) | 11,086,434,730.47 | 11,001,153,864.38 | 85,280,866.09 |
-| RGF Anexo 6 | RGF Anexo 6: despesa total com pessoal (DTP) | 11,086,434,730.47 | 11,004,331,905.62 | 82,102,824.85 |
+| RGF Anexo 1 - totais | RGF Anexo 1: despesa bruta (I) | 15,421,416,732.35 | 15,478,621,265.08 | -57,204,532.73 |
+| RGF Anexo 1 - totais | RGF Anexo 1: despesa líquida (III) | 11,085,096,971.23 | 11,001,153,864.38 | 83,943,106.85 |
+| RGF Anexo 6 | RGF Anexo 6: despesa total com pessoal (DTP) | 11,085,096,971.23 | 11,004,331,905.62 | 80,765,065.61 |
 
 As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própria planilha.
 
@@ -92,7 +92,7 @@ As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própr
 | `test_coerencia.py` | README, planilha e .md discordarem |
 | `test_verificacao.py` | divergência ficar sem causa escrita |
 
-Suíte: **91 testes definidos em 14 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
+Suíte: **96 testes definidos em 15 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
 
 ---
 
@@ -121,9 +121,9 @@ Suíte: **91 testes definidos em 14 arquivos**. Rode `python rodar_testes.py` pa
 - **RGF Anexo 2 - somas — DÍVIDA CONSOLIDADA (I) (soma)**: -941,926,197.62 de desvio (-9.67%). A soma das parcelas da 8.799.665.536,74; o publicado e 9.741.591.734,36. A diferenca de 941.926.197,62 e a linha 'Outras Dividas', que nao tem lista de contas na aba Base — e o RP inscrito sem disponibilidade de caixa (Nota 4 do relatorio), reclassificado como divida.
 - **RGF Anexo 2 - somas — DEDUÇÕES (II) (soma)**: -37,762,991.41 de desvio (-14.02%). Herda a diferenca do RP Processados (37.762.991,41). As outras tres parcelas — disponibilidade, depositos e haveres — estao exatas.
 - **RGF Anexo 2 - somas — DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma)**: -904,163,206.21 de desvio (-9.55%). Herda as duas anteriores: falta 'Outras Dividas' na DC e sobra o RP sem disponibilidade nas deducoes. As duas parcelas sao o mesmo valor visto de dois lados.
-- **RGF Anexo 1 - totais — RGF Anexo 1: despesa bruta (I)**: -55,866,773.49 de desvio (-0.36%). Total anual de 2025 apurado pela via da MSC (apurar_janela), nao pela MAPA do SIGEF que sustenta o Anexo 1 de 2026. Desvio de -55,9 mi (-0,36%): a MSC nao identifica a parcela intra-orcamentaria, que a equipe conhece pelo SIGEF. A conferencia de origem aceitava 0,5% e marcava OK; aqui se exige o centavo.
-- **RGF Anexo 1 - totais — RGF Anexo 1: despesa líquida (III)**: 85,280,866.09 de desvio (+0.78%). Idem: decorre da mesma apuracao anual de 2025 pela MSC (+85,3 mi, +0,78%).
-- **RGF Anexo 6 — RGF Anexo 6: despesa total com pessoal (DTP)**: 82,102,824.85 de desvio (+0.75%). DTP de 2025 apurada pela MSC (despesa liquida do Anexo 1), nao pela MAPA do SIGEF. Desvio de +82,1 mi (+0,75%): mesma causa das duas linhas de 2025 do Anexo 1 — a MSC nao identifica a parcela intra-orcamentaria.
+- **RGF Anexo 1 - totais — RGF Anexo 1: despesa bruta (I)**: -57,204,532.73 de desvio (-0.37%). Total anual de 2025 apurado pela via da MSC (apurar_janela), nao pela MAPA do SIGEF que sustenta o Anexo 1 de 2026. Desvio de -55,9 mi (-0,36%): a MSC nao identifica a parcela intra-orcamentaria, que a equipe conhece pelo SIGEF. A conferencia de origem aceitava 0,5% e marcava OK; aqui se exige o centavo.
+- **RGF Anexo 1 - totais — RGF Anexo 1: despesa líquida (III)**: 83,943,106.85 de desvio (+0.76%). Idem: decorre da mesma apuracao anual de 2025 pela MSC (+85,3 mi, +0,78%).
+- **RGF Anexo 6 — RGF Anexo 6: despesa total com pessoal (DTP)**: 80,765,065.61 de desvio (+0.73%). DTP de 2025 apurada pela MSC (despesa liquida do Anexo 1), nao pela MAPA do SIGEF. Desvio de +82,1 mi (+0,75%): mesma causa das duas linhas de 2025 do Anexo 1 — a MSC nao identifica a parcela intra-orcamentaria.
 - **RCL**: é lida do Anexo 3, não apurada — o bloco de deduções do RPPS não existe na matriz.
 
 ---

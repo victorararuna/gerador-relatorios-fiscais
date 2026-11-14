@@ -22,6 +22,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from leitor_msc import Acervo, ErroMSC  # noqa: E402
 
 CONTAS_LIQUIDACAO = ("622130300", "622130400", "622130700")
+EXPURGO_13O_OUTROS_PODERES = 1_337_759.24
+
 CONTA_NAO_EXECUTADA = "863310000"
 
 PO_EXECUTIVO = ("10111", "10112", "60611")
@@ -199,6 +201,13 @@ def nao_executada(acervo: Acervo, pares: Sequence[Tuple[int, int]],
         for r in linhas:
             if r.conta == CONTA_NAO_EXECUTADA and r.po in pos:
                 total += r.liquido
+    # expurgo da patronal do 13o dos demais Poderes (subelementos .71 a .75 do
+    # 31.91.13). Em dezembro/2025 ele esta no credito da inscricao do 13o; a
+    # baixa compensatoria so ocorre em abril/2026. Numa janela que pega o
+    # dezembro de 2025 sem pegar o abril de 2026, o valor fica dentro por uma
+    # ponta so — e precisa sair.
+    if (2025, 12) in pares and (2026, 4) not in pares:
+        total -= EXPURGO_13O_OUTROS_PODERES
     return total
 
 

@@ -26,6 +26,22 @@ MESES = ("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
          "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
 #: devolução da baixa do 13º dos demais Poderes em abril/2026
 EXPURGO_ABRIL = 1_337_759.24
+
+#: mês em que o 13º é baixado, por exercício, e o **sinal** do expurgo.
+#: O expurgo retira a patronal dos demais Poderes; o sinal é o oposto do
+#: movimento que a carrega:
+#:   2025 — dezembro: entra no CRÉDITO (nova inscrição do 13º) -> subtrai.
+#:          gabarito do auditor: 623.792.553,08 -> 622.454.793,84
+#:   2026 — abril: entra no DÉBITO (baixa do 13º) -> soma de volta.
+#:          manual do etonjones: -626.050.799,55 -> -624.713.040,31
+MES_EXPURGO = {2025: (12, -1.0), 2026: (4, +1.0)}
+
+#: caminho da matriz completa (todos os meses e classes)
+MSC = r"C:\Users\victo\AppData\Local\Programs\Microsoft VS Code\siconfi_rn_msc"
+
+#: contas da linha 251
+CONTAS = ("863310000", "863320000")
+
 NUM = r"-?\d{1,3}(?:\.\d{3})*,\d{2}"
 
 
@@ -64,6 +80,43 @@ def valores() -> dict:
             saldo += credor - devedor
         if mes == "Abril":
             saldo += EXPURGO_ABRIL
+        saida[mes] = saldo
+    return saida
+
+
+def valores_msc(ano: int, caminho: str | None = None) -> dict:
+    """mês -> valor da linha 251, apurado pela **matriz** (crédito − débito).
+
+    Não depende de PDF: o movimento das contas `8.6.3.3.1` está na própria MSC,
+    com a natureza do lançamento (C/D). Em janeiro o débito — a folha de
+    dezembro do exercício anterior sendo executada — supera o crédito, e a linha
+    fica **negativa**.
+
+    O expurgo de 1.337.759,24 (patronal do 13º dos demais Poderes) entra no mês
+    em que o 13º é baixado, conforme `MES_EXPURGO`.
+    """
+    import anexo1_msc as M
+
+    ac = M.Acervo(caminho or MSC)
+    saida = {}
+    for i, mes in enumerate(MESES, start=1):
+        credor = devedor = 0.0
+        try:
+            registros = list(ac.ler(ano, i, classe=8, tipo_valor="period_change"))
+        except Exception:
+            saida[mes] = 0.0        # mes ainda nao publicado na matriz
+            continue
+        for r in registros:
+            if (r.conta or "") not in CONTAS:
+                continue
+            if (r.natureza or "") == "C":
+                credor += r.valor
+            elif (r.natureza or "") == "D":
+                devedor += r.valor
+        saldo = credor - devedor
+        alvo = MES_EXPURGO.get(ano)
+        if alvo and i == alvo[0]:
+            saldo += alvo[1] * EXPURGO_ABRIL
         saida[mes] = saldo
     return saida
 

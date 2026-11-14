@@ -4,8 +4,8 @@ Ferramenta que apura os demonstrativos fiscais do **Rio Grande do Norte** a
 partir das **Matrizes de Saldos Contábeis (MSC)** do Siconfi e dos relatórios do
 **SIGEF/RN**, e confere cada célula contra o arquivo homologado.
 
-Estado em **13/11/2026**: **305 de 310 células exatas** (98,4%), em 27 abas de
-verificação (26 de anexo e uma de resumo). As 5 divergências estão em
+Estado em **13/11/2026**: **308 de 316 células exatas** (97,5%), em 28 abas de
+verificação (27 de anexo e uma de resumo). As 8 divergências estão em
 [`docs/DIVERGENCIAS.md`](docs/DIVERGENCIAS.md), cada uma com valor, referência e
 causa.
 
@@ -57,7 +57,7 @@ python verificar_anos.py            # barra extração de outro exercício
 | anexo | situação |
 |---|---|
 | **RGF Anexo 1** — despesa com pessoal | **exato em 10 de 10 meses** (I, II e III); por Poder, 100 de 100 |
-| **RGF Anexo 2** — DCL | **15 de 16 linhas** (6 também em 2026, Q1 e Q2) |
+| **RGF Anexo 2** — DCL | **15 de 16 linhas** + 3 somas · 6 também em 2026 |
 | **RGF Anexo 3** — garantias | exato (2025 e 2026 Q2) |
 | **RGF Anexo 4** — limites | exato |
 | **RGF Anexo 5** — disponibilidades | **90 de 90 células** e os 5 totais contra o Siconfi |
@@ -110,7 +110,7 @@ bater com o GND 31 — e bate.
 | **RGF Anexo 1 — abril** | 5.241,65 | par de anulação/re-empenho; causa apontada, imaterial (0,0008%) |
 | RCL | — | é **lida** do Anexo 3: o bloco RPPS de deduções não existe na matriz |
 
-Todo o resto fecha: **305 de 310 células** contra os arquivos publicados; 5 divergências, todas com causa.
+Todo o resto fecha: **308 de 316 células** contra os arquivos publicados; 8 divergências, todas com causa.
 
 ---
 

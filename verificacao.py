@@ -384,6 +384,72 @@ def anexo7_2026() -> list[dict]:
             for k in rotulos]
 
 
+def anexo2_somas() -> list[dict]:
+    """Subtotais do Anexo 2 — as mesmas somas que o manual da equipe confere.
+
+    Cada linha e a soma de parcelas ja apuradas. Se uma parcela estiver
+    classificada na linha errada, a soma quebra mesmo que a parcela esteja certa.
+    """
+    import rgf_anexo2_dcl as D
+
+    arq = os.path.join(SICONFI, "rgf", "RGF_RGF-Anexo_02_24_2025_p3.csv")
+    if not os.path.exists(arq):
+        return []
+    of = {}
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        if r["coluna"] == "Até o 3º Quadrimestre":
+            of[r["conta"].strip()] = float(r["valor"])
+
+    def nosso(nome: str) -> float:
+        if nome.startswith("(-) Restos a Pagar"):
+            return D.restos_a_pagar(controle=D.CONTROLE_RP)
+        if nome.startswith("(-) Depósitos"):
+            return D.depositos()
+        if nome.startswith("Disponibilidade de Caixa Bruta"):
+            return D.disponibilidade()
+        if nome in D.SECOES_MSC:
+            aba, classe, po = D.SECOES_MSC[nome]
+            return D.apurar_msc(aba, classe, po)
+        saldo = D.ler_balancete(D.BALANCETE)
+        secoes = D.ler_base(D.PLANILHA)
+        for chave, contas in secoes.items():
+            if chave == nome and contas:
+                return D.apurar_secao(saldo, contas)
+        return 0.0
+
+    emp_int = nosso("Empréstimos Internos")
+    emp_ext = nosso("Empréstimos Externos")
+    reestr = nosso("Reestruturação da Dívida de Estados e Municípios")
+    parcel = sum(nosso(n) for n in (
+        "De Tributos", "De Contribuições Previdenciárias",
+        "De Demais Contribuições Sociais", "Do FGTS",
+        "Com Instituição Não financeira"))
+    precat = nosso("Precatórios Posteriores a 05/05/2000 (inclusive) - Vencidos e não pagos")
+    outras = nosso("Outras Dívidas")
+
+    emprestimos = emp_int + emp_ext
+    contratual = emprestimos + reestr + parcel
+    dc = contratual + precat + outras
+    disp = nosso("Disponibilidade de Caixa Bruta")
+    rp = nosso("(-) Restos a Pagar Processados (Exceto Precatórios)")
+    dep = nosso("(-) Depósitos Restituíves e Valores Vinculados")
+    hav = nosso("Demais Haveres Financeiros")
+    deducoes = disp - rp - dep + hav
+    dcl = dc - deducoes
+
+    pares = (
+        ("Empréstimos (soma)", emprestimos, "Empréstimos"),
+        ("Parcelamento e Renegociação (soma)", parcel,
+         "Parcelamento e Renegociação de Dívidas"),
+        ("Dívida Contratual (soma)", contratual, "Dívida Contratual"),
+        ("DÍVIDA CONSOLIDADA (I) (soma)", dc, "DÍVIDA CONSOLIDADA - DC (I)"),
+        ("DEDUÇÕES (II) (soma)", deducoes, "DEDUÇÕES (II)"),
+        ("DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma)", dcl,
+         "DÍVIDA CONSOLIDADA LÍQUIDA (DCL) (III) = (I - II)"),
+    )
+    return [_linha(rotulo, valor, of[chave]) for rotulo, valor, chave in pares if chave in of]
+
+
 def anexo2_rreo_2026() -> list[dict]:
     """RREO Anexo 2 de 2026 (4o bimestre) — liquidado por funcao, contra o CSV."""
     import rreo_anexo2 as R2
@@ -468,6 +534,7 @@ def motor() -> dict:
 FONTES = OrderedDict((
     ("RGF Anexo 1 - 2026", anexo1),
     ("RGF Anexo 2", anexo2),
+    ("RGF Anexo 2 - somas", anexo2_somas),
     ("RGF Anexo 5", anexo5),
     ("RREO Anexo 9", anexo9),
     ("RREO Anexo 13", anexo13),
@@ -548,6 +615,18 @@ CAUSAS = (
      "centavo."),
     ("RGF Anexo 1: despesa líquida (III)",
      "Idem: decorre da mesma apuracao anual de 2025 pela MSC (+85,3 mi, +0,78%)."),
+    ("DÍVIDA CONSOLIDADA (I) (soma)",
+     "A soma das parcelas da 8.799.665.536,74; o publicado e 9.741.591.734,36. "
+     "A diferenca de 941.926.197,62 e a linha 'Outras Dividas', que nao tem lista "
+     "de contas na aba Base — e o RP inscrito sem disponibilidade de caixa "
+     "(Nota 4 do relatorio), reclassificado como divida."),
+    ("DEDUÇÕES (II) (soma)",
+     "Herda a diferenca do RP Processados (37.762.991,41). As outras tres "
+     "parcelas — disponibilidade, depositos e haveres — estao exatas."),
+    ("DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma)",
+     "Herda as duas anteriores: falta 'Outras Dividas' na DC e sobra o RP sem "
+     "disponibilidade nas deducoes. As duas parcelas sao o mesmo valor visto de "
+     "dois lados."),
     ("Restos a Pagar Processados",
      "Formula da aba RP: 6.3.1.3 + 6321 + 6.2.2.1.3.07, sem fontes "
      "32/46/800/801/802, menos a conta 8.6.3.2.2. Fecha ao centavo em agosto/2025 "

@@ -1,14 +1,14 @@
 # Certificado de verificação
 
-Emitido em **13/11/2026 22:48** a partir do código no commit `7b1a37c` (branch `main`).
+Emitido em **13/11/2026 22:58** a partir do código no commit `7fed539` (branch `main`).
 
-Último commit: *rodar_testes.py: prova quantos testes executam e quantos pulam*
+Último commit: *RP: mecanismo completo decifrado no relatorio oficial*
 
 ---
 
 ## 1. Resultado
 
-**305 de 310 células exatas** (98.4%), em 26 grupos de verificação.
+**308 de 316 células exatas** (97.5%), em 27 grupos de verificação.
 
 Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo publicado pelo Siconfi** — não com a planilha de trabalho da equipe.
 
@@ -18,6 +18,7 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 |---|---:|---:|
 | RGF Anexo 1 - 2026 | 24 | 22 |
 | RGF Anexo 2 | 16 | 15 |
+| RGF Anexo 2 - somas | 6 | 3 |
 | RGF Anexo 5 | 90 | 90 |
 | RREO Anexo 9 | 9 | 9 |
 | RREO Anexo 13 | 7 | 7 |
@@ -50,6 +51,9 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RGF Anexo 1 - 2026 | 2026 — Abril — I — Despesa Bruta | 680,626,929.97 | 680,632,171.62 | -5,241.65 |
 | RGF Anexo 1 - 2026 | 2026 — Abril — III — Despesa Líquida | 303,562,294.70 | 303,567,536.35 | -5,241.65 |
 | RGF Anexo 2 | (-) Restos a Pagar Processados (Exceto Preca | 788,629,587.54 | 750,866,596.13 | 37,762,991.41 |
+| RGF Anexo 2 - somas | DÍVIDA CONSOLIDADA (I) (soma) | 8,799,665,536.74 | 9,741,591,734.36 | -941,926,197.62 |
+| RGF Anexo 2 - somas | DEDUÇÕES (II) (soma) | 231,551,524.48 | 269,314,515.89 | -37,762,991.41 |
+| RGF Anexo 2 - somas | DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma) | 8,568,114,012.26 | 9,472,277,218.47 | -904,163,206.21 |
 | RGF Anexo 1 - totais | RGF Anexo 1: despesa bruta (I) | 15,422,754,491.59 | 15,478,621,265.08 | -55,866,773.49 |
 | RGF Anexo 1 - totais | RGF Anexo 1: despesa líquida (III) | 11,086,434,730.47 | 11,001,153,864.38 | 85,280,866.09 |
 
@@ -75,6 +79,9 @@ Suíte: **81 testes definidos em 11 arquivos**. Rode `python rodar_testes.py` pa
 - **RGF Anexo 1 - 2026 — 2026 — Abril — I — Despesa Bruta**: -5,241.65 de desvio (-0.00%). Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 do PO 10112, em abril: a diferenca e 5.241,65. O homologado trata o par de forma diferente do Comparativo.
 - **RGF Anexo 1 - 2026 — 2026 — Abril — III — Despesa Líquida**: -5,241.65 de desvio (-0.00%). Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 do PO 10112, em abril: a diferenca e 5.241,65. O homologado trata o par de forma diferente do Comparativo.
 - **RGF Anexo 2 — (-) Restos a Pagar Processados (Exceto Precatóri**: 37,762,991.41 de desvio (+5.03%). Formula da aba RP: 6.3.1.3 + 6321 + 6.2.2.1.3.07, sem fontes 32/46/800/801/802, menos a conta 8.6.3.2.2. Fecha ao centavo em agosto/2025 com controle zero. Em dezembro sobram 37.762.991,41 porque o controle de 942.052.222,15 e de outro mes (precisaria ser 979.815.213,56).
+- **RGF Anexo 2 - somas — DÍVIDA CONSOLIDADA (I) (soma)**: -941,926,197.62 de desvio (-9.67%). A soma das parcelas da 8.799.665.536,74; o publicado e 9.741.591.734,36. A diferenca de 941.926.197,62 e a linha 'Outras Dividas', que nao tem lista de contas na aba Base — e o RP inscrito sem disponibilidade de caixa (Nota 4 do relatorio), reclassificado como divida.
+- **RGF Anexo 2 - somas — DEDUÇÕES (II) (soma)**: -37,762,991.41 de desvio (-14.02%). Herda a diferenca do RP Processados (37.762.991,41). As outras tres parcelas — disponibilidade, depositos e haveres — estao exatas.
+- **RGF Anexo 2 - somas — DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma)**: -904,163,206.21 de desvio (-9.55%). Herda as duas anteriores: falta 'Outras Dividas' na DC e sobra o RP sem disponibilidade nas deducoes. As duas parcelas sao o mesmo valor visto de dois lados.
 - **RGF Anexo 1 - totais — RGF Anexo 1: despesa bruta (I)**: -55,866,773.49 de desvio (-0.36%). Total anual de 2025 apurado pela via da MSC (apurar_janela), nao pela MAPA do SIGEF que sustenta o Anexo 1 de 2026. Desvio de -55,9 mi (-0,36%): a MSC nao identifica a parcela intra-orcamentaria, que a equipe conhece pelo SIGEF. A conferencia de origem aceitava 0,5% e marcava OK; aqui se exige o centavo.
 - **RGF Anexo 1 - totais — RGF Anexo 1: despesa líquida (III)**: 85,280,866.09 de desvio (+0.78%). Idem: decorre da mesma apuracao anual de 2025 pela MSC (+85,3 mi, +0,78%).
 - **RCL**: é lida do Anexo 3, não apurada — o bloco de deduções do RPPS não existe na matriz.

@@ -2171,3 +2171,36 @@ anexos, e duas tinham nomes que se confundiam (`RGF Anexo 1` para os totais e
 
 As quatro abas com "- 2026" sao as do exercicio corrente; as demais comparam
 2025. O RESUMO agrega tudo e e o que o teste de coerencia confere contra o README.
+
+
+### 17.54 Abril aparece igual nos dois quadrimestres de 2026
+
+Os arquivos do 1º e do 2º quadrimestre de 2026 têm janelas diferentes (um termina
+em abril, o outro em agosto), mas os meses em comum trazem **os mesmos números**:
+
+| mês | p1 (1º Q) | p2 (2º Q) | nosso |
+|---|---:|---:|---:|
+| janeiro | 1.756.015.131,06 | 1.756.015.131,06 | 1.756.015.131,06 |
+| fevereiro | 1.168.704.572,00 | 1.168.704.572,00 | 1.168.704.572,00 |
+| março | 1.249.898.879,52 | 1.249.898.879,52 | 1.249.898.879,52 |
+| abril | **680.632.171,62** | **680.632.171,62** | 680.626.929,97 |
+
+Três coisas:
+
+1. os dois arquivos são **consistentes entre si** — não é erro de transcrição nem
+   de versão do relatório;
+2. a divergência de abril **aparece nos dois**, sempre no mesmo valor;
+3. ela é sempre de **5.241,65** — o par de anulação e re-empenho identificado na
+   rodada 78.
+
+### A janela de cada arquivo
+
+O 1º quadrimestre usa `MR-3` para janeiro e `MR` para abril; o 2º usa `MR-7` para
+janeiro e `MR-8` para dezembro do ano anterior. Comparar os dois exige mapas de
+coluna diferentes — foi o que me fez ver, por um instante, quatro divergências
+que não existiam.
+
+### O que isso muda
+
+Nada no placar: abril segue com as duas células divergentes. Mas elimina a
+hipótese de "arquivo desatualizado" — a divergência é do dado, não da extração.

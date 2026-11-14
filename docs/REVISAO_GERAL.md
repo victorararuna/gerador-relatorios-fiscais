@@ -2957,3 +2957,77 @@ as linhas.
 
 Nos dois casos, o mapeamento da STN tinha a resposta — e nos dois casos eu estava
 olhando o relatorio errado.
+
+
+### 17.70 Anexo 2 — as formulas oficiais, e a conta que nao existe
+
+O mapeamento `RGF - ANEXO 2 - Dívida Consolidada Líquida ... MSC 2026.xlsx` tem
+uma aba so (`Anexo 2 - Dívida (E, DF e M)`) e traz, linha a linha, as contas
+contabeis. Duas linhas importam:
+
+#### (-) Restos a Pagar Processados (celula C53)
+
+```
+[6.2.2.1.3.07 + 6.3.1.3.0 + 6.3.2.1.0;
+ ND 3.1 + 3.3 + 4.4 + 4.5; TODAS FR EXCETO 800 + 801 + 802]
+(-) 8.6.3.2.2.00.00
+```
+
+Nosso codigo ja usa as tres contas e as naturezas. Duas diferencas:
+
+| item | mapeamento | nosso codigo |
+|---|---|---|
+| fontes excluidas | **800, 801, 802** | 32, 46, **800, 801, 802** |
+| controle | **a conta 8.6.3.2.2** | valor fixo 942.052.222,15 |
+
+#### Outras Dívidas (celula C45)
+
+```
+8.5.3.7.0.00.00 (consorcio) + 8.6.3.2.1.00.00 + 8.6.3.2.2.00.00
++ 2.1.8.9.1.01.05 + 2.1.8.9.1.01.08 + 2.1.8.9.3.01.05
++ 2.1.8.9.4.01.05 + 2.1.8.9.5.01.05
++ 2.2.8.2.1.00.00 + 2.2.8.2.3.00.00 + 2.2.8.2.4.00.00 + 2.2.8.2.5.00.00
+EXCETO PO 10112/10122/10132
+```
+
+**A linha "Outras Dívidas" e a que faltava para fechar a DC** — e ela e formada,
+entre outras contas, pela **8.6.3.2.2.00.00**: a mesma do controle do RP.
+
+#### A prova da ausencia
+
+Apuramos "Outras Dívidas" pelas doze contas do mapeamento, na MSC de 2025-12:
+
+| | valor |
+|---|---:|
+| apurado | **36.600,82** |
+| publicado | **941.926.197,62** |
+| diferenca | −941.889.596,80 |
+
+A diferenca e quase exatamente o controle de 942.052.222,15. **A conta
+`8.6.3.2.2.00.00` nao existe na matriz** — nem na classe 8, nem em nenhuma outra,
+nem em nenhum tipo de valor. Varremos tambem os arquivos CSV brutos de 2025: zero
+ocorrencias.
+
+### O que isso fecha de discussao
+
+| pergunta | resposta |
+|---|---|
+| "Outras Dívidas" tem formula? | **sim** — doze contas, no mapeamento |
+| da para apurar pela matriz? | **nao** — falta a 8.6.3.2.2 |
+| a diferenca da DC e erro nosso? | **nao** — e conta ausente |
+| o RP fecha pela matriz? | **nao** — falta o mesmo controle |
+
+**Tres divergencias (DC, Deduções e DCL) e as duas do RP tem a mesma causa: uma
+unica conta que a MSC nao traz.**
+
+### Os testes que travam isso
+
+`tests/test_dcl_regras.py` fixa o achado:
+
+1. a conta `8.6.3.2.2.00.00` **nao aparece** na MSC — se um dia aparecer, o teste
+   quebra e avisa que o Anexo 2 virou apuravel;
+2. das doze contas de "Outras Dívidas", **so a 8.6.3.2.1 tem saldo** (36.600,82);
+3. as contas do RP **existem** — o que falta e o controle, nao a base.
+
+E um teste de ausencia proposital: ele documenta o limite e impede que se
+persiga de novo a mesma conta.

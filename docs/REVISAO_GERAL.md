@@ -3354,3 +3354,55 @@ zerados, a identidade do valor e a soma das linhas de receita.
 | exatas | 364 | **369** |
 | grupos | 31 | **32** |
 | testes | 96 | **100** |
+
+
+### 17.75 As 26 causas, revistas uma a uma
+
+A varredura dos anexos mudou o entendimento de varias divergencias. As causas no
+`DIVERGENCIAS.md` foram reescritas para refletir o que se sabe agora — nao o que
+se supunha quando a divergencia foi encontrada.
+
+### O que mudou
+
+| divergencia | causa anterior | causa atual |
+|---|---|---|
+| **16 de vencimentos x patronais** | "o item que migra nao foi identificado" | **e o subelemento `.71` a `.75` × fonte; o subelemento nao existe na MSC** |
+| **3 de "Outras Dividas"** | "a linha nao tem lista de contas" | **tem: doze contas no mapeamento; falta a `8.6.3.2.2`** |
+| **3 do Anexo 1 de 2025** | "a MSC nao identifica a intra-orcamentaria" | **a regra de Poder de 2026 nao vale para 2025; o PO 30390 tem 110 mi** |
+| **DTP de 2025** | "mesma causa das linhas de 2025" | herda a despesa liquida de 2025 |
+
+### Por que isso importa
+
+Uma causa errada custa uma rodada inteira. A primeira versao dizia "a MSC nao
+identifica a parcela intra-orcamentaria" — e eu passei rodadas procurando uma
+partida contabil que nunca existiu.
+
+O que existia era outra coisa: **uma dimensao que a matriz nao tem** (o
+subelemento, a subacao, a conta `8.6.3.2.2`).
+
+A diferenca e pratica:
+
+| causa errada leva a | causa certa leva a |
+|---|---|
+| procurar mais um relatorio | **pedir a extracao** |
+| revisar a formula | **conferir a cobertura** |
+| duvidar do numero | **documentar o limite** |
+
+### O quadro final das 26
+
+| causa | celulas | o que falta |
+|---|---:|---|
+| Subelemento `.71-.75` × fonte | 16 | extracao por subacao e fonte |
+| Conta `8.6.3.2.2` | 3 | o saldo da conta, que nao esta na MSC |
+| Regra de Poder de 2025 | 3 | o mapeamento de 2025, que nao existe |
+| RP processados | 2 | a mesma conta `8.6.3.2.2` |
+| Regra de Poder de 2025 (DTP) | 1 | idem |
+| Par de anulacao em abril/2026 | 3 | nada: e erro de digitacao no publicado |
+
+**Uma causa por frente, e nenhuma delas e formula.**
+
+### O teste que garante
+
+O `docs/DIVERGENCIAS.md` e gerado do motor: se uma causa for apagada ou o valor
+mudar, o `test_verificacao` acusa. A documentacao nao e texto solto — e saida
+conferida.

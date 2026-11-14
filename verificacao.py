@@ -845,8 +845,11 @@ CAUSA_SPLIT = (
     "centavo nos oito meses (se fosse inversao, a soma mudaria em 2X). A causa "
     "esta no EXPURGO_PATRONAL: excluimos 11.641.413,58 em janeiro e o SIGEF "
     "exclui 11.502.548,48 — sempre a mais, e a diferenca e exatamente o X do mes. "
-    "Nenhuma combinacao das 17 naturezas da lista reproduz o valor: a regra do "
-    "expurgo e outra.")
+    "A regra do expurgo, pelo manual do auditor, e o SUBELEMENTO: 31.91.13.71 TJ, "
+    ".72 AL, .73 TCE, .74 DPE e .75 MP sao a patronal dos outros Poderes "
+    "(1.337.759,24 em janeiro, conferido). Mas o subelemento .71 a .75 NAO existe "
+    "na MSC — ela para em .08/.10/.12/.99. So o Comparativo o traz, e sem a fonte. "
+    "O expurgo correto e por subacao e fonte, e essa extracao nao esta no material.")
 
 #: causa documentada de cada divergencia conhecida (prefixo do item -> texto)
 CAUSAS = (
@@ -859,18 +862,22 @@ CAUSAS = (
     ("2026 — Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
     ("RGF Anexo 1: despesa bruta (I)",
-     "Total anual de 2025 apurado pela via da MSC (apurar_janela), nao pela MAPA "
-     "do SIGEF que sustenta o Anexo 1 de 2026. Desvio de -55,9 mi (-0,36%): a "
-     "MSC nao identifica a parcela intra-orcamentaria, que a equipe conhece pelo "
-     "SIGEF. A conferencia de origem aceitava 0,5% e marcava OK; aqui se exige o "
-     "centavo."),
+     "2025 nao fecha pela regra do mapeamento de 2026: aplicada aos doze meses, "
+     "ela erra entre 0,2% e 26%, sem padrao. Em fevereiro o gabarito e 489,8 mi e "
+     "a regra da 422,2 mi — e o PO 30390 sozinho tem 110 mi em fevereiro, fora de "
+     "qualquer filtro documentado. Nao ha mapeamento de 2025 em MDF_STN/2025. O "
+     "gabarito do auditor (aba CONFERENCIAS do RGF 2025_Q3_01) e a referencia: "
+     "fecha internamente ao centavo e soma exatamente o publicado."),
     ("RGF Anexo 1: despesa líquida (III)",
-     "Idem: decorre da mesma apuracao anual de 2025 pela MSC (+85,3 mi, +0,78%)."),
+     "Idem: decorre da mesma apuracao anual de 2025, cuja regra de Poder nao e a "
+     "de 2026."),
     ("DÍVIDA CONSOLIDADA (I) (soma)",
-     "A soma das parcelas da 8.799.665.536,74; o publicado e 9.741.591.734,36. "
-     "A diferenca de 941.926.197,62 e a linha 'Outras Dividas', que nao tem lista "
-     "de contas na aba Base — e o RP inscrito sem disponibilidade de caixa "
-     "(Nota 4 do relatorio), reclassificado como divida."),
+     "A linha 'Outras Dividas' TEM lista de contas no mapeamento da STN (celula "
+     "C45): 8.5.3.7 + 8.6.3.2.1 + 8.6.3.2.2 + 2.1.8.9.1.01.05/.08 + 2.1.8.9.3/4/5 "
+     "+ 2.2.8.2.1/.3/.4/.5, exceto PO 10112/10122/10132. Apuradas as doze na MSC "
+     "de 2025, sai 36.600,82 contra 941.926.197,62 publicados: falta a conta "
+     "8.6.3.2.2.00.00, que nao existe na matriz em nenhuma classe nem tipo. E o RP "
+     "inscrito sem disponibilidade de caixa (Nota 4)."),
     ("DEDUÇÕES (II) (soma)",
      "Herda a diferenca do RP Processados (37.762.991,41). As outras tres "
      "parcelas — disponibilidade, depositos e haveres — estao exatas."),
@@ -879,9 +886,8 @@ CAUSAS = (
      "disponibilidade nas deducoes. As duas parcelas sao o mesmo valor visto de "
      "dois lados."),
     ("RGF Anexo 6: despesa total com pessoal (DTP)",
-     "DTP de 2025 apurada pela MSC (despesa liquida do Anexo 1), nao pela MAPA do "
-     "SIGEF. Desvio de +82,1 mi (+0,75%): mesma causa das duas linhas de 2025 do "
-     "Anexo 1 — a MSC nao identifica a parcela intra-orcamentaria."),
+     "Herda a despesa liquida de 2025 do Anexo 1, cuja regra de Poder nao e a de "
+     "2026. Ver as duas linhas de 2025 do Anexo 1."),
     ("2026 — Janeiro — Vencimentos", CAUSA_SPLIT),
     ("2026 — Fevereiro — Vencimentos", CAUSA_SPLIT),
     ("2026 — Março — Vencimentos", CAUSA_SPLIT),

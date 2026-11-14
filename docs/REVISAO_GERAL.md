@@ -2312,3 +2312,79 @@ com pessoal, 0,36% sao 56 milhoes.
 
 O numero caiu. Mas o numero anterior estava errado — e um placar que inclui
 "quase" nao serve para conferir nada.
+
+
+### 17.59 RP Processados — o mecanismo completo, do inicio ao fim
+
+Abri o relatorio oficial `RGF 2025_3Q_02` e a aba `RP` responde tudo.
+
+#### A formula da equipe
+
+```
+Por Poder:  I = Inscritos ant. + Insc. exerc. + Liquidados RPNP
+                - Pagos RPP - Pagos RPNP - Cancelados RPP + Inscritos (Liq-Pg)
+            J = exclusoes (fontes 32, 46, 800, 801, 802)
+            K = I - J
+
+Executivo:  I = 1.878.937.193,34   J = 197.115.018,77   K = 1.681.822.174,57
+Demais:     I = 12.289.564,83      J = 0               K = 12.289.564,83
+TOTAL:      I = 1.891.226.758,17   J = 197.115.018,77   K = 1.694.111.739,40
+
+K22 = K20 - 942.052.222,15 = 752.059.517,25
+```
+
+#### O que e a conta 8.6.3.2.2
+
+O proprio nome, na aba CONTAS:
+
+> `CONTROLE DE OBRIGACOES INSCRITAS EM RPP, SEM DISPONIBILIDADE DE CAIXA, PARA FINS DA LRF`
+
+E a **Nota 4** do relatorio explica:
+
+> Na linha "Outras Dividas" foi registrado o valor de R$ 942.052.222,15. Esse
+> valor refere-se ao saldo de restos a pagar inscritos **sem a devida
+> disponibilidade de caixa**. Esse montante foi transferido...
+
+Ou seja: o RP inscrito sem caixa **sai da deducao e entra na divida**. E por isso
+que "Outras Dividas" publica 941.926.197,62 — quase os mesmos 942 milhoes.
+
+#### Por que a nossa conta dava 5% de diferenca
+
+| | nosso (MSC) | equipe (relatorio) |
+|---|---:|---:|
+| total bruto (I) | 1.889.871.211,70 | 1.891.226.758,17 |
+| exclusoes (J) | **159.189.402,01** | **197.115.018,77** |
+| liquido (K) | 1.730.681.809,69 | 1.694.111.739,40 |
+
+A diferenca de 37,9 milhoes esta **nas exclusoes**, nao nas contas. A MSC tem a
+dimensao de fonte, mas nao a mesma abertura do relatorio de execucao: 37,9 milhoes
+de exclusao existem la e nao aqui.
+
+#### A cadeia inteira, explicada
+
+```
+1.891.226.758,17  (bruto por Poder, do relatorio)
+ -  197.115.018,77 (exclusoes por fonte, do relatorio)
+ = 1.694.111.739,40 (K20)
+ -  942.052.222,15 (RP sem disponibilidade, Nota 4)
+ =  752.059.517,25 (K22, o que a planilha publica)
+ -    1.192.921,12 (a divergencia de AL/FDM que achamos na rodada 71)
+ =  750.866.596,13 (o CSV do Siconfi)
+```
+
+**Toda a diferenca de 2,56 bilhoes que eu persegui por 20 rodadas era isto:** a
+secção da planilha somava `6.2.2.1.3.07` e `6.3.2.7` duas vezes, e a conta certa
+exclui o RP sem caixa, que vira divida.
+
+#### O que isso muda
+
+A linha **nao e um enigma**. E uma regra conhecida, com quatro parcelas:
+
+| parcela | de onde sai |
+|---|---|
+| bruto por Poder (I) | relatorio de execucao, por Poder |
+| exclusoes por fonte (J) | **relatorio de execucao, por fonte** |
+| RP sem disponibilidade | conta 8.6.3.2.2, ajuste da equipe |
+| AL/FDM | recorte que a MSC nao separa |
+
+As duas do meio sao as que faltam — e ambas vem do **mesmo relatorio**.

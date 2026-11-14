@@ -56,6 +56,22 @@ RP. Pedir o saldo em outra data devolve um número que não serve.
 O publicado fica **entre** os dois — é um recorte que combina estoque e
 inscrição. A abertura por Poder e fonte é o que permite reproduzi-lo.
 
+### 2.1b RGF Anexo 1 de 2025 — **opcional** (2 células)
+
+O Anexo 1 de **2026** fecha porque é apurado pela MAPA do SIGEF. O de **2025**
+está sendo apurado pela via da MSC (`apurar_janela`), e por isso desvia:
+
+| linha | apurado pela MSC | publicado (2025) | desvio |
+|---|---:|---:|---:|
+| Despesa bruta (I) | 15.422.754.491,59 | 15.478.621.265,08 | −55.866.773,49 |
+| Despesa líquida (III) | 11.086.434.730,47 | 11.001.153.864,38 | +85.280.866,09 |
+
+**O que resolveria:** os mesmos três relatórios do SIGEF, mas de **2025** —
+Comparativo da Despesa, IEO 162233 e IEO 162011, mês a mês.
+
+Não é urgente: o Anexo 1 de **2026**, que é o do exercício corrente, já fecha em
+10 de 10 meses. Mas com a MAPA de 2025 as duas linhas acima fechariam também.
+
 ### 2.2 RREO Anexo 13 — PPP
 
 **Nada a pedir.** Fechado.

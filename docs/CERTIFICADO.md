@@ -1,14 +1,14 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 13:06** a partir do código no commit `6c4e4e1` (branch `main`).
+Emitido em **14/11/2026 13:10** a partir do código no commit `bbc189f` (branch `main`).
 
-Último commit: *Anexo 4: quatro linhas de contribuicao exatas, e um erro no publicado*
+Último commit: *certificado: contagem e data*
 
 ---
 
 ## 1. Resultado
 
-**374 de 400 células exatas** (93.5%), em 34 grupos de verificação.
+**375 de 401 células exatas** (93.5%), em 35 grupos de verificação.
 
 Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo publicado pelo Siconfi** — não com a planilha de trabalho da equipe.
 
@@ -24,6 +24,7 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RREO Anexo 11 | 5 | 5 |
 | RREO Anexo 6 | 1 | 1 |
 | RREO Anexo 4 - contribuicoes | 4 | 4 |
+| RREO Anexo 4 - receitas | 1 | 1 |
 | RGF Anexo 3 - 2025 | 5 | 5 |
 | RGF Anexo 4 - 2025 | 8 | 8 |
 | RGF Anexo 5 | 90 | 90 |

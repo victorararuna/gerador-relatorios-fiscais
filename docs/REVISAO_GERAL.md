@@ -3582,3 +3582,58 @@ As linhas de **despesa** previdenciaria (aposentadorias e pensoes por bloco) ja
 sao conferidas em outro grupo. As de **receita patrimonial** e **compensacao**
 dependem do mesmo recorte de fonte que o Anexo 3 usa — e devem fechar pelo mesmo
 caminho.
+
+
+### 17.79 Anexo 4 — a receita de capital tambem fecha
+
+Continuando o Anexo 4, a receita de capital do fundo sai pela mesma regra:
+natureza **2.x** com fonte RPPS (800 a 804).
+
+| linha | apurado | publicado | desvio |
+|---|---:|---:|---:|
+| Receitas de Capital (III) | 10.065.703,35 | 10.065.703,35 | **0,00** |
+
+### O que nao fecha, e por que
+
+Agrupando as receitas de fonte RPPS por natureza:
+
+| grupo | valor | publicado |
+|---|---:|---:|
+| 1.2 Contribuicoes | 1.120.640.796,22 | segurados 908.360.001,61 + patronais 2.490.846.806,78 |
+| 1.3 Patrimonial | 10.120.743,95 | 6.265.829,32 |
+| 1.9 Outras | 121.507.638,83 | 121.492.944,20 |
+| **2.3 Capital** | **10.065.703,35** | **10.065.703,35** ✓ |
+| 7.2 Intra correntes | 2.567.135.696,18 | parte das correntes |
+
+**A patronal do RPPS esta na natureza 7.2 (intra-orcamentaria)**, nao na 1.2 —
+porque e o Estado contribuindo para o proprio fundo. Somando 1.2 + 7.2 da
+3.687.776.492,40, contra 3.399.206.808,39 do publicado (segurados + patronais).
+
+A diferenca de 288,6 milhoes e do mesmo tipo que as outras: **o publicado usa um
+recorte que a matriz nao separa**.
+
+### As tres linhas de 1.9
+
+O grupo 1.9 tem 121.507.638,83. O publicado mostra:
+
+| linha | valor |
+|---|---:|
+| Compensacao Financeira entre os Regimes | 115.005.627,07 |
+| Demais Receitas Correntes | 6.487.317,13 |
+| **soma** | **121.492.944,20** |
+| **apurado** | **121.507.638,83** |
+
+A diferenca de 14.694,63 e **exatamente** a linha "Demais Receitas Previdenciarias"
+que aparece em outro bloco do mesmo arquivo — sinal de que ela esta contada duas
+vezes no publicado.
+
+E o terceiro indicio de inconsistencia interna no arquivo do Siconfi.
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas | 400 | **401** |
+| exatas | 374 | **375** |
+| grupos | 34 | **35** |
+| testes | 109 | **109** |

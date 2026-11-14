@@ -597,6 +597,38 @@ CONTRIBUICOES_ANEXO4 = (
 )
 
 
+def anexo4_capital() -> list[dict]:
+    """RREO Anexo 4 — receita de capital do fundo, contra o CSV publicado.
+
+    Natureza 2.x (capital) com fonte RPPS (800 a 804). Fecha ao centavo.
+    """
+    from acervo import Acervo
+
+    arq = os.path.join(SICONFI, "rreo", "RREO_RREO-Anexo_04_24_2025_p6.csv")
+    if not os.path.exists(arq):
+        return []
+    ref = None
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        if (r["coluna"].startswith("RECEITAS REALIZADAS")
+                and r["conta"].strip().startswith("RECEITAS DE CAPITAL")):
+            ref = float(r["valor"])
+            break
+    if ref is None:
+        return []
+
+    ac = Acervo(os.path.join(SICONFI, "..", "acervo"))
+    total = 0.0
+    for mes in range(1, 13):
+        for r in ac.ler(2025, mes, classe=6, tipo_valor="period_change"):
+            if not (r.conta or "").startswith("6212"):
+                continue
+            if ((r.fr or "")[1:4]) not in FONTES_RPPS:
+                continue
+            if (r.nr or "").startswith("2"):
+                total += r.liquido
+    return [_linha("Anexo 4 — Receitas de Capital (III)", total, ref)]
+
+
 def anexo4_contribuicoes() -> list[dict]:
     """RREO Anexo 4 — contribuicoes dos segurados, por natureza.
 
@@ -882,6 +914,7 @@ FONTES = OrderedDict((
     ("RREO Anexo 11", lambda: anexo11(2025)),
     ("RREO Anexo 6", anexo6_rreo_2025),
     ("RREO Anexo 4 - contribuicoes", anexo4_contribuicoes),
+    ("RREO Anexo 4 - receitas", anexo4_capital),
     ("RGF Anexo 3 - 2025", anexo3_2025),
     ("RGF Anexo 4 - 2025", anexo4_2025),
     ("RGF Anexo 5", anexo5),

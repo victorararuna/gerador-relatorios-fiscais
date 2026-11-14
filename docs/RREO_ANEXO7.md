@@ -1,5 +1,15 @@
 # RREO Anexo 7 — Restos a Pagar
 
+> **Documento histórico.** Escrito quando o trabalho era sobre o **RGF 2024**.
+> Os números e as pendências abaixo **não valem mais**: o Anexo 1 passou a fechar
+> em 10 de 10 meses, o Anexo 5 chegou a 90 de 90 células e o Anexo 4 fechou.
+>
+> **Para o estado atual, leia [`REVISAO_GERAL.md`](REVISAO_GERAL.md), seção 2** —
+> ou, melhor, abra `saida/verificacao_anexos.xlsx`, que é gerado do código.
+
+---
+
+
 2025 B6. Reproduzir com `python rreo_anexo7.py`.
 
 ---

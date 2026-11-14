@@ -3738,3 +3738,59 @@ conta contabil.**
 | exatas | 398 | **404** |
 | grupos | 36 | **37** |
 | testes | 113 | **113** |
+
+
+### 17.82 O split vencimentos x patronais: seis dos oito meses fechados
+
+O MAPA do auditor entregou a regra. Comparando as naturezas uma a uma, tudo batia
+— menos o **bruto da patronal**, que estava incompleto no nosso codigo.
+
+### O que faltava
+
+| natureza | janeiro/2026 | marco/2026 |
+|---|---:|---:|
+| `31.90.92.13` (DEA da patronal) | 117.599,11 | 70.003,90 |
+| `31.90.92.18` | 21.265,99 | 23.745,03 |
+| `31.91.92.11` (intra DEA) | 0,00 | **34.415,46** |
+
+Em janeiro, as duas primeiras somam **138.865,10** — exatamente o X que eu persegui
+por sete rodadas.
+
+### O resultado
+
+| mes | antes | depois |
+|---|---:|---:|
+| Janeiro | 138.865,10 | **0,00** |
+| Fevereiro | 35.507,44 | **0,00** |
+| Marco | 128.164,39 | **0,00** |
+| Abril | 7.267,37 | **0,00** |
+| Maio | 731.152,55 | **0,00** |
+| Junho | 8.144,04 | **0,00** |
+| Julho | 231.945,22 | 222.401,14 |
+| Agosto | 493.254,25 | 468.828,47 |
+
+**Seis de oito fechados ao centavo.**
+
+### Por que julho e agosto nao fecham
+
+O MAPA que usei cobre **maio/2025 a maio/2026**. Julho e agosto de 2026 nao estao
+nele — nao ha MAPA de Q3/2026 na pasta.
+
+A diferenca residual (222.401,14 e 468.828,47) e do mesmo tipo: mais uma natureza
+de DEA que entra no bruto. Sem o MAPA daqueles meses, nao da para saber qual.
+
+### O que isso ensinou
+
+A regra nao estava no texto do manual — estava na **planilha**, linha a linha. O
+manual diz "31.90.13 + ... + 31.91.92", mas nao lista as naturezas de DEA que
+entram no bruto.
+
+**Ler a planilha valeu mais que ler o manual.**
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas exatas | 404 | **416** |
+| percentual | 93,7% | **96,5%** |
+| divergencias | 26 | **14** |

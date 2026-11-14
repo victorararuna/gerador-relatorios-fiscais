@@ -109,7 +109,22 @@ def secoes(mes: str) -> dict:
     bruto_pens = sum(comp.get(nd, 0.0) for nd in PENSOES)
     terceirizacao = comp.get("33.90.34.00", 0.0) + comp.get("33.90.92.34", 0.0) \
         + comp.get("33.90.91.34", 0.0)
-    patronal_bruto = comp.get("31.90.13.00", 0.0) + comp.get("31.91.13.00", 0.0)
+    # o bruto inclui a DEA da patronal (31.90.92.13 e .18): sao 138.865,10
+    # em janeiro/2026 que o residuo jogava em vencimentos. O MAPA do auditor
+    # (linhas 103 a 163) e explicito: as duas naturezas entram no patronal.
+    # As naturezas intra (31.91.91 e 31.91.92) da DEA da patronal tambem entram:
+    # em marco/2026 sao 34.415,46 em 31.91.92.11, que o residuo jogava em
+    # vencimentos. O MAPA do auditor lista cada uma (linhas 103 a 163).
+    intra_patronal = sum(
+        v for k, v in comp.items()
+        if isinstance(v, (int, float))
+        and (k.startswith("31.91.91.") or k.startswith("31.91.92."))
+        and not k.endswith(".00"))
+    patronal_bruto = (comp.get("31.90.13.00", 0.0)
+                      + comp.get("31.90.92.13", 0.0)
+                      + comp.get("31.90.92.18", 0.0)
+                      + comp.get("31.91.13.00", 0.0)
+                      + intra_patronal)
     patronal = patronal_bruto - sum(comp.get(nd, 0.0) for nd in EXPURGO_PATRONAL)
     vencimentos = (comp.get("31.00.00.00", 0.0) - sum(comp.get(nd, 0.0) for nd in APOSENTADORIAS)
                    - sum(comp.get(nd, 0.0) for nd in PENSOES) - patronal_bruto)

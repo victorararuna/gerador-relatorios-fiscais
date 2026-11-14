@@ -4,6 +4,23 @@ Documento de 13/11/2026. **Ponto de entrada único**: consolida o que foi
 descoberto, o que está verificado e o que resta. Substitui a leitura dispersa
 dos demais documentos.
 
+> **Como ler este documento.**
+>
+> | seção | o que é |
+> |---|---|
+> | **2** | **o estado atual** — o que fecha, o que não fecha e de quem depende |
+> | 3 a 7 | como cada anexo é apurado, em uma página |
+> | 8 a 17 | **histórico em ordem cronológica** das descobertas, com os números da época |
+>
+> As seções 8 a 17 são um **diário**, não o retrato de hoje. Números citados ali
+> (ex.: "48 de 54", "8 de 14") foram verdadeiros numa data e hoje não são mais —
+> vários foram superados por descobertas posteriores. **Para o estado atual, leia
+> a seção 2 e a última seção 17** (a de número mais alto).
+>
+> O que garante o estado atual não é este texto: são os **78 testes** e o livro
+> `saida/verificacao_anexos.xlsx`. Se o documento divergir do livro, o livro está
+> certo.
+
 ---
 
 ## 1. As quatro origens de dado

@@ -50,7 +50,7 @@ OFICIAL = {
     # contra a planilha da equipe, nao contra o homologado.
     "Demais Dívidas Contratuais": None,
     "Precatórios Posteriores a 05/05/2000 (inclusive) - Vencidos e não pago": 5_595_401_507.77,
-    "Outras Dívidas": 942_088_822.97,
+    "Outras Dívidas": 941_926_197.62,
     "Disponibilidade de Caixa Bruta": 1_549_181_365.36,
     "(-) Restos a Pagar Processados (Exceto Precatórios)": 750_866_596.13,
     "(-) Depósitos Restituíves e Valores Vinculados": 798_314_769.23,

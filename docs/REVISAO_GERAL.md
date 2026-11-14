@@ -1567,3 +1567,37 @@ As abas não diziam o ano — quem abrisse poderia supor 2025. Agora cada célul
 traz `2026 — Mês — Linha`, e a aba se chama **"RGF Anexo 1 - 2026"**.
 
 **22 de 24 exatas** (as duas de abril). Livro: **307 células, 304 exatas**.
+
+
+### 17.38 Auditoria da régua — e a quinta referência errada
+
+Os últimos erros do projeto não foram de apuração, foram de **referência**. Criei
+`tests/test_baseline.py`, que lê o DCL publicado e confere, linha a linha, se o
+`OFICIAL` do módulo carrega o valor do arquivo.
+
+Ele encontrou na primeira execução:
+
+| seção | no código | no DCL publicado |
+|---|---:|---:|
+| Outras Dívidas | 942.088.822,97 | **941.926.197,62** |
+
+Diferença de 162.625,35 — a **quinta** referência errada do projeto. A seção não
+entra na contagem (a aba Base não tem contas para ela), então nunca apareceu como
+divergência; mas o valor no código estava errado.
+
+O teste também obriga a manter o **mapa de nomes** completo: se alguém acrescentar
+uma seção com valor esperado sem correspondência no DCL, ele acusa.
+
+Suíte: **11 arquivos, 74 testes**.
+
+### O placar das réguas erradas
+
+| rodada | o que estava errado |
+|---|---|
+| 71 | comparava com a planilha da equipe, não com o publicado |
+| 72 | comparava uma linha que não existe no DCL |
+| 76 | valores esperados fixos no código |
+| 80 | as abas não diziam o ano |
+| **81** | **valor de "Outras Dívidas" 162.625,35 acima do publicado** |
+
+Em todos, a apuração estava certa e a régua, torta.

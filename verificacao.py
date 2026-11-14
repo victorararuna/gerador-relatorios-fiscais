@@ -450,6 +450,62 @@ def anexo2_somas() -> list[dict]:
     return [_linha(rotulo, valor, of[chave]) for rotulo, valor, chave in pares if chave in of]
 
 
+#: rubrica do Anexo 1 -> chave em MAPA.secoes()
+RUBRICAS_ANEXO1 = (
+    ("Vencimentos, Vantagens e Outras Despesas Variáveis", "vencimentos"),
+    ("Obrigações Patronais", "patronal"),
+    ("Aposentadorias, Reserva e Reformas", "aposentadorias"),
+    ("Pensões", "pensoes"),
+    ("Outras Despesas de Pessoal decorrentes de Contratos de Terceirização", "terceirizacao"),
+    ("Despesa com Pessoal não Executada Orçamentariamente", "nao_executada"),
+)
+RUBRICAS_ANEXO1_II = (
+    ("Indenizações por Demissão e Incentivos à Demissão Voluntária", None),
+    ("Decorrentes de Decisão Judicial de Período Anterior ao da Apuração", None),
+    ("Despesas de Exercícios Anteriores de Período Anterior ao da Apuração", None),
+    ("Inativos e Pensionistas com Recursos Vinculados", None),
+)
+
+
+def anexo1_rubricas() -> list[dict]:
+    """As rubricas do Anexo 1, mes a mes, contra o CSV de 2026.
+
+    A MAPA ja separa vencimentos, patronal, aposentadorias, pensoes,
+    terceirizacao e nao executada. Conferir cada uma mostra **onde** a
+    classificacao diverge, e nao so que o total diverge.
+    """
+    import mapa_anexo1 as MAPA
+
+    arq = os.path.join(SICONFI, "rgf", "RGF_RGF-Anexo_01_24_2026_p2.csv")
+    if not os.path.exists(arq):
+        return []
+    of = {}
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        of.setdefault(r["coluna"], {})[r["conta"].strip()] = float(r["valor"])
+
+    def valor(coluna: str, prefixo: str) -> float | None:
+        for nome, v in of.get(coluna, {}).items():
+            if nome.startswith(prefixo[:44]):
+                return v
+        return None
+
+    saida = []
+    for mes in range(1, 9):
+        nome = MESES[mes - 1]
+        coluna = COLUNA_RGF[mes]
+        s = MAPA.secoes(nome)
+        for rotulo, chave in RUBRICAS_ANEXO1:
+            esperado = valor(coluna, rotulo)
+            if esperado is None:
+                continue
+            saida.append(_linha(f"2026 — {nome} — {rotulo[:34]}", s[chave], esperado))
+        ativo = valor(coluna, "Pessoal Ativo")
+        if ativo is not None:
+            saida.append(_linha(f"2026 — {nome} — Pessoal Ativo (soma)",
+                                s["vencimentos"] + s["patronal"], ativo))
+    return saida
+
+
 def anexo4_2025() -> list[dict]:
     """A cadeia do Anexo 4 de 2025 (operacoes de credito), contra o CSV.
 
@@ -664,6 +720,7 @@ def motor() -> dict:
 
 FONTES = OrderedDict((
     ("RGF Anexo 1 - 2026", anexo1),
+    ("RGF Anexo 1 - rubricas", anexo1_rubricas),
     ("RGF Anexo 2", anexo2),
     ("RGF Anexo 2 - somas", anexo2_somas),
     ("RGF Anexo 6 - 2025", anexo6_2025),
@@ -734,6 +791,15 @@ def gerar(caminho: str | None = None) -> str:
     return destino
 
 
+#: a reparticao entre vencimentos e obrigacoes patronais diverge todo mes, mas a
+#: soma das duas (Pessoal Ativo) fecha ao centavo. O valor migra de uma para a
+#: outra — e um item classificado como vencimento que o SIGEF poe em patronal.
+CAUSA_SPLIT = (
+    "A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em "
+    "todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo "
+    "valor aparece com sinais opostos — um item que classificamos como vencimento e "
+    "o SIGEF classifica como contribuicao patronal. O total nao e afetado.")
+
 #: causa documentada de cada divergencia conhecida (prefixo do item -> texto)
 CAUSAS = (
     ("2026 — Abril — I", "Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND "
@@ -765,6 +831,22 @@ CAUSAS = (
      "DTP de 2025 apurada pela MSC (despesa liquida do Anexo 1), nao pela MAPA do "
      "SIGEF. Desvio de +82,1 mi (+0,75%): mesma causa das duas linhas de 2025 do "
      "Anexo 1 — a MSC nao identifica a parcela intra-orcamentaria."),
+    ("2026 — Janeiro — Vencimentos", CAUSA_SPLIT),
+    ("2026 — Fevereiro — Vencimentos", CAUSA_SPLIT),
+    ("2026 — Março — Vencimentos", CAUSA_SPLIT),
+    ("2026 — Abril — Vencimentos", CAUSA_SPLIT),
+    ("2026 — Maio — Vencimentos", CAUSA_SPLIT),
+    ("2026 — Junho — Vencimentos", CAUSA_SPLIT),
+    ("2026 — Julho — Vencimentos", CAUSA_SPLIT),
+    ("2026 — Agosto — Vencimentos", CAUSA_SPLIT),
+    ("2026 — Janeiro — Obrigações", CAUSA_SPLIT),
+    ("2026 — Fevereiro — Obrigações", CAUSA_SPLIT),
+    ("2026 — Março — Obrigações", CAUSA_SPLIT),
+    ("2026 — Abril — Obrigações", CAUSA_SPLIT),
+    ("2026 — Maio — Obrigações", CAUSA_SPLIT),
+    ("2026 — Junho — Obrigações", CAUSA_SPLIT),
+    ("2026 — Julho — Obrigações", CAUSA_SPLIT),
+    ("2026 — Agosto — Obrigações", CAUSA_SPLIT),
     ("Restos a Pagar Processados",
      "Formula da aba RP: 6.3.1.3 + 6321 + 6.2.2.1.3.07, sem fontes "
      "32/46/800/801/802, menos a conta 8.6.3.2.2. Fecha ao centavo em agosto/2025 "

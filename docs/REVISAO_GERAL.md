@@ -2543,3 +2543,58 @@ RCL e dos limites**, que sao calculaveis e se repetem em todos eles.
 | 6 | 1 | **10** |
 
 O livro passou de 310 para **337 celulas**, com **328 exatas**.
+
+
+### 17.63 Anexo 1 — as rubricas revelam um erro que o total escondia
+
+Conferir so a despesa bruta dizia "exato em 10 de 10 meses". Conferir **cada
+rubrica** mostra outra coisa.
+
+Implementei seis rubricas por mes (8 meses): vencimentos, obrigacoes patronais,
+aposentadorias, pensoes, terceirizacao e nao executada, mais o subtotal
+"Pessoal Ativo".
+
+**36 de 53 exatas.** O que diverge:
+
+| rubrica | meses | padrao |
+|---|---|---|
+| Vencimentos | 8 de 8 | **+X** |
+| Obrigacoes Patronais | 8 de 8 | **−X** |
+| Pensoes (abril) | 1 | −5.241,65 |
+
+E o X muda todo mes: 138.865,10 (jan), 35.507,44 (fev), 128.164,39 (mar),
+7.267,37 (abr), 731.152,55 (mai), 8.144,04 (jun), 231.945,22 (jul), 493.254,25 (ago).
+
+### O que isso significa
+
+**A soma das duas fecha ao centavo**: vencimentos + patronais = Pessoal Ativo em
+todos os meses. O que diverge e a **reparticao**.
+
+Ha um item — de valor variavel — que classificamos como vencimento e o SIGEF
+classifica como contribuicao patronal. O total nao e afetado; a linha e.
+
+### Por que a conferencia anterior nao via
+
+Ela olhava `DESPESA BRUTA COM PESSOAL (I)`, que e a soma de tudo. Se 138 mil
+migram de uma rubrica para outra dentro do mesmo grupo, a soma nao muda.
+
+E o mesmo principio das somas do Anexo 2: **conferir o total esconde erro de
+classificacao; conferir as parcelas nao.**
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| linhas por mes | 3 (I, II, III) | **3 + 7 (rubricas)** |
+| celulas | 337 | **390** |
+| exatas | 328 | **364** |
+
+O percentual caiu de 97,3% para 93,3% — e o sistema ficou mais preciso: agora se
+sabe **onde** a reparticao diverge, e que ela nao afeta o total.
+
+### O que resolveria
+
+Identificar a natureza de despesa do item que migra. Como o valor muda todo mes e
+nao e um elemento inteiro, provavelmente e o **13o salario** ou a **contribuicao
+patronal de uma rubrica especifica** — a conferir natureza a natureza entre
+3190.11 (vencimentos) e 3190.13 (obrigacoes patronais).

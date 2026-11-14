@@ -1,14 +1,14 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 09:39** a partir do código no commit `58193b3` (branch `main`).
+Emitido em **14/11/2026 09:49** a partir do código no commit `cc58a08` (branch `main`).
 
-Último commit: *Anexo 3: cinco de cinco linhas exatas*
+Último commit: *Anexo 4: oito de oito linhas exatas*
 
 ---
 
 ## 1. Resultado
 
-**328 de 337 células exatas** (97.3%), em 30 grupos de verificação.
+**364 de 390 células exatas** (93.3%), em 31 grupos de verificação.
 
 Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo publicado pelo Siconfi** — não com a planilha de trabalho da equipe.
 
@@ -17,6 +17,7 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | aba | células | exatas |
 |---|---:|---:|
 | RGF Anexo 1 - 2026 | 24 | 22 |
+| RGF Anexo 1 - rubricas | 53 | 36 |
 | RGF Anexo 2 | 16 | 15 |
 | RGF Anexo 2 - somas | 6 | 3 |
 | RGF Anexo 6 - 2025 | 5 | 5 |
@@ -53,6 +54,23 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 |---|---|---:|---:|---:|
 | RGF Anexo 1 - 2026 | 2026 — Abril — I — Despesa Bruta | 680,626,929.97 | 680,632,171.62 | -5,241.65 |
 | RGF Anexo 1 - 2026 | 2026 — Abril — III — Despesa Líquida | 303,562,294.70 | 303,567,536.35 | -5,241.65 |
+| RGF Anexo 1 - rubricas | 2026 — Janeiro — Vencimentos, Vantagens e Ou | 648,993,073.20 | 648,854,208.10 | 138,865.10 |
+| RGF Anexo 1 - rubricas | 2026 — Janeiro — Obrigações Patronais | 270,172,866.17 | 270,311,731.27 | -138,865.10 |
+| RGF Anexo 1 - rubricas | 2026 — Fevereiro — Vencimentos, Vantagens e  | 458,637,129.06 | 458,601,621.62 | 35,507.44 |
+| RGF Anexo 1 - rubricas | 2026 — Fevereiro — Obrigações Patronais | 191,799,956.33 | 191,835,463.77 | -35,507.44 |
+| RGF Anexo 1 - rubricas | 2026 — Março — Vencimentos, Vantagens e Outr | 534,595,176.53 | 534,467,012.14 | 128,164.39 |
+| RGF Anexo 1 - rubricas | 2026 — Março — Obrigações Patronais | 191,052,957.42 | 191,181,121.81 | -128,164.39 |
+| RGF Anexo 1 - rubricas | 2026 — Abril — Vencimentos, Vantagens e Outr | 564,073,010.72 | 564,065,743.35 | 7,267.37 |
+| RGF Anexo 1 - rubricas | 2026 — Abril — Obrigações Patronais | 205,951,887.85 | 205,959,155.22 | -7,267.37 |
+| RGF Anexo 1 - rubricas | 2026 — Abril — Pensões | 76,124,731.24 | 76,129,972.89 | -5,241.65 |
+| RGF Anexo 1 - rubricas | 2026 — Maio — Vencimentos, Vantagens e Outra | 511,215,096.55 | 510,483,944.00 | 731,152.55 |
+| RGF Anexo 1 - rubricas | 2026 — Maio — Obrigações Patronais | 202,967,526.08 | 203,698,678.63 | -731,152.55 |
+| RGF Anexo 1 - rubricas | 2026 — Junho — Vencimentos, Vantagens e Outr | 570,579,584.02 | 570,571,439.98 | 8,144.04 |
+| RGF Anexo 1 - rubricas | 2026 — Junho — Obrigações Patronais | 204,401,017.76 | 204,409,161.80 | -8,144.04 |
+| RGF Anexo 1 - rubricas | 2026 — Julho — Vencimentos, Vantagens e Outr | 517,962,696.90 | 517,730,751.68 | 231,945.22 |
+| RGF Anexo 1 - rubricas | 2026 — Julho — Obrigações Patronais | 205,995,943.45 | 206,227,888.67 | -231,945.22 |
+| RGF Anexo 1 - rubricas | 2026 — Agosto — Vencimentos, Vantagens e Out | 581,264,511.30 | 580,771,257.05 | 493,254.25 |
+| RGF Anexo 1 - rubricas | 2026 — Agosto — Obrigações Patronais | 172,605,776.88 | 173,099,031.13 | -493,254.25 |
 | RGF Anexo 2 | (-) Restos a Pagar Processados (Exceto Preca | 788,629,587.54 | 750,866,596.13 | 37,762,991.41 |
 | RGF Anexo 2 - somas | DÍVIDA CONSOLIDADA (I) (soma) | 8,799,665,536.74 | 9,741,591,734.36 | -941,926,197.62 |
 | RGF Anexo 2 - somas | DEDUÇÕES (II) (soma) | 231,551,524.48 | 269,314,515.89 | -37,762,991.41 |
@@ -82,6 +100,23 @@ Suíte: **81 testes definidos em 11 arquivos**. Rode `python rodar_testes.py` pa
 
 - **RGF Anexo 1 - 2026 — 2026 — Abril — I — Despesa Bruta**: -5,241.65 de desvio (-0.00%). Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 do PO 10112, em abril: a diferenca e 5.241,65. O homologado trata o par de forma diferente do Comparativo.
 - **RGF Anexo 1 - 2026 — 2026 — Abril — III — Despesa Líquida**: -5,241.65 de desvio (-0.00%). Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND 31909203 do PO 10112, em abril: a diferenca e 5.241,65. O homologado trata o par de forma diferente do Comparativo.
+- **RGF Anexo 1 - rubricas — 2026 — Janeiro — Vencimentos, Vantagens e Outras**: 138,865.10 de desvio (+0.02%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Janeiro — Obrigações Patronais**: -138,865.10 de desvio (-0.05%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Fevereiro — Vencimentos, Vantagens e Outr**: 35,507.44 de desvio (+0.01%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Fevereiro — Obrigações Patronais**: -35,507.44 de desvio (-0.02%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Março — Vencimentos, Vantagens e Outras D**: 128,164.39 de desvio (+0.02%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Março — Obrigações Patronais**: -128,164.39 de desvio (-0.07%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Abril — Vencimentos, Vantagens e Outras D**: 7,267.37 de desvio (+0.00%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Abril — Obrigações Patronais**: -7,267.37 de desvio (-0.00%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Abril — Pensões**: -5,241.65 de desvio (-0.01%). sem causa identificada
+- **RGF Anexo 1 - rubricas — 2026 — Maio — Vencimentos, Vantagens e Outras De**: 731,152.55 de desvio (+0.14%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Maio — Obrigações Patronais**: -731,152.55 de desvio (-0.36%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Junho — Vencimentos, Vantagens e Outras D**: 8,144.04 de desvio (+0.00%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Junho — Obrigações Patronais**: -8,144.04 de desvio (-0.00%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Julho — Vencimentos, Vantagens e Outras D**: 231,945.22 de desvio (+0.04%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Julho — Obrigações Patronais**: -231,945.22 de desvio (-0.11%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Agosto — Vencimentos, Vantagens e Outras **: 493,254.25 de desvio (+0.08%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
+- **RGF Anexo 1 - rubricas — 2026 — Agosto — Obrigações Patronais**: -493,254.25 de desvio (-0.28%). A soma vencimentos + obrigacoes patronais (Pessoal Ativo) fecha ao centavo em todos os meses; o que diverge e a REPARTICAO entre as duas rubricas. O mesmo valor aparece com sinais opostos — um item que classificamos como vencimento e o SIGEF classifica como contribuicao patronal. O total nao e afetado.
 - **RGF Anexo 2 — (-) Restos a Pagar Processados (Exceto Precatóri**: 37,762,991.41 de desvio (+5.03%). Formula da aba RP: 6.3.1.3 + 6321 + 6.2.2.1.3.07, sem fontes 32/46/800/801/802, menos a conta 8.6.3.2.2. Fecha ao centavo em agosto/2025 com controle zero. Em dezembro sobram 37.762.991,41 porque o controle de 942.052.222,15 e de outro mes (precisaria ser 979.815.213,56).
 - **RGF Anexo 2 - somas — DÍVIDA CONSOLIDADA (I) (soma)**: -941,926,197.62 de desvio (-9.67%). A soma das parcelas da 8.799.665.536,74; o publicado e 9.741.591.734,36. A diferenca de 941.926.197,62 e a linha 'Outras Dividas', que nao tem lista de contas na aba Base — e o RP inscrito sem disponibilidade de caixa (Nota 4 do relatorio), reclassificado como divida.
 - **RGF Anexo 2 - somas — DEDUÇÕES (II) (soma)**: -37,762,991.41 de desvio (-14.02%). Herda a diferenca do RP Processados (37.762.991,41). As outras tres parcelas — disponibilidade, depositos e haveres — estao exatas.

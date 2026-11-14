@@ -1,14 +1,14 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 20:38** a partir do código no commit `37693c0` (branch `main`).
+Emitido em **14/11/2026 20:54** a partir do código no commit `ca964fb` (branch `main`).
 
-Último commit: *Anexo 1 de 2025: quatro linhas fechadas pelo MAPA do auditor*
+Último commit: *Atualizacao a partir do Antigravity: caminhos flexiveis e modo Siconfi*
 
 ---
 
 ## 1. Resultado
 
-**424 de 435 células exatas** (97.5%), em 38 grupos de verificação.
+**429 de 437 células exatas** (98.2%), em 38 grupos de verificação.
 
 Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo publicado pelo Siconfi** — não com a planilha de trabalho da equipe.
 
@@ -27,7 +27,7 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RREO Anexo 4 - receitas | 1 | 1 |
 | RREO Anexo 2 - funcoes | 23 | 23 |
 | RREO Anexo 7 - por Poder | 7 | 6 |
-| RGF Anexo 1 - 2025 (MAPA) | 4 | 4 |
+| RGF Anexo 1 - 2025 (MAPA) | 6 | 6 |
 | RGF Anexo 3 - 2025 | 5 | 5 |
 | RGF Anexo 4 - 2025 | 8 | 8 |
 | RGF Anexo 5 | 90 | 90 |
@@ -45,11 +45,11 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RREO Anexo 13 - projeções | 6 | 6 |
 | motor | 1 | 1 |
 | RREO - Balanço Orçamentário | 1 | 1 |
-| RGF Anexo 1 - totais | 2 | 0 |
+| RGF Anexo 1 - totais | 2 | 2 |
 | RREO Anexo 3 | 1 | 1 |
 | RGF Anexo 3 | 1 | 1 |
 | RGF Anexo 4 | 1 | 1 |
-| RGF Anexo 6 | 4 | 3 |
+| RGF Anexo 6 | 4 | 4 |
 | RREO Anexo 2 - totais | 1 | 1 |
 | RREO Anexo 1 | 3 | 3 |
 | RREO Anexo 7 | 5 | 5 |
@@ -67,9 +67,6 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RGF Anexo 2 - somas | DEDUÇÕES (II) (soma) | 231,551,524.48 | 269,314,515.89 | -37,762,991.41 |
 | RGF Anexo 2 - somas | DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma) | 8,568,114,012.26 | 9,472,277,218.47 | -904,163,206.21 |
 | RREO Anexo 7 - por Poder | Anexo 7 — Executivo — RP Não Processados | 11,871,954.46 | 14,919,410.07 | -3,047,455.61 |
-| RGF Anexo 1 - totais | RGF Anexo 1: despesa bruta (I) | 15,421,416,732.35 | 15,478,621,265.08 | -57,204,532.73 |
-| RGF Anexo 1 - totais | RGF Anexo 1: despesa líquida (III) | 11,085,096,971.23 | 11,001,153,864.38 | 83,943,106.85 |
-| RGF Anexo 6 | RGF Anexo 6: despesa total com pessoal (DTP) | 11,085,096,971.23 | 11,004,331,905.62 | 80,765,065.61 |
 
 As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própria planilha.
 
@@ -84,7 +81,7 @@ As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própr
 | `test_coerencia.py` | README, planilha e .md discordarem |
 | `test_verificacao.py` | divergência ficar sem causa escrita |
 
-Suíte: **113 testes definidos em 19 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
+Suíte: **117 testes definidos em 20 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
 
 ---
 
@@ -98,9 +95,6 @@ Suíte: **113 testes definidos em 19 arquivos**. Rode `python rodar_testes.py` p
 - **RGF Anexo 2 - somas — DEDUÇÕES (II) (soma)**: -37,762,991.41 de desvio (-14.02%). Herda a diferenca do RP Processados (37.762.991,41). As outras tres parcelas — disponibilidade, depositos e haveres — estao exatas.
 - **RGF Anexo 2 - somas — DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma)**: -904,163,206.21 de desvio (-9.55%). Herda as duas anteriores: falta 'Outras Dividas' na DC e sobra o RP sem disponibilidade nas deducoes. As duas parcelas sao o mesmo valor visto de dois lados.
 - **RREO Anexo 7 - por Poder — Anexo 7 — Executivo — RP Não Processados**: -3,047,455.61 de desvio (-20.43%). Os cinco Poderes fecham em RP processados; em nao processados quatro fecham. O Executivo diverge em 3.047.455,61: o arquivo calcula Saldo k = (f + g) - (i + j), que inclui os liquidados nao pagos, enquanto a conta 6.3.1.1 da matriz traz so o saldo a pagar. A diferenca e a parcela liquidada e nao paga que o arquivo soma no saldo.
-- **RGF Anexo 1 - totais — RGF Anexo 1: despesa bruta (I)**: -57,204,532.73 de desvio (-0.37%). 2025 nao fecha pela regra do mapeamento de 2026: aplicada aos doze meses, ela erra entre 0,2% e 26%, sem padrao. Em fevereiro o gabarito e 489,8 mi e a regra da 422,2 mi — e o PO 30390 sozinho tem 110 mi em fevereiro, fora de qualquer filtro documentado. Nao ha mapeamento de 2025 em MDF_STN/2025. O gabarito do auditor (aba CONFERENCIAS do RGF 2025_Q3_01) e a referencia: fecha internamente ao centavo e soma exatamente o publicado.
-- **RGF Anexo 1 - totais — RGF Anexo 1: despesa líquida (III)**: 83,943,106.85 de desvio (+0.76%). Idem: decorre da mesma apuracao anual de 2025, cuja regra de Poder nao e a de 2026.
-- **RGF Anexo 6 — RGF Anexo 6: despesa total com pessoal (DTP)**: 80,765,065.61 de desvio (+0.73%). Herda a despesa liquida de 2025 do Anexo 1, cuja regra de Poder nao e a de 2026. Ver as duas linhas de 2025 do Anexo 1.
 - **RCL**: é lida do Anexo 3, não apurada — o bloco de deduções do RPPS não existe na matriz.
 
 ---

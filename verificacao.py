@@ -630,17 +630,19 @@ def anexo1_2025_mapa() -> list[dict]:
     """
     import json
 
-    arq = os.path.join(AQUI, "dados", "benchmarks", "anexo1_2025_mapa.json")
+    arq = os.path.join(AQUI, "dados", "benchmarks", "anexo1_2025_quadro.json")
     if not os.path.exists(arq):
         return []
     with open(arq, encoding="utf-8") as fh:
         mapa = json.load(fh)
 
-    def valor(prefixo: str) -> float | None:
-        for linha in mapa["linhas"]:
-            if linha["rotulo"].startswith(prefixo):
-                return sum(v for v in linha["meses"] if v is not None)
-        return None
+    def valor(chave: str) -> float | None:
+        """Soma dos doze meses de uma linha do QUADRO."""
+        item = mapa["linhas"].get(chave)
+        if item is None:
+            return None
+        vals = [v for v in item["meses"] if v is not None]
+        return sum(vals) if vals else None
 
     csv_2025 = os.path.join(SICONFI, "rgf", "RGF_RGF-Anexo_01_24_2025_p3.csv")
     if not os.path.exists(csv_2025):
@@ -660,15 +662,13 @@ def anexo1_2025_mapa() -> list[dict]:
         return None
 
     pares = (
-        ("I — Despesa Bruta", valor("DESPESA BRUTA COM PESSOAL"),
-         ref("DESPESA BRUTA COM PESSOAL")),
-        ("Vencimentos", valor("Vencimentos, Vantagens"),
-         ref("Vencimentos, Vantagens")),
-        ("Obrigações Patronais", valor("Obrigações Patronais"),
-         ref("Obrigações Patronais")),
+        ("I — Despesa Bruta", valor("I"), ref("DESPESA BRUTA COM PESSOAL")),
+        ("II — Não Computadas", valor("II"), ref("DESPESAS NÃO COMPUTADAS")),
+        ("III — Despesa Líquida", valor("III"), ref("DESPESA LÍQUIDA COM PESSOAL")),
+        ("Vencimentos", valor("vencimentos"), ref("Vencimentos, Vantagens")),
+        ("Obrigações Patronais", valor("patronal"), ref("Obrigações Patronais")),
         ("Inativos e Pensionistas com Recursos Vinculados",
-         valor("Inativos e Pensionistas com Recursos Vinculados"),
-         ref("Inativos e Pensionistas com Recursos")),
+         valor("inativos_vinculados"), ref("Inativos e Pensionistas com Recursos")),
     )
     return [_linha(f"2025 — {rotulo}", v, e)
             for rotulo, v, e in pares if v is not None and e is not None]

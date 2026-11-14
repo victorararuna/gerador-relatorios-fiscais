@@ -3945,3 +3945,65 @@ Comparativo daquele exercicio.
 | testes | 113 | **117** |
 | celulas | 435 | 435 |
 | exatas | 424 | **424** |
+
+
+### 17.86 A frente de 2025 fechou: a aba certa era o QUADRO
+
+Aplicando as descobertas do Antigravity, a frente de 2025 fechou — mas nao pela
+razao que eu esperava.
+
+Eu vinha lendo a aba **`Mapeamento`**. Ela e a memoria de calculo, e tem uma linha
+de total que **nao e a soma das parcelas**: a "DESPESAS NAO COMPUTADAS (II)" soma
+4.856.179.160,28 contra 4.477.467.400,70 publicados.
+
+A aba certa e a **`Quadro`** — o demonstrativo pronto, com uma linha por item e o
+valor de cada mes. Os tres totais fecham ao centavo:
+
+| linha | QUADRO (ano) | publicado | |
+|---|---:|---:|---|
+| I — Despesa Bruta | 15.478.621.265,08 | 15.478.621.265,08 | **OK** |
+| II — Nao Computadas | 4.477.467.400,70 | 4.477.467.400,70 | **OK** |
+| III — Despesa Liquida | 11.001.153.864,38 | 11.001.153.864,38 | **OK** |
+| Vencimentos | 6.552.405.214,64 | 6.552.405.214,64 | **OK** |
+| Obrigacoes Patronais | 2.405.400.638,81 | 2.405.400.638,81 | **OK** |
+| Inativos Vinculados | 3.538.152.718,10 | 3.538.152.718,10 | **OK** |
+
+### A DTP: a descoberta que fechou a ultima linha
+
+A **Despesa Total com Pessoal** nao e a despesa liquida — e a liquida **mais os
+restos a pagar nao processados** inscritos no exercicio:
+
+```
+DTP = III + III_b
+11.001.153.864,38 + 3.178.041,24 = 11.004.331.905,62
+```
+
+Os RPNP saem das contas `622130500` e `622130600` da MSC:
+
+| parcela | valor |
+|---|---:|
+| I_b — terceirizacao em RPNP | 3.198.333,35 |
+| II_b — DEA de terceirizacao | 20.292,11 |
+| **III_b** | **3.178.041,24** |
+
+**Esta e a descoberta que valia:** o conceito, nao o numero.
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas | 435 | **437** |
+| exatas | 424 | **429** |
+| percentual | 97,5% | **98,2%** |
+| **verificacoes** | **29 de 30** | **30 de 30** |
+| divergencias | 11 | **8** |
+
+### As 8 que restam
+
+| frente | celulas |
+|---|---:|
+| Abril/2026 — erro do publicado, provado | 3 |
+| Anexo 2 — RP e "Outras Dividas" (conta 8.6.3.2.2) | 4 |
+| Anexo 7 — RPN do Executivo | 1 |
+
+**Nenhuma delas e de 2025.** Aquela frente esta encerrada.

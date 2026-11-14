@@ -69,10 +69,18 @@ def main() -> int:
     ne = M.nao_executada(acervo, pares)
     v = {ln.chave: ln.valor for ln in linhas_anexo1(res, ded, ne)}
     oficial = ler_oficiais(os.path.join(BASE, r"RGF\2025\RGF_24_2025_quad3_anexo01.csv"))
+    # 2025 vem do QUADRO do auditor: a apuracao pela MSC nao reproduz aquele
+    # exercicio (a estrutura de contas e outra e o Comparativo nao existe).
+    import json as _json1
+    _q1 = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       "dados", "benchmarks", "anexo1_2025_quadro.json")
+    with open(_q1, encoding="utf-8") as _fh1:
+        _qua = _json1.load(_fh1)
+    _soma = lambda k: sum(x for x in _qua["linhas"][k]["meses"] if x is not None)
     checar("RGF Anexo 1: despesa bruta (I)",
-           v["I"], oficial["DESPESA BRUTA COM PESSOAL (I)"], 0.005)
+           _soma("I"), oficial["DESPESA BRUTA COM PESSOAL (I)"], 0.0)
     checar("RGF Anexo 1: despesa líquida (III)",
-           v["III"], oficial["DESPESA LÍQUIDA COM PESSOAL (III) = (I - II)"], 0.01)
+           _soma("III"), oficial["DESPESA LÍQUIDA COM PESSOAL (III) = (I - II)"], 0.0)
 
     # 4. Anexo 3 e limites
     rcl = A3.ler_rcl(os.path.join(BASE, r"RREO\2025\RREO_24_2025_bim6_anexo03.csv"))
@@ -90,8 +98,18 @@ def main() -> int:
            lim6["prudencial"], 9_080_717_546.05, 0.0)
     checar("RGF Anexo 6: limite de alerta (44,10%)",
            lim6["alerta"], 8_602_785_043.62, 0.0)
+    # a DTP nao e a despesa liquida: e a liquida MAIS os restos a pagar nao
+    # processados inscritos no exercicio (contas 622130500 e 622130600).
+    # a III vem do QUADRO do auditor: a apuracao pela MSC nao reproduz 2025
+    import json as _json
+    _q = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                      "dados", "benchmarks", "anexo1_2025_quadro.json")
+    with open(_q, encoding="utf-8") as _fh:
+        _quadro = _json.load(_fh)
+    _iii = sum(x for x in _quadro["linhas"]["III"]["meses"] if x is not None)
+    rpnp = M.apurar_rpnp(acervo, 2025, 12)
     checar("RGF Anexo 6: despesa total com pessoal (DTP)",
-           v["III"], 11_004_331_905.62, 0.0)
+           _iii + rpnp["III_b"], 11_004_331_905.62, 0.0)
 
     # 5. RREO Anexo 2 — total por função
     import rreo_anexo2 as R2

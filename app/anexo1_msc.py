@@ -188,6 +188,38 @@ def apurar_janela(acervo: Acervo, ano_fim: int, mes_fim: int,
     return _acumular(acervo, periodos_janela(ano_fim, mes_fim), pos, filtrar_co)
 
 
+#: contas de restos a pagar nao processados
+CONTAS_RPNP = ("622130500", "622130600")
+
+
+def apurar_rpnp(acervo: "Acervo", ano: int = 2025, mes: int = 12,
+                pos: Sequence[str] = PO_EXECUTIVO) -> Dict[str, float]:
+    """RPNP inscritos no exercicio, para compor a DTP.
+
+    A DTP do Anexo 1 e a despesa liquida **mais** os restos a pagar nao
+    processados. Sao as contas 622130500 e 622130600:
+
+      I_b    terceirizacao inscrita em RPNP
+      II_b   DEA de terceirizacao (ND 33909234), fora das fontes 604 e 605
+      III_b  I_b - II_b
+    """
+    pos = tuple(pos)
+    terceirizacao = 0.0
+    dea = 0.0
+    try:
+        linhas = list(acervo.ler(ano, mes, classe=6, tipo_valor="ending_balance"))
+    except Exception:
+        linhas = []
+    for r in linhas:
+        if r.conta not in CONTAS_RPNP or r.po not in pos:
+            continue
+        if _classificar(r.nd) == "terceirizacao":
+            terceirizacao += r.liquido
+        if r.nd == "33909234" and not (r.fr or "").endswith(("604", "605")):
+            dea += r.liquido
+    return {"I_b": terceirizacao, "II_b": dea, "III_b": terceirizacao - dea}
+
+
 def nao_executada(acervo: Acervo, pares: Sequence[Tuple[int, int]],
                   pos: Sequence[str] = PO_EXECUTIVO) -> float:
     """Despesa com pessoal não executada orçamentariamente (classe 8), em fluxo."""

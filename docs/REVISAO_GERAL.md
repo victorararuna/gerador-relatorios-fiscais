@@ -2238,3 +2238,40 @@ intra-orcamentaria, que foi uma pista real; e o `rreo_anexo7_poder` guarda o
 de-para de PO por Poder, que pode voltar a ser util.
 
 O que faltava era saber que eles estao fora — agora esta escrito.
+
+
+### 17.56 RP Processados — investigacao encerrada, de vez
+
+Ultimo teste: procurar uma fonte de recursos cujo valor isolado explicasse a
+diferenca de 36.570.070,29 entre a nossa soma e a da equipe.
+
+| verificacao | resultado |
+|---|---|
+| alguma fonte isolada com ~36,57 mi | **nenhuma** (tolerancia de 5%) |
+| a aba "Outros Ajustes" contem o controle | nao — sao ajustes por Poder, com BI2 ≈ 2 × BI1 |
+
+Conclusao: **o valor da equipe (K20) e de outro mes**. O `6321` vale
+469.941.259,71 na planilha e 470.465.377,32 na MSC de dezembro — 524 mil de
+diferenca só nessa conta.
+
+### O que fica estabelecido
+
+| | |
+|---|---|
+| metodo | `(6.3.1.3 + 6321 + 6.2.2.1.3.07) − 8.6.3.2.2`, sem fontes 32/46/800/801/802 |
+| prova | **agosto/2025 fecha ao centavo** com controle zero |
+| dezembro | 788.629.587,54 contra 750.866.596,13 (5,0%) |
+| o que falta | o saldo de **8.6.3.2.2 em 31/12/2025** (aqui seria 979.815.213,56) |
+
+### Por que parar aqui
+
+Onze rodadas de investigacao sobre esta linha — 79 a 110 — e o que restou foi um
+**numero de uma data**. Nao ha mais hipotese a testar que nao seja "tentar outro
+mes". Testei cinco contas, tres meses, dois cortes e todas as fontes.
+
+A linha esta a **5,0%**, com o metodo provado noutro periodo. E o melhor que os
+dados permitem.
+
+**Encerrado.** As proximas rodadas vao para o que ainda nao foi coberto: o Anexo
+1 de 2026 no 1º quadrimestre, o Anexo 6 do RREO e a conferencia do 3º
+quadrimestre quando os dados chegarem.

@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 13:10** a partir do código no commit `bbc189f` (branch `main`).
+Emitido em **14/11/2026 13:14** a partir do código no commit `c17be5a` (branch `main`).
 
-Último commit: *certificado: contagem e data*
+Último commit: *Anexo 4: receita de capital exata; 1.9 tem 14.694,63 contados duas vezes no publicado*
 
 ---
 

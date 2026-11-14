@@ -1520,3 +1520,29 @@ classificação, é o tratamento do par.
 
 A diferença é **0,0008%** da despesa bruta de abril — imaterial para o relatório,
 mas agora com causa apontada em vez de "origem não identificada".
+
+
+### 17.36 RP Processados — o DCL não usa o saldo do Anexo 7
+
+Última verificação, e ela esclarece a confusão:
+
+| conta no balancete | valor |
+|---|---:|
+| 6.3.2.1.1 (RP processados inscritos) | 470.465.377,32 |
+| 6.3.1.3.1 (RP não processados inscritos) | 3.047.455,61 |
+| 8.6.3.2.1.01 (controle) | 36.600,82 |
+
+O `470.465.377,32` é **exatamente** o saldo de RP processados do RREO Anexo 7.
+
+Mas o DCL publicado pede **750.866.596,13** — outro agregado. A diferença de
+280.401.218,81 não está nessas contas.
+
+Ou seja: a linha do DCL não é "o saldo de RP processados". É um recorte próprio
+(por Poder e por fonte, excluindo FR 32, 46, 800, 801 e 802), que só o relatório
+de execução por fonte produz.
+
+**A seção da aba Base soma as contas-pai `6.3.1.3.0` e `6.3.2.1.0`, mais
+`6.2.2.1.3.07` e `6.3.2.7.0` — e chega a 3,3 bi.** Não é o mesmo número por três
+motivos: é conta-pai, inclui uma conta de empenho e não tem a dimensão de fonte.
+
+Investigação encerrada. O que falta é o relatório.

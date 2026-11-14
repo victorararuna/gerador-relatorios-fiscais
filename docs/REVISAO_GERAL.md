@@ -1738,3 +1738,40 @@ Isso explica por que 2026 quase fecha (0,28%) e 2025 não: o corte de exercício
 
 Não é o saldo de anos anteriores — esse nós já temos (470,5 mi, por ano de
 inscrição).
+
+
+### 17.43 RP Processados — a inscrição de 2025 existe, mas não é a diferença
+
+A matriz de 2026 traz o ano de inscrição preenchido. Em janeiro de 2026:
+
+| ano de inscrição | valor |
+|---|---:|
+| 2017 a 2024 (estoque) | 465.226.819,63 |
+| **2025** | **1.005.773.328,13** |
+| total | 1.470.741.103,94 |
+
+A inscrição de 2025 é de **1,0 bilhão** — muito maior que a diferença de
+280.401.218,81 que eu esperava explicar.
+
+Logo, a linha do DCL **não é o estoque total** nem o estoque mais a inscrição.
+
+### O que os números dizem
+
+| referência | valor |
+|---|---:|
+| estoque de RP processados em 31/12/2025 (2017–2024) | 470.465.377,32 |
+| inscrição de 2025 (vista em 01/2026) | 1.005.773.328,13 |
+| **DCL publicado, 3º quadrimestre de 2025** | **750.866.596,13** |
+
+O DCL fica **entre** os dois. Não é a soma nem o estoque.
+
+### A hipótese que sobra
+
+O DCL deduz da disponibilidade o RP processado **que ainda onera o caixa** — ou
+seja, o estoque **menos o que já foi pago**, com recorte por fonte. Os valores
+trimestrais (961,9 / 684,4 / 750,9 milhões) oscilam como **saldo**, não como
+fluxo — e nenhum deles coincide com o nosso estoque de 470,5.
+
+**Conclusão:** a linha exige a posição por Poder e por fonte numa data. É a
+mesma conclusão de antes, agora com um dado a mais: a inscrição de 2025 é de
+1,0 bilhão, e o DCL usa 750,9 — um recorte intermediário.

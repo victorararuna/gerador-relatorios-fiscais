@@ -3794,3 +3794,56 @@ entram no bruto.
 | celulas exatas | 404 | **416** |
 | percentual | 93,7% | **96,5%** |
 | divergencias | 26 | **14** |
+
+
+### 17.83 O split fechou nos oito meses: era a natureza 31.XX.07.00
+
+Faltava uma natureza no bruto da patronal: **`31.XX.07.00`** (contribuicoes
+patronais a entidades fechadas de previdencia).
+
+| mes | 31.90.07.00 |
+|---|---:|
+| Janeiro a Junho | **0,00** |
+| Julho | 222.401,14 |
+| Agosto | 468.828,47 |
+
+Como em janeiro era zero, o mes fechou sem ela — e eu achei que o problema
+estivesse resolvido. Julho e agosto apontaram o resto.
+
+### O resultado final
+
+| mes | vencimentos | patronal |
+|---|---:|---:|
+| Janeiro | 0,00 | 0,00 |
+| Fevereiro | 0,00 | 0,00 |
+| Marco | 0,00 | 0,00 |
+| Abril | 0,00 | 0,00 |
+| Maio | 0,00 | 0,00 |
+| Junho | 0,00 | 0,00 |
+| Julho | 0,00 | 0,00 |
+| Agosto | 0,00 | 0,00 |
+
+**As 16 divergencias de rubrica desapareceram.**
+
+### A composicao completa do bruto da patronal
+
+```
+31.90.13.00   (todas as modalidades, elemento 13)
++ 31.90.92.13 (DEA da patronal)
++ 31.90.92.18 (DEA da patronal)
++ 31.90.07.00 (contribuicoes a entidades fechadas)
++ 31.91.13.00 (intra, elemento 13)
++ 31.91.91.xx e 31.91.92.xx (intra DEA, folha a folha)
+- EXPURGO_PATRONAL (os .22 a .75 de 31.91.13)
+```
+
+**Cada uma dessas parcelas foi encontrada comparando a planilha do auditor linha
+a linha — nao o texto do manual.**
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas exatas | 404 | **420** |
+| percentual | 93,7% | **97,4%** |
+| divergencias | 26 | **11** |

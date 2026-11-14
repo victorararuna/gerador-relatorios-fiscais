@@ -120,9 +120,13 @@ def secoes(mes: str) -> dict:
         if isinstance(v, (int, float))
         and (k.startswith("31.91.91.") or k.startswith("31.91.92."))
         and not k.endswith(".00"))
+    # 31.XX.07.00 (contribuicoes patronais a entidades fechadas) tambem entra:
+    # em julho/2026 sao 222.401,14 e em agosto 468.828,47, que o residuo jogava
+    # em vencimentos. Em janeiro e zero — por isso o mes fechou sem ela.
     patronal_bruto = (comp.get("31.90.13.00", 0.0)
                       + comp.get("31.90.92.13", 0.0)
                       + comp.get("31.90.92.18", 0.0)
+                      + comp.get("31.90.07.00", 0.0)
                       + comp.get("31.91.13.00", 0.0)
                       + intra_patronal)
     patronal = patronal_bruto - sum(comp.get(nd, 0.0) for nd in EXPURGO_PATRONAL)

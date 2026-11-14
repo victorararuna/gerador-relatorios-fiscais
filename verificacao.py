@@ -204,19 +204,43 @@ def anexo1_poder(mes: str | None = None) -> list[dict]:
 
 
 def limites_anexo1() -> list[dict]:
-    """A cadeia da RCL do Anexo 3 ate o percentual publicado."""
+    """A cadeia da RCL ate o percentual — do RGF Anexo 6 de 2026 Q2.
+
+    Os valores esperados sao lidos do arquivo publicado, nao fixados no codigo.
+    """
     import mapa_anexo1 as MAPA
 
     try:
         r = MAPA.limites_do_rreo(11_563_398_205.71)
     except Exception:
         return []
+    arq = os.path.join(SICONFI, "rgf", "RGF_RGF-Anexo_06_24_2026_p2.csv")
+    of = {}
+    if os.path.exists(arq):
+        for linha in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+            chave = (linha["conta"].strip(), linha["coluna"].strip())
+            of[chave] = float(linha["valor"])
+    def esperado(prefixo, coluna):
+        # a RCL ajustada aparece duas vezes (endividamento e pessoal): vale a
+        # ultima, que e a de pessoal — a que a linha do anexo usa
+        achado = 0.0
+        for (conta, col), valor in of.items():
+            if conta.startswith(prefixo) and col.startswith(coluna):
+                achado = valor
+        return achado
     return [
-        _linha("RCL ajustada p/ pessoal", r["rcl_ajustada"], 20_958_175_998.75),
-        _linha("DTP / RCL (12 meses) %", r["percentual"], 55.17),
-        _linha("Limite maximo (49%)", r["limite_maximo"], 10_269_506_239.39),
-        _linha("Limite prudencial (46,55%)", r["limite_prudencial"], 9_756_030_927.42),
-        _linha("Limite de alerta (44,10%)", r["limite_alerta"], 9_242_555_615.45),
+        _linha("RCL ajustada p/ pessoal (2026 Q2)", r["rcl_ajustada"],
+               esperado("Receita Corrente Líquida Ajustada para Cálculo dos Limites", "VALOR ATÉ O QUADRIMESTRE D")),
+        _linha("DTP (2026 Q2)", 11_563_398_205.71,
+               esperado("Despesa Total com Pessoal", "VALOR")),
+        _linha("DTP / RCL % (2026 Q2)", r["percentual"],
+               esperado("Despesa Total com Pessoal", "% SOBRE A RCL AJUSTADA")),
+        _linha("Limite maximo 49% (2026 Q2)", r["limite_maximo"],
+               esperado("Limite Máximo", "VALOR")),
+        _linha("Limite prudencial 46,55% (2026 Q2)", r["limite_prudencial"],
+               esperado("Limite Prudencial", "VALOR")),
+        _linha("Limite de alerta 44,10% (2026 Q2)", r["limite_alerta"],
+               esperado("Limite de Alerta", "VALOR")),
     ]
 
 

@@ -1467,3 +1467,36 @@ publicado .................................................  4.150.453.021,13
 que os liga é uma constante legal (22%).
 
 **Livro: 306 células, 303 exatas (99,0%).**
+
+
+### 17.34 A aba de limites passou a ler o arquivo publicado
+
+A `limites_anexo1()` tinha os valores esperados **fixos no código**. Agora ela lê
+o `RGF-Anexo_06_24_2026_p2.csv` e compara contra o arquivo:
+
+| linha | apurado | publicado (2026 Q2) |
+|---|---:|---:|
+| RCL ajustada para pessoal | 20.958.175.998,75 | 20.958.175.998,75 |
+| DTP | 11.563.398.205,71 | 11.563.398.205,71 |
+| DTP / RCL | 55,17% | 55,17% |
+| Limite máximo (49%) | 10.269.506.239,39 | 10.269.506.239,39 |
+| Limite prudencial (46,55%) | 9.756.030.927,42 | 9.756.030.927,42 |
+| Limite de alerta (44,10%) | 9.242.555.615,45 | 9.242.555.615,45 |
+
+**Seis de seis.** Livro: **307 células, 304 exatas (99,0%)**.
+
+### Duas armadilhas no caminho
+
+**1. A RCL ajustada aparece duas vezes no arquivo** — uma para endividamento e
+outra para pessoal. A primeira leitura pegou a de endividamento e acusou
+divergência falsa. Corrigido tomando a última ocorrência, com o motivo escrito.
+
+**2. O nome completo da coluna é `VALOR ATÉ O QUADRIMESTRE DE REFERÊNCIA`** — a
+comparação por igualdade falhava porque eu usava a forma truncada. Agora compara
+por prefixo.
+
+### Um aviso operacional
+
+O `verificacao_anexos.xlsx` estava travado por outro processo (sincronização do
+OneDrive) e a geração falhou com `PermissionError`. Regerou na segunda tentativa.
+Se acontecer de novo, feche o arquivo ou aguarde alguns segundos.

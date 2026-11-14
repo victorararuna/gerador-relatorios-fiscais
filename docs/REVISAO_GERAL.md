@@ -49,7 +49,7 @@ está na planilha da equipe, não no CSV do Siconfi.**
 | item | desvio | depende de |
 |---|---:|---|
 | **RGF Anexo 2 — RP Processados** | 2,56 bi | relatório "Execução Orçamentária por Fonte" (bloco de RP), por Poder |
-| **RGF Anexo 1 — abril** | 5.241,65 | na despesa **empenhada**: a linha II (não computadas) fecha exata, logo não é classificação. Não é um empenho único — busquei 5.241,65 na matriz de abril e não existe. Imaterial (0,0008%). |
+| **RGF Anexo 1 — abril** | 5.241,65 | par de **anulação (35.094,19) e re-empenho (29.852,54)** no ND 31909203 do PO 10112, em abril. A linha II fecha exata: não é classificação. Imaterial (0,0008%). |
 | RCL | — | é lida do Anexo 3: o bloco RPPS de deduções não existe na matriz |
 
 Fora esses, **todos os anexos fecham**: 298 de 301 células exatas.
@@ -1500,3 +1500,23 @@ por prefixo.
 O `verificacao_anexos.xlsx` estava travado por outro processo (sincronização do
 OneDrive) e a geração falhou com `PermissionError`. Regerou na segunda tentativa.
 Se acontecer de novo, feche o arquivo ou aguarde alguns segundos.
+
+
+### 17.35 Abril — a diferença de 5.241,65 tem endereço
+
+Depois de descartar "empenho único" (não existia 5.241,65 em abril), fui às
+contas do PO 10112 e achei o par:
+
+```
+622130200  ND 31909203  -35.094,19   (anulação)
+622130200  ND 31909203  +29.852,54   (re-empenho)
+                        -----------
+                           5.241,65  = a diferença de abril
+```
+
+O homologado e o Comparativo tratam o par de anulação/re-empenho de forma
+diferente. A linha II (não computadas) fecha exata, o que confirma: não é
+classificação, é o tratamento do par.
+
+A diferença é **0,0008%** da despesa bruta de abril — imaterial para o relatório,
+mas agora com causa apontada em vez de "origem não identificada".

@@ -518,9 +518,9 @@ def gerar(caminho: str | None = None) -> str:
 
 #: causa documentada de cada divergencia conhecida (prefixo do item -> texto)
 CAUSAS = (
-    ("Abril — I", "Diferenca de 5.241,65 na despesa EMPENHADA de abril: um empenho "
-                  "que o homologado traz e a leitura do Comparativo nao captura. A "
-                  "linha II (nao computadas) fecha exata, logo nao e classificacao."),
+    ("Abril — I", "Par de anulacao (35.094,19) e re-empenho (29.852,54) no ND "
+                  "31909203 do PO 10112, em abril: a diferenca e 5.241,65. O "
+                  "homologado trata o par de forma diferente do Comparativo."),
     ("Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
     ("Restos a Pagar Processados", "Exige o relatorio 'Execucao Orcamentaria por Fonte' "

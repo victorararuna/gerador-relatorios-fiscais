@@ -597,6 +597,38 @@ CONTRIBUICOES_ANEXO4 = (
 )
 
 
+def anexo2_funcoes() -> list[dict]:
+    """RREO Anexo 2 — uma linha por funcao, contra o CSV publicado.
+
+    Cuidado com o arquivo: cada funcao aparece **duas vezes** — uma no bloco
+    "exceto intra-orcamentarias" e outra no bloco "intra-orcamentarias", com o
+    mesmo nome e valores diferentes. O total da funcao e a **soma das duas**.
+
+    Somar as ocorrencias e o que faz as 23 funcoes fecharem ao centavo; ler so a
+    primeira daria 19 divergencias falsas.
+    """
+    import rreo_anexo2 as R2
+
+    arq = os.path.join(SICONFI, "rreo", "RREO_RREO-Anexo_02_24_2025_p6.csv")
+    if not os.path.exists(arq):
+        return []
+    pub = {}
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        if r["coluna"].startswith("DESPESAS LIQUIDADAS ATÉ"):
+            nome = r["conta"].strip()
+            pub[nome] = pub.get(nome, 0.0) + float(r["valor"])
+
+    nosso = R2.nosso_por_funcao()
+    saida = []
+    for codigo, nome in R2.FUNCOES.items():
+        valor = nosso.get(codigo)
+        esperado = pub.get(nome)
+        if valor is None or esperado is None:
+            continue
+        saida.append(_linha(f"Anexo 2 — {codigo} {nome}", valor, esperado))
+    return saida
+
+
 def anexo4_capital() -> list[dict]:
     """RREO Anexo 4 — receita de capital do fundo, contra o CSV publicado.
 
@@ -915,6 +947,7 @@ FONTES = OrderedDict((
     ("RREO Anexo 6", anexo6_rreo_2025),
     ("RREO Anexo 4 - contribuicoes", anexo4_contribuicoes),
     ("RREO Anexo 4 - receitas", anexo4_capital),
+    ("RREO Anexo 2 - funcoes", anexo2_funcoes),
     ("RGF Anexo 3 - 2025", anexo3_2025),
     ("RGF Anexo 4 - 2025", anexo4_2025),
     ("RGF Anexo 5", anexo5),

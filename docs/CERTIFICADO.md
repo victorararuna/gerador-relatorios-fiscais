@@ -1,14 +1,14 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 13:14** a partir do código no commit `c17be5a` (branch `main`).
+Emitido em **14/11/2026 13:18** a partir do código no commit `17c3074` (branch `main`).
 
-Último commit: *Anexo 4: receita de capital exata; 1.9 tem 14.694,63 contados duas vezes no publicado*
+Último commit: *certificado: contagem*
 
 ---
 
 ## 1. Resultado
 
-**375 de 401 células exatas** (93.5%), em 35 grupos de verificação.
+**398 de 424 células exatas** (93.9%), em 36 grupos de verificação.
 
 Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo publicado pelo Siconfi** — não com a planilha de trabalho da equipe.
 
@@ -25,6 +25,7 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RREO Anexo 6 | 1 | 1 |
 | RREO Anexo 4 - contribuicoes | 4 | 4 |
 | RREO Anexo 4 - receitas | 1 | 1 |
+| RREO Anexo 2 - funcoes | 23 | 23 |
 | RGF Anexo 3 - 2025 | 5 | 5 |
 | RGF Anexo 4 - 2025 | 8 | 8 |
 | RGF Anexo 5 | 90 | 90 |

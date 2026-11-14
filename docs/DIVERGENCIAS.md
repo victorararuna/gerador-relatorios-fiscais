@@ -31,4 +31,4 @@ Gerado por `verificacao.relatorio_divergencias()`. Não editar à mão.
 | RGF Anexo 1 - totais | RGF Anexo 1: despesa líquida (III) | 11,085,096,971.23 | 11,001,153,864.38 | 83,943,106.85 | Idem: decorre da mesma apuracao anual de 2025, cuja regra de Poder nao e a de 2026. |
 | RGF Anexo 6 | RGF Anexo 6: despesa total com pessoal (DTP) | 11,085,096,971.23 | 11,004,331,905.62 | 80,765,065.61 | Herda a despesa liquida de 2025 do Anexo 1, cuja regra de Poder nao e a de 2026. Ver as duas linhas de 2025 do Anexo 1. |
 
-**375 de 401 células exatas** (26 divergentes, todas acima com causa).
+**398 de 424 células exatas** (26 divergentes, todas acima com causa).

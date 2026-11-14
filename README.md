@@ -4,7 +4,7 @@ Ferramenta que apura os demonstrativos fiscais do **Rio Grande do Norte** a
 partir das **Matrizes de Saldos Contábeis (MSC)** do Siconfi e dos relatórios do
 **SIGEF/RN**, e confere cada célula contra o arquivo homologado.
 
-Estado em **13/11/2026**: **375 de 401 células exatas** (93,5%), em 36 abas de
+Estado em **13/11/2026**: **398 de 424 células exatas** (93,9%), em 37 abas de
 verificação (27 de anexo e uma de resumo). As 26 divergências estão em
 [`docs/DIVERGENCIAS.md`](docs/DIVERGENCIAS.md), cada uma com valor, referência e
 causa.
@@ -16,7 +16,7 @@ causa.
 ```bash
 python verificar_tudo.py    # 27 conferências de ponta a ponta
 python verificacao.py       # livro, divergências e certificado
-python rodar_testes.py      # 109 testes: quantos executam, quantos pulam
+python rodar_testes.py      # 113 testes: quantos executam, quantos pulam
 ```
 
 Saídas, todas no mesmo comando:
@@ -110,7 +110,7 @@ bater com o GND 31 — e bate.
 | **RGF Anexo 1 — abril** | 5.241,65 | par de anulação/re-empenho; causa apontada, imaterial (0,0008%) |
 | RCL | — | é **lida** do Anexo 3: o bloco RPPS de deduções não existe na matriz |
 
-Todo o resto fecha: **375 de 401 células** contra os arquivos publicados; 9 divergências, todas com causa.
+Todo o resto fecha: **398 de 424 células** contra os arquivos publicados; 9 divergências, todas com causa.
 
 ---
 

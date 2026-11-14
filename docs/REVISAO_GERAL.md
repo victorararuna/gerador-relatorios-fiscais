@@ -3637,3 +3637,54 @@ E o terceiro indicio de inconsistencia interna no arquivo do Siconfi.
 | exatas | 374 | **375** |
 | grupos | 34 | **35** |
 | testes | 109 | **109** |
+
+
+### 17.80 Anexo 2 — as 23 funcoes fecham: era duplicidade no arquivo
+
+O Anexo 2 tinha **2 celulas** conferidas (a soma das funcoes e o total de 2026).
+As 23 linhas por funcao nunca tinham sido conferidas.
+
+Ao tentar, 19 das 23 pareciam divergentes — com diferencas enormes:
+
+| funcao | nosso | primeira ocorrencia no arquivo | diferenca |
+|---|---:|---:|---:|
+| Legislativa | 660.360.268,93 | 20.037.904,54 | 640,3 mi |
+| Judiciaria | 1.563.159.798,51 | 161.053.113,18 | 1,4 bi |
+
+### A causa
+
+**Cada funcao aparece duas vezes no arquivo**: uma no bloco "exceto
+intra-orcamentarias" e outra no bloco "intra-orcamentarias", com o mesmo nome e
+valores diferentes.
+
+```
+Legislativa  (exceto intra) ... 640.322.364,39
+Legislativa  (intra) .........  20.037.904,54
+soma ......................... 660.360.268,93  <-- o nosso valor
+```
+
+Somando as duas ocorrencias, **as 23 fecham ao centavo**.
+
+### A licao
+
+E o **terceiro caso** de nome repetido neste projeto:
+
+| anexo | nome repetido | efeito |
+|---|---|---|
+| Anexo 4 | "Pensionista" | errava 131,8 mi |
+| Anexo 2 | as 23 funcoes | errava em 19 de 23 |
+| Anexo 3 | nomes truncados | falhava em 2 linhas |
+
+**Nome nao e chave.** Em nenhum dos tres o nome identificava a linha sozinho — e
+em dois deles a leitura ingenua produzia divergencia falsa.
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas | 401 | **424** |
+| exatas | 375 | **398** |
+| grupos | 35 | **36** |
+| testes | 109 | **113** |
+
+**23 celulas novas, todas exatas** — a maior expansao desde o Anexo 5.

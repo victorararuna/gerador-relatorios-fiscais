@@ -21,6 +21,17 @@ python verificacao.py       # gera o livro de verificação e o relatório de di
 Saídas: `saida/verificacao_anexos.xlsx` (uma aba por anexo) e
 `docs/DIVERGENCIAS.md`.
 
+### Ambiente
+
+Os módulos usam **caminhos absolutos desta máquina** — `dados/acervo`,
+`dados/siconfi`, `Arquivos etonjones` e a pasta `siconfi_rn_msc` do VS Code.
+Não há configuração por variável de ambiente: para rodar em outro computador é
+preciso ajustar as constantes no topo dos módulos (`MSC`, `PLANILHA`,
+`BALANCETE`, `SICONFI`).
+
+As pastas de dados **não são versionadas** (`.gitignore`): um clone do
+repositório traz só código e documentação.
+
 ### Por anexo
 
 ```bash

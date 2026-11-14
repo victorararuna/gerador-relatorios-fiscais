@@ -2004,3 +2004,45 @@ como o corte de exercício explica.
 
 O livro segue com **310 células, 307 exatas** — a linha ainda não fecha, mas o
 número agora é o da conta certa.
+
+
+### 17.50 As abas que faltavam: RP, 2x6, 2x7 e Outros Ajustes
+
+Depois de 98 rodadas, faltava abrir quatro abas da planilha da equipe. Elas
+existem e são ricas:
+
+**"RP"** — o método completo do bloco de restos a pagar, com as exclusões por
+fonte lado a lado:
+
+| linha | Total | (-) 32 | (-) 46 | (-) 800 | (-) 802 |
+|---|---:|---:|---:|---:|---:|
+| `6.3.1.3` RP não proc. liquidado a pagar | 3.047.455,61 | 0 | 0 | 0 | 0 |
+| `6321` RP proc. a pagar | 469.941.259,71 | 0 | 0 | 117.414,14 | 0,01 |
+| `6.2.2.1.3.07` empenhos liquidados não pagos | 1.405.948.478,02 | 6.105.962,94 | 31.819.653,82 | 159.070.781,68 | 1.206,18 |
+
+E, abaixo, o mesmo bloco **por Poder**, com sete linhas (Executivo, TJ, FDM, AL,
+MP, TCE, DP).
+
+**"2x7"** — o RP processados e não processados por Poder, com os valores do
+Anexo 7 ao lado e as conferências linha a linha.
+
+**"2x6"** — o Anexo 2 contra o Anexo 6, com a DCL e as três deduções.
+
+**"Outros Ajustes"** — ajustes por Poder (TCE, DP, MP, TJ, FDM, AL) que somam
+72.924.270,31 numa coluna e −719.977.584,11 noutra.
+
+### O que isso muda
+
+1. **O método do RP está documentado pela própria equipe** — e é o que
+   implementamos (`6.3.1.3` + `6.3.2.1` menos 32/46/800/801/802), confirmado ao
+   centavo em agosto/2025.
+2. **A aba "RP" inclui o `6.2.2.1.3.07`** (empenhos liquidados e não pagos) na
+   conta — e a nossa seção o somava com o sinal errado, duplicando com `6.3.2.7`.
+3. **O total da aba "RP" (1,68 bi) não é o valor do DCL (752,06 mi)** — são
+   recortes diferentes. Isso explica por que nenhuma combinação simples fechava.
+
+### O que continua faltando
+
+A aba "RP" tem os valores **por Poder**, mas os números são de **outro mês** (o
+`6321` vale 469.941.259,71 ali e 470.465.377,32 na MSC de dezembro). Para
+reproduzir o DCL de 31/12/2025 seria preciso rodar o mesmo relatório naquela data.

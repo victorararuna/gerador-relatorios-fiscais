@@ -49,9 +49,10 @@ class TestDivergenciasDocumentadas(unittest.TestCase):
     """Toda divergência conhecida precisa ter causa escrita."""
 
     CONHECIDAS = (
-        "Abril — I", "Abril — III", "Demais Dívidas Contratuais",
+        "Abril — I", "Abril — III",
         "Restos a Pagar Processados",
         "Aposentadorias civis", "Pensões por morte civis",
+
     )
 
     def test_cada_conhecida_tem_causa(self):

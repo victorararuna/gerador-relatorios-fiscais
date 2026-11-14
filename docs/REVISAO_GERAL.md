@@ -1643,3 +1643,26 @@ Suíte: **11 arquivos, 76 testes**.
 | RREO Anexo 13 | 6 valores contra os CSVs |
 | RREO Anexo 4 | 4 linhas contra o CSV |
 | RGF Anexo 1, 3, 6, 7, 14 e RREO 2, 9 | leem o CSV na origem |
+
+
+### 17.40 RP Processados — 2025 e 2026 não se comportam igual
+
+Testei a mesma conta nos dois exercícios, com os balancetes reais:
+
+| exercício | conta 6.3.2.1.0 | publicado no DCL | diferença |
+|---|---:|---:|---:|
+| **2026** (agosto) | 642.884.502,84 | 640.153.394,98 | **+2.731.107,86 (0,43%)** |
+| **2025** (dezembro) | 470.465.377,32 | 750.866.596,13 | **−280.401.218,81 (−37%)** |
+
+Em 2026 a conta **quase reproduz** a linha; em 2025 falta 37%.
+
+A explicação provável: o balancete de 2026 é **consolidado** (traz os Poderes
+somados) e o de 2025 é **só do Executivo** — e o DCL consolida sete Poderes.
+
+Isso muda o diagnóstico: para 2025 falta a abertura por Poder, não uma regra
+desconhecida. E para 2026 a diferença de 2,7 milhões (0,43%) é o que sobra da
+mesma questão.
+
+**A seção da aba Base, porém, soma quatro contas** — e é isso que produz os 3,3
+bi. A conta certa é a `6.3.2.1.0` (ou a `6.3.2.1.1`), não as contas-pai mais a
+conta de empenho.

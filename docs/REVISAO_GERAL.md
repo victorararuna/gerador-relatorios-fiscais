@@ -3031,3 +3031,97 @@ unica conta que a MSC nao traz.**
 
 E um teste de ausencia proposital: ele documenta o limite e impede que se
 persiga de novo a mesma conta.
+
+
+### 17.71 O subelemento que identifica o Poder nao esta na matriz
+
+A regra do expurgo patronal, pelo manual do etonjones, e o **subelemento**:
+
+> `31.91.13.71` TJ · `.72` AL · `.73` TCE · `.74` DPE · `.75` MP
+
+Fui buscar essas naturezas na MSC de janeiro/2026. Resultado:
+
+| o que existe em `31.91.13` na MSC | valor |
+|---|---:|
+| `31911308` | 17.880.000,00 |
+| `31911310` | 272.867.339,22 |
+| `31911312` | 44.969.895,57 |
+| `31911399` | 2.500.000,00 |
+| `31911371` a `31911375` | **0,00 — nao existem** |
+
+**A MSC nao desce ao subelemento .71 a .75.** Ela para no elemento (13) com
+subelemento 08, 10, 12 e 99.
+
+Ja o **Comparativo** traz `.71` a `.75` (1.337.759,24 em janeiro, igual ao manual).
+
+Ou seja: a dimensao que identifica **de quem e a patronal** existe no Comparativo,
+mas nao na matriz — e o valor do Comparativo nao se abre por fonte.
+
+### A parede e a mesma de sempre
+
+| frente | dimensao que falta | onde ela existe |
+|---|---|---|
+| RP processados | conta `8.6.3.2.2` | so no SIGEF |
+| "Outras Dividas" | conta `8.6.3.2.2` | so no SIGEF |
+| Expurgo patronal | subelemento `.71-.75` × fonte | Comparativo (sem fonte) |
+| Expurgo de inativos | **subacao** (408501 a 408902) | so no IEO |
+
+**Quatro frentes, um unico buraco: a extracao por subacao e fonte.**
+
+### O Anexo 1 de 2025 — a causa apareceu
+
+Ao tentar apurar 2025 pela `mapa_anexo1`, o modulo falhou:
+
+```
+FileNotFoundError: ...Comparativo Despesa Autorizada ..._Novembro.pdf
+```
+
+**Os Comparativos da Despesa de 2025 nao existem** — a pasta so tem os de 2026. A
+apuracao de 2025 nao pode usar o mesmo caminho.
+
+### Mas o auditor deixou o gabarito
+
+A aba `CONFERÊNCIAS` do `RGF 2025_Q3_01 - DEMONSTRATIVO DA DESPESA COM PESSOAL.xlsx`
+traz **doze meses**, rubrica por rubrica, em dois blocos: **SIGEF** e **SICONFI**.
+
+Os dois batem, e a soma dos doze meses da exatamente o publicado:
+
+| linha | soma 12 meses | publicado no CSV |
+|---|---:|---:|
+| I — Despesa Bruta | **15.478.621.265,08** | **15.478.621.265,08** |
+| II — Nao Computadas | 4.477.467.400,70 | 4.477.467.400,70 |
+| III — Despesa Liquida | **11.001.153.864,38** | **11.001.153.864,38** |
+
+Extrai esse gabarito para `dados/benchmarks/anexo1_2025.json` — 12 meses por
+rubrica, com os dois blocos.
+
+### O que o gabarito mostra de imediato
+
+Em janeiro/2025, a **Despesa com Pessoal nao Executada Orcamentariamente** e
+**negativa**: −252.032.455,16.
+
+Isso confirma a regra do etonjones (credito **menos** debito): em janeiro o debito
+— a folha de dezembro/2024 sendo executada — e muito maior que o credito novo.
+Quem soma so o credito erra a linha por centenas de milhoes.
+
+### Nossa diferenca de 2025, agora localizada
+
+| linha | nosso | gabarito | diferenca |
+|---|---:|---:|---:|
+| I — Bruta | 15.422.754.491,59 | 15.478.621.265,08 | **−55.866.773,49** |
+| III — Liquida | 11.086.434.730,47 | 11.001.153.864,38 | **+85.280.866,09** |
+
+A diferenca nao esta no total: esta no **sinal da nao executada**. Somando o
+credito em vez de (credito − debito), a linha III sobe e a I desce — exatamente o
+padrao dos dois desvios.
+
+### Os testes
+
+`tests/test_benchmark_2025.py` — quatro testes:
+
+1. o benchmark existe;
+2. a soma dos doze meses e igual ao CSV publicado, **ao centavo**;
+3. o bloco SIGEF e o publicado sao iguais;
+4. cada rubrica tem doze meses.
+
+Se alguem trocar o arquivo ou o CSV, o teste quebra.

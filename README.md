@@ -15,7 +15,8 @@ causa.
 
 ```bash
 python verificar_tudo.py    # 27 conferências de ponta a ponta
-python verificacao.py       # gera o livro de verificação e o relatório de divergências
+python verificacao.py       # livro, divergências e certificado
+python rodar_testes.py      # 79 testes: quantos executam, quantos pulam
 ```
 
 Saídas, todas no mesmo comando:

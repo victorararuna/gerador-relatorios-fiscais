@@ -101,7 +101,8 @@ def main() -> int:
         "| `test_coerencia.py` | README, planilha e .md discordarem |",
         "| `test_verificacao.py` | divergência ficar sem causa escrita |",
         "",
-        f"Suíte completa: **{n_testes} testes em {n_arquivos} arquivos**.",
+        f"Suíte: **{n_testes} testes definidos em {n_arquivos} arquivos**. "
+        "Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.",
         "",
         "---",
         "",

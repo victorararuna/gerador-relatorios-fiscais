@@ -2637,3 +2637,57 @@ vezes ou com sinal trocado. O teste que refuta essa hipotese — comparar a **so
 nao com o sinal errado.
 
 E quando a soma NAO fecha (abril), ela aponta qual rubrica carrega a diferenca.
+
+
+### 17.65 Expurgo patronal — a regra do SIGEF nao sai do Comparativo
+
+Seis testes, todos negativos:
+
+| # | hipotese | resultado |
+|---|---|---|
+| 1 | um item da nossa lista de 17 explica o X | **nao** — nenhuma combinacao ate 4 itens |
+| 2 | o X e uma natureza isolada do Comparativo | **nao** — zero ocorrencias em 3 dos 4 meses testados |
+| 3 | excluir toda a modalidade 91 (31.91.13.00) | **nao** — 273,7 mi, vinte vezes o expurgo |
+| 4 | o expurgo do SIGEF e subconjunto das 23 naturezas 91 | **nao** — nenhuma combinacao ate 6 itens soma 11.502.548,48 |
+| 5 | 11.502.548,48 e uma linha do Comparativo | **nao** — zero ocorrencias |
+| 6 | alguma das 17 naturezas tem valor igual ao X todo mes | **nao** — nenhuma |
+
+### O que se sabe
+
+```
+patronal bruto (31.90.13 + 31.91.13) ... 281.814.279,75
+(-) expurgo nosso ....................  11.641.413,58
+= patronal nosso ..................... 270.172.866,17
+(-) publicado ........................ 270.311.731,27
+= diferenca ..........................     138.865,10  (o X do mes)
+```
+
+O expurgo nosso e **sempre maior**, e a diferenca e sempre o X. Mas o X **nao e
+uma natureza nem uma soma de naturezas** do Comparativo.
+
+### Por que provavelmente nao sai daqui
+
+O Comparativo da Despesa tem **uma linha por natureza**, sem a dimensao de fonte.
+O expurgo patronal, como o do RP, deve depender dessa dimensao — as contribuicoes
+patronais recolhidas a entidades do proprio Estado aparecem em fontes
+especificas, e o SIGEF as separa por ali.
+
+E a mesma conclusao a que cheguei no RP: **onde a dimensao fonte e decisiva, o
+Comparativo nao resolve.**
+
+### Impacto
+
+| | |
+|---|---|
+| linhas afetadas | **16** (vencimentos e patronal em 8 meses) |
+| efeito no total | **nenhum** — a soma das duas fecha ao centavo |
+| efeito no relatorio | as duas rubricas saem trocadas pelo X do mes |
+
+Nao afeta a despesa bruta, a liquida nem o percentual. Afeta **duas linhas do
+Anexo 1** que o Siconfi publica separadas.
+
+### O que resolveria
+
+A regra do expurgo patronal — provavelmente por fonte, no mesmo relatorio de
+execucao por fonte que fecharia o RP. Se assim for, **um unico arquivo resolve as
+duas frentes**: 18 das 26 divergencias.

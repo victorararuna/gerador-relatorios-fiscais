@@ -56,6 +56,28 @@ RP. Pedir o saldo em outra data devolve um número que não serve.
 O publicado fica **entre** os dois — é um recorte que combina estoque e
 inscrição. A abertura por Poder e fonte é o que permite reproduzi-lo.
 
+### 2.1a Expurgo patronal — **mesmo relatorio do RP**
+
+O Anexo 1 tem duas rubricas que saem trocadas: **vencimentos** e **obrigacoes
+patronais**. A soma das duas fecha ao centavo; o que divergem sao elas.
+
+```
+patronal bruto ......... 281.814.279,75 (janeiro)
+(-) expurgo nosso ......  11.641.413,58
+(-) expurgo do SIGEF ...  11.502.548,48
+= diferenca ............     138.865,10
+```
+
+O expurgo do SIGEF **nao sai do Comparativo**: testei as 17 naturezas da nossa
+lista (nenhuma combinacao ate 4 itens), as 23 naturezas 91 (nenhuma ate 6 itens),
+a modalidade inteira e o valor isolado. Nenhum reproduz.
+
+**O que resolveria:** a mesma extracao do RP — execucao por fonte. As
+contribuicoes patronais recolhidas a entidades do proprio Estado aparecem em
+fontes especificas, e e por ali que o SIGEF as separa.
+
+**Se for isso, um unico arquivo resolve duas frentes: 18 das 26 divergencias.**
+
 ### 2.1b RGF Anexo 1 de 2025 — **opcional** (2 células)
 
 O Anexo 1 de **2026** fecha porque é apurado pela MAPA do SIGEF. O de **2025**

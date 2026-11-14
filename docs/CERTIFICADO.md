@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 13:18** a partir do código no commit `17c3074` (branch `main`).
+Emitido em **14/11/2026 13:24** a partir do código no commit `70123b2` (branch `main`).
 
-Último commit: *certificado: contagem*
+Último commit: *Anexo 2: as 23 funcoes fecham ao centavo — cada uma aparece duas vezes no arquivo*
 
 ---
 
@@ -97,7 +97,7 @@ As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própr
 | `test_coerencia.py` | README, planilha e .md discordarem |
 | `test_verificacao.py` | divergência ficar sem causa escrita |
 
-Suíte: **109 testes definidos em 18 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
+Suíte: **113 testes definidos em 19 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
 
 ---
 

@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 12:00** a partir do código no commit `ffab2b6` (branch `main`).
+Emitido em **14/11/2026 12:05** a partir do código no commit `34d3810` (branch `main`).
 
-Último commit: *certificado: contagem de testes e data*
+Último commit: *2025: a regra do mapeamento de 2026 nao vale retroativamente*
 
 ---
 

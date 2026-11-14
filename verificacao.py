@@ -450,6 +450,36 @@ def anexo2_somas() -> list[dict]:
     return [_linha(rotulo, valor, of[chave]) for rotulo, valor, chave in pares if chave in of]
 
 
+def anexo3_2025() -> list[dict]:
+    """A cadeia do Anexo 3 de 2025 (garantias), contra o CSV publicado.
+
+    O arquivo publica 20 linhas: a cadeia da RCL e os dois limites, em quatro
+    periodos. As garantias em si nao vem no CSV — e nao ha contas 8.5 na matriz,
+    ou seja, o Estado nao tem garantias concedidas a deduzir.
+    """
+    import app.anexo3_msc as A3
+
+    arq = os.path.join(SICONFI, "rgf", "RGF_RGF-Anexo_03_24_2025_p3.csv")
+    if not os.path.exists(arq):
+        return []
+    of = {}
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        if r["coluna"] == "Até o 3º Quadrimestre":
+            of[r["conta"].strip()] = float(r["valor"])
+
+    rcl = A3.ler_rcl(os.path.join(SICONFI, "rreo", "RREO_RREO-Anexo_03_24_2025_p6.csv"))
+    saida = []
+    for nome, valor in A3.linhas_anexo3(rcl):
+        chave = nome.strip()
+        # os nomes do modulo vem truncados; casa pelo prefixo mais longo
+        alvo = next((k for k in of if k.startswith(chave[:30])), None)
+        if alvo is None:
+            alvo = next((k for k in of if chave.startswith(k[:30])), None)
+        if alvo is not None:
+            saida.append(_linha(f"Anexo 3 — {chave[:44]}", valor, of[alvo]))
+    return saida
+
+
 def anexo6_2025() -> list[dict]:
     """As linhas do Anexo 6 de 2025, contra o CSV publicado.
 
@@ -589,6 +619,7 @@ FONTES = OrderedDict((
     ("RGF Anexo 2", anexo2),
     ("RGF Anexo 2 - somas", anexo2_somas),
     ("RGF Anexo 6 - 2025", anexo6_2025),
+    ("RGF Anexo 3 - 2025", anexo3_2025),
     ("RGF Anexo 5", anexo5),
     ("RREO Anexo 9", anexo9),
     ("RREO Anexo 13", anexo13),

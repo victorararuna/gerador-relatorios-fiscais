@@ -2435,3 +2435,52 @@ O manual e um roteiro. Cada anexo tem dezenas de linhas que ainda nao conferimos
 e muitas sao **somas** das parcelas que ja apuramos — como as seis do Anexo 2.
 Implementar as somas nao fecha celula nova por apuracao: **verifica se a parcela
 esta na linha certa**, que e um erro que a conferencia linha a linha nao pega.
+
+
+### 17.61 Anexo 3 — as garantias sao zero, e agora esta provado
+
+O manual da equipe confere **37 linhas** no Anexo 3: garantias concedidas aos
+estados, municipios, entidades controladas e fundos, mais as contragarantias.
+
+O CSV publicado do Siconfi tem **20 linhas** — e nenhuma delas e garantia. Sao a
+cadeia da RCL e os dois limites, em quatro periodos.
+
+### Por que
+
+A matriz de dezembro/2025 **nao tem nenhuma conta 8.5** (o grupo das garantias).
+Sem conta, nao ha valor a publicar — e o CSV so traz a estrutura.
+
+Isso significa que as 37 linhas do manual ou sao zero, ou sao a propria cadeia da
+RCL. Nao ha R$ de garantia a conferir.
+
+### O que passou a ser conferido
+
+| linha | apurado | publicado |
+|---|---:|---:|
+| RCL (VI) | 19.513.846.659,98 | 19.513.846.659,98 |
+| (−) Transferencias obrigatorias | 4.499.856,06 | 4.499.856,06 |
+| RCL ajustada (VIII) | 19.509.346.803,92 | 19.509.346.803,92 |
+| Limite do Senado (22%) | 4.292.056.296,86 | 4.292.056.296,86 |
+| Limite de alerta | 3.862.850.667,18 | 3.862.850.667,17 |
+
+**Cinco de cinco**, com o limite de alerta a um centavo de distancia (truncamento
+da publicacao).
+
+### O erro que apareceu no caminho
+
+As funcoes do modulo devolvem os **nomes truncados** (52 caracteres), e o CSV tem
+o nome inteiro — a comparacao por igualdade falhava em duas linhas. Passou a casar
+pelo prefixo mais longo.
+
+E o mesmo tipo de armadilha do Anexo 4 ("Pensoes" duas vezes) e do Anexo 6
+(VALOR e % por linha): **o nome nao e chave confiavel neste formato**.
+
+### Placar do Anexo 3
+
+| | antes | agora |
+|---|---:|---:|
+| linhas conferidas | 1 | **5** |
+| exatas | 1 | **5** |
+
+E, das 37 do manual, 32 sao garantias zeradas — nao ha o que conferir contra o
+CSV, porque o CSV nao as publica.

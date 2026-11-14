@@ -25,27 +25,47 @@ RREO e RGF completos. Organizada por anexo e por rotina de período.
 
 ### 2.1 RGF Anexo 2 — DCL  ⟵ **prioridade de segunda**
 
+**Situação:** 15 das 16 linhas do DCL já fecham ao centavo contra o arquivo
+publicado. Falta **uma**: `(-) Restos a Pagar Processados`.
+
 **Relatório:** "Imprimir Execução Orçamentária **por Fonte**" — bloco de
 **Restos a Pagar**.
 
 | item | exigência |
 |---|---|
+| Conta | **6.3.2.1.1** (RP processados inscritos) — não a conta-pai 6.3.2.1.0 |
 | Dimensão **Poder** | todos os sete: Executivo, TJ, AL, MP, TCE, DP e FDM |
 | Dimensão **fonte de recursos** | obrigatória — é o que o balancete não tem |
-| Bloco de RP | inscritos em exercícios anteriores, inscritos no exercício, liquidados de RPNP, pagos de RPP, pagos de RPNP, cancelados de RPP |
-| Mês | o de fechamento do quadrimestre (ago/2026 para o 2º Q) |
+| Data | **31/12/2025** (fechamento do 3º quadrimestre) |
+| Escopo | incluir a **inscrição do exercício** e excluir o que já foi pago |
 
-Sem a dimensão Poder, fecham 8 das 14 linhas. Com os sete Poderes, as 14.
+### Por que a data importa
+
+Em agosto/2025 a nossa conta quase fecha (3,4% de diferença). Em dezembro a
+diferença salta para 37%, porque é o momento em que os empenhos não pagos viram
+RP. Pedir o saldo em outra data devolve um número que não serve.
+
+### O que já sabemos e não precisa ser reenviado
+
+| item | valor |
+|---|---:|
+| estoque de RP de exercícios anteriores (2017–2024) | 470.465.377,32 |
+| inscrição de 2025 (vista em 01/2026) | 1.005.773.328,13 |
+| o que o DCL publica em 31/12/2025 | 750.866.596,13 |
+
+O publicado fica **entre** os dois — é um recorte que combina estoque e
+inscrição. A abertura por Poder e fonte é o que permite reproduzi-lo.
 
 ### 2.2 RREO Anexo 13 — PPP
 
-| item | por quê |
-|---|---|
-| ~~MSC de dezembro do exercício anterior~~ | **já temos** — dez/2025 está no acervo e reproduz os três saldos ao centavo |
-| **Valor presente das contraprestações** (âncora de 2027) | R$ 60.190.422,53 — cláusula 25.6 do contrato 001/2011 (Arena das Dunas); recalculado em abril. **É o único item que falta.** |
+**Nada a pedir.** Fechado.
 
-A âncora é **um número por ano**; o resto das 24 células sai dela com IPCA e Selic
-publicados na nota do anexo.
+| item | situação |
+|---|---|
+| MSC de dezembro do exercício anterior | já temos — reproduz os três saldos ao centavo |
+| Âncora das contraprestações (R$ 60.190.422,53) | **parametrizada** em `rreo_anexo13.ANCORA_ARENA`, com IPCA e Selic publicados na nota |
+
+Conferido: **7 valores e 6 projeções**, todos exatos contra o homologado.
 
 ### 2.3 RGF Anexo 5 — Disponibilidades
 

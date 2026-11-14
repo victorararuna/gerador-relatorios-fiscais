@@ -3847,3 +3847,44 @@ a linha — nao o texto do manual.**
 | celulas exatas | 404 | **420** |
 | percentual | 93,7% | **97,4%** |
 | divergencias | 26 | **11** |
+
+
+### 17.84 Anexo 1 de 2025 — quatro linhas fechadas pelo MAPA do auditor
+
+Para 2025 nao existe o Comparativo da Despesa: os PDFs entregues sao de **2026**
+(janeiro a outubro). Sem ele, a `mapa_anexo1` nao roda.
+
+E a apuracao pela **MSC** tambem nao reproduz: a estrutura de contas de 2025 e
+outra (a liquidacao esta em `622130100/200/300/400`, nao nas tres de 2026).
+
+### O que existe e fecha
+
+O **MAPA do auditor** (`RGF 2025_Q3_01`, aba `Mapeamento`): doze meses, linha a
+linha, e a soma reproduz exatamente o publicado.
+
+| linha | MAPA (ano) | publicado | |
+|---|---:|---:|---|
+| I — Despesa Bruta | 15.478.621.265,08 | 15.478.621.265,08 | **OK** |
+| Vencimentos | 6.552.405.214,64 | 6.552.405.214,64 | **OK** |
+| Obrigacoes Patronais | 2.405.400.638,81 | 2.405.400.638,81 | **OK** |
+| Inativos Vinculados | 3.538.152.718,10 | 3.538.152.718,10 | **OK** |
+
+### O que nao fecha, e por que
+
+A linha **II (Nao Computadas)** do MAPA soma 4.856.179.160,28, mas o publicado
+tem 4.477.467.400,70 — diferenca de 378,7 milhoes.
+
+E a **mesma inconsistencia** que ja apareceu em outros lugares: o MAPA tem uma
+linha de total que nao e a soma das suas parcelas. Como III = I - II, usar a II do
+MAPA levaria a uma liquida diferente da publicada.
+
+Por isso o grupo confere **quatro** linhas, nao seis: as quatro que fecham.
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas | 431 | **435** |
+| exatas | 420 | **424** |
+| percentual | 97,4% | **97,5%** |
+| grupos | 37 | **38** |

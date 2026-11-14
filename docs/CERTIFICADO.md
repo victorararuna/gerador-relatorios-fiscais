@@ -1,14 +1,14 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 14:18** a partir do código no commit `d2c9b44` (branch `main`).
+Emitido em **14/11/2026 14:47** a partir do código no commit `b670447` (branch `main`).
 
-Último commit: *Split vencimentos x patronais: seis dos oito meses fechados*
+Último commit: *Split fechado nos oito meses: faltava a natureza 31.XX.07.00*
 
 ---
 
 ## 1. Resultado
 
-**420 de 431 células exatas** (97.4%), em 37 grupos de verificação.
+**424 de 435 células exatas** (97.5%), em 38 grupos de verificação.
 
 Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo publicado pelo Siconfi** — não com a planilha de trabalho da equipe.
 
@@ -27,6 +27,7 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RREO Anexo 4 - receitas | 1 | 1 |
 | RREO Anexo 2 - funcoes | 23 | 23 |
 | RREO Anexo 7 - por Poder | 7 | 6 |
+| RGF Anexo 1 - 2025 (MAPA) | 4 | 4 |
 | RGF Anexo 3 - 2025 | 5 | 5 |
 | RGF Anexo 4 - 2025 | 8 | 8 |
 | RGF Anexo 5 | 90 | 90 |

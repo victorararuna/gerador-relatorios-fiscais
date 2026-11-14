@@ -616,6 +616,62 @@ PODERES_ARQUIVO = {
 }
 
 
+def anexo1_2025_mapa() -> list[dict]:
+    """RGF Anexo 1 de 2025 — apurado pelo MAPA do auditor.
+
+    Fonte: `dados/benchmarks/anexo1_2025_mapa.json`, extraido da aba `Mapeamento`
+    do `RGF 2025_Q3_01 - DEMONSTRATIVO DA DESPESA COM PESSOAL.xlsx`.
+
+    Para 2025 nao ha Comparativo da Despesa (os PDFs sao de 2026), e a MSC
+    daquele exercicio usa outra estrutura de contas. O MAPA e a unica fonte
+    completa — e a soma dos doze meses dele reproduz exatamente o publicado.
+    """
+    import json
+
+    arq = os.path.join(AQUI, "dados", "benchmarks", "anexo1_2025_mapa.json")
+    if not os.path.exists(arq):
+        return []
+    with open(arq, encoding="utf-8") as fh:
+        mapa = json.load(fh)
+
+    def valor(prefixo: str) -> float | None:
+        for linha in mapa["linhas"]:
+            if linha["rotulo"].startswith(prefixo):
+                return sum(v for v in linha["meses"] if v is not None)
+        return None
+
+    csv_2025 = os.path.join(SICONFI, "rgf", "RGF_RGF-Anexo_01_24_2025_p3.csv")
+    if not os.path.exists(csv_2025):
+        return []
+    # o arquivo de 2025 traz doze colunas mensais (<MR-11> a <MR>); o total do
+    # ano e a soma delas. O de 2026 traz a coluna do total pronta.
+    publicado = {}
+    for r in csv.DictReader(open(csv_2025, encoding="utf-8-sig"), delimiter=";"):
+        conta = r["conta"].strip()
+        if r["coluna"].startswith("<MR") or r["coluna"] == "TOTAL (ÚLTIMOS 12 MESES)":
+            publicado[conta] = publicado.get(conta, 0.0) + float(r["valor"])
+
+    def ref(prefixo: str) -> float | None:
+        for conta, v in publicado.items():
+            if conta.startswith(prefixo):
+                return v
+        return None
+
+    pares = (
+        ("I — Despesa Bruta", valor("DESPESA BRUTA COM PESSOAL"),
+         ref("DESPESA BRUTA COM PESSOAL")),
+        ("Vencimentos", valor("Vencimentos, Vantagens"),
+         ref("Vencimentos, Vantagens")),
+        ("Obrigações Patronais", valor("Obrigações Patronais"),
+         ref("Obrigações Patronais")),
+        ("Inativos e Pensionistas com Recursos Vinculados",
+         valor("Inativos e Pensionistas com Recursos Vinculados"),
+         ref("Inativos e Pensionistas com Recursos")),
+    )
+    return [_linha(f"2025 — {rotulo}", v, e)
+            for rotulo, v, e in pares if v is not None and e is not None]
+
+
 def anexo7_poder() -> list[dict]:
     """RREO Anexo 7 — restos a pagar por Poder.
 
@@ -1024,6 +1080,7 @@ FONTES = OrderedDict((
     ("RREO Anexo 4 - receitas", anexo4_capital),
     ("RREO Anexo 2 - funcoes", anexo2_funcoes),
     ("RREO Anexo 7 - por Poder", anexo7_poder),
+    ("RGF Anexo 1 - 2025 (MAPA)", anexo1_2025_mapa),
     ("RGF Anexo 3 - 2025", anexo3_2025),
     ("RGF Anexo 4 - 2025", anexo4_2025),
     ("RGF Anexo 5", anexo5),

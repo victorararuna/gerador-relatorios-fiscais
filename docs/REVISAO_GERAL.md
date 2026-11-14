@@ -3406,3 +3406,63 @@ A diferenca e pratica:
 O `docs/DIVERGENCIAS.md` e gerado do motor: se uma causa for apagada ou o valor
 mudar, o `test_verificacao` acusa. A documentacao nao e texto solto — e saida
 conferida.
+
+
+### 17.76 Anexo 6 — uma linha fecha, e ela mostra por que as outras nao
+
+O Anexo 6 (Resultado Primario e Nominal) e o mais complexo do RREO: 141 linhas,
+com o RPPS separado, itens nao primarios e a correcao pelos juros.
+
+Comecei pelo bloco mais simples: a **receita de capital exceto RPPS**.
+
+| linha | apurado | publicado | desvio |
+|---|---:|---:|---:|
+| Receitas de Capital (exceto RPPS) | 308.296.609,38 | 308.296.609,38 | **0,00** |
+
+A regra e a mesma dos outros anexos: natureza de receita **2.x**, com a fonte
+separando o RPPS (**800 a 804**).
+
+### E as outras nao fecham — por dimensao, nao por formula
+
+| linha | apurado | publicado | diferenca | o que falta |
+|---|---:|---:|---:|---|
+| Receitas Correntes (exceto RPPS) | 25.407.334.529,77 | 19.766.544.096,04 | **5,64 bi** | recorte **intra-orcamentario** |
+| Receitas Primarias de Capital | 308.296.609,38 | 268.930.885,19 | 39,4 mi | split das **nao primarias** |
+
+O primeiro numero e a prova: 5,64 bilhoes e praticamente o valor das receitas
+intra-orcamentarias do Balanco Orcamentario (2,58 bi em 2025... a diferenca exata
+ainda precisa ser fechada, mas a ordem de grandeza e essa).
+
+O Anexo 6 aplica **dois recortes** que os outros anexos nao aplicam:
+
+| recorte | o que separa |
+|---|---|
+| fontes RPPS (800-804) | **a matriz tem** — por isso a linha de capital fecha |
+| receitas intra-orcamentarias | **a matriz nao separa na receita** |
+| primarias x nao primarias | parcialmente na matriz (operacoes de credito sao NR 2.1) |
+
+### O padrao, de novo
+
+| anexo | dimensoes | fecha? |
+|---|---|---|
+| 11 (alienacao) | NR + ND + FR | **sim** |
+| 6 — capital | NR + FR | **sim** |
+| 6 — correntes | NR + FR + **intra** | **nao** |
+| Anexo 1 (expurgo) | **subacao** + FR | **nao** |
+| Anexo 2 (RP) | conta `8.6.3.2.2` | **nao** |
+
+Sempre a mesma historia: **quando a dimensao existe, o anexo fecha; quando nao
+existe, nao fecha — e nenhuma formula resolve.**
+
+### O que ficou no livro
+
+Uma linha nova, exata, do Anexo 6. E a documentacao do porquê as outras nao vem.
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas | 395 | **396** |
+| exatas | 369 | **370** |
+| grupos | 32 | **33** |
+| testes | 100 | **100** |

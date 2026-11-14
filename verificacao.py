@@ -584,6 +584,57 @@ def anexo3_2025() -> list[dict]:
     return saida
 
 
+#: fontes de recursos do RPPS
+FONTES_RPPS = {"800", "801", "802", "803", "804"}
+
+
+def anexo6_rreo_2025() -> list[dict]:
+    """RREO Anexo 6 — as linhas de capital primario, contra o CSV publicado.
+
+    A receita de capital e a parte do Anexo 6 que fecha pela matriz: natureza de
+    receita 2.x (capital), com a fonte separando o RPPS (800 a 804).
+
+    O bloco de receitas correntes **nao** fecha assim: a diferenca e de 5,64
+    bilhoes, que corresponde ao recorte intra-orcamentario — dimensao que o
+    Anexo 6 aplica e a matriz nao separa na receita.
+    """
+    from acervo import Acervo
+
+    arq = os.path.join(SICONFI, "rreo", "RREO_RREO-Anexo_06_24_2025_p6.csv")
+    if not os.path.exists(arq):
+        return []
+    of = {}
+    for r in csv.DictReader(open(arq, encoding="utf-8-sig"), delimiter=";"):
+        if r["coluna"].startswith("RECEITAS REALIZADAS"):
+            of[r["conta"].strip()] = float(r["valor"])
+
+    def ref(prefixo: str) -> float | None:
+        for conta, valor in of.items():
+            if conta.startswith(prefixo):
+                return valor
+        return None
+
+    ac = Acervo(os.path.join(SICONFI, "..", "acervo"))
+    capital = 0.0
+    for mes in range(1, 13):
+        for r in ac.ler(2025, mes, classe=6, tipo_valor="period_change"):
+            if not (r.conta or "").startswith("6212"):
+                continue
+            if ((r.fr or "")[1:4]) in FONTES_RPPS:
+                continue
+            if (r.nr or "").startswith("2"):
+                capital += r.liquido
+
+    # a linha "primarias de capital" desconta operacoes de credito e alienacoes,
+    # que o mapeamento reparte em naturezas que a matriz nao separa aqui
+    pares = (
+        ("Receitas de Capital (exceto RPPS)", capital,
+         ref("RECEITAS DE CAPITAL (EXCETO")),
+    )
+    return [_linha(f"Anexo 6 — {rotulo}", valor, esperado)
+            for rotulo, valor, esperado in pares if esperado is not None]
+
+
 def anexo11(ano: int) -> list[dict]:
     """RREO Anexo 11 — Alienacao de Ativos, contra o CSV publicado.
 
@@ -770,6 +821,7 @@ FONTES = OrderedDict((
     ("RGF Anexo 2 - somas", anexo2_somas),
     ("RGF Anexo 6 - 2025", anexo6_2025),
     ("RREO Anexo 11", lambda: anexo11(2025)),
+    ("RREO Anexo 6", anexo6_rreo_2025),
     ("RGF Anexo 3 - 2025", anexo3_2025),
     ("RGF Anexo 4 - 2025", anexo4_2025),
     ("RGF Anexo 5", anexo5),

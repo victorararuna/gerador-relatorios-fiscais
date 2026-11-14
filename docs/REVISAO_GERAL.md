@@ -2275,3 +2275,40 @@ dados permitem.
 **Encerrado.** As proximas rodadas vao para o que ainda nao foi coberto: o Anexo
 1 de 2026 no 1º quadrimestre, o Anexo 6 do RREO e a conferencia do 3º
 quadrimestre quando os dados chegarem.
+
+
+### 17.57 Duas celulas estavam "OK" por tolerancia
+
+Descoberta da rodada 113, e ela muda o placar.
+
+O `verificar_tudo` compara com **tolerancia de 0,5%** e marca "OK" quando o desvio
+cabe nela. O livro usava esse veredito. Resultado: duas linhas do Anexo 1 de 2025
+apareciam como exatas sendo que nao eram:
+
+| linha | apurado | publicado | desvio |
+|---|---:|---:|---:|
+| Despesa bruta (I), total de 2025 | 15.422.754.491,59 | 15.478.621.265,08 | **−55.866.773,49** |
+| Despesa liquida (III), total de 2025 | 11.086.434.730,47 | 11.001.153.864,38 | **+85.280.866,09** |
+
+**56 e 85 milhoes** marcados como "OK".
+
+### A correcao
+
+O livro passou a exigir o **centavo** em todas as linhas, inclusive nas que vem
+do `verificar_tudo`. Quando a conferencia de origem aceita 0,5% e o livro nao, a
+diferenca fica registrada na coluna de observacao.
+
+**Placar honesto: 305 de 310** (era 307). As duas linhas agora aparecem como
+divergentes, com causa:
+
+> Total anual de 2025 apurado pela via da MSC (`apurar_janela`), nao pela MAPA do
+> SIGEF que sustenta o Anexo 1 de 2026. A MSC nao identifica a parcela
+> intra-orcamentaria, que a equipe conhece pelo SIGEF.
+
+### O que isso ensina
+
+Uma tolerancia de 0,5% parece razoavel ate se ver o que ela esconde: em despesa
+com pessoal, 0,36% sao 56 milhoes.
+
+O numero caiu. Mas o numero anterior estava errado — e um placar que inclui
+"quase" nao serve para conferir nada.

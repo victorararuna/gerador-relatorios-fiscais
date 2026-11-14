@@ -455,10 +455,13 @@ def motor() -> dict:
         anexo = {"RREO": "RREO - Balanço Orçamentário",
                  "RGF Anexo 1": "RGF Anexo 1 - totais",
                  "RREO Anexo 2": "RREO Anexo 2 - totais"}.get(anexo, anexo)
+        exato = abs(valor - esperado) < 0.01
         grupos.setdefault(anexo, []).append(
             {"item": nome, "apurado": valor, "referencia": esperado,
-             "desvio": valor - esperado, "ok": bool(ok),
-             "obs": "tolerância de 0,5%" if ok and abs(valor - esperado) > 1 else ""})
+             "desvio": valor - esperado, "ok": exato,
+             # a conferencia de origem aceita 0,5%; aqui a exigencia e o centavo.
+             # quando as duas discordam, a diferenca fica registrada.
+             "obs": "" if exato or not ok else "a conferencia de origem aceita 0,5%"})
     return grupos
 
 
@@ -537,6 +540,14 @@ CAUSAS = (
                   "homologado trata o par de forma diferente do Comparativo."),
     ("2026 — Abril — III", "Idem: decorre da mesma diferenca em I (a II esta exata)."),
 
+    ("RGF Anexo 1: despesa bruta (I)",
+     "Total anual de 2025 apurado pela via da MSC (apurar_janela), nao pela MAPA "
+     "do SIGEF que sustenta o Anexo 1 de 2026. Desvio de -55,9 mi (-0,36%): a "
+     "MSC nao identifica a parcela intra-orcamentaria, que a equipe conhece pelo "
+     "SIGEF. A conferencia de origem aceitava 0,5% e marcava OK; aqui se exige o "
+     "centavo."),
+    ("RGF Anexo 1: despesa liquida (III)",
+     "Idem: decorre da mesma apuracao anual de 2025 pela MSC (+85,3 mi, +0,78%)."),
     ("Restos a Pagar Processados",
      "Formula da aba RP: 6.3.1.3 + 6321 + 6.2.2.1.3.07, sem fontes "
      "32/46/800/801/802, menos a conta 8.6.3.2.2. Fecha ao centavo em agosto/2025 "

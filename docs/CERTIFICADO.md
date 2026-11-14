@@ -1,14 +1,14 @@
 # Certificado de verificação
 
-Emitido em **13/11/2026 22:28** a partir do código no commit `fa85a57` (branch `main`).
+Emitido em **13/11/2026 22:34** a partir do código no commit `ab7d032` (branch `main`).
 
-Último commit: *Certificado de verificacao gerado do codigo*
+Último commit: *Certificado passa a ser gerado por verificacao.py*
 
 ---
 
 ## 1. Resultado
 
-**307 de 310 células exatas** (99.0%), em 26 grupos de verificação.
+**305 de 310 células exatas** (98.4%), em 26 grupos de verificação.
 
 Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo publicado pelo Siconfi** — não com a planilha de trabalho da equipe.
 
@@ -33,7 +33,7 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RREO Anexo 13 - projeções | 6 | 6 |
 | motor | 1 | 1 |
 | RREO - Balanço Orçamentário | 1 | 1 |
-| RGF Anexo 1 - totais | 2 | 2 |
+| RGF Anexo 1 - totais | 2 | 0 |
 | RREO Anexo 3 | 1 | 1 |
 | RGF Anexo 3 | 1 | 1 |
 | RGF Anexo 4 | 1 | 1 |
@@ -50,6 +50,8 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RGF Anexo 1 - 2026 | 2026 — Abril — I — Despesa Bruta | 680,626,929.97 | 680,632,171.62 | -5,241.65 |
 | RGF Anexo 1 - 2026 | 2026 — Abril — III — Despesa Líquida | 303,562,294.70 | 303,567,536.35 | -5,241.65 |
 | RGF Anexo 2 | (-) Restos a Pagar Processados (Exceto Preca | 788,629,587.54 | 750,866,596.13 | 37,762,991.41 |
+| RGF Anexo 1 - totais | RGF Anexo 1: despesa bruta (I) | 15,422,754,491.59 | 15,478,621,265.08 | -55,866,773.49 |
+| RGF Anexo 1 - totais | RGF Anexo 1: despesa líquida (III) | 11,086,434,730.47 | 11,001,153,864.38 | 85,280,866.09 |
 
 As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própria planilha.
 

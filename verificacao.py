@@ -445,7 +445,8 @@ def anexo2_somas() -> list[dict]:
     rp_bruto = D.restos_a_pagar(controle=0.0)
     caixa_liquido = disp - dep
     rp = min(rp_bruto, caixa_liquido) if caixa_liquido > 0 else 0.0
-    outras = max(0.0, rp_bruto - caixa_liquido)
+    # "Outras Dividas" = RP sem caixa + o saldo da 8.6.3.2.1 (mapeamento C45)
+    outras = max(0.0, rp_bruto - caixa_liquido) + D.controle_rp_contabil()
 
     dc = contratual + precat + outras
     deducoes = disp - rp - dep + hav

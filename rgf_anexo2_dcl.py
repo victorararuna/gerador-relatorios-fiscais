@@ -148,7 +148,9 @@ def apurar_secao(saldo: dict, contas: list) -> float:
     usados = set()
     for c, s in contas:
         chave = c
-        if c.startswith(USAR_PAI):
+        # ARO (.02.05) tem subconta propria — não deve herdar o pai .02.00.00
+        if c.startswith(USAR_PAI) and not c.startswith(
+                ("2.1.2.1.1.02.05", "2.1.2.1.3.02.05")):
             pai = _pai(c)
             if pai and pai in saldo and pai not in usados:
                 chave = pai
@@ -156,8 +158,8 @@ def apurar_secao(saldo: dict, contas: list) -> float:
         v = _buscar(saldo, chave)
         if v is None:
             continue
-        # classe 2 (passivo): credor é positivo
-        total += s * (-v if chave.startswith("2") else v)
+        # classe 2 (passivo) e classe 6 (RP não-processados): credor é positivo
+        total += s * (-v if chave.startswith(("2", "6")) else v)
     return total
 
 
@@ -188,12 +190,37 @@ CONTAS_DISPONIBILIDADE = (
 FONTES_RPPS = ("800", "801", "802")
 
 
-#: contas e fontes do RP processados, conforme as abas "RP" e "RP_MSC" da equipe
+#: contas, fontes e naturezas excluidas dos RP processados (abas "RP" e "RP_MSC")
 CONTAS_RP = ("6313", "6321", "6221307")
-FONTES_RP_EXCLUIR = ("32", "46", "800", "801", "802")
+FONTES_RP_EXCLUIR = ("800", "801", "802")
+#: 32 e 46 sao NATUREZAS (juros da divida e amortizacao), nao fontes
+NDS_RP_EXCLUIR = ("32", "46")
 #: conta 8.6.3.2.2 — valor manual na aba "RP" (K21): "so tem saldo em caso de
 #: disponibilidade negativa". Nao sai da matriz; e insumo da equipe.
 CONTROLE_RP = 942_052_222.15
+
+
+def controle_rp_contabil(ano: int = 2025, mes: int = 12) -> float:
+    """Saldo da conta 8.6.3.2.1 — entra na linha "Outras Dividas".
+
+    O mapeamento da STN (celula C45) lista `8.6.3.2.1.00.00` entre as contas de
+    "Outras Dividas". Sao 36.600,82 em 31/12/2025 — exatamente o que faltava
+    para a DC e a DCL fecharem depois da correcao das NDs 32/46.
+    """
+    import sys as _sys
+    raiz = os.path.dirname(os.path.abspath(__file__))
+    _sys.path.insert(0, os.path.join(raiz, "app"))
+    from acervo import Acervo
+
+    ac = Acervo(os.path.join(raiz, "dados", "acervo"))
+    total = 0.0
+    try:
+        for r in ac.ler(ano, mes, classe=8, tipo_valor="ending_balance"):
+            if (r.conta or "") == "863210000":
+                total += r.liquido
+    except Exception:
+        return 0.0
+    return total
 
 
 def restos_a_pagar(ano: int = 2025, mes: int = 12,
@@ -218,6 +245,8 @@ def restos_a_pagar(ano: int = 2025, mes: int = 12,
         if not r.conta.startswith(CONTAS_RP):
             continue
         if (r.fr or "")[1:4] in FONTES_RP_EXCLUIR:
+            continue
+        if (r.nd or "")[:2] in NDS_RP_EXCLUIR:
             continue
         total += r.liquido
     return total - controle

@@ -4188,3 +4188,60 @@ Testei se o auditor nao excluia as fontes 32 e 46 do RP:
 | celulas exatas | 431 de 437 |
 | testes | 121 |
 | verificacoes | 30 de 30 |
+
+
+### 17.90 O Antigravity achou o erro que eu nao vi: 32 e 46 nao sao fontes
+
+Li o que ele deixou em `scratch/dados/gerador-relatorios-fiscais` — um clone do
+nosso repo, com mudancas nao commitadas. A principal:
+
+```
+FONTES_RP_EXCLUIR = ("32", "46", "800", "801", "802")   # errado
+FONTES_RP_EXCLUIR = ("800", "801", "802")               # certo
+NDS_RP_EXCLUIR = ("32", "46")                           # juros e amortizacao
+```
+
+**32 e 46 sao naturezas de despesa** (3.2 juros da divida e 4.6 amortizacao),
+nao fontes de recurso. Eu tratava como fonte — e por isso a exclusao nunca fazia
+efeito: o teste mostrou o mesmo RP com e sem ela, e eu conclui "as fontes 32 e 46
+nao tem RP".
+
+**Estavam excluindo a coisa errada.**
+
+### O efeito
+
+| | antes | depois |
+|---|---:|---:|
+| RP bruto (K20) | 1.730.681.809,69 | **1.692.756.192,93** |
+| auditor | 1.694.111.739,40 | 1.694.111.739,40 |
+
+### A segunda correcao
+
+O mapeamento da STN (celula C45) lista a conta `8.6.3.2.1.00.00` entre as de
+"Outras Dividas". Ela vale **36.600,82** — exatamente o que faltava depois da
+correcao das NDs.
+
+### Resultado no livro
+
+| | antes | depois |
+|---|---:|---:|
+| celulas exatas | 431 | **433** |
+| percentual | 98,6% | **99,1%** |
+| divergencias | 8 | **4** |
+
+### O que sobrou
+
+| divergencia | celulas |
+|---|---:|
+| Abril/2026 — erro do publicado, provado no MAPA dele | 3 |
+| Anexo 7 — RPN do Executivo | 1 |
+
+**Quatro celulas. Tres sao erro do arquivo publicado.**
+
+### A licao
+
+Eu confundi **fonte** com **natureza**. O prefixo "32" existia na minha lista de
+fontes e eu nunca conferi se aquilo era fonte mesmo — o teste que fiz ("excluir
+ou nao da no mesmo") confirmou o sintoma e eu tratei como causa.
+
+**O teste certo teria sido: o que e 32?**

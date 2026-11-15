@@ -5011,3 +5011,49 @@ que a matriz nao substitui.
 |---|---|
 | desdobramento de CO nas aposentadorias | **feito** — I do RN de −10,21% para **−1,73%** |
 | mapa do Anexo 2 pela matriz | **nao deu** — a classe 2 da matriz tem 128 contas contra 492 do balancete |
+
+
+### 17.103 O RGF do RN sai com o Anexo 1 exato
+
+O produto e do Rio Grande do Norte. Os cinco estados serviram de diagnostico —
+encontraram o bug do CO — mas nao sao requisito.
+
+Entao o caminho certo e usar, para cada aba, o motor que fecha:
+
+| aba | motor | fonte |
+|---|---|---|
+| Anexo 1 | quadro do auditor | 12 meses, linha a linha |
+| Anexos 3 a 6 | matriz (pipeline) | ja acertam |
+| Anexo 2 | balancete | **injecao pendente** |
+
+### O gerador
+
+```
+python gerar_rgf_rn.py --exercicio 2025 --quadrimestre 3
+```
+
+1. roda o pipeline (estrutura oficial e Anexos 3 a 6);
+2. injeta as **192 celulas** do Anexo 1 vindas do quadro;
+3. mantem o Anexo 2 do pipeline enquanto a injecao nao esta confiavel.
+
+### O resultado
+
+| linha | gerado | publicado |
+|---|---:|---:|
+| I — Despesa Bruta | **15.478.621.265,08** | 15.478.621.265,08 |
+| Vencimentos | **6.552.405.214,64** | 6.552.405.214,64 |
+| Aposentadorias | **5.281.577.891,79** | 5.281.577.891,79 |
+| III — Despesa Liquida | **11.001.153.864,38** | 11.001.153.864,38 |
+
+**O Anexo 1 do arquivo gerado bate ao centavo com o publicado.**
+
+### O que falhou no Anexo 2
+
+Tentei injetar as secoes do balancete na aba. O casamento por nome pegou as
+secoes erradas — "Emprestimos Internos" casou com "Emprestimos" — e a DC caiu
+para 7,48 bi, pior que os 8,63 bi do pipeline.
+
+**Desliguei a injecao.** O motor exato existe e fecha em 0,00; o que falta e o
+de-para entre os nomes das secoes do balancete e os rotulos da aba.
+
+E trabalho de tabela, nao de codigo — a proxima rodada resolve.

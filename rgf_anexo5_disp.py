@@ -45,7 +45,21 @@ def _lista(texto: str) -> list:
     return [t.strip() for t in re.split(r"[,\s]+", trecho) if t.strip().isdigit()]
 
 
-def ler_mapeamento(caminho: str):
+#: mapa de fontes transcrito da planilha da equipe, versionado no repositorio
+MAPA_JSON = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                         "dados", "mapeamentos", "anexo5_mapeamento.json")
+
+
+def ler_mapeamento(caminho: str = ""):
+    """Colunas e filtros do Anexo 5, do JSON versionado."""
+    if os.path.exists(MAPA_JSON):
+        import json
+        with open(MAPA_JSON, encoding="utf-8") as fh:
+            dados = json.load(fh)
+        colunas = dict(dados["colunas"])
+        linhas = [(str(n), str(f)) for n, f in dados["linhas"]]
+        return colunas, linhas
+
     from openpyxl import load_workbook
 
     ws = load_workbook(caminho, data_only=True)["MAPEAMENTO"]

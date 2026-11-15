@@ -4589,3 +4589,53 @@ Os outros dois bloqueios nao sao de dado, sao de **parametro**:
 | ND no subelemento na MSC do Estado | +348 | **depende do Estado** |
 
 **Com o subelemento, o gerador nao precisaria de um unico PDF.**
+
+
+### 17.96 As planilhas da equipe sairam do caminho
+
+A varredura mostrou dois bloqueios que **nao eram de dado, eram de parametro**: o
+Anexo 2 lia a aba `Anexo 2 - RGF BASE` e o Anexo 5 lia a aba `MAPEAMENTO` em
+tempo de execucao. O gerador ficava preso a uma planilha externa para rodar.
+
+Transcrevi os dois mapas para JSON versionado:
+
+| arquivo | conteudo | tamanho |
+|---|---|---:|
+| `dados/mapeamentos/anexo2_contas.json` | 28 secoes, 335 contas | 19 KB |
+| `dados/mapeamentos/anexo5_mapeamento.json` | 6 colunas, 27 linhas de filtro | 4 KB |
+
+Os extratores ficam no repo (`extrair_mapa_anexo2.py`, `extrair_mapa_anexo5.py`),
+entao o mapa pode ser reextraido e conferido a qualquer momento.
+
+### O resultado
+
+| | antes | depois |
+|---|---:|---:|
+| grupos 100% sem PDF e sem planilha | 19 | **23** |
+| celulas exatas nessa condicao | 107 | **140** |
+| Anexo 2 | falhava | **22 celulas exatas** |
+| Anexo 5 - totais | falhava | **5 celulas exatas** |
+
+### O caso do Anexo 5, que e diferente
+
+As 90 celulas do Anexo 5 **nao sao geracao — sao conferencia**. O `apurar()` ja
+somava a MSC; a planilha entrava so como referencia (a aba `QUADRO PRINCIPAL` da
+equipe).
+
+Agora o codigo separa as duas coisas: os **filtros** vem do JSON; os **valores
+oficiais** vem da planilha quando ela existe. Sem a planilha, o gerador continua
+produzindo o Anexo 5 — so nao tem contra o que conferir.
+
+### O que isso vale
+
+Os dois passos valiam 112 celulas no meu calculo. Renderam **33** de ganho
+imediato e **90 que ja eram geradas** — mas que agora estao desamarradas.
+
+**O gerador roda sem uma unica planilha da equipe.** Ela passou de insumo a
+benchmark.
+
+### Testes
+
+`tests/test_mapas_transcritos.py` — cinco garantias: os JSONs existem, tem o
+conteudo esperado, o modulo os usa quando a planilha falta, e o resultado nao
+muda entre os caminhos. **130 testes.**

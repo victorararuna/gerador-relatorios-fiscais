@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 23:08** a partir do código no commit `1726c7f` (branch `main`).
+Emitido em **15/11/2026 10:42** a partir do código no commit `78757be` (branch `main`).
 
-Último commit: *baixar_msc.py: acervo completo, jul a set/2026 incluidos*
+Último commit: *Varredura: o que sai so da MSC*
 
 ---
 

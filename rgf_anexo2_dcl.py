@@ -93,7 +93,27 @@ def ler_balancete(caminho: str) -> dict:
     return saldo
 
 
-def ler_base(caminho: str) -> "OrderedDict[str, list]":
+#: mapa de contas transcrito da planilha da equipe, versionado no repositorio
+MAPA_JSON = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                         "dados", "mapeamentos", "anexo2_contas.json")
+
+
+def ler_base(caminho: str = "") -> "OrderedDict[str, list]":
+    """Mapa de contas do Anexo 2: secao -> [(conta, sinal)].
+
+    Le o JSON versionado (`dados/mapeamentos/anexo2_contas.json`). So cai para a
+    aba da planilha se o JSON nao existir — assim o gerador nao depende de uma
+    planilha externa para rodar.
+    """
+    if os.path.exists(MAPA_JSON):
+        import json
+        with open(MAPA_JSON, encoding="utf-8") as fh:
+            dados = json.load(fh)
+        secoes: "OrderedDict[str, list]" = OrderedDict()
+        for secao in dados["secoes"]:
+            secoes[secao["nome"]] = [(c, int(s)) for c, s in secao["contas"]]
+        return secoes
+
     from openpyxl import load_workbook
 
     ws = load_workbook(caminho, data_only=True)["Anexo 2 - RGF BASE"]
@@ -315,6 +335,14 @@ def contas_da_aba(nome: str) -> list:
     trata o caso sem abrir o prefixo para a família inteira — que capturaria
     contas fora da linha.
     """
+    # tenta o JSON transcrito antes de abrir a planilha
+    if os.path.exists(MAPA_JSON):
+        import json
+        with open(MAPA_JSON, encoding="utf-8") as fh:
+            dados = json.load(fh)
+        if nome in dados.get("abas", {}):
+            return list(dados["abas"][nome])
+
     from openpyxl import load_workbook
 
     ws = load_workbook(PLANILHA, data_only=True)[nome]

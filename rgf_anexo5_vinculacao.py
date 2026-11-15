@@ -55,8 +55,39 @@ RE_FILTRO = re.compile(
     re.I)
 
 
-def ler_planilha(caminho: str):
-    """(filtros por linha, valores oficiais por linha)."""
+#: mapa de fontes transcrito da planilha da equipe, versionado no repositorio
+MAPA_JSON = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                         "dados", "mapeamentos", "anexo5_mapeamento.json")
+
+
+def _filtros_do_json() -> dict | None:
+    """Filtros por linha, do JSON versionado (sem planilha)."""
+    if not os.path.exists(MAPA_JSON):
+        return None
+    import json
+    with open(MAPA_JSON, encoding="utf-8") as fh:
+        dados = json.load(fh)
+    filtros = {}
+    for nome, texto in dados["linhas"]:
+        m = RE_FILTRO.search(str(texto or ""))
+        if m:
+            filtros[str(nome).strip()] = (
+                int(m.group(1)), int(m.group(2)),
+                [x.strip() for x in m.group(3).split(",")])
+    return filtros
+
+
+def ler_planilha(caminho: str = ""):
+    """(filtros por linha, valores oficiais por linha).
+
+    Os filtros vem do JSON versionado; os valores oficiais, da planilha da
+    equipe, que e **referencia de conferencia** — nao insumo de geracao. Sem a
+    planilha, devolve os filtros do JSON e um dicionario vazio de oficiais.
+    """
+    filtros_json = _filtros_do_json()
+    if filtros_json is not None and not os.path.exists(caminho):
+        return filtros_json, {}
+
     from openpyxl import load_workbook
 
     wb = load_workbook(caminho, data_only=True)

@@ -4007,3 +4007,61 @@ Os RPNP saem das contas `622130500` e `622130600` da MSC:
 | Anexo 7 — RPN do Executivo | 1 |
 
 **Nenhuma delas e de 2025.** Aquela frente esta encerrada.
+
+
+### 17.87 Os 942 milhoes nao eram saldo de conta — eram calculo
+
+A pergunta era onde estava a conta `8.6.3.2.2`. Varri tudo:
+
+| fonte | `8.6.3.2.2` | o que tem |
+|---|---|---|
+| MSC 2024 | **nao** | nada em `8632` |
+| MSC 2025 | **nao** | so `863210000` = 36.600,82 |
+| MSC 2026 | **nao** | nada em `8632` |
+| balancete de UG (2026) | **nao** | 61 contas de classe 8 |
+| balancete consolidado (2026) | **nao** | `8.6.3.2.0.0` e `8.6.3.2.1.0` |
+
+**A conta nao existe em lugar nenhum.** E nao precisava existir.
+
+### A regra que estava por tras
+
+```
+disponibilidade bruta ......... 1.549.181.365,36
+(-) depositos restituiveis ....   798.314.769,23
+= caixa liquido ...............   750.866.596,13
+```
+
+**750.866.596,13 e exatamente o RP Processados publicado.**
+
+O MDF manda deduzir o RP **ate o caixa disponivel**. O que passa disso nao some:
+vira **divida**, na linha "Outras Dividas" — que e a Nota 4 do relatorio do Estado.
+
+```
+RP bruto ...................... 1.730.681.809,69
+(-) caixa liquido .............   750.866.596,13
+= RP sem caixa (vira divida) ..   979.815.213,56
+```
+
+### O efeito
+
+| linha | antes | agora |
+|---|---:|---:|
+| RP Processados | 788.629.587,54 | **750.866.596,13** |
+| Deducoes (II) | 231.551.524,48 | **269.314.515,89** |
+
+Duas celulas fechadas — e o mecanismo do RP sem caixa explicado.
+
+### O que sobra no Anexo 2
+
+A linha "Outras Dividas" (DC e DCL) ainda difere em 37.889.015,94: o nosso RP bruto
+e 36,6 milhoes maior que o do auditor. E a mesma familia de diferenca do split de
+2026 — falta uma natureza no bruto.
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas exatas | 429 | **431** |
+| percentual | 98,2% | **98,6%** |
+| divergencias | 8 | **6** |
+| verificacoes | 30 de 30 | **30 de 30** |

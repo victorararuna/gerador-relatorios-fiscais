@@ -156,7 +156,9 @@ def anexo2() -> list[dict]:
         if oficial is None:
             continue
         if nome.startswith("(-) Restos a Pagar"):
-            v = D.restos_a_pagar(controle=D.CONTROLE_RP)
+            # regra do MDF: deduz-se o RP ate o caixa disponivel; o resto vira divida
+            caixa = D.disponibilidade() - D.depositos()
+            v = min(D.restos_a_pagar(controle=0.0), caixa)
         elif nome.startswith("Disponibilidade de Caixa Bruta"):
             v = D.disponibilidade()
         elif nome.startswith("(-) Depósitos"):
@@ -404,7 +406,9 @@ def anexo2_somas() -> list[dict]:
 
     def nosso(nome: str) -> float:
         if nome.startswith("(-) Restos a Pagar"):
-            return D.restos_a_pagar(controle=D.CONTROLE_RP)
+            # regra do MDF: deduz-se o RP ate o caixa disponivel
+            caixa = D.disponibilidade() - D.depositos()
+            return min(D.restos_a_pagar(controle=0.0), caixa)
         if nome.startswith("(-) Depósitos"):
             return D.depositos()
         if nome.startswith("Disponibilidade de Caixa Bruta"):
@@ -431,11 +435,19 @@ def anexo2_somas() -> list[dict]:
 
     emprestimos = emp_int + emp_ext
     contratual = emprestimos + reestr + parcel
-    dc = contratual + precat + outras
     disp = nosso("Disponibilidade de Caixa Bruta")
-    rp = nosso("(-) Restos a Pagar Processados (Exceto Precatórios)")
     dep = nosso("(-) Depósitos Restituíves e Valores Vinculados")
     hav = nosso("Demais Haveres Financeiros")
+
+    # REGRA DO MDF: o RP processado so é deduzido ate o caixa disponivel. A
+    # parcela que nao tem caixa nao some — ela é reclassificada como divida, na
+    # linha "Outras Dividas" (é a Nota 4 do relatorio do Estado).
+    rp_bruto = D.restos_a_pagar(controle=0.0)
+    caixa_liquido = disp - dep
+    rp = min(rp_bruto, caixa_liquido) if caixa_liquido > 0 else 0.0
+    outras = max(0.0, rp_bruto - caixa_liquido)
+
+    dc = contratual + precat + outras
     deducoes = disp - rp - dep + hav
     dcl = dc - deducoes
 

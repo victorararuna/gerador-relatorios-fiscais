@@ -1,14 +1,14 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 20:54** a partir do código no commit `ca964fb` (branch `main`).
+Emitido em **14/11/2026 21:37** a partir do código no commit `2061f31` (branch `main`).
 
-Último commit: *Atualizacao a partir do Antigravity: caminhos flexiveis e modo Siconfi*
+Último commit: *Frente de 2025 fechada: a fonte certa e a aba QUADRO, e a DTP inclui os RPNP*
 
 ---
 
 ## 1. Resultado
 
-**429 de 437 células exatas** (98.2%), em 38 grupos de verificação.
+**431 de 437 células exatas** (98.6%), em 38 grupos de verificação.
 
 Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo publicado pelo Siconfi** — não com a planilha de trabalho da equipe.
 
@@ -18,8 +18,8 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 |---|---:|---:|
 | RGF Anexo 1 - 2026 | 24 | 22 |
 | RGF Anexo 1 - rubricas | 53 | 52 |
-| RGF Anexo 2 | 16 | 15 |
-| RGF Anexo 2 - somas | 6 | 3 |
+| RGF Anexo 2 | 16 | 16 |
+| RGF Anexo 2 - somas | 6 | 4 |
 | RGF Anexo 6 - 2025 | 5 | 5 |
 | RREO Anexo 11 | 5 | 5 |
 | RREO Anexo 6 | 1 | 1 |
@@ -62,10 +62,8 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RGF Anexo 1 - 2026 | 2026 — Abril — I — Despesa Bruta | 680,626,929.97 | 680,632,171.62 | -5,241.65 |
 | RGF Anexo 1 - 2026 | 2026 — Abril — III — Despesa Líquida | 303,562,294.70 | 303,567,536.35 | -5,241.65 |
 | RGF Anexo 1 - rubricas | 2026 — Abril — Pensões | 76,124,731.24 | 76,129,972.89 | -5,241.65 |
-| RGF Anexo 2 | (-) Restos a Pagar Processados (Exceto Preca | 788,629,587.54 | 750,866,596.13 | 37,762,991.41 |
-| RGF Anexo 2 - somas | DÍVIDA CONSOLIDADA (I) (soma) | 8,799,665,536.74 | 9,741,591,734.36 | -941,926,197.62 |
-| RGF Anexo 2 - somas | DEDUÇÕES (II) (soma) | 231,551,524.48 | 269,314,515.89 | -37,762,991.41 |
-| RGF Anexo 2 - somas | DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma) | 8,568,114,012.26 | 9,472,277,218.47 | -904,163,206.21 |
+| RGF Anexo 2 - somas | DÍVIDA CONSOLIDADA (I) (soma) | 9,779,480,750.30 | 9,741,591,734.36 | 37,889,015.94 |
+| RGF Anexo 2 - somas | DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma) | 9,510,166,234.41 | 9,472,277,218.47 | 37,889,015.94 |
 | RREO Anexo 7 - por Poder | Anexo 7 — Executivo — RP Não Processados | 11,871,954.46 | 14,919,410.07 | -3,047,455.61 |
 
 As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própria planilha.
@@ -90,10 +88,8 @@ Suíte: **117 testes definidos em 20 arquivos**. Rode `python rodar_testes.py` p
 - **RGF Anexo 1 - 2026 — 2026 — Abril — I — Despesa Bruta**: -5,241.65 de desvio (-0.00%). O ARQUIVO PUBLICADO ESTA ERRADO — e o proprio manual do auditor documenta. Na subacao 408801 do TJRN, ND 31.90.92.03, fonte 0.5.00, abril tem empenhado 86.852,54 e liquidado 92.094,19; a fonte 0.8.00 tem liquidado 29.377,60. O correto, pelo regime de competencia (art. 18, § 2º, da LRF), e 92.094,19 + 29.377,60 = 121.471,79. O publicado traz 116.230,14 porque somou o EMPENHADO de uma fonte com o LIQUIDADO de outra: 86.852,54 + 29.377,60. A diferenca e 5.241,65 — o empenho de marco liquidado em abril. O MAPA do proprio auditor (RGF 2026_Q2_01, aba Mapeamento, linha 209) carrega o mesmo 76.129.972,89 do publicado, ou seja, o erro esta na origem. Nao se corrige do nosso lado sem publicar numero errado.
 - **RGF Anexo 1 - 2026 — 2026 — Abril — III — Despesa Líquida**: -5,241.65 de desvio (-0.00%). O ARQUIVO PUBLICADO ESTA ERRADO — e o proprio manual do auditor documenta. Na subacao 408801 do TJRN, ND 31.90.92.03, fonte 0.5.00, abril tem empenhado 86.852,54 e liquidado 92.094,19; a fonte 0.8.00 tem liquidado 29.377,60. O correto, pelo regime de competencia (art. 18, § 2º, da LRF), e 92.094,19 + 29.377,60 = 121.471,79. O publicado traz 116.230,14 porque somou o EMPENHADO de uma fonte com o LIQUIDADO de outra: 86.852,54 + 29.377,60. A diferenca e 5.241,65 — o empenho de marco liquidado em abril. O MAPA do proprio auditor (RGF 2026_Q2_01, aba Mapeamento, linha 209) carrega o mesmo 76.129.972,89 do publicado, ou seja, o erro esta na origem. Nao se corrige do nosso lado sem publicar numero errado.
 - **RGF Anexo 1 - rubricas — 2026 — Abril — Pensões**: -5,241.65 de desvio (-0.01%). Idem I: erro aritmetico do arquivo publicado, documentado pelo proprio auditor no manual (secao 1.3). Em abril/2026, subacao 408801 do TJRN: o correto e liquidado 92.094,19 (fonte 0.5.00) + 29.377,60 (fonte 0.8.00) = 121.471,79; o publicado traz 116.230,14 porque somou o empenhado da 0.5.00 (86.852,54) com o liquidado da 0.8.00. Diferenca: 5.241,65.
-- **RGF Anexo 2 — (-) Restos a Pagar Processados (Exceto Precatóri**: 37,762,991.41 de desvio (+5.03%). Formula da aba RP: 6.3.1.3 + 6321 + 6.2.2.1.3.07, sem fontes 32/46/800/801/802, menos a conta 8.6.3.2.2. Fecha ao centavo em agosto/2025 com controle zero. Em dezembro sobram 37.762.991,41 porque o controle de 942.052.222,15 e de outro mes (precisaria ser 979.815.213,56).
-- **RGF Anexo 2 - somas — DÍVIDA CONSOLIDADA (I) (soma)**: -941,926,197.62 de desvio (-9.67%). A linha 'Outras Dividas' TEM lista de contas no mapeamento da STN (celula C45): 8.5.3.7 + 8.6.3.2.1 + 8.6.3.2.2 + 2.1.8.9.1.01.05/.08 + 2.1.8.9.3/4/5 + 2.2.8.2.1/.3/.4/.5, exceto PO 10112/10122/10132. Apuradas as doze na MSC de 2025, sai 36.600,82 contra 941.926.197,62 publicados: falta a conta 8.6.3.2.2.00.00, que nao existe na matriz em nenhuma classe nem tipo. E o RP inscrito sem disponibilidade de caixa (Nota 4).
-- **RGF Anexo 2 - somas — DEDUÇÕES (II) (soma)**: -37,762,991.41 de desvio (-14.02%). Herda a diferenca do RP Processados (37.762.991,41). As outras tres parcelas — disponibilidade, depositos e haveres — estao exatas.
-- **RGF Anexo 2 - somas — DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma)**: -904,163,206.21 de desvio (-9.55%). Herda as duas anteriores: falta 'Outras Dividas' na DC e sobra o RP sem disponibilidade nas deducoes. As duas parcelas sao o mesmo valor visto de dois lados.
+- **RGF Anexo 2 - somas — DÍVIDA CONSOLIDADA (I) (soma)**: 37,889,015.94 de desvio (+0.39%). A linha 'Outras Dividas' TEM lista de contas no mapeamento da STN (celula C45): 8.5.3.7 + 8.6.3.2.1 + 8.6.3.2.2 + 2.1.8.9.1.01.05/.08 + 2.1.8.9.3/4/5 + 2.2.8.2.1/.3/.4/.5, exceto PO 10112/10122/10132. Apuradas as doze na MSC de 2025, sai 36.600,82 contra 941.926.197,62 publicados: falta a conta 8.6.3.2.2.00.00, que nao existe na matriz em nenhuma classe nem tipo. E o RP inscrito sem disponibilidade de caixa (Nota 4).
+- **RGF Anexo 2 - somas — DÍVIDA CONSOLIDADA LÍQUIDA (III) (soma)**: 37,889,015.94 de desvio (+0.40%). Herda as duas anteriores: falta 'Outras Dividas' na DC e sobra o RP sem disponibilidade nas deducoes. As duas parcelas sao o mesmo valor visto de dois lados.
 - **RREO Anexo 7 - por Poder — Anexo 7 — Executivo — RP Não Processados**: -3,047,455.61 de desvio (-20.43%). Os cinco Poderes fecham em RP processados; em nao processados quatro fecham. O Executivo diverge em 3.047.455,61: o arquivo calcula Saldo k = (f + g) - (i + j), que inclui os liquidados nao pagos, enquanto a conta 6.3.1.1 da matriz traz so o saldo a pagar. A diferenca e a parcela liquidada e nao paga que o arquivo soma no saldo.
 - **RCL**: é lida do Anexo 3, não apurada — o bloco de deduções do RPPS não existe na matriz.
 

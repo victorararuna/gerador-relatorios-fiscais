@@ -4425,3 +4425,95 @@ nosso numero. E o CSV do Siconfi que traz 680.632.171,62.
 | celulas novas no livro | 171 |
 | divergencias fechadas | 2 (Anexo 2 e Anexo 7) |
 | divergencias restantes | **3, todas o mesmo erro** |
+
+
+### 17.94 A pergunta do seculo: da para gerar tudo so com a MSC?
+
+A pergunta: a STN so recebe a MSC dos estados e faz todos os batimentos com ela.
+Entao nao deveriamos gerar todos os relatorios so com a MSC?
+
+**A intuicao esta certa. O dado do Rio Grande do Norte e que nao sustenta.**
+
+### Teste 1 — o Anexo 1 so com a matriz
+
+O `teste_msc_apenas.py` calcula vencimentos e patronal da classe 6, com o ND e a
+fonte que o proprio Comparativo usa:
+
+| mes | vencimentos (MSC) | Comparativo | dif |
+|---|---:|---:|---:|
+| Janeiro | 654.105.571,36 | 648.854.208,10 | **+5.251.363,26** |
+| Fevereiro | 463.912.663,97 | 458.601.621,62 | +5.311.042,35 |
+| Março | 543.517.039,76 | 534.467.012,14 | +9.050.027,62 |
+| Agosto | 586.418.301,88 | 580.771.257,05 | +5.647.044,83 |
+
+| mes | patronal (MSC) | Comparativo | dif |
+|---|---:|---:|---:|
+| Janeiro | 283.123.792,01 | 270.311.731,27 | **+12.812.060,74** |
+| Agosto | 184.227.257,17 | 173.099.031,13 | +11.128.226,04 |
+
+Erro de 1 a 2% em vencimentos e **5% em patronal** — sistematico, nao aleatorio.
+
+### A causa: o ND da MSC vem agregado
+
+Fui ver a natureza 31.XX.13 nas duas fontes:
+
+| fonte | linhas |
+|---|---:|
+| Comparativo (PDF do SIGEF) | **39** |
+| MSC (matriz) | **12** |
+
+O Comparativo abre o subelemento: `31.91.13.09`, `.11`, `.70`, `.43`, `.45`...
+A MSC traz `31911300` — o elemento inteiro, somado.
+
+E os codigos do expurgo patronal (`31.91.13.22`, `.43`, `.49`, `.71`...) **nao
+existem em nenhum registro da MSC** de janeiro/2026. Somei todas as contas e todos
+os Poderes: zero.
+
+Na classe 6 inteira, **41% dos registros** tem o ND no nivel do elemento
+(subelemento `00`).
+
+### Teste 2 — o total (I)
+
+| mes | GND 31 na MSC | I publicado | dif |
+|---|---:|---:|---:|
+| Janeiro | 1.809.872.344,85 | 1.756.015.131,06 | +53.857.213,79 |
+| Agosto | 1.229.327.875,50 | 1.196.626.531,82 | +32.701.343,68 |
+
+**O total tambem nao fecha** — e por outro motivo: a DTP do Anexo 1 nao e o GND 31
+bruto. Ela exclui o que o art. 19, §1º manda excluir e soma a despesa nao
+executada. Sao ajustes de **metodologia**, nao de dado.
+
+### O que ja roda so com a MSC
+
+| bloco | fonte |
+|---|---|
+| RREO Anexos 2, 3, 4, 6, 7, 9 | MSC |
+| RGF Anexos 2, 3, 4, 5, 6 | MSC |
+| RCL (`rcl_msc.py`) | MSC — **0,0146%** em 2025, **0,0037%** em 2026 |
+| Anexo 1 (rubricas e split) | Comparativo |
+
+Ou seja: **38 dos 39 grupos** ja saem da matriz. O Anexo 1 e a excecao.
+
+### A resposta
+
+1. **Voce nao esta enganado.** A MSC e a fonte contabil de tudo, e a STN trabalha
+   com ela.
+2. **Mas a STN faz batimentos de agregado** — saldos de classe, totais de grupo.
+   Ela nao precisa do subelemento.
+3. **O Anexo 1 precisa**, porque o expurgo patronal separa a patronal de cada
+   Poder (ALRN, DPRN, MPRN, TJRN, TCE) dentro da mesma natureza.
+4. **O RN manda 41% do ND agregado.** Com esse dado, o expurgo nao existe.
+
+### O que isso vale
+
+Este e um **achado de qualidade de dado**, nao uma limitacao do nosso sistema:
+
+> Se o Estado enviasse o ND completo (subelemento) na MSC, o gerador rodaria 100%
+> na matriz — sem um unico PDF.
+
+Isso elimina a extracao manual, que e hoje o unico trabalho que exige uma pessoa
+lendo relatorio. **E o que separa 6 pessoas de 2.**
+
+Vale levar ao grupo de contabilidade do Estado: a MSC de 2026 tem o campo
+`natureza_despesa` preenchido com 8 digitos em 59% dos registros e com o
+subelemento zerado nos outros 41%.

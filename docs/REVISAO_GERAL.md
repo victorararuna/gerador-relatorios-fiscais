@@ -4971,3 +4971,43 @@ plano — o mesmo desdobramento que o `mapa_anexo1` faz pelo Comparativo.
 | testes | **134** |
 | Anexo 1 do RN pela matriz | **−1,73%** (era −10,21%) |
 | Anexo 1 do MG pela matriz | **−1,98%** (era −18,73%) |
+
+
+### 17.102 O Anexo 2 nao sai da matriz: a classe 2 nao tem o detalhe
+
+Tentei reconstruir o mapa do Anexo 2 pela matriz, agregando as contas de 9
+digitos para o nivel de 7 que o mapa usa (o `00` do mapa significa "todos os
+subelementos").
+
+Funcionou no casamento: `212130401` da matriz casa com `212130400` do mapa.
+
+Mas o valor nao sai:
+
+| secao | pela matriz | publicado |
+|---|---:|---:|
+| Emprestimos Internos | 849.909.956,58 | ~3.200.000.000,00 |
+
+### A causa
+
+| fonte | contas de classe 2 |
+|---|---:|
+| balancete | **492** |
+| matriz do RN | **128** |
+
+E das 128, apenas **2** estao sob `2121` (a divida). A matriz do RN nao carrega o
+detalhamento da divida que o Anexo 2 exige.
+
+**Nao e problema de mapa — e de dado.** Mesmo com o mapa perfeito, faltaria conta.
+
+### O que fica
+
+O Anexo 2 continua precisando do **balancete de encerramento**. E o mesmo
+`Imprimir Balancete Consolidado` que o SIGEF exporta — e a unica peca do conjunto
+que a matriz nao substitui.
+
+### O placar desta rodada
+
+| passo | resultado |
+|---|---|
+| desdobramento de CO nas aposentadorias | **feito** — I do RN de −10,21% para **−1,73%** |
+| mapa do Anexo 2 pela matriz | **nao deu** — a classe 2 da matriz tem 128 contas contra 492 do balancete |

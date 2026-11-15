@@ -4517,3 +4517,75 @@ lendo relatorio. **E o que separa 6 pessoas de 2.**
 Vale levar ao grupo de contabilidade do Estado: a MSC de 2026 tem o campo
 `natureza_despesa` preenchido com 8 digitos em 59% dos registros e com o
 subelemento zerado nos outros 41%.
+
+
+### 17.95 A varredura: 107 celulas saem so da MSC
+
+Metodo: em vez de ler o codigo e adivinhar, **derrubei as fontes** —
+apontei as pastas dos PDFs e das planilhas da equipe para um caminho inexistente
+e rodei os 28 grupos de conferencia. O que continuou produzindo numero nao
+depende daquela fonte.
+
+| fonte derrubada | grupos | celulas exatas |
+|---|---:|---:|
+| nenhuma (normal) | 39 | **605** |
+| **sem PDF** | 24 | **230** |
+| **sem PDF e sem planilha** | **19** | **107** |
+
+### O mapa por relatorio
+
+**Saem so da MSC — 19 grupos, 107 celulas:**
+
+| relatorio | celulas |
+|---|---:|
+| RREO Anexo 2 (23 funcoes) | 23 |
+| RREO Anexo 13 (projecoes) | 13 |
+| RREO Anexo 7 (por Poder) | 12 |
+| RREO Anexo 4 (contribuicoes, receitas) | 9 |
+| RGF Anexo 4 de 2025 | 8 |
+| RGF Anexo 3 (2025 e 2026) | 7 |
+| RREO Anexo 14 de 2026 | 6 |
+| RGF Anexo 1 (limites da LRF) | 6 |
+| RREO Anexo 9 | 5 |
+| RREO Anexo 11 | 5 |
+| RGF Anexo 6 de 2025 | 5 |
+| RREO Anexo 6 | 1 |
+| RREO Anexo 2 de 2026 | 1 |
+
+**Precisam das planilhas da equipe — 5 grupos, 123 celulas:**
+
+| relatorio | celulas | o que ele tira da planilha |
+|---|---:|---|
+| RGF Anexo 5 (disponibilidade) | 90 | a aba `MAPEAMENTO` — classificacao das fontes |
+| RGF Anexo 2 (DCL) | 22 | a aba `Anexo 2 - RGF BASE` — lista de contas |
+
+**Precisam dos PDFs do SIGEF — 4 grupos, 348 celulas:**
+
+| relatorio | celulas | por que |
+|---|---:|---|
+| RGF Anexo 1 (quadro 2026) | 171 | subelemento do ND |
+| RGF Anexo 1 (por Poder) | 100 | subelemento do ND |
+| RGF Anexo 1 (rubricas) | 53 | subelemento do ND |
+| RGF Anexo 1 (2026) | 24 | subelemento do ND |
+
+### A conclusao
+
+**O Anexo 1 concentra 348 das 608 celulas — e e o unico que depende dos PDFs.**
+Todo o resto do RREO e do RGF ja roda na matriz.
+
+Os outros dois bloqueios nao sao de dado, sao de **parametro**:
+
+| bloqueio | o que falta | como resolver |
+|---|---|---|
+| RGF Anexo 5 (90 celulas) | classificacao das fontes de recurso | tabela `fonte -> vinculacao`, que o proprio Siconfi publica |
+| RGF Anexo 2 (22 celulas) | lista de contas por secao | o mapeamento da STN ja tem; falta so transcrever |
+
+### O caminho para 100% na matriz
+
+| passo | ganho | esforco |
+|---|---:|---|
+| transcrever o mapeamento da STN para o Anexo 2 | +22 | baixo |
+| tabela de vinculacao das fontes para o Anexo 5 | +90 | medio |
+| ND no subelemento na MSC do Estado | +348 | **depende do Estado** |
+
+**Com o subelemento, o gerador nao precisaria de um unico PDF.**

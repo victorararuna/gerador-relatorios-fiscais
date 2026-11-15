@@ -37,7 +37,23 @@ def colunas_dcl(arquivos: dict) -> dict:
 
     arquivos: {"2023-12": caminho, "2024-04": caminho, ...}
     """
-    coluna_da_data = {"2023-12": 2, "2024-04": 3, "2024-08": 4, "2024-12": 5}
+    # as colunas sao sempre as mesmas quatro posicoes, mas o ANO muda com o
+    # exercicio: col 2 = dezembro do ano anterior, col 3 = abril, 4 = agosto,
+    # 5 = dezembro. Antes a tabela era fixa em 2024 e quebrava em qualquer outro.
+    coluna_da_data = {}
+    for data in arquivos:
+        mes = data[-2:]
+        coluna_da_data[data] = {"12": 5 if data[:4] != "" else 5,
+                                "04": 3, "08": 4}.get(mes, 2)
+    # dezembro do ano anterior e a coluna 2; dezembro do exercicio, a 5
+    anos = sorted({d[:4] for d in arquivos})
+    if anos:
+        primeiro = f"{anos[0]}-12"
+        ultimo = f"{anos[-1]}-12"
+        if primeiro in coluna_da_data:
+            coluna_da_data[primeiro] = 2
+        if ultimo in coluna_da_data:
+            coluna_da_data[ultimo] = 5
     campos = {}
     for data, caminho in arquivos.items():
         if not caminho or not os.path.exists(caminho):

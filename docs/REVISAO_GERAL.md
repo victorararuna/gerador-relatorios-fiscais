@@ -4639,3 +4639,79 @@ benchmark.
 `tests/test_mapas_transcritos.py` — cinco garantias: os JSONs existem, tem o
 conteudo esperado, o modulo os usa quando a planilha falta, e o resultado nao
 muda entre os caminhos. **130 testes.**
+
+
+### 17.97 A ponte que faltava: o gerador oficial rodou com os dados da API
+
+O `gerar_relatorios.py` -> `pipeline` esperava o arquivo de **instancia**
+(`24EX-AAAA-MM.csv`, primeira linha `24EX;2026-08`), que e o que o Estado envia
+ao Siconfi. A API entrega os mesmos dados no **formato longo**. Eram o mesmo
+conteudo em colunas diferentes — e ninguem cruzava os dois.
+
+### O conversor
+
+`converter_acervo_instancia.py` le o acervo e grava o arquivo de instancia. O
+mapeamento veio do `converter_msc.py`, que faz o caminho inverso:
+
+```
+PO -> poder_orgao      CO -> complemento_fonte    AI -> ano_inscricao
+FR -> fonte_recursos   ND -> natureza_despesa     FS -> fonte_sigel
+FP -> ano_fonte_recursos   NR -> natureza_receita  DC -> destinacao
+```
+
+**O `FP` foi o detalhe que quase passou:** o `converter_msc.py` mapeia
+`FP -> fonte_programa`, mas no arquivo real o `FP` carrega o **ano da fonte**
+(`1`). Comparando linha a linha com o original, o formato saiu identico:
+
+```
+original: 111110100;10111;PO;1;FP;1501;FR;;;;;;;31027;beginning_balance;D
+gerado  : 111110100;10111;PO;1;FP;1501;FR;;;;;;;8990;ending_balance;D
+```
+
+### Duas correcoes no caminho
+
+| onde | o que era | o que ficou |
+|---|---|---|
+| `converter_acervo_instancia` | lia o CSV com `,` | `;` — o acervo usa ponto e virgula |
+| `colunas_quadrimestre` | datas fixas em 2023/2024 | derivadas do exercicio |
+
+### O resultado
+
+```
+python converter_acervo_instancia.py --ano 2025 --destino _inst
+python gerar_relatorios.py --entrada _inst --exercicio 2025 --quadrimestre 3
+```
+
+```
+13 matriz(es) encontrada(s)
+Base: 24EX-2025-12.csv (2025-12)
+1º quadrimestre: 2025-04
+2º quadrimestre: 2025-08
+Série mensal completa (12 matrizes)
+Pronto: RGF_2025_Q3_STN.xlsx
+```
+
+**O RGF saiu com as seis abas** (Anexos 1 a 6) e a aba de verificacoes.
+
+### Os numeros, e a diferenca que se sabe explicar
+
+| linha | gerado da matriz | publicado | dif |
+|---|---:|---:|---:|
+| I — Despesa Bruta | 14.522.708.314,18 | 15.478.621.265,08 | **−6,2%** |
+| Vencimentos | 6.502.866.403,83 | 6.552.405.214,64 | −0,76% |
+| Obrigacoes Patronais | 2.312.391.805,57 | 2.405.400.638,81 | −3,9% |
+
+**E a mesma limitacao ja medida:** o ND da MSC vem agregado em 41% dos registros.
+O pipeline roda; o Anexo 1 e que precisa dos PDFs (ou do subelemento) para fechar
+ao centavo.
+
+### O que isso muda
+
+| | antes | depois |
+|---|---|---|
+| gerador oficial roda com dados da API | **nao** | **sim** |
+| abas geradas | 0 | **6 + verificacoes** |
+| intervencao manual no caminho | converter a mao | um comando |
+
+O caminho de geracao esta aberto. A precisao do Anexo 1 continua dependendo do
+mesmo dado que o Estado nao manda.

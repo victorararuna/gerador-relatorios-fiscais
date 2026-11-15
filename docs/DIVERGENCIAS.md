@@ -9,4 +9,4 @@ Gerado por `verificacao.relatorio_divergencias()`. Não editar à mão.
 | RGF Anexo 1 - rubricas | 2026 — Abril — Pensões | 76,124,731.24 | 76,129,972.89 | -5,241.65 | Idem I: erro aritmetico do arquivo publicado, documentado pelo proprio auditor no manual (secao 1.3). Em abril/2026, subacao 408801 do TJRN: o correto e liquidado 92.094,19 (fonte 0.5.00) + 29.377,60 (fonte 0.8.00) = 121.471,79; o publicado traz 116.230,14 porque somou o empenhado da 0.5.00 (86.852,54) com o liquidado da 0.8.00. Diferenca: 5.241,65. |
 | RREO Anexo 7 - por Poder | Anexo 7 — Executivo — RP Não Processados | 11,871,954.46 | 14,919,410.07 | -3,047,455.61 | Os cinco Poderes fecham em RP processados; em nao processados quatro fecham. O Executivo diverge em 3.047.455,61: o arquivo calcula Saldo k = (f + g) - (i + j), que inclui os liquidados nao pagos, enquanto a conta 6.3.1.1 da matriz traz so o saldo a pagar. A diferenca e a parcela liquidada e nao paga que o arquivo soma no saldo. |
 
-**433 de 437 células exatas** (4 divergentes, todas acima com causa).
+**604 de 608 células exatas** (4 divergentes, todas acima com causa).

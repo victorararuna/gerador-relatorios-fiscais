@@ -72,14 +72,16 @@ def _valor(r) -> float:
 PAE_2025 = {"apos_civil": 1_215_655.93, "pens_civil": 929_796.71}
 
 
-def apurar(linha: str, pae: float = 0.0) -> tuple[float, float]:
+def apurar(linha: str, pae: float = 0.0, *,
+           excluir_co_1111: bool = False,
+           registros=None) -> tuple[float, float]:
     """(bloco principal, incremento do bloco complementar), líquido de PAE.
 
     O PAE é subtraído do bloco complementar — é uma dedução da linha, não uma
     natureza que esteja sendo somada a mais.
     """
     principal = complementar = 0.0
-    for r in _registros():
+    for r in (registros if registros is not None else _registros()):
         nd = r.get("natureza_despesa") or ""
         fr = _pos(r.get("fonte_recursos") or "", 2, 3)
         co = (r.get("complemento_fonte") or "").strip()

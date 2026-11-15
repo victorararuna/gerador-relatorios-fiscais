@@ -631,6 +631,76 @@ PODERES_ARQUIVO = {
 }
 
 
+def anexo1_quadro_2026() -> list[dict]:
+    """RGF Anexo 1 — as 15 linhas do quadro do auditor, jan a out/2026."""
+    import csv as _csv
+    import mapa_anexo1 as _M
+
+    arq = os.path.join(AQUI, "dados", "benchmarks",
+                       "Quadro_Despesa_Pessoal_RGF_RN_2026.csv")
+    if not os.path.exists(arq):
+        return []
+
+    def _num(t: str) -> float:
+        t = (t or "").strip()
+        if not t:
+            return 0.0
+        return float(t.replace(".", "").replace(",", "."))
+
+    #: linha do CSV -> (rotulo, funcao que devolve o nosso valor)
+    def _valores() -> dict[int, list[float]]:
+        meses = ("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                 "Julho", "Agosto", "Setembro", "Outubro")
+        s = {m: _M.secoes(m) for m in meses}
+        q = {m: _M.quadro_ii(m) for m in meses}
+        dea_dez = _M.dea_periodo_anterior()
+        fora = {}
+        for i, m in enumerate(meses):
+            v, w = s[m], q[m]
+            bruto = v["despesa_bruta"]
+            fora[17] = fora.get(17, []) + [bruto]
+            fora[18] = fora.get(18, []) + [v["vencimentos"] + v["patronal"]]
+            fora[19] = fora.get(19, []) + [v["vencimentos"]]
+            fora[20] = fora.get(20, []) + [v["patronal"]]
+            fora[21] = fora.get(21, []) + [v["aposentadorias"] + v["pensoes"]]
+            fora[22] = fora.get(22, []) + [v["aposentadorias"]]
+            fora[23] = fora.get(23, []) + [v["pensoes"]]
+            fora[24] = fora.get(24, []) + [v["terceirizacao"]]
+            fora[25] = fora.get(25, []) + [v["nao_executada"]]
+            fora[26] = fora.get(26, []) + [w["total"]]
+            fora[27] = fora.get(27, []) + [w["indenizacoes"]]
+            fora[28] = fora.get(28, []) + [w["judicial"]]
+            fora[29] = fora.get(29, []) + [w["dea"]]
+            fora[30] = fora.get(30, []) + [w["inativos"]]
+            fora[31] = fora.get(31, []) + [w["acs"]]
+            fora[32] = fora.get(32, []) + [w["enfermagem"]]
+            fora[34] = fora.get(34, []) + [bruto - w["total"]]
+        return fora
+
+    nosso = _valores()
+    linhas: list[dict] = []
+    with open(arq, encoding="utf-8-sig") as fh:
+        for reg in _csv.reader(fh, delimiter=";"):
+            if not reg or not reg[0].strip().isdigit():
+                continue
+            numero = int(reg[0])
+            if numero not in nosso:
+                continue
+            rotulo = reg[1].strip()
+            for i, valor in enumerate(reg[2:12]):
+                if not valor.strip():
+                    continue
+                if i >= len(nosso[numero]):
+                    break
+                linhas.append(_linha(
+                    f"2026 — {_M.MESES_2026[i]} — {rotulo[:44]}",
+                    nosso[numero][i], _num(valor)))
+    # a DEA de periodo anterior entra inteira em DEZEMBRO: 61.416.717,30
+    linhas.append(_linha("2026 — Dezembro — DEA de período anterior",
+                         _M.dea_periodo_anterior(), 61_416_717.30))
+    return linhas
+
+
 def anexo1_2025_mapa() -> list[dict]:
     """RGF Anexo 1 de 2025 — apurado pelo MAPA do auditor.
 
@@ -1096,6 +1166,7 @@ FONTES = OrderedDict((
     ("RREO Anexo 2 - funcoes", anexo2_funcoes),
     ("RREO Anexo 7 - por Poder", anexo7_poder),
     ("RGF Anexo 1 - 2025 (MAPA)", anexo1_2025_mapa),
+    ("RGF Anexo 1 - quadro 2026", anexo1_quadro_2026),
     ("RGF Anexo 3 - 2025", anexo3_2025),
     ("RGF Anexo 4 - 2025", anexo4_2025),
     ("RGF Anexo 5", anexo5),

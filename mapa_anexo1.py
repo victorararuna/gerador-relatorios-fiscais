@@ -189,6 +189,33 @@ def _rpps(fonte: str) -> bool:
     return fonte[2:6] in ("8.00", "8.01", "8.02", "8.03", "8.04")
 
 
+#: fontes em que a DEA NAO entra na deducao de "Despesas de Exercicios
+#: Anteriores" (mapeamento STN): a parcela do RPPS vai para Inativos; a do piso
+#: (605) e a dos ACS (604) tem deducao propria.
+FONTES_EXCECAO_DEA = ("8.00", "8.01", "8.03", "8.04", "6.04", "6.05")
+MESES_2026 = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+              "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+
+
+def dea_periodo_anterior(meses: list[str] | None = None) -> float:
+    """DEA de periodo anterior ao da apuracao — entra na coluna de DEZEMBRO.
+
+    Soma a liquidada das naturezas 31.90.92, 31.91.92 e 33.90.92.34, exceto as
+    fontes de FONTES_EXCECAO_DEA. A linha so e mapeada no 3o quadrimestre e entra
+    inteira em dezembro (MDF 15a ed., 04.01.02.02). Jan-Out/2026 = 61.416.717,30,
+    igual ao quadro do auditor.
+    """
+    meses = meses if meses is not None else MESES_2026[:10]
+    total = 0.0
+    for mes in meses:
+        pares = ler_comparativo(mes).get("__pares__", {})
+        total += sum(
+            v for (nd, f), v in pares.items()
+            if nd in ("31.90.92.00", "31.91.92.00", "33.90.92.34")
+            and f[2:6] not in FONTES_EXCECAO_DEA)
+    return round(total, 2)
+
+
 def quadro_ii(mes: str) -> dict:
     """Despesas Não Computadas (MAPA L252 -> QUADRO L26)."""
     import expurgo_poderes as E

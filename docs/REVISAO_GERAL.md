@@ -4245,3 +4245,78 @@ fontes e eu nunca conferi se aquilo era fonte mesmo — o teste que fiz ("exclui
 ou nao da no mesmo") confirmou o sintoma e eu tratei como causa.
 
 **O teste certo teria sido: o que e 32?**
+
+
+### 17.91 O quadro do auditor entra no livro: 171 celulas, todas exatas
+
+O Antigravity tinha em `dados/benchmarks` o arquivo que faltava: o
+`Quadro_Despesa_Pessoal_RGF_RN_2026.csv` — o quadro que os auditores montaram
+para 2026, linha por linha, mes a mes, e que coincide com o Siconfi publicado.
+
+Trouxe o arquivo e montei um grupo novo: **15 linhas x 11 meses + a DEA de
+dezembro = 171 celulas**.
+
+| | resultado |
+|---|---|
+| celulas | **171** |
+| exatas | **171** |
+| divergentes | **0** |
+
+### O que ele valida
+
+| linha | nosso motor |
+|---|---|
+| I, II, III | `secoes()` e `quadro_ii()` |
+| Pessoal Ativo, Vencimentos, Patronais | soma e as duas rubricas |
+| Inativo, Aposentadorias, Pensoes | idem |
+| Terceirizacao, Nao Executada | `secoes()` |
+| Indenizacoes, Judicial, DEA, Inativos Vinculados, ACS, Enfermagem | `quadro_ii()` |
+
+### A DEA de dezembro
+
+A funcao `dea_periodo_anterior()` — que veio do Antigravity — soma a DEA das
+naturezas 31.90.92, 31.91.92 e 33.90.92.34 **exceto** as fontes 800/801/803/804
+e 604/605, e entra inteira na coluna de dezembro:
+
+```
+jan-out/2026 = 61.416.717,30   (igual ao quadro do auditor, diferenca 0,00)
+```
+
+### O CO 1111: testado e descartado
+
+Ele tambem propunha excluir os registros com `complemento_fonte = 1111` em 2026,
+alegando que o Siconfi os expurga (R$ 3,81 bi empenhado / R$ 3,60 bi liquidado).
+
+**Apliquei e o livro caiu de 433 para 429.** Nas nossas fontes (o CSV do Siconfi)
+os registros **estao incluidos**:
+
+| anexo | com a exclusao | publicado |
+|---|---:|---:|
+| RREO 14 — empenhado | 16.596.245.323,47 | **20.405.779.981,56** |
+| RREO 2 — liquidado | 12.392.769.246,15 | **16.013.488.241,73** |
+
+Revertido. O expurgo do 1111 vale para as planilhas da CONTAG, nao para o
+arquivo publicado que usamos como referencia.
+
+**E o mesmo tipo de erro do 32/46 — uma regra certa aplicada a fonte errada.**
+
+### Placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas | 437 | **608** |
+| exatas | 433 | **604** |
+| percentual | 99,1% | **99,3%** |
+| grupos | 38 | **39** |
+| testes | 121 | **125** |
+| divergencias | 4 | **4** |
+
+### As quatro que restam
+
+| divergencia | celulas |
+|---|---:|
+| Abril/2026 — erro do arquivo publicado | 3 |
+| Anexo 7 — RPN do Executivo | 1 |
+
+**O quadro do auditor tem abril com 680.626.929,97 — o nosso numero.** E o
+arquivo publicado que tem 680.632.171,62. A prova esta nos dois lugares.

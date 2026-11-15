@@ -4849,3 +4849,73 @@ O primeiro e o mais direto: a regra existe, esta escrita e testada no
 | estados com alguma linha exata | **1** (RR, tres linhas) |
 | maior desvio | −45,37% (pensoes do MG) |
 | causa | desdobramento por fonte do RPPS ausente no modulo da matriz |
+
+
+### 17.100 Os cinco estados: geramos os arquivos, nao os numeros certos
+
+Baixei dezembro/2025 completo dos cinco (classes 1, 2, 3, 4, 6 e 8), converti e
+rodei o pipeline. **Os cinco geraram o RGF** com as seis abas — nenhum quebrou.
+
+Mas o numero nao fecha:
+
+| UF | Anexo 2 — DC (I) | Anexo 1 — Despesa Bruta (I) |
+|---|---:|---:|
+| RR | −24,4% | −7,0% |
+| RN | −11,4% | −6,2% |
+| MG | **−93,3%** | −18,7% |
+| PR | −57,9% | −8,5% |
+| MA | −41,6% | −15,5% |
+
+### A causa do Anexo 2: o mapa nao e portavel
+
+Conferi quantas das 335 contas do mapa do RN existem na classe 2 de cada estado:
+
+| UF | contas que casam | % |
+|---|---:|---:|
+| PR | 28 | 8,4% |
+| RN | **21** | **6,3%** |
+| MG | 10 | 3,0% |
+| MA | 10 | 3,0% |
+| RR | 8 | 2,4% |
+
+**Nem o proprio RN casa.** O mapa do Anexo 2 foi transcrito do **balancete**, que
+tem 8 segmentos de conta; a matriz para em 7. As contas simplesmente nao existem
+na MSC.
+
+**Isso confirma o que a rodada anterior ja indicava: o Anexo 2 precisa do balancete
+— a matriz nao substitui.**
+
+### A causa do Anexo 1: a mesma dos cinco
+
+O pipeline usa o `msc_pessoal`, que nao faz o desdobramento por fonte do RPPS.
+O RN tem o `mapa_anexo1` (le o Comparativo) e fecha; os outros estados nao tem
+Comparativo baixado.
+
+### O que ficou provado
+
+| pergunta | resposta |
+|---|---|
+| o motor **le** as matrizes dos 5 sem alteracao? | **sim** |
+| o pipeline **gera** o RGF dos 5? | **sim** — seis abas, sem erro |
+| os **numeros** fecham? | **nao** |
+| o Anexo 1 do RR fecha em 3 linhas? | **sim** (patronal, pensoes, aposentadorias) |
+| o mapa do Anexo 2 serve fora do RN? | **nao — nem no RN** |
+
+### O que isso ensina sobre o produto
+
+O sistema tem **duas camadas** e elas tem portabilidade diferente:
+
+| camada | portabilidade |
+|---|---|
+| apuracao pela MSC (classes 6 e 8) | **alta** — as contas de liquidacao sao nacionais |
+| mapeamentos (Anexo 2 e 5) | **baixa** — nasceram do balancete e das fontes do RN |
+
+**Vender o gerador para outro estado exige reconstruir os mapas.** O motor, nao.
+
+### O caminho
+
+| passo | o que resolve |
+|---|---|
+| levar o desdobramento RPPS ao `msc_pessoal` | Anexo 1 dos cinco |
+| reconstruir o mapa do Anexo 2 a partir da matriz (agregando 7 <- 8) | DCL de qualquer estado |
+| mapa de fontes por estado | Anexo 5 |

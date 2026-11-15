@@ -792,7 +792,9 @@ def anexo7_poder() -> list[dict]:
     apurado = {}
     for r in ac.ler(2025, 12, classe=6, tipo_valor="ending_balance"):
         conta = r.conta or ""
-        if conta not in ("632100000", "631100000"):
+        # o RPN do Executivo inclui a 6.3.1.3 (631300000), que so tem saldo no
+        # PO 10111: 3.047.455,61 — exatamente a diferenca que sobrava
+        if conta not in ("632100000", "631100000", "631300000"):
             continue
         chave = "rpp" if conta == "632100000" else "rpn"
         for nome, pos in PODERES_PO.items():

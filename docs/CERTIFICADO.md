@@ -1,14 +1,14 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 22:58** a partir do código no commit `3147d1d` (branch `main`).
+Emitido em **14/11/2026 23:08** a partir do código no commit `1726c7f` (branch `main`).
 
-Último commit: *Quadro do auditor no livro: 171 celulas novas, todas exatas*
+Último commit: *baixar_msc.py: acervo completo, jul a set/2026 incluidos*
 
 ---
 
 ## 1. Resultado
 
-**604 de 608 células exatas** (99.3%), em 39 grupos de verificação.
+**605 de 608 células exatas** (99.5%), em 39 grupos de verificação.
 
 Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo publicado pelo Siconfi** — não com a planilha de trabalho da equipe.
 
@@ -26,7 +26,7 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RREO Anexo 4 - contribuicoes | 4 | 4 |
 | RREO Anexo 4 - receitas | 1 | 1 |
 | RREO Anexo 2 - funcoes | 23 | 23 |
-| RREO Anexo 7 - por Poder | 7 | 6 |
+| RREO Anexo 7 - por Poder | 7 | 7 |
 | RGF Anexo 1 - 2025 (MAPA) | 6 | 6 |
 | RGF Anexo 1 - quadro 2026 | 171 | 171 |
 | RGF Anexo 3 - 2025 | 5 | 5 |
@@ -63,7 +63,6 @@ Cada célula compara um valor **apurado pelo motor** com o valor do **arquivo pu
 | RGF Anexo 1 - 2026 | 2026 — Abril — I — Despesa Bruta | 680,626,929.97 | 680,632,171.62 | -5,241.65 |
 | RGF Anexo 1 - 2026 | 2026 — Abril — III — Despesa Líquida | 303,562,294.70 | 303,567,536.35 | -5,241.65 |
 | RGF Anexo 1 - rubricas | 2026 — Abril — Pensões | 76,124,731.24 | 76,129,972.89 | -5,241.65 |
-| RREO Anexo 7 - por Poder | Anexo 7 — Executivo — RP Não Processados | 11,871,954.46 | 14,919,410.07 | -3,047,455.61 |
 
 As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própria planilha.
 
@@ -87,7 +86,6 @@ Suíte: **125 testes definidos em 22 arquivos**. Rode `python rodar_testes.py` p
 - **RGF Anexo 1 - 2026 — 2026 — Abril — I — Despesa Bruta**: -5,241.65 de desvio (-0.00%). O ARQUIVO PUBLICADO ESTA ERRADO — e o proprio manual do auditor documenta. Na subacao 408801 do TJRN, ND 31.90.92.03, fonte 0.5.00, abril tem empenhado 86.852,54 e liquidado 92.094,19; a fonte 0.8.00 tem liquidado 29.377,60. O correto, pelo regime de competencia (art. 18, § 2º, da LRF), e 92.094,19 + 29.377,60 = 121.471,79. O publicado traz 116.230,14 porque somou o EMPENHADO de uma fonte com o LIQUIDADO de outra: 86.852,54 + 29.377,60. A diferenca e 5.241,65 — o empenho de marco liquidado em abril. O MAPA do proprio auditor (RGF 2026_Q2_01, aba Mapeamento, linha 209) carrega o mesmo 76.129.972,89 do publicado, ou seja, o erro esta na origem. Nao se corrige do nosso lado sem publicar numero errado.
 - **RGF Anexo 1 - 2026 — 2026 — Abril — III — Despesa Líquida**: -5,241.65 de desvio (-0.00%). O ARQUIVO PUBLICADO ESTA ERRADO — e o proprio manual do auditor documenta. Na subacao 408801 do TJRN, ND 31.90.92.03, fonte 0.5.00, abril tem empenhado 86.852,54 e liquidado 92.094,19; a fonte 0.8.00 tem liquidado 29.377,60. O correto, pelo regime de competencia (art. 18, § 2º, da LRF), e 92.094,19 + 29.377,60 = 121.471,79. O publicado traz 116.230,14 porque somou o EMPENHADO de uma fonte com o LIQUIDADO de outra: 86.852,54 + 29.377,60. A diferenca e 5.241,65 — o empenho de marco liquidado em abril. O MAPA do proprio auditor (RGF 2026_Q2_01, aba Mapeamento, linha 209) carrega o mesmo 76.129.972,89 do publicado, ou seja, o erro esta na origem. Nao se corrige do nosso lado sem publicar numero errado.
 - **RGF Anexo 1 - rubricas — 2026 — Abril — Pensões**: -5,241.65 de desvio (-0.01%). Idem I: erro aritmetico do arquivo publicado, documentado pelo proprio auditor no manual (secao 1.3). Em abril/2026, subacao 408801 do TJRN: o correto e liquidado 92.094,19 (fonte 0.5.00) + 29.377,60 (fonte 0.8.00) = 121.471,79; o publicado traz 116.230,14 porque somou o empenhado da 0.5.00 (86.852,54) com o liquidado da 0.8.00. Diferenca: 5.241,65.
-- **RREO Anexo 7 - por Poder — Anexo 7 — Executivo — RP Não Processados**: -3,047,455.61 de desvio (-20.43%). Os cinco Poderes fecham em RP processados; em nao processados quatro fecham. O Executivo diverge em 3.047.455,61: o arquivo calcula Saldo k = (f + g) - (i + j), que inclui os liquidados nao pagos, enquanto a conta 6.3.1.1 da matriz traz so o saldo a pagar. A diferenca e a parcela liquidada e nao paga que o arquivo soma no saldo.
 - **RCL**: é lida do Anexo 3, não apurada — o bloco de deduções do RPPS não existe na matriz.
 
 ---

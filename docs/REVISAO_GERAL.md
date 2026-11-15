@@ -4376,3 +4376,52 @@ meses disponiveis vao de outubro/2025 a setembro/2026.
 | celulas exatas | 604 de 608 |
 | testes | 125 |
 | verificacoes | 30 de 30 |
+
+
+### 17.93 A quarta divergencia caiu: o RPN do Executivo e a conta 6.3.1.3
+
+O Anexo 7 do RREO era a ultima divergencia que nao era erro do publicado:
+11.871.954,46 contra 14.919.410,07 — diferenca de **3.047.455,61**.
+
+Fui aos saldos da classe 6 em dezembro/2025 e quebrei por conta e Poder:
+
+| conta | PO 10111 | o que e |
+|---|---:|---|
+| `631100000` | 11.871.954,46 | 6.3.1.1 — RP nao processados |
+| `631300000` | **3.047.455,61** | 6.3.1.3 — **a diferenca inteira** |
+
+**11.871.954,46 + 3.047.455,61 = 14.919.410,07** — o publicado, ao centavo.
+
+A conta `6.3.1.3` so tem saldo no PO 10111 (Executivo), e o codigo so lia a
+`6.3.1.1`. Nao era um erro de dado: era uma conta a menos na soma.
+
+### O placar
+
+| | antes | agora |
+|---|---:|---:|
+| celulas exatas | 604 | **605** |
+| percentual | 99,3% | **99,5%** |
+| divergencias | 4 | **3** |
+
+### O que restou
+
+**Tres celulas — e todas sao a mesma coisa:**
+
+| celula | diferenca |
+|---|---:|
+| Abril/2026 — I Despesa Bruta | 5.241,65 |
+| Abril/2026 — III Despesa Liquida | 5.241,65 |
+| Abril/2026 — Pensoes | 5.241,65 |
+
+E o erro do arquivo publicado, provado em dois lugares: o MAPA do proprio auditor
+e o Quadro_Despesa_Pessoal_RGF_RN_2026.csv tem abril com **680.626.929,97** — o
+nosso numero. E o CSV do Siconfi que traz 680.632.171,62.
+
+### A conta do dia
+
+| | |
+|---|---:|
+| meses baixados da API | 3 de 12 faltantes |
+| celulas novas no livro | 171 |
+| divergencias fechadas | 2 (Anexo 2 e Anexo 7) |
+| divergencias restantes | **3, todas o mesmo erro** |

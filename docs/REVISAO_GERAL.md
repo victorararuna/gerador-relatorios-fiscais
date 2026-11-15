@@ -4118,3 +4118,73 @@ mudou foi a **distribuição** — e é ela que o auditor confere linha a linha.
 
 `tests/test_quadro_ii.py` — quatro garantias: DEA zero nos meses, judicial menor
 que o bruto, linhas somam o total e total positivo. **121 testes.**
+
+
+### 17.89 Os tres arquivos novos — e o que eles nao resolvem
+
+Chegaram em 14/11 as 21h37, depois de tudo:
+
+| arquivo | o que e |
+|---|---|
+| `24EX-2026-08-006.csv` | MSC **completa** de agosto/2026, formato antigo (`24EX;2026-08`) |
+| `24EX-2026-07-003.csv` | idem, julho/2026 |
+| `Relatorio_13112026101605.xls` | **Relatorio Fonte Recurso MSC x SIGEF** |
+
+### O que descobri no primeiro minuto
+
+**Nenhum dos dois CSVs tem a conta `8.6.3.2.2`.** Fui alem e mapeei os grupos de
+classe 8 por competencia:
+
+| competencia | grupos de classe 8 |
+|---|---|
+| **ago/2026** | 811, 812, 821, 822, 831, 832, 841, 891, 899 — **sem 86x** |
+| **dez/2025** | os mesmos **+ 863**, com tres contas |
+
+As tres contas de dezembro/2025:
+
+| conta | valor |
+|---|---:|
+| `863210000` | 36.600,82 |
+| `863310000` (PO 10111) | 310.130.182,06 |
+| `863310000` (PO 162233) | **313.662.371,02** |
+
+O ultimo e exatamente o 13o do FUNFIRN que o manual do Etonjones cita.
+
+**O grupo 8.6.3 so existe no encerramento do exercicio** — e mesmo nele nao ha
+`863220000`. A conta `8.6.3.2.2` nao existe em nenhum mes de nenhum ano.
+
+### O de-para de fontes
+
+O `Relatorio_13112026101605.xls` e o de-para `Fonte Recurso MSC` x `Fonte Recurso
+SIGEF` — a dimensao que faltava. Mas ele e **BIFF8 binario** dentro de um
+conteiner OLE2, e nao ha `xlrd`, `calamine` nem LibreOffice CLI neste ambiente.
+
+Tentei:
+1. `pandas.read_excel` — exige `xlrd`, ausente;
+2. o LibreOffice Kit do runtime — e um sidecar com protocolo proprio, nao um CLI
+   de conversao;
+3. escrever um leitor de BIFF8 — extrai o fluxo `Workbook` e as primeiras
+   strings, mas os registros `CONTINUE` do SST quebram a leitura.
+
+**O que resolve: re-salvar o arquivo como `.xlsx`.**
+
+### Uma hipotese eliminada no caminho
+
+Testei se o auditor nao excluia as fontes 32 e 46 do RP:
+
+| cenario | RP bruto |
+|---|---:|
+| como esta (exclui 32, 46, 800, 801, 802) | 1.730.681.809,69 |
+| sem 32 e 46 | **1.730.681.809,69** |
+| sem nenhuma exclusao | 1.889.871.211,70 |
+
+**As fontes 32 e 46 nao tem RP** — excluir ou nao da no mesmo. A diferenca de
+36,6 milhoes para o auditor esta em outro lugar.
+
+### Estado
+
+| | |
+|---|---:|
+| celulas exatas | 431 de 437 |
+| testes | 121 |
+| verificacoes | 30 de 30 |

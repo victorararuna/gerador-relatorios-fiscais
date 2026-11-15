@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 21:43** a partir do código no commit `5284a96` (branch `main`).
+Emitido em **14/11/2026 22:01** a partir do código no commit `9dbbd4c` (branch `main`).
 
-Último commit: *A conta 8.6.3.2.2 nao existe — os 942 milhoes eram calculo*
+Último commit: *Quadro II: corrigida a dupla deducao entre Decisao Judicial, DEA e Inativos*
 
 ---
 
@@ -79,7 +79,7 @@ As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própr
 | `test_coerencia.py` | README, planilha e .md discordarem |
 | `test_verificacao.py` | divergência ficar sem causa escrita |
 
-Suíte: **117 testes definidos em 20 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
+Suíte: **121 testes definidos em 21 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
 
 ---
 

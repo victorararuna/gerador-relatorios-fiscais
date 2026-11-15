@@ -5057,3 +5057,45 @@ para 7,48 bi, pior que os 8,63 bi do pipeline.
 de-para entre os nomes das secoes do balancete e os rotulos da aba.
 
 E trabalho de tabela, nao de codigo — a proxima rodada resolve.
+
+
+### 17.104 O RREO Anexo 2 fecha nos 27 estados
+
+Baixei dezembro/2025 da classe 6 dos **27 estados** e comparei com o RREO Anexo 2
+publicado (6o bimestre de 2025):
+
+| | |
+|---|---|
+| estados testados | **27** |
+| com o total exato | **27** |
+| diferenca | **0,00 em todos** |
+
+De R$ 8,7 bilhoes (RR) a R$ 369,2 bilhoes (SP), todos ao centavo.
+
+### O detalhe que quase estragou o teste
+
+O Anexo 2 publicado tem **dois blocos**:
+
+| conta | valor (RN) |
+|---|---:|
+| DESPESAS (EXCETO INTRA-ORCAMENTARIAS) (I) | 20.696.574.215,20 |
+| DESPESAS (INTRA-ORCAMENTARIAS) (II) | 2.664.925.314,43 |
+
+E o bloco II aparece **duplicado** no arquivo — a quarta vez nesta sessao que
+encontro um total repetido (as outras: Anexo 4 militar, Anexo 4 receitas, linha
+II do MAPA).
+
+Comparar so com o bloco I dava 1,5% a 27% de diferenca. Somando os dois, exato.
+
+### O que isso prova
+
+**O RREO Anexo 2 e universal.** A regra — somar 6.2.2.1.3.03/.04/.07 por funcao —
+vale para o Brasil inteiro, sem mapa local, sem calibracao.
+
+Diferente do RGF Anexo 2 (que precisa do balancete) e do RGF Anexo 1 (que precisa
+do Comparativo), o RREO sai da matriz em qualquer estado.
+
+### O script
+
+`teste_rreo_estados.py` — baixa dezembro da classe 6 dos 27 e compara com o
+publicado. Cerca de seis minutos na primeira vez (depois usa o cache).

@@ -4782,3 +4782,70 @@ O download de teste gravou os CSVs com **virgula**; o acervo do RN usa **ponto e
 virgula**. O motor lia tudo como uma coluna e devolvia zero nos cinco — sem erro,
 sem aviso. **Zero silencioso e o pior tipo de falha.** O conversor agora detecta o
 separador pelo cabecalho.
+
+
+### 17.99 A suite nos cinco estados — e o que ela revelou
+
+Baixei as matrizes de dezembro/2025 dos cinco estados e comparei com o **RGF
+Anexo 1 publicado no Siconfi** — nao com planilha, nao com benchmark: com o que
+cada Estado entregou ao Tesouro.
+
+O endpoint `tt/rgf` so responde com `co_esfera`, `co_poder` e `in_periodicidade`
+alem dos parametros obvios. E as colunas `<MR-11>` a `<MR>` sao **os doze meses**:
+`<MR>` e dezembro, nao o total. Somando as doze, a comparacao passou a fazer
+sentido.
+
+### O resultado
+
+| UF | vencimentos | patronal | aposentadorias | pensoes | I |
+|---|---:|---:|---:|---:|---:|
+| **RR** | −6,11% | **−0,00%** | **−0,00%** | **−0,00%** | −6,99% |
+| **RN** | −0,76% | −3,87% | −19,19% | −28,71% | −10,21% |
+| **PR** | −1,88% | −1,17% | −16,79% | −34,89% | −8,52% |
+| **MG** | −1,41% | −7,56% | −36,62% | −45,37% | −18,73% |
+| **MA** | −5,52% | −25,72% | −30,19% | −29,60% | −15,45% |
+
+### O que o Roraima prova
+
+**Tres linhas ao centavo** — patronal 420.623.686,62, pensoes 44.694.634,30, e
+aposentadorias com 7.402,86 de diferenca em 276 milhoes.
+
+Isso muda a leitura do resultado: **a logica do motor esta certa**. Quando o dado
+do Estado chega no formato que o motor espera, o numero fecha. As diferencas nos
+outros quatro sao de **dado e de regra de classificacao**, nao de codigo.
+
+### Onde as diferencas se concentram
+
+Todas em **aposentadorias e pensoes** — as mesmas duas linhas que, no RN,
+exigiram o desdobramento por fonte do RPPS. O modulo do pipeline
+(`msc_pessoal`) nao faz esse desdobramento; o nosso motor do Anexo 1
+(`mapa_anexo1`) faz, mas le o Comparativo.
+
+**Sao dois motores para a mesma linha, com precisões diferentes.**
+
+### O que fica como caminho
+
+| passo | o que faria |
+|---|---|
+| levar o desdobramento por fonte do RPPS para o `msc_pessoal` | deve fechar aposentadorias e pensoes nos cinco |
+| OU alimentar o `mapa_anexo1` com a matriz no lugar do PDF | fecha os dois mundos |
+
+O primeiro e o mais direto: a regra existe, esta escrita e testada no
+`mapa_anexo1` — falta aplica-la ao modulo que roda na matriz.
+
+### Os scripts
+
+| script | o que faz |
+|---|---|
+| `baixar_matrizes_teste.py` | baixa as matrizes dos cinco (classes e tipos a escolher) |
+| `teste_5_estados.py` | converte e roda o motor de pessoal |
+| `validar_5_estados.py` | compara com o **RGF publicado** de cada estado |
+
+### O placar honesto
+
+| | |
+|---|---|
+| estados que o motor le sem alteracao | **5 de 5** |
+| estados com alguma linha exata | **1** (RR, tres linhas) |
+| maior desvio | −45,37% (pensoes do MG) |
+| causa | desdobramento por fonte do RPPS ausente no modulo da matriz |

@@ -75,36 +75,47 @@ def main() -> int:
     ap.add_argument("--ano", type=int, default=2026)
     ap.add_argument("--mes", type=int, default=9)
     ap.add_argument("--semente", type=int, default=2026)
+    ap.add_argument("--todos-os-meses", action="store_true",
+                    help="baixa os doze meses do ano")
+    ap.add_argument("--classes", help="ex: 6 (padrao: 1 a 8)")
+    ap.add_argument("--tipos", help="ex: ending_balance (padrao: os dois)")
     args = ap.parse_args()
 
     random.seed(args.semente)
     escolhidos = random.sample(sorted(ESTADOS), 5)
     print("estados sorteados:", ", ".join(f"{ESTADOS[e]} ({e})" for e in escolhidos))
 
+    meses = list(range(1, 13)) if args.todos_os_meses else [args.mes]
     falhas = 0
     for ente in escolhidos:
         uf = ESTADOS[ente]
         pasta = os.path.join(DESTINO, uf)
         os.makedirs(pasta, exist_ok=True)
         print(f"\n--- {uf} ({ente})")
-        for classe in range(1, 9):
-            for tipo in TIPOS:
+        classes = ([int(x) for x in args.classes.split(",")] if args.classes
+                   else list(range(1, 9)))
+        tipos = (tuple(args.tipos.split(",")) if args.tipos else TIPOS)
+        for mes in meses:
+          print(f"  mes {mes:02d}", flush=True)
+          for classe in classes:
+            for tipo in tipos:
                 try:
-                    linhas = baixar(ente, args.ano, args.mes, classe, tipo)
+                    linhas = baixar(ente, args.ano, mes, classe, tipo)
                 except Exception as e:
                     falhas += 1
-                    print(f"   classe{classe} {tipo}: ERRO {type(e).__name__} {str(e)[:50]}")
+                    print(f"   classe{classe} {tipo}: ERRO {type(e).__name__} {str(e)[:50]}", flush=True)
                     continue
                 if not linhas:
                     continue
                 caminho = os.path.join(
-                    pasta, f"{uf}_{args.ano}_{args.mes:02d}_classe{classe}_{tipo}.csv")
+                    pasta, f"{uf}_{args.ano}_{mes:02d}_classe{classe}_{tipo}.csv")
                 with open(caminho, "w", encoding="utf-8", newline="") as fh:
-                    esc = csv.DictWriter(fh, fieldnames=COLUNAS, extrasaction="ignore")
+                    esc = csv.DictWriter(fh, fieldnames=COLUNAS, extrasaction="ignore",
+                                         delimiter=";")
                     esc.writeheader()
                     for item in linhas:
                         esc.writerow(item)
-                print(f"   classe{classe} {tipo:<14} {len(linhas):>6} linhas")
+                print(f"   classe{classe} {tipo:<14} {len(linhas):>6}", flush=True)
     print(f"\nfalhas: {falhas}")
     return 1 if falhas else 0
 

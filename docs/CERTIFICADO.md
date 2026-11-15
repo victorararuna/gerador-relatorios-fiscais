@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 22:45** a partir do código no commit `0b4d368` (branch `main`).
+Emitido em **14/11/2026 22:58** a partir do código no commit `3147d1d` (branch `main`).
 
-Último commit: *Correcoes do Antigravity: 32 e 46 sao naturezas, nao fontes*
+Último commit: *Quadro do auditor no livro: 171 celulas novas, todas exatas*
 
 ---
 

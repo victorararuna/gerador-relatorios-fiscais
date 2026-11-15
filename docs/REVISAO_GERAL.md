@@ -4320,3 +4320,59 @@ arquivo publicado que usamos como referencia.
 
 **O quadro do auditor tem abril com 680.626.929,97 — o nosso numero.** E o
 arquivo publicado que tem 680.632.171,62. A prova esta nos dois lugares.
+
+
+### 17.92 Acervo completo: os doze meses da MSC, baixados da API
+
+O acervo tinha 2025 inteiro e 2026 de janeiro a junho. Faltavam **julho, agosto
+e setembro de 2026** — exatamente os meses que o Anexo 1 do 2o quadrimestre usa.
+
+Escrevi o `baixar_msc.py`, que baixa da API do Siconfi com paginacao:
+
+| classe | endpoint |
+|---|---|
+| 1 a 4 | `msc_patrimonial` |
+| 5 e 6 | `msc_orcamentaria` |
+| 7 e 8 | `msc_controle` |
+
+Parametros: `an_referencia`, `me_referencia`, `co_tipo_matriz=MSCC`,
+`id_ente=24`, `classe_conta`, `id_tv`, `limit=5000`, `offset`.
+
+### O resultado
+
+| | |
+|---|---|
+| arquivos baixados | **48** (3 meses x 8 classes x 2 tipos) |
+| linhas | 70.237 |
+| falhas | **0** |
+| acervo de 2026 | 35,8 MB |
+
+### O cruzamento
+
+Baixei e comparei com a fonte antiga (`siconfi_rn_msc`), que ja tinha os tres
+meses:
+
+| mes | acervo novo | fonte antiga | diferenca |
+|---|---:|---:|---:|
+| 2026-07 | 1.705.162.921,40 | 1.705.162.921,40 | **0,00** |
+| 2026-08 | 2.094.282.072,48 | 2.094.282.072,48 | **0,00** |
+| 2026-09 | 1.721.335.010,60 | 1.721.335.010,60 | **0,00** |
+
+**O download reproduz a fonte antiga ao centavo.**
+
+### O limite que encontrei
+
+O Siconfi publica com defasagem: **outubro de 2026 ainda nao saiu**. Os doze
+meses disponiveis vao de outubro/2025 a setembro/2026.
+
+`python baixar_msc.py` baixa so o que falta; `--tudo` refaz os doze;
+`--meses 2026-07,2026-08` baixa meses especificos.
+
+### Estado
+
+| | |
+|---|---:|
+| meses no acervo | **21** (2025 completo + 2026 ate setembro) |
+| celulas exatas | 604 de 608 |
+| testes | 125 |
+| verificacoes | 30 de 30 |

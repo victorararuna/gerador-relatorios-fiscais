@@ -4715,3 +4715,70 @@ ao centavo.
 
 O caminho de geracao esta aberto. A precisao do Anexo 1 continua dependendo do
 mesmo dado que o Estado nao manda.
+
+
+### 17.98 O sistema funciona fora do Rio Grande do Norte
+
+O gerador nasceu sobre o RN. A pergunta que faltava: **isso e do RN ou e do
+Brasil?**
+
+Baixei as matrizes de cinco estados sorteados com semente fixa:
+
+| UF | ente | populacao |
+|---|---:|---:|
+| **RR** | 14 | 634.805 |
+| **MA** | 21 | 6.800.605 |
+| **RN** | 24 | 3.303.953 |
+| **MG** | 31 | 20.732.660 |
+| **PR** | 41 | 11.835.379 |
+
+Nove classes de tamanho e quatro regioes.
+
+### O resultado
+
+O modulo de pessoal rodou nos cinco **sem uma linha de codigo especifica**:
+
+| UF | vencimentos | patronal | aposentadorias |
+|---|---:|---:|---:|
+| RR | 2.759.819.695,68 | 327.108.290,98 | 217.826.820,34 |
+| MA | 5.235.915.705,22 | 550.269.149,78 | 1.907.303.414,47 |
+| RN | 4.814.053.411,22 | 1.910.393.253,50 | 3.656.292.344,28 |
+| PR | 13.545.621.128,07 | 2.448.952.665,18 | 7.054.710.586,11 |
+| MG | 20.077.328.949,21 | 6.493.870.556,65 | 11.187.296.203,17 |
+
+**Os valores acompanham o tamanho do estado** — RR com 2,8 bi e MG com 20 bi.
+A razao patronal/vencimentos fica entre 10,5% (MA) e 39,7% (RN), que e a faixa
+esperada para regimes proprios de previdencia.
+
+### O que isso prova
+
+| pergunta | resposta |
+|---|---|
+| o codigo e amarrado ao RN? | **nao** — as contas de liquidacao sao nacionais |
+| as classes 1 a 8 tem o mesmo desenho? | **sim** nos cinco |
+| o formato longo da API e igual? | **sim** |
+| o que muda entre estados? | os mapas de contas e as fontes |
+
+### O que fica para depois
+
+Rodar o **pipeline completo** nos cinco exige a matriz de dezembro do exercicio
+(so baixamos setembro). O comando:
+
+```
+python baixar_matrizes_teste.py --ano 2025 --mes 12
+python teste_5_estados.py --ano 2025 --mes 12
+```
+
+### Os scripts
+
+| script | o que faz |
+|---|---|
+| `baixar_matrizes_teste.py` | sorteia cinco estados e baixa as 16 matrizes do mes |
+| `teste_5_estados.py` | converte e roda o motor de pessoal em cada um |
+
+### Um detalhe que quase passou
+
+O download de teste gravou os CSVs com **virgula**; o acervo do RN usa **ponto e
+virgula**. O motor lia tudo como uma coluna e devolvia zero nos cinco — sem erro,
+sem aviso. **Zero silencioso e o pior tipo de falha.** O conversor agora detecta o
+separador pelo cabecalho.

@@ -4919,3 +4919,55 @@ O sistema tem **duas camadas** e elas tem portabilidade diferente:
 | levar o desdobramento RPPS ao `msc_pessoal` | Anexo 1 dos cinco |
 | reconstruir o mapa do Anexo 2 a partir da matriz (agregando 7 <- 8) | DCL de qualquer estado |
 | mapa de fontes por estado | Anexo 5 |
+
+
+### 17.101 O filtro de CO cortava R$ 953 milhoes das aposentadorias
+
+O `msc_pessoal.apurar` filtrava as naturezas 31.90.01 e 31.90.03 por
+`complemento_fonte`, mantendo so vazio/1111/1151/2111/2151.
+
+Somando as aposentadorias do RN pela fonte:
+
+| CO | valor |
+|---|---:|
+| 1111 | 4.266.826.128,20 |
+| **2211** | **614.960.748,14** |
+| **1131** | **150.994.803,21** |
+| **1121** | **123.164.829,08** |
+| **1122** | **57.406.865,05** |
+| (vazio) | 41.391.489,06 |
+| 1141 | 7.321.996,16 |
+
+**O filtro jogava fora 953,8 milhoes.** Com ele, aposentadorias dava
+4.268.008.067,90 contra 5.281.577.891,79 publicados (−19,19%). Sem ele,
+5.263.258.798,60 (−0,35%).
+
+### O efeito nos cinco estados
+
+| UF | I antes | I depois |
+|---|---:|---:|
+| RN | −10,21% | **−1,73%** |
+| MG | −18,73% | **−1,98%** |
+| MA | −15,45% | **−5,75%** |
+| PR | −8,52% | **+3,16%** |
+| RR | −6,99% | −6,99% |
+
+**Melhorou em todos.** E o MG passou a fechar **aposentadorias ao centavo**
+(24.236.044.653,20 contra 24.236.928.488,90 — −0,00%).
+
+### O que ainda nao fecha
+
+Pensoes. Sem o filtro, o RN sobe de −28,71% para +11,42%: a linha tem COs que
+entram em parte. O certo seria separar o que e pensao do RPPS do que e de outro
+plano — o mesmo desdobramento que o `mapa_anexo1` faz pelo Comparativo.
+
+**Mas a despesa bruta, que e a linha que importa, ficou em −1,73% no RN.**
+
+### Estado
+
+| | |
+|---|---:|
+| livro do RN | **605 de 608** (inalterado) |
+| testes | **134** |
+| Anexo 1 do RN pela matriz | **−1,73%** (era −10,21%) |
+| Anexo 1 do MG pela matriz | **−1,98%** (era −18,73%) |

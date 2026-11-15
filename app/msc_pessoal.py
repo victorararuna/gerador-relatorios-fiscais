@@ -153,9 +153,12 @@ def apurar(resultado: ResultadoMSC) -> Dict[str, float]:
         # Aposentadorias e pensoes: o mapeamento usa o CO (1111+1151 capitalizacao,
         # 2111+2151 reparticao). Na pratica o RN registra em 1111 e sem CO; os
         # demais CO (1121, 1122, 1131, 1141) sao de outros planos/poderes.
-        if elem in ("319001", "319003"):
-            if l.co not in ("", "1111", "1151", "2111", "2151"):
-                continue
+        # O filtro de CO que existia aqui cortava R$ 953 milhoes das
+        # aposentadorias do RN: 2211 (614,9 mi), 1131 (151,0), 1121 (123,2),
+        # 1122 (57,4) e 1141 (7,3). O publicado soma TODOS os CO.
+        # Com o filtro, aposentadorias dava 4.268.008.067,90 contra
+        # 5.281.577.891,79; sem ele, 5.263.258.798,60 — 0,35% de diferenca.
+        pass
         # 31.90.13.02 nao compoe a linha de obrigacoes patronais do RGF
         if l.nd == "31901302":
             continue

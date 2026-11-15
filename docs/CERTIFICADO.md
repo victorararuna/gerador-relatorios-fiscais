@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **15/11/2026 10:42** a partir do código no commit `78757be` (branch `main`).
+Emitido em **15/11/2026 12:44** a partir do código no commit `05b2904` (branch `main`).
 
-Último commit: *Varredura: o que sai so da MSC*
+Último commit: *Cinco estados: geramos os arquivos, nao os numeros certos*
 
 ---
 
@@ -77,7 +77,7 @@ As causas estão em `docs/DIVERGENCIAS.md` e na coluna de observação da própr
 | `test_coerencia.py` | README, planilha e .md discordarem |
 | `test_verificacao.py` | divergência ficar sem causa escrita |
 
-Suíte: **125 testes definidos em 22 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
+Suíte: **130 testes definidos em 23 arquivos**. Rode `python rodar_testes.py` para ver quantos executam e quantos pulam.
 
 ---
 

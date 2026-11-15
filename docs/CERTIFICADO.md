@@ -1,8 +1,8 @@
 # Certificado de verificação
 
-Emitido em **14/11/2026 21:37** a partir do código no commit `2061f31` (branch `main`).
+Emitido em **14/11/2026 21:43** a partir do código no commit `5284a96` (branch `main`).
 
-Último commit: *Frente de 2025 fechada: a fonte certa e a aba QUADRO, e a DTP inclui os RPNP*
+Último commit: *A conta 8.6.3.2.2 nao existe — os 942 milhoes eram calculo*
 
 ---
 

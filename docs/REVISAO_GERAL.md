@@ -4065,3 +4065,56 @@ e 36,6 milhoes maior que o do auditor. E a mesma familia de diferenca do split d
 | percentual | 98,2% | **98,6%** |
 | divergencias | 8 | **6** |
 | verificacoes | 30 de 30 | **30 de 30** |
+
+
+### 17.88 Quadro II: a dupla dedução que os totais escondiam
+
+O mesmo valor era descontado em duas linhas ao mesmo tempo:
+
+| valor | estava em | devia estar em |
+|---|---|---|
+| sentenças judiciais em fonte RPPS (mai 1.436,20 · out 1.539,66) | Decisão Judicial | Inativos vinculados |
+| DEA em fonte RPPS (jan 1.681,65 · jun 2.509,77) | DEA | Inativos vinculados |
+
+O mapeamento da STN manda mapear **31.XX.91** e **31.XX.92** *exceto* nas fontes
+X.800, X.801, X.803, X.804, X.604 e X.605. Quem está nelas entra em **Inativos e
+Pensionistas com Recursos Vinculados** — que lista as naturezas 01, 03, 86, 91,
+92 e 94.
+
+Sem a exceção, a mesma despesa é deduzida duas vezes. **Os totais fecham e as
+linhas não** — que é o pior tipo de erro: passa na conferência de total.
+
+### A correção
+
+| linha | antes | agora |
+|---|---|---|
+| Decisão Judicial | 31.90.91 + 31.91.91 (todas as fontes) | idem, **exceto** 800/801/803/804 *e* 604/605 |
+| DEA | a parcela da fonte 800 | **zero** nos meses; só em dezembro |
+| Inativos | naturezas 01 e 03 | **+ 91 e 92** nas fontes vinculadas |
+
+### A validação
+
+Contra o Quadro do auditor (`RGF 2026_Q2_01`, aba `Quadro`), que cobre jan a
+ago/2026:
+
+| | resultado |
+|---|---|
+| 9 linhas × 8 meses | **72 células** |
+| exatas | **70** |
+| divergentes | 2 — as duas de abril, o erro de 5.241,65 já provado |
+
+### Por que isso vale mais que a nota
+
+A nossa nota do livro **não mudou** (431 de 437): os totais já fechavam. O que
+mudou foi a **distribuição** — e é ela que o auditor confere linha a linha.
+
+É o terceiro caso desta sessão em que "o total fecha" escondia erro:
+
+1. as rubricas de vencimentos × patronais (soma fechava, split não);
+2. o Anexo 2 (DCL fechava, DC e Deduções não);
+3. **o Quadro II** (total fechava, as seis linhas não).
+
+### Testes
+
+`tests/test_quadro_ii.py` — quatro garantias: DEA zero nos meses, judicial menor
+que o bruto, linhas somam o total e total positivo. **121 testes.**

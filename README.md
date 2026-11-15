@@ -16,7 +16,7 @@ causa.
 ```bash
 python verificar_tudo.py    # 27 conferências de ponta a ponta
 python verificacao.py       # livro, divergências e certificado
-python rodar_testes.py      # 117 testes: quantos executam, quantos pulam
+python rodar_testes.py      # 121 testes: quantos executam, quantos pulam
 ```
 
 Saídas, todas no mesmo comando:

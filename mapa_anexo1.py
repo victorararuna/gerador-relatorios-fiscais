@@ -198,12 +198,20 @@ def quadro_ii(mes: str) -> dict:
     pares = c.pop("__pares__", {})
 
     indenizacoes = c.get("31.90.94.00", 0.0) + c.get("31.91.94.00", 0.0)
-    judicial = c.get("31.90.91.00", 0.0) + c.get("31.91.91.00", 0.0)
-    # DEA só é deduzida em dezembro (Nota Explicativa nº 4). A parcela
-    # executada na fonte 0.8.00 já entra deduzida no mês (MAPA linha 276).
-    dea_800 = sum(v for (nd, f), v in pares.items()
-                  if nd == "31.90.92.00" and f[2:6] == "8.00")
-    dea = dea_800
+
+    # DUPLA DEDUCAO: o mapeamento da STN manda mapear 31.XX.91 e 31.XX.92
+    # EXCETO nas fontes 800/801/803/804 e 604/605 — quem esta nelas entra em
+    # "Inativos e Pensionistas com Recursos Vinculados" (naturezas 01, 03, 86,
+    # 91, 92 e 94). Sem essa excecao, o mesmo valor e deduzido nas duas linhas.
+    FONTES_VINCULADAS = ("8.00", "8.01", "8.03", "8.04")
+    FONTES_EMENDAS = ("6.04", "6.05")
+
+    judicial = sum(v for (nd, f), v in pares.items()
+                   if nd in ("31.90.91.00", "31.91.91.00")
+                   and f[2:6] not in FONTES_VINCULADAS + FONTES_EMENDAS)
+
+    # a DEA so e deduzida em dezembro; a parcela do RPPS vai para "Inativos"
+    dea = 0.0
 
     apos_rpps = sum(v for (nd, f), v in pares.items()
                     if nd == "31.90.01.00" and _rpps(f))
@@ -214,6 +222,12 @@ def quadro_ii(mes: str) -> dict:
     ded_apos = ieo["aposentadorias"]
     ded_pens = ieo["pensoes_rpps"]
     inativos = (apos_rpps - ded_apos) + (pens_rpps - ded_pens)
+    # as naturezas 91 e 92 nas fontes vinculadas entram aqui, nao nas linhas de
+    # Decisao Judicial e DEA — e o que fecha a excecao do mapeamento
+    inativos += sum(v for (nd, f), v in pares.items()
+                    if nd in ("31.90.91.00", "31.91.91.00",
+                              "31.90.92.00", "31.91.92.00")
+                    and f[2:6] in FONTES_VINCULADAS)
 
     # usa-se a linha agregada do grupo 31 em cada fonte (as linhas filhas
     # repetem o mesmo valor e somá-las duplicaria)

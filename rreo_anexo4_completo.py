@@ -71,10 +71,35 @@ Capitalização e R$ 480.000,00 no de Repartição, exatamente como no publicado
 Na execução ela não é identificável — o nd não tem empenho — e por isso não é
 emitida; o valor correspondente fica em "Demais Despesas Previdenciárias",
 que é o que o publicado mostra.
+
+Calibração por ente (``calibracao=``)
+-------------------------------------
+O recorte por fonte de recursos acima é o que vale para RR e para o RN. Em AL
+os fundos **não** se separam só pela fonte: o mesmo fr 1500 (Tesouro) paga
+benefícios civis (que vão para o bloco 1801) e militares (bloco 1803), e a
+separação real é fonte + poder/órgão + função + subfunção. Para esses casos,
+``celulas(..., calibracao=...)`` aceita um dict (ou o caminho de um JSON em
+``dados/mapeamentos/``) com, por bloco, uma lista de regras de seleção:
+
+    {"blocos": {"1803": {"regras": [{"fr": ["1803"], "fun": ["09"],
+                                     "sub": ["272"]},
+                                    {"fr": ["1500"], "po": ["10111"],
+                                     "fun": ["09"], "sub": ["272"]}],
+                          "linhas": {"apos": ["319001"],
+                                     "pens": ["319003"]}}}}
+
+Cada regra é um E de listas de valores aceitos em ``fr``, ``po`` (poder/órgão),
+``fun`` e ``sub``; o primeiro bloco cuja regra casar fica com o registro.
+``linhas`` troca as naturezas que compõem "Aposentadorias" e "Pensões";
+``receita_fonte`` diz de qual fonte sai a receita do bloco; ``nd_excluidas``
+(substitui ``ND_EXCLUIDAS``) permite manter o 3.3.91.39, que em AL é a própria
+linha "Outras Despesas Previdenciárias". Com ``calibracao=None`` (default) o
+comportamento é exatamente o descrito acima, por fonte de recursos.
 """
 from __future__ import annotations
 
 import csv
+import json
 import os
 import sys
 from collections import defaultdict
@@ -225,7 +250,11 @@ REPLICAVEIS: Tuple[Tuple[str, int, str], ...] = (
     ("OutrosBensEDireitosFundoEmReparticao", 1801, SALDO),
     ("CaixaEEquivalenteDeCaixaAdministracaoDoRPPS", 1802, SALDO),
     ("InvestimentosEAplicacoesAdministracaoDoRPPS", 1802, SALDO),
+    ("OutrosBensEDireitosAdministracaoDoRPPS", 1802, SALDO),
     ("ReservaOrcamentariaDoRPPSPrevidenciario", 0, P_ORC),
+    # molde de AL (plano financeiro: recursos para cobertura de insuficiência)
+    ("AportesParaAPrevidenciaPlanoFinanceiroInsuficienciaFinanceira",
+     1801, "APORTES REALIZADOS"),
     # molde do RN (bloco 1804 e aportes)
     ("ContribuicoesDosServidoresBeneficiosMantidosPeloTesouro", 1804, P_ATU),
     ("ContribuicoesDosServidoresBeneficiosMantidosPeloTesouro", 1804, R_REAL),
@@ -324,9 +353,9 @@ def _grupo_nr(nr: str) -> Tuple[str, str]:
     return "outras", ""
 
 
-def _fora(nd: str) -> bool:
+def _fora(nd: str, excluidas: frozenset = ND_EXCLUIDAS) -> bool:
     """Naturezas que o Anexo 4 não leva: reserva orçamentária e 3.3.91.39."""
-    return nd[:2] == ND_RESERVA or nd[:6] in ND_EXCLUIDAS
+    return nd[:2] == ND_RESERVA or nd[:6] in excluidas
 
 
 def _recorte(fonte, fr: str, extras: Iterable[str] = (),
@@ -340,6 +369,44 @@ def _recorte(fonte, fr: str, extras: Iterable[str] = (),
         elif f in extras and chave[:6] in so_nds:
             saida[chave] += valor
     return saida
+
+
+# ---------------------------------------------------------------- calibração
+def _carregar_calibracao(calibracao):
+    """Aceita dict, caminho de JSON ou None. None = recorte só por fonte."""
+    if calibracao is None or isinstance(calibracao, dict):
+        return calibracao
+    with open(calibracao, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def _casa_regra(regra: dict, r) -> bool:
+    """Um registro casa a regra quando todos os filtros presentes batem."""
+    if "fr" in regra and r.fr not in regra["fr"]:
+        return False
+    if "po" in regra and r.po not in regra["po"]:
+        return False
+    if "fun" in regra and r.funcao not in regra["fun"]:
+        return False
+    if "sub" in regra and r.subfuncao not in regra["sub"]:
+        return False
+    return True
+
+
+def _seletor_de(calibracao):
+    """Função registro -> bloco (int) segundo as regras da calibração."""
+    regras: List[Tuple[int, dict]] = []
+    for cod, cfg in sorted((calibracao or {}).get("blocos", {}).items()):
+        for regra in cfg.get("regras", ()):
+            regras.append((int(cod), regra))
+
+    def seletor(r):
+        for bloco, regra in regras:
+            if _casa_regra(regra, r):
+                return bloco
+        return None
+
+    return seletor
 
 
 # ---------------------------------------------------------------- apuração
@@ -371,17 +438,21 @@ def _receita(prev, real, fr: str) -> Dict[str, Dict[str, float]]:
 
 
 def _despesa_beneficios(fonte, fr: str,
-                        extras: Iterable[str] = ()) -> Dict[str, float]:
+                        extras: Iterable[str] = (),
+                        nd_apos: frozenset = ND_APOSENTADORIAS,
+                        nd_pens: frozenset = ND_PENSOES,
+                        nd_excluidas: frozenset = ND_EXCLUIDAS
+                        ) -> Dict[str, float]:
     """{chave: valor} de um bloco de benefícios (1800, 1801, 1803)."""
     nds = _recorte(fonte, fr, extras, ND_TESOURO)
     d: Dict[str, float] = defaultdict(float)
     for nd, valor in nds.items():
-        if _fora(nd):
+        if _fora(nd, nd_excluidas):
             continue
         d["total"] += valor
-        if nd[:6] in ND_APOSENTADORIAS:
+        if nd[:6] in nd_apos:
             d["apos"] += valor
-        elif nd[:6] in ND_PENSOES:
+        elif nd[:6] in nd_pens:
             d["pens"] += valor
         elif nd[:6] in ND_COMPENSACAO:
             d["compensacao"] += valor
@@ -393,14 +464,17 @@ def _despesa_beneficios(fonte, fr: str,
     return d
 
 
-def _despesa_administracao(fonte, fr: str) -> Dict[str, float]:
+def _despesa_administracao(fonte, fr: str,
+                           nd_excluidas: frozenset = ND_EXCLUIDAS,
+                           nd_nao_pessoal: frozenset = ND_NAO_PESSOAL
+                           ) -> Dict[str, float]:
     """{chave: valor} do bloco 1802 (Administração do RPPS)."""
     d: Dict[str, float] = defaultdict(float)
     for nd, valor in _recorte(fonte, fr).items():
-        if _fora(nd):
+        if _fora(nd, nd_excluidas):
             continue
         if nd[:2] == "31":
-            if nd[:6] not in ND_NAO_PESSOAL:
+            if nd[:6] not in nd_nao_pessoal:
                 d["pessoal"] += valor
         elif nd[:2] in ("32", "33"):
             d["demais"] += valor
@@ -457,12 +531,17 @@ def _replicaveis(publicado: Dict[Tuple[str, str], float],
 def celulas(raiz: str, ano: int, bimestre: int, **kwargs) -> Dict[_CHAVE, float]:
     """{(cod_conta, coluna, bloco): valor} do Anexo 4 apurado na matriz.
 
-    ``raiz``      pasta da MSC (a mesma dos outros módulos do repo)
-    ``ano``       exercício
-    ``bimestre``  1 a 6 (o RREO é cumulativo: 4 => janeiro a agosto)
-    ``publicado`` opcional, ``{(cod_conta, coluna): valor}`` ou o caminho do
-                  CSV publicado; preenche os saldos, a reserva e o bloco 1804.
+    ``raiz``       pasta da MSC (a mesma dos outros módulos do repo)
+    ``ano``        exercício
+    ``bimestre``   1 a 6 (o RREO é cumulativo: 4 => janeiro a agosto)
+    ``publicado``  opcional, ``{(cod_conta, coluna): valor}`` ou o caminho do
+                   CSV publicado; preenche os saldos, a reserva e o bloco 1804.
     ``tesouro_no_reparticao`` força/desliga a fonte 1500 no bloco 1801.
+    ``calibracao`` opcional, dict ou caminho de JSON (``dados/mapeamentos/``).
+                   Sem ele o recorte é o de RR/RN: um bloco por fonte de
+                   recursos. Com ele, cada bloco é a união de regras
+                   ``{"fr": [...], "po": [...], "fun": [...], "sub": [...]}``
+                   (ver a docstring do módulo e ``dados/mapeamentos/anexo4_al.json``).
 
     O ``bloco`` é o código da fonte de recursos (1800 a 1804); a reserva
     orçamentária, que não pertence a um fundo, sai com ``bloco=0``. Célula de
@@ -470,6 +549,7 @@ def celulas(raiz: str, ano: int, bimestre: int, **kwargs) -> Dict[_CHAVE, float]
     publicado (não imprime linha zerada).
     """
     publicado = kwargs.get("publicado")
+    calibracao = _carregar_calibracao(kwargs.get("calibracao"))
     if isinstance(publicado, str):
         publicado = ler_publicado(publicado)
     tesouro = kwargs.get("tesouro_no_reparticao", TESOURO_NO_REPARTICAO)
@@ -490,12 +570,29 @@ def celulas(raiz: str, ano: int, bimestre: int, **kwargs) -> Dict[_CHAVE, float]
             f"{ano}-{mes_fim:02d}: {raiz}")
     meses = list(range(1, mes_fim + 1))
 
+    # rótulo da chave de uma linha de despesa: a fonte (padrão) ou o bloco
+    # apontado pela calibração. Receita continua sempre indexada pela fonte.
+    seletor = _seletor_de(calibracao) if calibracao else None
+    blocos_cfg: Dict[int, dict] = {}
+    nd_excluidas = ND_EXCLUIDAS
+    nd_nao_pessoal = ND_NAO_PESSOAL
+    if calibracao:
+        nd_excluidas = frozenset(calibracao.get("nd_excluidas", ND_EXCLUIDAS))
+        nd_nao_pessoal = frozenset(calibracao.get("nd_nao_pessoal",
+                                                  ND_NAO_PESSOAL))
+        for cod, cfg in calibracao.get("blocos", {}).items():
+            blocos_cfg[int(cod)] = cfg
+
+    def rotulo_despesa(r):
+        """Chave de agregação da despesa (fonte, no padrão; bloco, calibrado)."""
+        return seletor(r) if seletor is not None else r.fr
+
     prev: Dict[Tuple[str, str], float] = defaultdict(float)
     real: Dict[Tuple[str, str], float] = defaultdict(float)
-    dot: Dict[Tuple[str, str], float] = defaultdict(float)
-    emp: Dict[Tuple[str, str], float] = defaultdict(float)
-    liq: Dict[Tuple[str, str], float] = defaultdict(float)
-    pag: Dict[Tuple[str, str], float] = defaultdict(float)
+    dot: Dict[Tuple[object, str], float] = defaultdict(float)
+    emp: Dict[Tuple[object, str], float] = defaultdict(float)
+    liq: Dict[Tuple[object, str], float] = defaultdict(float)
+    pag: Dict[Tuple[object, str], float] = defaultdict(float)
 
     for r in _ler(ac, ano, mes_fim, 5, "ending_balance"):
         if not r.fr:
@@ -504,7 +601,9 @@ def celulas(raiz: str, ano: int, bimestre: int, **kwargs) -> Dict[_CHAVE, float]
         if r.conta.startswith(CONTA_PREVISAO) and r.nr:
             prev[(r.fr, r.nr)] += -r.liquido
         elif r.conta.startswith(CONTA_DOTACAO) and r.nd:
-            dot[(r.fr, r.nd)] += -r.liquido
+            rotulo = rotulo_despesa(r)
+            if rotulo is not None:
+                dot[(rotulo, r.nd)] += -r.liquido
 
     for m in meses:
         for r in _ler(ac, ano, m, 6, "period_change"):
@@ -516,11 +615,14 @@ def celulas(raiz: str, ano: int, bimestre: int, **kwargs) -> Dict[_CHAVE, float]
                 continue
             if not r.conta.startswith(CONTA_DESPESA):
                 continue
-            emp[(r.fr, r.nd)] += r.liquido
+            rotulo = rotulo_despesa(r)
+            if rotulo is None:
+                continue
+            emp[(rotulo, r.nd)] += r.liquido
             if r.conta in CONTAS_LIQUIDACAO:
-                liq[(r.fr, r.nd)] += r.liquido
+                liq[(rotulo, r.nd)] += r.liquido
             if r.conta == CONTA_PAGA:
-                pag[(r.fr, r.nd)] += r.liquido
+                pag[(rotulo, r.nd)] += r.liquido
 
     cel: Dict[_CHAVE, float] = {}
 
@@ -530,7 +632,7 @@ def celulas(raiz: str, ano: int, bimestre: int, **kwargs) -> Dict[_CHAVE, float]
         if abs(arredondado) >= 0.005:
             cel[(conta, coluna, bloco)] = arredondado
 
-    # ---- receita
+    # ---- receita (sempre por fonte de recursos)
     receitas = {fr: _receita(prev, real, fr) for fr in FONTES}
     for fr in FONTES:
         bloco = int(fr)
@@ -551,18 +653,33 @@ def celulas(raiz: str, ano: int, bimestre: int, **kwargs) -> Dict[_CHAVE, float]
         extras = (tesouro,)
     else:
         extras = tuple(tesouro)
+    if seletor is not None:
+        # a calibração já diz, regra a regra, de onde vem cada bloco
+        extras = ()
 
     for fr in FONTES:
         bloco = int(fr)
-        receita = receitas[fr]
+        cfg = blocos_cfg.get(bloco, {})
+        # receita do bloco: por fonte (padrão) ou a fonte dita na calibração
+        receita = receitas.get(str(cfg.get("receita_fonte", fr)), receitas[fr])
         # a fonte do Tesouro só entra no Fundo em Repartição (1801)
         extras_bloco = extras if bloco == 1801 else ()
-        if bloco == 1802:
-            valores = {col: _despesa_administracao(fonte, fr)
+        # chave de agregação da despesa neste bloco
+        chave_bloco = bloco if seletor is not None else fr
+        linhas_cfg = cfg.get("linhas") or {}
+        nd_apos = frozenset(linhas_cfg.get("apos", ND_APOSENTADORIAS))
+        nd_pens = frozenset(linhas_cfg.get("pens", ND_PENSOES))
+        if cfg.get("tipo") == "administracao" or (
+                "tipo" not in cfg and bloco == 1802):
+            valores = {col: _despesa_administracao(fonte, chave_bloco,
+                                                   nd_excluidas,
+                                                   nd_nao_pessoal)
                        for col, fonte in ((D_ATU, dot), (E_ATE, emp),
                                           (L_ATE, liq), (P_ATE, pag))}
         else:
-            valores = {col: _despesa_beneficios(fonte, fr, extras_bloco)
+            valores = {col: _despesa_beneficios(fonte, chave_bloco,
+                                                extras_bloco, nd_apos,
+                                                nd_pens, nd_excluidas)
                        for col, fonte in ((D_ATU, dot), (E_ATE, emp),
                                           (L_ATE, liq), (P_ATE, pag))}
 
@@ -602,11 +719,16 @@ if __name__ == "__main__":
     ap.add_argument("--bimestre", type=int, default=4)
     ap.add_argument("--publicado", default=None,
                     help="CSV do Anexo 4 publicado, para as linhas replicáveis")
+    ap.add_argument("--calibracao", default=None,
+                    help="JSON de calibração por ente (ex.: "
+                         "dados/mapeamentos/anexo4_al.json). Sem ele, o recorte "
+                         "é o padrão por fonte de recursos (RR/RN)")
     ap.add_argument("--conferir", action="store_true",
                     help="compara célula a célula com o publicado de --publicado")
     args = ap.parse_args()
 
-    cel = celulas(args.raiz, args.ano, args.bimestre, publicado=args.publicado)
+    cel = celulas(args.raiz, args.ano, args.bimestre, publicado=args.publicado,
+                  calibracao=args.calibracao)
     print(f"{len(cel)} células apuradas em {args.raiz} ({args.ano} B{args.bimestre})")
     por_bloco: Dict[int, int] = defaultdict(int)
     for (_conta, _coluna, bloco) in cel:

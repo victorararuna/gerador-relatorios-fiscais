@@ -78,6 +78,17 @@ quanto pelo **cod_conta** do Siconfi — necessário porque o rótulo da meta da
 aparece duas vezes (primário e nominal). A coluna ``Até o Bimestre`` **não** é
 replicada: ela é apurada (ou não sai), nunca copiada.
 
+Calibração por ente (opcional)
+------------------------------
+O padrão é o de RR. Um ente com classificação local diferente tem um JSON em
+``dados/mapeamentos/anexo6_<uf>.json``, carregado automaticamente a partir do nome
+da pasta da MSC (``al_msc`` -> AL); ``celulas(..., uf=...)``/``calibracao=...``
+forçam outra origem. O JSON traz o de-para ``rotulos`` (cod_conta -> rótulo
+publicado) e os prefixos de natureza da receita do ente (``receita``). No Anexo 06
+de AL a meta da LDO primária e a nominal usam o **mesmo** rótulo e a mesma coluna:
+para comparar sem ambiguidade use ``celulas(..., chaves_cod=True)`` com
+``ler_publicado(..., por_cod=True)``.
+
 Desvios conhecidos contra o publicado de RR 2026 B4
 ---------------------------------------------------
 Nenhum desvio de total: XXXII, XXXIII, XXXIV, XXXV e as somas por bloco fecham ao
@@ -114,7 +125,9 @@ Uso:
 from __future__ import annotations
 
 import csv
+import json
 import os
+import re
 import sys
 from collections import defaultdict
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
@@ -411,6 +424,41 @@ for _cod in LINHAS_DIVIDA:
     REPLICAVEIS[_cod] = ("{abertura}",)
 del _cod
 
+#: pasta dos JSONs de calibração por ente
+DIR_MAPEAMENTOS = os.path.join(RAIZ, "dados", "mapeamentos")
+
+#: cod IBGE -> UF (só os entes calibrados; os demais seguem sem calibração)
+UF_POR_COD = {"27": "AL"}
+
+#: ``al_msc`` / ``rr_msc`` -> UF
+_RE_RAIZ = re.compile(r"(?:^|[\\/])([a-z]{2})_msc(?:[\\/]|$)", re.I)
+
+
+def uf_da_raiz(raiz: str) -> Optional[str]:
+    """UF deduzida do nome da pasta da MSC (``...\\dados\\al_msc`` -> ``AL``)."""
+    m = _RE_RAIZ.search(os.path.abspath(raiz) + os.sep)
+    return m.group(1).upper() if m else None
+
+
+def carregar_calibracao(raiz: Optional[str] = None,
+                        uf: Optional[str] = None,
+                        caminho: Optional[str] = None) -> Dict:
+    """JSON de calibração do ente (``dados/mapeamentos/anexo6_<uf>.json``).
+
+    Sem ``uf``/``caminho``, a UF é deduzida do nome da pasta da MSC. Se não
+    houver JSON para o ente, devolve ``{}`` — o comportamento é o de sempre.
+    """
+    if caminho is None:
+        uf = (uf or (uf_da_raiz(raiz) if raiz else None) or "").upper() or None
+        if not uf:
+            return {}
+        uf = UF_POR_COD.get(uf, uf)
+        caminho = os.path.join(DIR_MAPEAMENTOS, f"anexo6_{uf.lower()}.json")
+    if not os.path.exists(caminho):
+        return {}
+    with open(caminho, encoding="utf-8") as fh:
+        return json.load(fh)
+
 
 # ---------------------------------------------------------------------------
 # coleta na MSC
@@ -555,7 +603,11 @@ def celulas(raiz: str, ano: int, bimestre: int, *,
             mes: Optional[int] = None,
             meses: Optional[Sequence[int]] = None,
             acervo: Optional[Acervo] = None,
-            alienacao_isolada: bool = False) -> Dict[tuple, float]:
+            alienacao_isolada: bool = False,
+            rotulos: Optional[Dict[str, str]] = None,
+            calibracao: Optional[Dict] = None,
+            uf: Optional[str] = None,
+            chaves_cod: bool = False) -> Dict[tuple, float]:
     """Células do Anexo 06 apuradas na MSC: ``{(conta, coluna, bloco): valor}``.
 
     Args:
@@ -570,15 +622,40 @@ def celulas(raiz: str, ano: int, bimestre: int, *,
         acervo: reaproveita um ``Acervo`` já indexado.
         alienacao_isolada: separa a alienação de investimentos permanentes (XI) —
             ver nota 2 do módulo.
+        rotulos: de-para opcional ``{cod_conta: rótulo publicado}``; sobrepõe o de
+            RR. Também aceito pelo JSON ``dados/mapeamentos/anexo6_<uf>.json``.
+        calibracao: dicionário de calibração já carregado (default: o JSON do ente,
+            detectado pelo nome da pasta da MSC).
+        uf: força a UF da calibração (``AL``, ``RR``...).
+        chaves_cod: devolve ``conta`` como **cod_conta** do Siconfi em vez do
+            rótulo. É o modo necessário quando o publicado tem rótulo ambíguo
+            (no Anexo 06 de AL a meta da LDO primária e a nominal usam o mesmo
+            texto e a mesma coluna) — use com ``ler_publicado(..., por_cod=True)``.
 
     Returns:
-        Dict com chave ``(conta, coluna, bloco)``; ``conta`` é o rótulo do Siconfi,
-        ``coluna`` o cabeçalho do layout e ``bloco`` sempre 0 (este anexo não tem
-        blocos intra-orçamentários: o corte é por fonte e cada recorte tem linha
+        Dict com chave ``(conta, coluna, bloco)``; ``coluna`` é o cabeçalho do
+        layout e ``bloco`` sempre 0 (este anexo não tem blocos
+        intra-orçamentários: o corte é por fonte e cada recorte tem linha
         própria, então não há repetição de conta entre blocos).
     """
     ac = acervo if acervo is not None else Acervo(raiz)
     meses, mes_ref = _periodo(ac, ano, bimestre, mes, meses)
+    cal = calibracao if calibracao is not None else carregar_calibracao(raiz, uf)
+    rot = dict(ROTULOS)
+    rot.update(cal.get("rotulos") or {})
+    rot.update(rotulos or {})
+    recorte = cal.get("receita") or {}
+
+    def _pref(chave: str, padrao: Sequence[str]) -> Tuple[str, ...]:
+        """Prefixos de natureza da receita: calibração do ente ou o padrão."""
+        item = recorte.get(chave)
+        if isinstance(item, dict):
+            item = item.get("prefixos")
+        return tuple(item) if item else tuple(padrao)
+
+    def _excluir(chave: str) -> Tuple[str, ...]:
+        item = recorte.get(chave)
+        return tuple(item.get("excluir") or ()) if isinstance(item, dict) else ()
 
     v: Dict[Tuple[str, str], float] = {}
 
@@ -609,14 +686,15 @@ def celulas(raiz: str, ano: int, bimestre: int, *,
     icms = tot(exc, "11145")
     ipva = tot(exc, "111251")
     itcd = tot(exc, "111252")
-    irrf = tot(exc, "11130311")
+    irrf = tot(exc, *_pref("irrf", ("11130311",)))
     contribuicoes = tot(exc, "12")
     patrimonial = tot(exc, "13")
-    aplicacoes = tot(exc, "132")
+    aplicacoes = (tot(exc, *_pref("aplicacoes_financeiras", ("132",)))
+                  - tot(exc, *_excluir("aplicacoes_financeiras")))
     transferencias = tot(exc, "17")
     fpe = tot(exc, "17115001")
     lc61 = tot(exc, "17115301")
-    fundeb = tot(exc, "17515001") + tot(exc, "17155301")
+    fundeb = tot(exc, *_pref("fundeb", ("17515001", "17155301")))
     financeiras = tot(exc, "16410101")
     demais_correntes = tot(exc, "19") + tot(exc, "16")
 
@@ -648,7 +726,7 @@ def celulas(raiz: str, ano: int, bimestre: int, *,
     definir("ReceitasPrimariasCorrentesComFontesRPPS", REC_A,
             corr_rp - nao_prim_corr_rp)
 
-    operacoes = tot(exc, "211")
+    operacoes = tot(exc, *_pref("operacoes_credito", ("211",)))
     amortizacoes = tot(exc, "23110601")
     alienacao = tot(exc, "22")
     alienacao_invest = tot(exc, "22130101")
@@ -786,7 +864,7 @@ def celulas(raiz: str, ano: int, bimestre: int, *,
         for cod, colunas in REPLICAVEIS.items():
             for coluna in colunas:
                 coluna = coluna.format(abertura=abertura, bimestre=bimestre_col)
-                valor = _do_publicado(publicado, cod, coluna)
+                valor = _do_publicado(publicado, cod, coluna, rot)
                 if valor is not None:
                     v[(cod, coluna)] = valor
 
@@ -803,13 +881,29 @@ def celulas(raiz: str, ano: int, bimestre: int, *,
                  (-1, "RestosAPagarProcessadosExcetoPrecatorios",
                   col_abertura(ano))))
 
-    return {(ROTULOS[cod], coluna, 0): valor for (cod, coluna), valor in v.items()}
+    if chaves_cod:
+        return {(cod, coluna, 0): valor for (cod, coluna), valor in v.items()}
+
+    # rótulo: se o ente usa o mesmo texto em duas linhas (AL: metas da LDO),
+    # a segunda ocorrência recebe um sufixo para não ser sobrescrita.
+    saida: Dict[tuple, float] = {}
+    for (cod, coluna), valor in v.items():
+        conta = rot[cod]
+        chave = (conta, coluna, 0)
+        n = 2
+        while chave in saida:
+            chave = (f"{conta} ({n})", coluna, 0)
+            n += 1
+        saida[chave] = valor
+    return saida
 
 
 def _do_publicado(publicado: Dict[tuple, float], cod: str,
-                  coluna: str) -> Optional[float]:
+                  coluna: str, rotulos: Optional[Dict[str, str]] = None
+                  ) -> Optional[float]:
     """Valor de ``publicado`` por cod_conta ou por rótulo (nessa ordem)."""
-    for chave in ((cod, coluna), (ROTULOS[cod], coluna)):
+    rot = rotulos or ROTULOS
+    for chave in ((cod, coluna), (rot.get(cod, cod), coluna)):
         if chave in publicado:
             try:
                 return float(publicado[chave])
@@ -821,13 +915,19 @@ def _do_publicado(publicado: Dict[tuple, float], cod: str,
 # ---------------------------------------------------------------------------
 # leitura e conferência do publicado
 # ---------------------------------------------------------------------------
-def ler_publicado(caminho: str) -> Dict[Tuple[str, str], float]:
-    """``{(conta, coluna): valor}`` de um CSV do Siconfi (formato do RR/RN)."""
+def ler_publicado(caminho: str, por_cod: bool = False
+                  ) -> Dict[Tuple[str, str], float]:
+    """``{(conta, coluna): valor}`` de um CSV do Siconfi.
+
+    ``por_cod=True`` devolve a chave ``(cod_conta, coluna)`` em vez do rótulo —
+    necessário quando o rótulo se repete (Anexo 06 de AL, metas da LDO).
+    """
     saida: Dict[Tuple[str, str], float] = {}
     with open(caminho, encoding="utf-8-sig", newline="") as fh:
         for linha in csv.DictReader(fh, delimiter=";"):
+            conta = linha.get("cod_conta") if por_cod else linha.get("conta")
             try:
-                saida[(linha["conta"], linha["coluna"])] = float(linha["valor"] or 0)
+                saida[(conta, linha["coluna"])] = float(linha["valor"] or 0)
             except (TypeError, ValueError, KeyError):
                 continue
     return saida
@@ -867,8 +967,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     raiz = argv[0] if argv else os.path.join(RAIZ, "dados", "rr_msc")
     ano = int(argv[1]) if len(argv) > 1 else 2026
     bimestre = int(argv[2]) if len(argv) > 2 else 4
+    # o publicado de AL repete o rótulo das metas da LDO: nesse ente a
+    # conferência é feita por cod_conta
+    por_cod = (uf_da_raiz(raiz) or "RR") != "RR"
 
-    apurado = celulas(raiz, ano, bimestre)
+    apurado = celulas(raiz, ano, bimestre, chaves_cod=por_cod)
     print(f"MSC: {raiz}")
     print(f"exercício {ano} — {bimestre}º bimestre")
     print(f"células apuradas na MSC: {len(apurado)}")
@@ -876,12 +979,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     candidatos = [argv[3]] if len(argv) > 3 else []
     candidatos.append(os.path.join(RAIZ, "dados", "rr_rreo_pub", str(ano),
                                    f"RREO_14_{ano}_bim{bimestre}_anexo06.csv"))
-    publicado = next((ler_publicado(c) for c in candidatos if c and os.path.exists(c)),
-                     None)
+    publicado = next((ler_publicado(c, por_cod=por_cod)
+                      for c in candidatos if c and os.path.exists(c)), None)
     if not publicado:
         return 0
 
-    completo = celulas(raiz, ano, bimestre, publicado=publicado)
+    completo = celulas(raiz, ano, bimestre, publicado=publicado,
+                       chaves_cod=por_cod)
     print(f"células com o publicado (previsão/metas/abertura/saldo anterior): "
           f"{len(completo)}")
     iguais, divergentes, ausentes = conferir(completo, publicado)

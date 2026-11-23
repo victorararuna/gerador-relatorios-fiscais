@@ -69,12 +69,30 @@ def main() -> int:
         reverse=True)
     pub1 = publicados[0] if publicados else None
 
+    # ---- calibracoes locais do ente (se existirem)
+    import json as _json
+    MAP = os.path.join(RAIZ, "dados", "mapeamentos")
+    sufixo_ente = NOME.lower()
+    calib = {}
+    for chave, arquivo in (("a1", f"anexo1_subcategorias_{sufixo_ente}.json"),
+                           ("a4", f"anexo4_{sufixo_ente}.json"),
+                           ("a6", f"anexo6_{sufixo_ente}.json")):
+        caminho = os.path.join(MAP, arquivo)
+        if os.path.exists(caminho):
+            dados = _json.load(open(caminho, encoding="utf-8"))
+            if chave == "a1":
+                # o JSON do Anexo 1 traz metadados + o mapa em "subcategorias"
+                dados = dados.get("subcategorias", dados)
+            calib[chave] = dados
+            print(f"   calibracao {chave}: {arquivo}")
+
     res = G.apurar(RR_MSC, args.ano, args.bimestre)
 
     anexos = {}
 
     # ---- Anexo 1
-    cel1 = A1.celulas(RR_MSC, args.ano, args.bimestre)
+    cel1 = A1.celulas(RR_MSC, args.ano, args.bimestre,
+                      subcategorias=calib.get("a1"))
     if pub1:
         replicar(cel1, ler_publicado(pub1))
     anexos[1] = cel1
@@ -150,11 +168,13 @@ def main() -> int:
                 for r in _csv.DictReader(fh, delimiter=";"):
                     cod = (r.get("cod_conta") or r["conta"]).strip()
                     pub_dict.setdefault((cod, r["coluna"]), float(r["valor"]))
-        anexos[4] = A4.celulas(RR_MSC, args.ano, args.bimestre, publicado=pub_dict)
+        anexos[4] = A4.celulas(RR_MSC, args.ano, args.bimestre,
+                               publicado=pub_dict, calibracao=calib.get("a4"))
     except Exception as e:
         print(f"Anexo 04 nao apurado: {type(e).__name__}: {str(e)[:70]}")
     try:
-        cel6 = A6.celulas(RR_MSC, args.ano, args.bimestre)
+        cel6 = A6.celulas(RR_MSC, args.ano, args.bimestre,
+                          calibracao=calib.get("a6"), chaves_cod=True)
         # o Anexo 6 tem rotulo ambiguo (meta da LDO aparece 2x): a chave do
         # renderizador passa a ser o cod_conta do proprio publicado
         pub6 = _molde(6)

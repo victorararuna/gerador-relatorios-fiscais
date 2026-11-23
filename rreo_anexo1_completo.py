@@ -173,8 +173,19 @@ def _despesa(raiz, ano, meses):
     return acc
 
 
-def celulas(raiz: str, ano: int, bimestre: int) -> dict:
+def celulas(raiz: str, ano: int, bimestre: int,
+            subcategorias: dict | None = None) -> dict:
+    """Celulas do Anexo 1.
+
+    `subcategorias` e o mapa NR -> rotulo da subcategoria da receita. Se None,
+    usa `SUBCATEGORIAS` (calibrado no RN). Um ente pode precisar de mapa
+    proprio (AL, por exemplo, usa NR 134 para "Exploracao de Recursos
+    Naturais" e NR 172 para "Transferencias dos Estados"). O mapa pode repetir
+    o mesmo rotulo: a ocorrencia (0, 1, ...) segue a ordem de emissao do mapa,
+    o que cobre os rotulos que o publicado repete em blocos diferentes.
+    """
     from rreo_gerador import meses_do_bimestre
+    mapa = SUBCATEGORIAS if subcategorias is None else subcategorias
     mes_fim = 2 * bimestre
     meses = meses_do_bimestre(bimestre)
 
@@ -202,12 +213,15 @@ def celulas(raiz: str, ano: int, bimestre: int) -> dict:
         put(rotulo, P_ATU, prev_agg("atu", origem))
         put(rotulo, NO_BIM, arr_agg(arr_bim, origem))
         put(rotulo, ATE, arr_agg(arr, origem))
-    # subcategorias (NR[:3])
-    for prefixo, rotulo in SUBCATEGORIAS.items():
-        put(rotulo, P_INI, prev_agg("ini", prefixo))
-        put(rotulo, P_ATU, prev_agg("atu", prefixo))
-        put(rotulo, NO_BIM, arr_agg(arr_bim, prefixo))
-        put(rotulo, ATE, arr_agg(arr, prefixo))
+    # subcategorias (NR[:3]) — a ocorrencia cresce quando o mapa repete rotulo
+    vistos = {}
+    for prefixo, rotulo in mapa.items():
+        occ = vistos.get(rotulo, 0)
+        vistos[rotulo] = occ + 1
+        put(rotulo, P_INI, prev_agg("ini", prefixo), occ)
+        put(rotulo, P_ATU, prev_agg("atu", prefixo), occ)
+        put(rotulo, NO_BIM, arr_agg(arr_bim, prefixo), occ)
+        put(rotulo, ATE, arr_agg(arr, prefixo), occ)
     for rotulo, dig in ((R_CORRENTE, ("1",)), (R_CAPITAL, ("2",)),
                         (R_EXCETO, ("1", "2")), (R_INTRA, ("7",))):
         put(rotulo, P_INI, sum(v for k, v in prev.items() if k[0] == "ini" and k[1][0] in dig))
@@ -225,15 +239,15 @@ def celulas(raiz: str, ano: int, bimestre: int) -> dict:
     for rotulo in ROT_SALDO_EX:
         put(rotulo, ATE, saldo_ex_ant)
         put(rotulo, NO_BIM, 0.0)
-    for rotulo in list({k[0] for k in cel}):
-        a = cel.get((rotulo, P_ATU, 0))
-        c = cel.get((rotulo, ATE, 0))
-        b = cel.get((rotulo, NO_BIM, 0))
+    for rotulo, occ in {(k[0], k[2]) for k in cel}:
+        a = cel.get((rotulo, P_ATU, occ))
+        c = cel.get((rotulo, ATE, occ))
+        b = cel.get((rotulo, NO_BIM, occ))
         if a is not None and c is not None:
-            put(rotulo, SALDO_REC, a - c)
+            put(rotulo, SALDO_REC, a - c, occ)
             if a:
-                put(rotulo, PCT_B, (b or 0.0) / a * 100)
-                put(rotulo, PCT_C, c / a * 100)
+                put(rotulo, PCT_B, (b or 0.0) / a * 100, occ)
+                put(rotulo, PCT_C, c / a * 100, occ)
 
     # ---- despesa por bloco
     # occ 1 = intra (modalidade 91); occ 0 = exceto intra = TOTAL - intra.
@@ -361,8 +375,9 @@ def ler_template(caminho: str):
     return saida
 
 
-def comparar(raiz: str, ano: int, bimestre: int, template: str):
-    cel = celulas(raiz, ano, bimestre)
+def comparar(raiz: str, ano: int, bimestre: int, template: str,
+             subcategorias: dict | None = None):
+    cel = celulas(raiz, ano, bimestre, subcategorias)
     ocorr = defaultdict(int)
     ok = dif = 0
     piores = []
@@ -387,12 +402,20 @@ if __name__ == "__main__":
     ap.add_argument("--ano", type=int, default=2026)
     ap.add_argument("--bimestre", type=int, default=5)
     ap.add_argument("--template")
+    ap.add_argument("--subcategorias",
+                    help="JSON com o mapa NR -> subcategoria da receita")
     a = ap.parse_args()
+    sub = None
+    if a.subcategorias:
+        import json
+        with open(a.subcategorias, encoding="utf-8") as fh:
+            _d = json.load(fh)
+        sub = _d.get("subcategorias", _d) if isinstance(_d, dict) else _d
     if a.template:
-        ok, dif, piores = comparar(a.raiz, a.ano, a.bimestre, a.template)
+        ok, dif, piores = comparar(a.raiz, a.ano, a.bimestre, a.template, sub)
         print(f"exatas {ok} | divergentes {dif}")
         for c, col, o, n, v in sorted(piores, key=lambda x: -abs(x[3] - x[4]))[:12]:
             print(f"   {c[:38]:<40}{col[:22]:<24}occ{o} {n:>16,.0f}{v:>16,.0f}{n-v:>14,.0f}")
     else:
-        cel = celulas(a.raiz, a.ano, a.bimestre)
+        cel = celulas(a.raiz, a.ano, a.bimestre, sub)
         print(f"{len(cel)} celulas")

@@ -7,6 +7,9 @@ intra-orçamentária declarada (R$ 2.664.925.314,43).
 """
 from __future__ import annotations
 
+import os
+import caminhos
+
 import csv
 import os
 import sys
@@ -16,9 +19,8 @@ sys.path.insert(0, AQUI)
 
 import app.anexo1_msc as M  # noqa: E402
 
-MSC = r"C:\Users\victo\AppData\Local\Programs\Microsoft VS Code\siconfi_rn_msc"
-RREO = (r"C:\Users\victo\AppData\Local\Programs\Microsoft VS Code"
-        r"\siconfi_rn\RREO\2025\RREO_24_2025_bim6_anexo01.csv")
+MSC = caminhos.msc_antiga()
+RREO = os.path.join(caminhos.siconfi_publicados(), "RREO", "2025", "RREO_24_2025_bim6_anexo01.csv")
 COLUNA = "DESPESAS LIQUIDADAS ATÉ O BIMESTRE (h)"
 INTRA = 2_664_925_314.43
 

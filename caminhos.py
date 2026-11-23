@@ -51,6 +51,44 @@ def relatorios_contag() -> str:
     return pasta(RELATORIOS_CONTAG)
 
 
+def siconfi_publicados() -> str:
+    """Pasta dos CSVs homologados no formato antigo (RREO_24_..._bim6_anexoNN).
+
+    `reconstruir_siconfi.py` a reconstroi em `dados/siconfi_rn` a partir de
+    `dados/siconfi`. Ordem: a reconstituida, a original (se voltar).
+    """
+    candidatos = (
+        os.path.join(AQUI, "dados", "siconfi_rn"),
+        os.path.join(os.path.expanduser("~"), "AppData", "Local", "Programs",
+                     "Microsoft VS Code", "siconfi_rn"),
+        os.path.join(_ACIMA, "siconfi_rn"),
+    )
+    for caminho in candidatos:
+        if os.path.isdir(caminho):
+            return os.path.abspath(caminho)
+    return candidatos[0]
+
+
+def msc_antiga() -> str:
+    """Pasta da MSC no formato antigo (nome MSC_24_..., separador ';').
+
+    A pasta original ficava em `AppData\\...\\Microsoft VS Code\\siconfi_rn_msc`
+    e sumiu. `reconstruir_msc.py` a reconstroi em `dados/siconfi_rn_msc` a partir
+    do acervo. Ordem: a reconstituida, a original (se voltar), e o acervo.
+    """
+    candidatos = (
+        os.path.join(AQUI, "dados", "siconfi_rn_msc"),
+        os.path.join(os.path.expanduser("~"), "AppData", "Local", "Programs",
+                     "Microsoft VS Code", "siconfi_rn_msc"),
+        os.path.join(_ACIMA, "siconfi_rn_msc"),
+    )
+    for caminho in candidatos:
+        if os.path.isdir(caminho):
+            return os.path.abspath(caminho)
+    return candidatos[0]
+
+
 if __name__ == "__main__":
     print("Arquivos etonjones :", arquivos_etonjones())
     print("RELATORIOS CONTAG  :", relatorios_contag())
+    print("MSC antiga         :", msc_antiga())

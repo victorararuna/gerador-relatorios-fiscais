@@ -4,19 +4,21 @@ Ferramenta que apura os demonstrativos fiscais do **Rio Grande do Norte** a
 partir das **Matrizes de Saldos Contábeis (MSC)** do Siconfi e dos relatórios do
 **SIGEF/RN**, e confere cada célula contra o arquivo homologado.
 
-Estado em **13/11/2026**: **605 de 608 células exatas** (99,5%), em 40 abas de
-verificação (27 de anexo e uma de resumo). As 26 divergências estão em
-[`docs/DIVERGENCIAS.md`](docs/DIVERGENCIAS.md), cada uma com valor, referência e
-causa.
+Estado em **23/11/2026**: **605 de 608 células exatas** (99,5%), em 40 abas de
+verificação (27 de anexo e uma de resumo). As **3 divergências** estão em
+[`docs/DIVERGENCIAS.md`](docs/DIVERGENCIAS.md) — todas o mesmo erro de R$ 5.241,65
+no arquivo publicado de abril/2026, provado no MAPA do auditor. O acerto por
+relatório está em [`docs/PLACAR.md`](docs/PLACAR.md).
 
 ---
 
 ## Como rodar
 
 ```bash
-python verificar_tudo.py    # 27 conferências de ponta a ponta
+python verificar_tudo.py    # 30 conferências de ponta a ponta
 python verificacao.py       # livro, divergências e certificado
 python rodar_testes.py      # 134 testes: quantos executam, quantos pulam
+python placar_relatorios.py # docs/PLACAR.md — acerto por relatório
 ```
 
 Saídas, todas no mesmo comando:
@@ -29,11 +31,17 @@ Saídas, todas no mesmo comando:
 
 ### Ambiente
 
-Os módulos usam **caminhos absolutos desta máquina** — `dados/acervo`,
-`dados/siconfi`, `Arquivos etonjones` e a pasta `siconfi_rn_msc` do VS Code.
-Não há configuração por variável de ambiente: para rodar em outro computador é
-preciso ajustar as constantes no topo dos módulos (`MSC`, `PLANILHA`,
-`BALANCETE`, `SICONFI`).
+Os módulos do caminho atual resolvem os caminhos por **`caminhos.py`**
+(`msc_antiga()`, `siconfi_publicados()`, `arquivos_etonjones()`,
+`relatorios_contag()`), que procura em `Downloads`, no workspace e em
+`Antigravity`. A pasta original em `AppData\...\Microsoft VS Code` sumiu; dois
+reconstutores a substituem dentro do repo:
+
+```bash
+python baixar_msc.py          # MSC da API -> dados/acervo
+python reconstruir_msc.py     # dados/acervo -> dados/siconfi_rn_msc (formato antigo)
+python reconstruir_siconfi.py # dados/siconfi -> dados/siconfi_rn (publicados)
+```
 
 As pastas de dados **não são versionadas** (`.gitignore`): um clone do
 repositório traz só código e documentação.
@@ -91,9 +99,11 @@ bater com o GND 31 — e bate.
 
 | documento | o que tem |
 |---|---|
-| [`docs/INDEX.md`](docs/INDEX.md) | **o mapa dos 61 documentos** — o que é atual, histórico e referência |
-| [`docs/REVISAO_GERAL.md`](docs/REVISAO_GERAL.md) | **comece aqui** — estado completo, seção 2 e a última 17 |
-| [`docs/DIVERGENCIAS.md`](docs/DIVERGENCIAS.md) | as 9 divergências com causa (gerado do livro) |
+| [`docs/INDEX.md`](docs/INDEX.md) | **o mapa dos documentos** — o que é atual, histórico e referência |
+| [`docs/PASSAGEM.md`](docs/PASSAGEM.md) | **comece aqui** — estado, motores, armadilhas e ambiente |
+| [`docs/PLACAR.md`](docs/PLACAR.md) | acerto por relatório (gerado) |
+| [`docs/REVISAO_GERAL.md`](docs/REVISAO_GERAL.md) | o diário completo, seção 2 e a última 17 |
+| [`docs/DIVERGENCIAS.md`](docs/DIVERGENCIAS.md) | as 3 divergências com causa (gerado do livro) |
 | [`docs/MANUAL_MAPA_ANEXO1.md`](docs/MANUAL_MAPA_ANEXO1.md) | especificação da MAPA, linha a linha |
 | [`docs/METODOLOGIA_RGF_ANEXO1.md`](docs/METODOLOGIA_RGF_ANEXO1.md) | manual metodológico da equipe |
 | [`docs/REGRAS_ANEXOS_RESTANTES.md`](docs/REGRAS_ANEXOS_RESTANTES.md) | regras descobertas para os demais anexos |
@@ -104,13 +114,14 @@ bater com o GND 31 — e bate.
 
 ## O que falta
 
-| item | valor | depende de |
-|---|---:|---|
-| **RGF Anexo 2 — RP processados** | 2,56 bi | saldo de RP processados em **31/12/2025**, conta `6.3.2.1.1`, por Poder e fonte |
-| **RGF Anexo 1 — abril** | 5.241,65 | par de anulação/re-empenho; causa apontada, imaterial (0,0008%) |
-| RCL | — | é **lida** do Anexo 3: o bloco RPPS de deduções não existe na matriz |
+| item | depende de |
+|---|---|
+| **de-para de nomes do Anexo 2** no `gerar_rgf_rn.py` | tabela de correspondência (~20 linhas); o motor exato já fecha em 0,00 |
+| **RREO no molde do gerador** | reaproveitar a estrutura do `gerar_rgf_rn.py` |
+| **Anexo 1 e 2 só da matriz** | subelemento do ND + classe 2 detalhada na MSC (pedido ao Estado) |
 
-Todo o resto fecha: **605 de 608 células** contra os arquivos publicados; 9 divergências, todas com causa.
+Todo o resto fecha: **605 de 608 células** contra os arquivos publicados; as 3
+divergências são o erro de R$ 5.241,65 do publicado em abril/2026.
 
 ---
 
@@ -131,9 +142,9 @@ anexo listados acima.
 As pastas `dados/`, `saida/` e `MDF_STN/` **não são versionadas** (`.gitignore`):
 contêm matrizes e relatórios do Estado.
 
-Conferido em 13/11/2026: o repositório tem **133 arquivos `.py` e 63 `.md`**, mais
+Conferido em 23/11/2026: o repositório tem **173 arquivos `.py` e 71 `.md`**, mais
 três `.bat` e dois PDFs de leiaute da STN — **nenhum CSV, planilha ou PDF de
-dado fiscal**. O clone inteiro tem 1,8 MB.
+dado fiscal**. Os dados ficam em `dados/` (não versionado).
 
 Os únicos arquivos de dado são os dois leiautes em `docs/_apoio/` (formato da MSC),
 que são públicos.

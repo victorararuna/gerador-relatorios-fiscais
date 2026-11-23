@@ -5099,3 +5099,50 @@ do Comparativo), o RREO sai da matriz em qualquer estado.
 
 `teste_rreo_estados.py` — baixa dezembro da classe 6 dos 27 e compara com o
 publicado. Cerca de seis minutos na primeira vez (depois usa o cache).
+
+
+### 17.105 O espaco de trabalho foi restaurado (23/11)
+
+A sessao retomou depois de uma semana e o ambiente tinha mudado: a pasta
+`siconfi_rn_msc` e a `siconfi_rn` (em `AppData\...\Microsoft VS Code`) **sumiram**.
+14 testes falhavam e a verificacao quebrava.
+
+### O diagnostico
+
+| caminho morto | o que era | quem usava |
+|---|---|---|
+| `siconfi_rn_msc` | MSC formato antigo | verificar_tudo, rreo_anexo2/7/9/14, nao_executada |
+| `siconfi_rn` | CSVs publicados | verificar_tudo, rreo_anexo1/2/7/9/14 |
+
+O dado **existia** em `dados/acervo` (formato longo) e `dados/siconfi` (publicados
+da API) — so o nome e o separador diferiam do que os leitores antigos esperam.
+
+### A correcao
+
+| script | o que faz |
+|---|---|
+| `reconstruir_msc.py` | le o acervo, normaliza o separador para `;`, grava `dados/siconfi_rn_msc` no nome `MSC_24_...` |
+| `reconstruir_siconfi.py` | copia `dados/siconfi` renomeando para `dados/siconfi_rn` (`RREO_24_..._bim6_anexoNN`) |
+| `caminhos.msc_antiga()` / `siconfi_publicados()` | resolvem a pasta reconstituida |
+
+Os modulos do caminho atual passaram a usar os resolvedores. Baixei tambem os
+meses de classe 8 que faltavam no acervo (jan–mai/2025) para a linha 251.
+
+### O resultado
+
+| | antes | depois |
+|---|---:|---:|
+| testes | 14 falhas | **134, zero falha** |
+| verificacoes | quebrava | **30 de 30** |
+| livro | quebrava | **605 de 608** |
+
+### Documentos atualizados
+
+`PASSAGEM.md` (reescrito), `README.md` (numeros e ambiente), `INDEX.md` (PLACAR e
+PASSAGEM no topo, 134 testes). O estado agora reflete 23/11, nao 14/11.
+
+### A licao
+
+**O dado nao sumiu — o caminho sumiu.** Antes de rebaixar tudo, conferir se o
+conteudo existe em outro formato. Os reconstutores deixam isso reproduzivel: um
+clone novo roda `baixar_msc` + os dois `reconstruir_*` e volta ao estado.

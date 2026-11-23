@@ -1,12 +1,13 @@
 # Índice dos documentos
 
-Gerado por `_index.py`. 61 documentos ao todo.
-
 ## 1. Atuais — leia estes
 
 | documento | título | o que traz |
 |---|---|---|
-| [DIVERGENCIAS.md](DIVERGENCIAS.md) | Divergências conhecidas | as divergências com causa (gerado do livro) |
+| [PASSAGEM.md](PASSAGEM.md) | Documento de passagem | **comece aqui** — estado, motores, armadilhas, ambiente |
+| [PLACAR.md](PLACAR.md) | Placar de acerto por relatório | 605 de 608 (99,5%), gerado do livro |
+| [DIVERGENCIAS.md](DIVERGENCIAS.md) | Divergências conhecidas | as 3 divergências com causa (gerado do livro) |
+| [CERTIFICADO.md](CERTIFICADO.md) | Certificado | data, commit, contagem e ressalvas (gerado) |
 | [ENTRADAS_NECESSARIAS.md](ENTRADAS_NECESSARIAS.md) |  | o que extrair do SIGEF — pedido por item |
 | [MANUAL_MAPA_ANEXO1.md](MANUAL_MAPA_ANEXO1.md) | Especificação da MAPA — RGF Anexo 1 (Despesa com Pessoal) | especificação da MAPA, linha a linha |
 | [METODOLOGIA_RGF_ANEXO1.md](METODOLOGIA_RGF_ANEXO1.md) | Manual Metodológico e Prompt Mestre: Apuração da Despesa com Pessoal ( | manual metodológico da equipe |
@@ -84,4 +85,4 @@ Regras, mapeamentos e diagnósticos. Continuam válidos como documentação do f
 
 ---
 
-**A hierarquia de confiança:** se um documento divergir de `saida/verificacao_anexos.xlsx`, **o livro está certo** — ele é gerado do código, e o código é conferido por 78 testes.
+**A hierarquia de confiança:** se um documento divergir de `saida/verificacao_anexos.xlsx`, **o livro está certo** — ele é gerado do código, e o código é conferido por 134 testes.

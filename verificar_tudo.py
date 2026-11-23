@@ -19,8 +19,9 @@ import app.anexo4_msc as A4  # noqa: E402
 import app.anexo6_msc as A6  # noqa: E402
 from app.relatorio_anexo1 import ler_oficiais, linhas_anexo1  # noqa: E402
 
-MSC = r"C:\Users\victo\AppData\Local\Programs\Microsoft VS Code\siconfi_rn_msc"
-BASE = r"C:\Users\victo\AppData\Local\Programs\Microsoft VS Code\siconfi_rn"
+import caminhos
+MSC = caminhos.msc_antiga()
+BASE = caminhos.siconfi_publicados()
 
 resultados = []
 

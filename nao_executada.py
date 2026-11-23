@@ -38,7 +38,8 @@ EXPURGO_ABRIL = 1_337_759.24
 MES_EXPURGO = {2025: (12, -1.0), 2026: (4, +1.0)}
 
 #: caminho da matriz completa (todos os meses e classes)
-MSC = r"C:\Users\victo\AppData\Local\Programs\Microsoft VS Code\siconfi_rn_msc"
+import caminhos
+MSC = caminhos.msc_antiga()
 
 #: contas da linha 251
 CONTAS = ("863310000", "863320000")

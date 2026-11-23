@@ -10,6 +10,9 @@ Compara, por origem da natureza da receita:
 """
 from __future__ import annotations
 
+import os
+import caminhos
+
 import csv
 import os
 import sys
@@ -19,7 +22,7 @@ sys.path.insert(0, AQUI)
 
 import app.anexo1_msc as M  # noqa: E402
 
-MSC = r"C:\Users\victo\AppData\Local\Programs\Microsoft VS Code\siconfi_rn_msc"
+MSC = caminhos.msc_antiga()
 BASE = (r"C:\Users\victo\AppData\Local\Programs\Microsoft VS Code"
         r"\siconfi_rn\RREO\2025")
 

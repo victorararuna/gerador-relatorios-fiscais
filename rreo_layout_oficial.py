@@ -72,6 +72,76 @@ def ler_template(caminho: str):
     return colunas, linhas
 
 
+def renderizar_por_cod_conta(destino: str, template: str, celulas: dict,
+                             titulo: str, nota: str | None = None):
+    """Renderiza quando a chave do anexo e o `cod_conta`, nao o rotulo.
+
+    O Anexo 4 repete o rotulo ("Ativo" em tres fundos, "Caixa e Equivalentes"
+    idem); a chave estavel e o `cod_conta`. O bloco nao e usado aqui porque o
+    proprio arquivo publicado nao o traz — cada (cod_conta, coluna) e unico.
+    """
+    from openpyxl import Workbook
+    from openpyxl.styles import Alignment, Font, PatternFill
+    from openpyxl.utils import get_column_letter
+
+    colunas = []
+    vistos_col = set()
+    ordem = []            # cod_conta na ordem
+    rotulos = {}          # cod_conta -> rotulo
+    with open(template, encoding="utf-8-sig", newline="") as fh:
+        for r in csv.DictReader(fh, delimiter=";"):
+            if r["coluna"] not in vistos_col:
+                vistos_col.add(r["coluna"])
+                colunas.append(r["coluna"])
+            cod = (r.get("cod_conta") or r["conta"]).strip()
+            if cod not in rotulos:
+                rotulos[cod] = r["conta"]
+                ordem.append(cod)
+
+    # indice: (cod, coluna) -> valor (ignora o bloco)
+    valor = {}
+    for (cod, col, _bloco), v in celulas.items():
+        valor[(cod, col)] = v
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Anexo"
+    ws["A1"] = titulo
+    ws["A1"].font = Font(bold=True, size=12)
+    if nota:
+        ws["A2"] = nota
+        ws["A2"].font = Font(italic=True, size=8, color="666666")
+
+    cinza = PatternFill("solid", fgColor="EDEDED")
+    ws.cell(row=4, column=1, value="CONTA").font = Font(bold=True)
+    ws.cell(row=4, column=1).fill = cinza
+    for j, col in enumerate(colunas, start=2):
+        c = ws.cell(row=4, column=j, value=col)
+        c.font = Font(bold=True)
+        c.fill = cinza
+        c.alignment = Alignment(wrap_text=True, vertical="center", horizontal="center")
+
+    preenchidas = total = 0
+    for i, cod in enumerate(ordem, start=5):
+        ws.cell(row=i, column=1, value=rotulos[cod])
+        for j, col in enumerate(colunas, start=2):
+            total += 1
+            v = valor.get((cod, col), 0.0)
+            c = ws.cell(row=i, column=j, value=v)
+            c.number_format = "#,##0.00"
+            preenchidas += 1
+
+    ws.column_dimensions["A"].width = 62
+    largura = max(13, min(20, int(150 / max(len(colunas), 1))))
+    for j in range(2, len(colunas) + 2):
+        ws.column_dimensions[get_column_letter(j)].width = largura
+    ws.freeze_panes = "B5"
+
+    os.makedirs(os.path.dirname(os.path.abspath(destino)), exist_ok=True)
+    wb.save(destino)
+    return preenchidas, total
+
+
 def renderizar(destino: str, template: str, celulas: dict, titulo: str,
                nota: str | None = None):
     """Grava o XLSX no layout do molde, preenchendo por (conta, coluna, bloco)."""

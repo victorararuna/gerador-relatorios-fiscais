@@ -128,14 +128,47 @@ def main() -> int:
     except Exception as e:
         print(f"Anexo 03 nao apurado: {type(e).__name__}: {str(e)[:60]}")
 
+    # ---- Anexos 4 (previdencia) e 6 (resultado primario/nominal)
+    import rreo_anexo4_completo as A4
+    import rreo_anexo6_completo as A6
+    try:
+        pub4 = _molde(4)
+        pub_dict = {}
+        if pub4:
+            import csv as _csv
+            with open(pub4, encoding="utf-8-sig", newline="") as fh:
+                for r in _csv.DictReader(fh, delimiter=";"):
+                    cod = (r.get("cod_conta") or r["conta"]).strip()
+                    pub_dict.setdefault((cod, r["coluna"]), float(r["valor"]))
+        anexos[4] = A4.celulas(RR_MSC, args.ano, args.bimestre, publicado=pub_dict)
+    except Exception as e:
+        print(f"Anexo 04 nao apurado: {type(e).__name__}: {str(e)[:70]}")
+    try:
+        cel6 = A6.celulas(RR_MSC, args.ano, args.bimestre)
+        # o Anexo 6 tem rotulo ambiguo (meta da LDO aparece 2x): a chave do
+        # renderizador passa a ser o cod_conta do proprio publicado
+        pub6 = _molde(6)
+        mapa6 = {}
+        if pub6:
+            import csv as _csv
+            with open(pub6, encoding="utf-8-sig", newline="") as fh:
+                for r in _csv.DictReader(fh, delimiter=";"):
+                    cod = (r.get("cod_conta") or "").strip()
+                    if cod:
+                        mapa6.setdefault(r["conta"], cod)
+        anexos[6] = {(mapa6.get(c, c), col, b): v for (c, col, b), v in cel6.items()}
+    except Exception as e:
+        print(f"Anexo 06 nao apurado: {type(e).__name__}: {str(e)[:70]}")
+
     total_geral = 0
-    for n in (1, 2, 3, 7, 9, 11, 13, 14):
+    for n in (1, 2, 3, 4, 6, 7, 9, 11, 13, 14):
         molde = _molde(n)
         if not molde:
             print(f"Anexo {n:02d}: sem molde publicado")
             continue
         destino = os.path.join(SAIDA, f"RREO_RR_{args.ano}_B{args.bimestre}_Anexo{n:02d}.xlsx")
-        p, t = LO.renderizar(
+        fn = LO.renderizar_por_cod_conta if n in (4, 6) else LO.renderizar
+        p, t = fn(
             destino, molde, anexos[n],
             f"RREO RR {args.ano} B{args.bimestre} — Anexo {n:02d} — MSC",
             nota="Estrutura: RREO publicado do ente. Valores: MSC de RR.")

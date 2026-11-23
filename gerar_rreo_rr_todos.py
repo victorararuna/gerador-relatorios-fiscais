@@ -27,13 +27,15 @@ RR_MSC = os.path.join(RAIZ, "dados", "rr_msc")
 PUB = os.path.join(RAIZ, "dados", "rr_rreo_pub", "2026")
 MOLDE_RN = os.path.join(RAIZ, "dados", "siconfi_rn", "RREO", "2025")
 SAIDA = os.path.join(RAIZ, "saida", "RR")
+ENTE = 14
+NOME = "RR"
 
 
 def _molde(n: int) -> str | None:
     """Molde do proprio ente; se ele nao publicou o anexo, o do RN (estrutura
     padrao do Siconfi, identica entre entes)."""
-    for bim in (4, 3):
-        p = os.path.join(PUB, f"RREO_14_2026_bim{bim}_anexo{n:02d}.csv")
+    for bim in (4, 3, 2, 1):
+        p = os.path.join(PUB, f"RREO_{ENTE}_2026_bim{bim}_anexo{n:02d}.csv")
         if os.path.exists(p):
             return p
     p = os.path.join(MOLDE_RN, f"RREO_24_2025_bim6_anexo{n:02d}.csv")
@@ -41,10 +43,18 @@ def _molde(n: int) -> str | None:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Todos os anexos do RREO de RR")
+    global RR_MSC, PUB, SAIDA, ENTE, NOME
+    ap = argparse.ArgumentParser(description="Todos os anexos do RREO de um ente")
     ap.add_argument("--ano", type=int, default=2026)
     ap.add_argument("--bimestre", type=int, default=5)
+    ap.add_argument("--raiz", default=RR_MSC, help="pasta da MSC do ente")
+    ap.add_argument("--publicado", default=PUB, help="pasta do RREO publicado")
+    ap.add_argument("--saida", default=SAIDA, help="pasta de saida")
+    ap.add_argument("--ente", type=int, default=ENTE)
+    ap.add_argument("--nome", default=NOME, help="sigla usada no nome dos arquivos")
     args = ap.parse_args()
+    RR_MSC, PUB, SAIDA = args.raiz, args.publicado, args.saida
+    ENTE, NOME = args.ente, args.nome
 
     import rreo_layout_oficial as LO
     import rreo_gerador as G
@@ -166,12 +176,12 @@ def main() -> int:
         if not molde:
             print(f"Anexo {n:02d}: sem molde publicado")
             continue
-        destino = os.path.join(SAIDA, f"RREO_RR_{args.ano}_B{args.bimestre}_Anexo{n:02d}.xlsx")
+        destino = os.path.join(SAIDA, f"RREO_{NOME}_{args.ano}_B{args.bimestre}_Anexo{n:02d}.xlsx")
         fn = LO.renderizar_por_cod_conta if n in (4, 6) else LO.renderizar
         p, t = fn(
             destino, molde, anexos[n],
-            f"RREO RR {args.ano} B{args.bimestre} — Anexo {n:02d} — MSC",
-            nota="Estrutura: RREO publicado do ente. Valores: MSC de RR.")
+            f"RREO {NOME} {args.ano} B{args.bimestre} — Anexo {n:02d} — MSC",
+            nota="Estrutura: RREO publicado do ente. Valores: MSC.")
         total_geral += p
         print(f"Anexo {n:02d}: {p}/{t} ({p / t * 100:.1f}%) -> {os.path.basename(destino)}")
     print(f"\n{total_geral} celulas preenchidas")

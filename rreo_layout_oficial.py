@@ -16,23 +16,29 @@ from collections import defaultdict
 
 
 def ler_template(caminho: str):
-    """(colunas, linhas) — `linhas` e lista de (conta, [valor por coluna])."""
-    registros = []
+    """(colunas, linhas) — uma linha por conta, na ordem do template.
+
+    O template oficial repete as contas em blocos (exceto intra, intra, total).
+    Como o valor de cada conta ja e o total do bloco calculado, a versao limpa
+    mostra uma linha por conta. A ocorrencia fica disponivel no dicionario de
+    celulas para quem quiser separar os blocos.
+    """
     colunas = []
+    vistos_col = set()
+    linhas = []
+    vistos = set()
     with open(caminho, encoding="utf-8-sig", newline="") as fh:
         for r in csv.DictReader(fh, delimiter=";"):
-            if r["coluna"] not in colunas:
-                colunas.append(r["coluna"])
-            registros.append((r["conta"], r["coluna"], float(r["valor"])))
-    linhas = []
-    indice = {}
-    for conta, coluna, _ in registros:
-        if conta not in indice:
-            indice[conta] = len(linhas)
-            linhas.append([conta, {}])
-        linhas[indice[conta]][1][coluna] = None
-    # reordena preservando a primeira aparicao de cada conta
-    return colunas, [(c, list(v.keys())) for c, v in linhas]
+            conta = r["conta"]
+            coluna = r["coluna"]
+            if coluna not in vistos_col:
+                vistos_col.add(coluna)
+                colunas.append(coluna)
+            if conta not in vistos and not conta.startswith(
+                    ("DESPESAS (EXCETO", "DESPESAS (INTRA", "TOTAL (III)")):
+                vistos.add(conta)
+                linhas.append(conta)
+    return colunas, linhas
 
 
 def renderizar(destino: str, template: str, celulas: dict, titulo: str,
@@ -66,7 +72,7 @@ def renderizar(destino: str, template: str, celulas: dict, titulo: str,
     # linhas que o calculo cobre (tem alguma celula): as demais colunas sao 0
     linhas_cobertas = {(c, o) for (c, _col, o) in celulas}
     preenchidas = total = 0
-    for i, (conta, _cols) in enumerate(linhas, start=5):
+    for i, conta in enumerate(linhas, start=5):
         ws.cell(row=i, column=1, value=conta)
         occ = ocorr[conta] if ocorrencia_por_conta else 0
         ocorr[conta] += 1
@@ -78,8 +84,9 @@ def renderizar(destino: str, template: str, celulas: dict, titulo: str,
                 v = celulas.get((conta, col, 0))
             if v is None:
                 if not cobre:
-                    continue
-                v = 0.0          # linha calculada: coluna nao prevista = zero
+                    v = 0.0      # linha do template sem movimento: zero
+                else:
+                    v = 0.0      # linha calculada: coluna nao prevista = zero
             cel = ws.cell(row=i, column=j, value=v)
             cel.number_format = "#,##0.00"
             preenchidas += 1

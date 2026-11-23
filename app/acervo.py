@@ -60,6 +60,7 @@ class Registro:
     fr: str
     compl: str
     funcao: str
+    subfuncao: str
     ano_inscricao: str
     valor: float
     natureza: str        # C ou D
@@ -148,6 +149,7 @@ class Acervo:
                     fr=(r.get("fonte_recursos") or "").strip(),
                     compl=(r.get("complemento_fonte") or "").strip(),
                     funcao=(r.get("funcao") or "").strip(),
+                    subfuncao=(r.get("subfuncao") or "").strip(),
                     ano_inscricao=(r.get("ano_inscricao") or "").strip(),
                     valor=_f(r.get("valor")),
                     natureza=(r.get("natureza_conta") or "").strip().upper()[:1],

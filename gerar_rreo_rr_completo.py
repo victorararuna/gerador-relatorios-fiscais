@@ -81,20 +81,23 @@ def main() -> int:
         nota="Estrutura: molde público do Siconfi. Valores: MSC de RR, sem gabarito.")
     print(f"Anexo 1: {p1}/{t1} celulas ({p1/t1*100:.1f}%) -> {os.path.basename(d1)}")
 
-    # ---- Anexo 2
-    func = _funcoes(RR_MSC, args.ano, args.bimestre)
-    col = "DESPESAS LIQUIDADAS ATÉ O BIMESTRE (d)"
-    cel2 = {}
-    for cod, nome in G.FUNCOES.items():
-        if cod in func:
-            cel2[(nome, col, 0)] = func[cod]["exceto"]
-            cel2[(nome, col, 1)] = func[cod]["intra"]
+    # ---- Anexo 2 (funcao + subfuncao)
+    import rreo_anexo2_completo as A2
+    intra = {}
+    if args.publicado and os.path.exists(args.publicado):
+        # o intra por funcao e replicado do ultimo Anexo 2 publicado
+        pub2 = args.publicado.replace("anexo01", "anexo02")
+        if os.path.exists(pub2):
+            intra = A2.intra_publicada(pub2)
+    cel2 = A2.celulas(RR_MSC, args.ano, args.bimestre, intra)
     tpl2 = os.path.join(MOLDE, "RREO_24_2025_bim6_anexo02.csv")
-    d2 = os.path.join(SAIDA, f"RREO_RR_{args.ano}_B{args.bimestre}_Anexo02.xlsx")
+    sufixo = "_replicado" if args.publicado else ""
+    d2 = os.path.join(SAIDA, f"RREO_RR_{args.ano}_B{args.bimestre}_Anexo02{sufixo}.xlsx")
     p2, t2 = LO.renderizar(
         d2, tpl2, cel2,
-        f"RREO RR {args.ano} B{args.bimestre} — Anexo 2 (Despesa por Função) — MSC",
-        nota="Estrutura: molde público do Siconfi. Valores: MSC de RR, sem gabarito.")
+        f"RREO RR {args.ano} B{args.bimestre} — Anexo 2 (Despesa por Função/Subfunção) — MSC",
+        nota="Estrutura: molde público do Siconfi. Função e subfunção: MSC de RR. "
+             "Intra por função replicada do último Anexo 2 publicado.")
     print(f"Anexo 2: {p2}/{t2} celulas ({p2/t2*100:.1f}%) -> {os.path.basename(d2)}")
     return 0
 

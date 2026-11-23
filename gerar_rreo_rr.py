@@ -44,7 +44,7 @@ def main() -> int:
         return 1
 
     os.makedirs(SAIDA, exist_ok=True)
-    destino = os.path.join(SAIDA, f"RREO_RR_{args.ano}_B{args.bimestre}.xlsx")
+    destino = os.path.join(SAIDA, f"RREO_RR_{args.ano}_B{args.bimestre}_v2.xlsx")
     G.escrever_xlsx(destino, res)
     print(f"   empenhado: {res.empenhado:,.2f}")
     print(f"   liquidado: {res.liquidado:,.2f}")
@@ -66,7 +66,7 @@ def main() -> int:
         print(f"\nRCL nao apurada: {type(e).__name__}: {str(e)[:80]}")
 
     # ---- Anexo 11 (alienacao de ativos) e Anexo 13 (PPP)
-    for mod, fn, args, aba, titulo in (
+    for mod, fn, fargs, aba, titulo in (
             ("rreo_anexo11", "linhas", (args.ano,), "Anexo 11",
              f"RREO Anexo 11 — Alienação de Ativos — {args.ano} B{args.bimestre}"),
             ("rreo_anexo13", "saldos", (args.ano, mes_ref), "Anexo 13",
@@ -75,11 +75,25 @@ def main() -> int:
             m = __import__(mod)
             if hasattr(m, "ACERVO"):
                 m.ACERVO = RR_MSC
-            dados = getattr(m, fn)(*args)
+            dados = getattr(m, fn)(*fargs)
             _aba_simples(destino, aba, titulo, dados)
             print(f"{aba}: {len(dados)} linhas")
         except Exception as e:
             print(f"{aba} nao apurado: {type(e).__name__}: {str(e)[:60]}")
+
+    # ---- Receita realizada (classe 5, sem gabarito)
+    try:
+        import rreo_receita
+        acum = rreo_receita.por_origem(RR_MSC, args.ano, mes_ref)
+        dados = {rreo_receita.CATEGORIAS.get(k, k): v for k, v in sorted(acum.items())}
+        dados.update(rreo_receita._agregados(acum))
+        _aba_simples(destino, "Receita",
+                     f"Receita realizada por origem — {args.ano} B{args.bimestre} (MSC, sem gabarito)",
+                     dados)
+        print(f"Receita: {len(dados)} linhas (correntes "
+              f"{rreo_receita._agregados(acum)['RECEITAS CORRENTES']:,.2f})")
+    except Exception as e:
+        print(f"Receita nao apurada: {type(e).__name__}: {str(e)[:60]}")
 
     return 0
 

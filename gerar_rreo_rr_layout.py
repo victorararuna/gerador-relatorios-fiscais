@@ -58,8 +58,16 @@ def main() -> int:
     cel2 = {(G.FUNCOES[cod], col_liq): v
             for cod, v in res.funcoes.items() if cod in G.FUNCOES}
 
+    # Anexo 1: despesa (adaptador) + receita REALIZADA (classe 5, sem gabarito)
+    import rreo_receita
+    cel1 = dict(L.anexo1(res, ocorrencia=0))
+    try:
+        cel1.update(rreo_receita.celulas_anexo1(RR_MSC, args.ano, args.bimestre))
+    except Exception as e:
+        print(f"   receita nao apurada: {type(e).__name__}: {str(e)[:60]}")
+
     anexos = [
-        ("Anexo 01", molde(1), L.anexo1(res, ocorrencia=0), f"{titulo} — Anexo 01"),
+        ("Anexo 01", molde(1), cel1, f"{titulo} — Anexo 01"),
         ("Anexo 02", molde(2), cel2, f"{titulo} — Anexo 02"),
         ("Anexo 07", molde(7), L.anexo7(res), f"{titulo} — Anexo 07"),
         ("Anexo 09", molde(9), L.anexo9(res), f"{titulo} — Anexo 09"),

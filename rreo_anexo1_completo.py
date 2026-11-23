@@ -283,11 +283,13 @@ def celulas(raiz: str, ano: int, bimestre: int) -> dict:
         for col in COLS_D:
             put("DESPESAS CORRENTES", col, soma_cols(corr, col), occ)
             put("DESPESAS DE CAPITAL", col, soma_cols(cap, col), occ)
-    # VIII (exceto) e IX (intra) — incluem TODA a despesa (nao so 31-46):
-    # reserva de contingencia e outros grupos de ND tambem entram na dotacao.
-    todos_nd = {k[0] for k in desp}
+    # VIII (exceto) e IX (intra) — incluem TODA a despesa MENOS a reserva de
+    # contingencia (ND 99), que o Siconfi reporta em linha propria.
+    todos_nd = {k[0] for k in desp} - {"99"}
     dot_all = defaultdict(float)
-    for (tipo, _pref, modal), v in dot.items():
+    for (tipo, pref, modal), v in dot.items():
+        if pref == "99":          # reserva de contingencia: linha propria
+            continue
         dot_all[(tipo, modal)] += v
 
     def desp_total_modal(fonte, modal_filtro, campo):

@@ -56,6 +56,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="RREO de RR no layout oficial")
     ap.add_argument("--ano", type=int, default=2026)
     ap.add_argument("--bimestre", type=int, default=5)
+    ap.add_argument("--publicado", default=None,
+                    help="Anexo 1 publicado do ultimo RREO, para replicar as linhas fixas")
     args = ap.parse_args()
 
     import rreo_anexo1_completo as A1
@@ -66,8 +68,13 @@ def main() -> int:
 
     # ---- Anexo 1
     cel1 = A1.celulas(RR_MSC, args.ano, args.bimestre)
+    if args.publicado and os.path.exists(args.publicado):
+        import rreo_completar_publicado as CP
+        n = CP.replicar(cel1, CP.ler_publicado(args.publicado))
+        print(f"   {n} celulas replicadas do publicado: {os.path.basename(args.publicado)}")
     tpl1 = os.path.join(MOLDE, "RREO_24_2025_bim6_anexo01.csv")
-    d1 = os.path.join(SAIDA, f"RREO_RR_{args.ano}_B{args.bimestre}_Anexo01.xlsx")
+    d1 = os.path.join(SAIDA, f"RREO_RR_{args.ano}_B{args.bimestre}_Anexo01"
+                             f"{'_replicado' if args.publicado else ''}.xlsx")
     p1, t1 = LO.renderizar(
         d1, tpl1, cel1,
         f"RREO RR {args.ano} B{args.bimestre} — Anexo 1 (Balanço Orçamentário) — MSC",

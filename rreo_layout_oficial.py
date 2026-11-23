@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
-"""Renderiza um anexo do RREO no layout oficial preservando as linhas (rodada 178).
+"""Renderiza um anexo do RREO no layout oficial, com os blocos separados.
 
-O renderizador antigo (`rreo_layout._montar_aba`) guardava as linhas num `dict`,
-o que **colapsava os rotulos repetidos** — o Anexo 1 tem os grupos de despesa em
-dois blocos (exceto intra e intra) e o resultado saia com uma linha so.
+O template do Siconfi repete as contas em blocos:
 
-Este renderizador le o template como **lista ordenada**, conta a ocorrencia de
-cada (conta, coluna) e preenche `{(conta, coluna, ocorrencia): valor}`.
+    DESPESAS (EXCETO INTRA-ORÇAMENTÁRIAS) (I)   -> ocorrencia 0
+    DESPESAS (INTRA-ORÇAMENTÁRIAS) (II)         -> ocorrencia 1
+    TOTAL (III) = (I + II)                      -> ocorrencia 2
+
+`ler_template` devolve cada conta com o **tipo de bloco** em que ela aparece,
+e `renderizar` preenche `{(conta, coluna, bloco): valor}`.
+
+O molde pode ser o proprio arquivo publicado do ente (estrutura identica a que
+o Siconfi espera); os valores vem do dicionario de celulas, nunca do molde.
 """
 from __future__ import annotations
 
@@ -14,19 +19,35 @@ import csv
 import os
 from collections import defaultdict
 
+CABECALHOS = {
+    "DESPESAS (EXCETO INTRA": 0,
+    "RECEITAS (EXCETO INTRA": 0,
+    "DESPESAS (INTRA": 1,
+    "RECEITAS (INTRA": 1,
+    "TOTAL (III)": 2,
+    "SUBTOTAL DAS RECEITAS": 2,
+    "TOTAL DAS RECEITAS": 2,
+}
+
+
+def _bloco(conta: str) -> int | None:
+    for prefixo, bloco in CABECALHOS.items():
+        if conta.startswith(prefixo):
+            return bloco
+    return None
+
 
 def ler_template(caminho: str):
-    """(colunas, linhas) — uma linha por conta, na ordem do template.
+    """(colunas, [(conta, bloco), ...]) na ordem do molde.
 
-    O template oficial repete as contas em blocos (exceto intra, intra, total).
-    Como o valor de cada conta ja e o total do bloco calculado, a versao limpa
-    mostra uma linha por conta. A ocorrencia fica disponivel no dicionario de
-    celulas para quem quiser separar os blocos.
+    O arquivo publicado vem ordenado por **coluna**: dentro de cada coluna as
+    contas aparecem uma vez, na ordem dos blocos. A estrutura e lida da
+    **primeira coluna**, que preserva as repeticoes de uma mesma conta entre os
+    blocos (I = 0, II = 1, III = 2).
     """
     colunas = []
     vistos_col = set()
-    linhas = []
-    vistos = set()
+    por_coluna = defaultdict(list)
     with open(caminho, encoding="utf-8-sig", newline="") as fh:
         for r in csv.DictReader(fh, delimiter=";"):
             conta = r["conta"]
@@ -34,16 +55,26 @@ def ler_template(caminho: str):
             if coluna not in vistos_col:
                 vistos_col.add(coluna)
                 colunas.append(coluna)
-            if conta not in vistos and not conta.startswith(
-                    ("DESPESAS (EXCETO", "DESPESAS (INTRA", "TOTAL (III)")):
-                vistos.add(conta)
-                linhas.append(conta)
+            por_coluna[coluna].append(conta)
+
+    if not colunas:
+        return [], []
+    # a coluna com mais linhas e a que traz todos os blocos (inclusive o intra)
+    coluna_base = max(colunas, key=lambda c: len(por_coluna[c]))
+    primeira = por_coluna[coluna_base]
+    linhas = []
+    bloco_atual = 0
+    for conta in primeira:
+        b = _bloco(conta)
+        if b is not None:
+            bloco_atual = b
+        linhas.append((conta, bloco_atual))
     return colunas, linhas
 
 
 def renderizar(destino: str, template: str, celulas: dict, titulo: str,
-               nota: str | None = None, ocorrencia_por_conta: bool = True):
-    """Grava o XLSX no layout do template, preenchendo por ocorrencia."""
+               nota: str | None = None):
+    """Grava o XLSX no layout do molde, preenchendo por (conta, coluna, bloco)."""
     from openpyxl import Workbook
     from openpyxl.styles import Alignment, Font, PatternFill
     from openpyxl.utils import get_column_letter
@@ -68,36 +99,26 @@ def renderizar(destino: str, template: str, celulas: dict, titulo: str,
         c.fill = cinza
         c.alignment = Alignment(wrap_text=True, vertical="center", horizontal="center")
 
-    ocorr = defaultdict(int)
-    # linhas que o calculo cobre (tem alguma celula): as demais colunas sao 0
-    linhas_cobertas = {(c, o) for (c, _col, o) in celulas}
     preenchidas = total = 0
-    for i, conta in enumerate(linhas, start=5):
-        ws.cell(row=i, column=1, value=conta)
-        occ = ocorr[conta] if ocorrencia_por_conta else 0
-        ocorr[conta] += 1
-        cobre = (conta, occ) in linhas_cobertas
+    for i, (conta, bloco) in enumerate(linhas, start=5):
+        cel = ws.cell(row=i, column=1, value=conta)
+        if conta.isupper():
+            cel.font = Font(bold=True)
         for j, col in enumerate(colunas, start=2):
             total += 1
-            v = celulas.get((conta, col, occ))
-            if v is None and ocorrencia_por_conta:
-                v = celulas.get((conta, col, 0))
+            v = celulas.get((conta, col, bloco))
             if v is None:
-                if not cobre:
-                    v = 0.0      # linha do template sem movimento: zero
-                else:
-                    v = 0.0      # linha calculada: coluna nao prevista = zero
-            cel = ws.cell(row=i, column=j, value=v)
-            cel.number_format = "#,##0.00"
+                v = celulas.get((conta, col, 0), 0.0)
+            c = ws.cell(row=i, column=j, value=v)
+            c.number_format = "#,##0.00"
             preenchidas += 1
 
-    ws.column_dimensions["A"].width = 60
+    ws.column_dimensions["A"].width = 62
     largura = max(13, min(20, int(150 / max(len(colunas), 1))))
     for j in range(2, len(colunas) + 2):
         ws.column_dimensions[get_column_letter(j)].width = largura
     ws.freeze_panes = "B5"
 
-    # aba de cobertura
     cob = wb.create_sheet("Cobertura")
     cob["A1"] = "Cobertura do layout"
     cob["A1"].font = Font(bold=True, size=12)

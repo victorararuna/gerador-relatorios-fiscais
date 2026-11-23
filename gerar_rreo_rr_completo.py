@@ -72,7 +72,8 @@ def main() -> int:
         import rreo_completar_publicado as CP
         n = CP.replicar(cel1, CP.ler_publicado(args.publicado))
         print(f"   {n} celulas replicadas do publicado: {os.path.basename(args.publicado)}")
-    tpl1 = os.path.join(MOLDE, "RREO_24_2025_bim6_anexo01.csv")
+    tpl1 = (args.publicado if args.publicado and os.path.exists(args.publicado)
+            else os.path.join(MOLDE, "RREO_24_2025_bim6_anexo01.csv"))
     d1 = os.path.join(SAIDA, f"RREO_RR_{args.ano}_B{args.bimestre}_Anexo01"
                              f"{'_replicado' if args.publicado else ''}.xlsx")
     p1, t1 = LO.renderizar(
@@ -90,7 +91,10 @@ def main() -> int:
         if os.path.exists(pub2):
             intra = A2.intra_publicada(pub2)
     cel2 = A2.celulas(RR_MSC, args.ano, args.bimestre, intra)
-    tpl2 = os.path.join(MOLDE, "RREO_24_2025_bim6_anexo02.csv")
+    pub2_tpl = (args.publicado.replace("anexo01", "anexo02")
+                if args.publicado else None)
+    tpl2 = (pub2_tpl if pub2_tpl and os.path.exists(pub2_tpl)
+            else os.path.join(MOLDE, "RREO_24_2025_bim6_anexo02.csv"))
     sufixo = "_replicado" if args.publicado else ""
     d2 = os.path.join(SAIDA, f"RREO_RR_{args.ano}_B{args.bimestre}_Anexo02{sufixo}.xlsx")
     p2, t2 = LO.renderizar(
